@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile main window",
+      "type": "shell",
+      "command": "pyside6-uic.exe ui/mainwindow.ui -o ui/mainwindow.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile about dialog box",
+      "type": "shell",
+      "command": "pyside6-uic.exe ui/about_dialog.ui -o ui/about_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile comment dialog box",
+      "type": "shell",
+      "command": "pyside6-uic.exe ui/comment_dialog_box.ui -o ui/comment_dialog_box.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile resource file",
+      "type": "shell",
+      "command": "pyside6-rcc resource.qrc -o resource_rc.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+	]
+}

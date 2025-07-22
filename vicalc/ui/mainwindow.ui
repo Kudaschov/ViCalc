@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>919</width>
+    <height>588</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ViCalc</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resource.qrc">
+    <normaloff>:/ViCalc/ui/icons/ViCalc.ico</normaloff>:/ViCalc/ui/icons/ViCalc.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="CalcTableWidget" name="tableWidget">
+        <property name="contextMenuPolicy">
+         <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="expressionLabel">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>18</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="inputTextEdit">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>43</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>22</pointsize>
+          <bold>true</bold>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="placeholderText">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="buttonsFrame">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>260</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <widget class="CalcButton" name="pushButton0numpad">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>200</y>
+           <width>101</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton9numpad">
+         <property name="geometry">
+          <rect>
+           <x>500</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>9</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton3numpad">
+         <property name="geometry">
+          <rect>
+           <x>500</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>3</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton2numpad">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>2</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonCommaNumpad">
+         <property name="geometry">
+          <rect>
+           <x>500</x>
+           <y>200</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>.</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonMultiplyNumpad">
+         <property name="geometry">
+          <rect>
+           <x>500</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>*</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonMinusNumpad">
+         <property name="geometry">
+          <rect>
+           <x>550</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>-</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonPlusNumpad">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>550</x>
+           <y>50</y>
+           <width>51</width>
+           <height>101</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>+</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonDivisionNumpad">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>/</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonEnterNumpad">
+         <property name="geometry">
+          <rect>
+           <x>550</x>
+           <y>150</y>
+           <width>51</width>
+           <height>101</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>=</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton1numpad">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton8numpad">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>8</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton4numpad">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>4</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton7numpad">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>7</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton5numpad">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton6numpad">
+         <property name="geometry">
+          <rect>
+           <x>500</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>6</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton1">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton2">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>2</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton3">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>3</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton4">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>4</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton5">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButton6">
+         <property name="geometry">
+          <rect>
+           <x>250</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>6</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonQ">
+         <property name="geometry">
+          <rect>
+           <x>25</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Q</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonW">
+         <property name="geometry">
+          <rect>
+           <x>75</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>W</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonE">
+         <property name="geometry">
+          <rect>
+           <x>125</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonR">
+         <property name="geometry">
+          <rect>
+           <x>175</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>R</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonT">
+         <property name="geometry">
+          <rect>
+           <x>225</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>T</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonZ">
+         <property name="geometry">
+          <rect>
+           <x>275</x>
+           <y>50</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Z</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonA">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>A</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonS">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>S</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonD">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonF">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>F</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonG">
+         <property name="geometry">
+          <rect>
+           <x>250</x>
+           <y>100</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>G</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonY">
+         <property name="geometry">
+          <rect>
+           <x>75</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Y</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonLess">
+         <property name="geometry">
+          <rect>
+           <x>25</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>&lt;</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonX">
+         <property name="geometry">
+          <rect>
+           <x>125</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>X</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonC">
+         <property name="geometry">
+          <rect>
+           <x>175</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>C</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonV">
+         <property name="geometry">
+          <rect>
+           <x>225</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>V</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonB">
+         <property name="geometry">
+          <rect>
+           <x>275</x>
+           <y>150</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>B</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonSpace">
+         <property name="geometry">
+          <rect>
+           <x>25</x>
+           <y>200</y>
+           <width>301</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonBackspace">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>&lt;-</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonEnter">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>100</y>
+           <width>101</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>=</string>
+         </property>
+        </widget>
+        <widget class="CalcButton" name="pushButtonAC">
+         <property name="geometry">
+          <rect>
+           <x>400</x>
+           <y>0</y>
+           <width>51</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>AC</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>919</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About"/>
+   </widget>
+   <widget class="QMenu" name="menuMode">
+    <property name="title">
+     <string>&amp;Mode</string>
+    </property>
+    <addaction name="action_DEG"/>
+    <addaction name="action_RAD"/>
+    <addaction name="action_GRA"/>
+   </widget>
+   <widget class="QMenu" name="menu_Protocol">
+    <property name="title">
+     <string>Pro&amp;tocol</string>
+    </property>
+    <addaction name="actionToggle_Protocol"/>
+    <addaction name="action_delete_full_protocol"/>
+   </widget>
+   <addaction name="menu_File"/>
+   <addaction name="menuMode"/>
+   <addaction name="menu_Protocol"/>
+   <addaction name="menu_Help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="action_DEG"/>
+   <addaction name="action_RAD"/>
+   <addaction name="action_GRA"/>
+   <addaction name="separator"/>
+  </widget>
+  <action name="action_About">
+   <property name="text">
+    <string>&amp;About...</string>
+   </property>
+  </action>
+  <action name="action_DEG">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;DEG</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="action_RAD">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;RAD</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="action_GRA">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;GRA</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionToggle_Protocol">
+   <property name="text">
+    <string>Toggle Pro&amp;tocol</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_delete_full_protocol">
+   <property name="text">
+    <string>&amp;Delete Full Protocol</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CalcButton</class>
+   <extends>QPushButton</extends>
+   <header>CalcButton</header>
+  </customwidget>
+  <customwidget>
+   <class>CalcTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>CalcTableWidget</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
