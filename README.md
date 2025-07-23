@@ -25,4 +25,4 @@ Originating in 2003, ViCalc was rewritten in Python to modernize it. It was crea
 
 2. Run ViCalc
    ```bash
-   python vicalc.py
+   python -m vicalc
