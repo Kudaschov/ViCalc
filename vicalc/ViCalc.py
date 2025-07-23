@@ -19,7 +19,6 @@ from .CalcOperations import CalcOperations
 from .TrigMode import TrigMode
 from PySide6.QtCore import QUrl
 from .ui.ClicableLabel import ClickableLabel
-# from .ui import resource_rc
 import webbrowser
 
 class AboutDialog(QDialog):
