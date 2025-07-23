@@ -1,6 +1,6 @@
-from CalcPrios import CalcPrios
-from CalcExpression import CalcExpression
-from UnaryExpression import UnaryExpression
+from .CalcPrios import CalcPrios
+from .CalcExpression import CalcExpression
+from .UnaryExpression import UnaryExpression
 
 class BracketExpression(UnaryExpression):
     def __init__(self, tableWidget):

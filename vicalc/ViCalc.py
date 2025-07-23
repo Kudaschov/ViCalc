@@ -8,17 +8,18 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu
 from PySide6.QtGui import QActionGroup, QIcon
 from PySide6.QtCore import QSettings, QByteArray, QSize, QPoint
-from ui.mainWindow import Ui_MainWindow # Make sure this path is correct
-from ui.about_dialog import Ui_AboutDialog
+from .ui.mainWindow import Ui_MainWindow # Make sure this path is correct
+from .ui.about_dialog import Ui_AboutDialog
 from PySide6.QtCore import QTimer
 from PySide6.QtCore import QStandardPaths
 from PySide6.QtWidgets import QTableWidgetItem
 from PySide6.QtGui import QFont, QColor
-from InputTextEdit import InputTextEdit
-from CalcOperations import CalcOperations
-from TrigMode import TrigMode
+from .ui.InputTextEdit import InputTextEdit
+from .CalcOperations import CalcOperations
+from .TrigMode import TrigMode
 from PySide6.QtCore import QUrl
-from ClicableLabel import ClickableLabel
+from .ui.ClicableLabel import ClickableLabel
+# from .ui import resource_rc
 import webbrowser
 
 class AboutDialog(QDialog):
@@ -378,28 +379,31 @@ class MainWindow(QMainWindow):
 
     def read_settings(self):
         saved_text = self.settings.value("inputText", "")
-        self.ui.inputTextEdit.setText(saved_text)
-        self.ui.inputTextEdit.trig_mode_init(self.settings.value("trig_mode"))
-        self.ui.inputTextEdit.memory = self.settings.value("memory", type=float)
+        try:
+            self.ui.inputTextEdit.setText(saved_text)
+            self.ui.inputTextEdit.trig_mode_init(self.settings.value("trig_mode"))
+            self.ui.inputTextEdit.memory = self.settings.value("memory", type=float)
 
-        match self.ui.inputTextEdit.trig_mode:
-            case TrigMode.RAD:
-                self.ui.action_RAD.setChecked(True)
-            case TrigMode.GRA:
-                self.ui.action_GRA.setChecked(True)
-            case _:
-                self.ui.action_DEG.setChecked(True)
+            match self.ui.inputTextEdit.trig_mode:
+                case TrigMode.RAD:
+                    self.ui.action_RAD.setChecked(True)
+                case TrigMode.GRA:
+                    self.ui.action_GRA.setChecked(True)
+                case _:
+                    self.ui.action_DEG.setChecked(True)
 
-        geometry = self.settings.value("MainWindow/geometry", QByteArray())
-        if not geometry.isEmpty():
-            self.restoreGeometry(geometry)
-        else:
-            self.resize(800, 600)
-            self.move(100, 100)
+            geometry = self.settings.value("MainWindow/geometry", QByteArray())
+            if not geometry.isEmpty():
+                self.restoreGeometry(geometry)
+            else:
+                self.resize(800, 600)
+                self.move(100, 100)
 
-        state = self.settings.value("MainWindow/windowState", QByteArray())
-        if not state.isEmpty():
-            self.restoreState(state)         
+            state = self.settings.value("MainWindow/windowState", QByteArray())
+            if not state.isEmpty():
+                self.restoreState(state)       
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
 
     def start_key_state_monitor(self):
         self.timer = QTimer(self)
@@ -802,7 +806,7 @@ class MainWindow(QMainWindow):
         self.button_list.append(self.ui.pushButton6)
 
 # main
-if __name__ == "__main__":
+def main():
     # --- IMPORTANT FOR WINDOWS TASKBAR ICON ---
     # Set a unique Application User Model ID (AppUserModelID)
     # This helps Windows identify your application and display its icon correctly in the taskbar.
@@ -823,3 +827,6 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
+
+if __name__ == "__main__":
+    main()

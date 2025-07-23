@@ -1,6 +1,6 @@
 import math
 from PySide6.QtWidgets import QTableWidgetItem
-from TrigExpression import TrigExpression
+from .TrigExpression import TrigExpression
 
 class ArcSinExpression(TrigExpression):
     def calculate(self, number: float):

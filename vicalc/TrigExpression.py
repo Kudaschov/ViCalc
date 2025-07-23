@@ -1,5 +1,5 @@
-from UnaryExpression import UnaryExpression
-from AngleUnit import AngleUnit
+from .UnaryExpression import UnaryExpression
+from .AngleUnit import AngleUnit
 
 class TrigExpression(UnaryExpression):
     def __init__(self, tableWidget, angle_unit:AngleUnit):

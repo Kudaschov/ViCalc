@@ -1,6 +1,6 @@
-from CalcPrios import CalcPrios
-from BinaryExpression import BinaryExpression
 from PySide6.QtWidgets import QTableWidgetItem
+from .CalcPrios import CalcPrios
+from .BinaryExpression import BinaryExpression
 
 class MMultiplyExpression(BinaryExpression):
     def __init__(self, first_number, tableWidget):

@@ -1,7 +1,7 @@
 from functools import singledispatchmethod
 from PySide6.QtWidgets import QTableWidgetItem
-from CalcPrios import CalcPrios
-from CalcExpression import CalcExpression
+from .CalcPrios import CalcPrios
+from .CalcExpression import CalcExpression
 
 class UnaryExpression(CalcExpression):
     def __init__(self, tableWidget):

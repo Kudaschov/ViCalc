@@ -4,7 +4,7 @@
     {
       "label": "Compile main window",
       "type": "shell",
-      "command": "pyside6-uic.exe ui/mainwindow.ui -o ui/mainwindow.py",
+      "command": "pyside6-uic.exe vicalc/ui/mainwindow.ui -o vicalc/ui/mainwindow.py",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -14,7 +14,7 @@
     {
       "label": "Compile about dialog box",
       "type": "shell",
-      "command": "pyside6-uic.exe ui/about_dialog.ui -o ui/about_dialog.py",
+      "command": "pyside6-uic.exe vicalc/ui/about_dialog.ui -o vicalc/ui/about_dialog.py",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -24,7 +24,7 @@
     {
       "label": "Compile comment dialog box",
       "type": "shell",
-      "command": "pyside6-uic.exe ui/comment_dialog_box.ui -o ui/comment_dialog_box.py",
+      "command": "pyside6-uic.exe vicalc/ui/comment_dialog_box.ui -o vicalc/ui/comment_dialog_box.py",
       "group": {
         "kind": "build",
         "isDefault": true

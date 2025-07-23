@@ -5,43 +5,43 @@ from PySide6.QtWidgets import QTableWidgetItem
 from PySide6.QtGui import QFont
 from PySide6.QtGui import QKeyEvent, QFocusEvent 
 from PySide6.QtCore import QLocale
-from CalcOperations import CalcOperations
+from ..CalcOperations import CalcOperations
 import math
 import locale
 import ctypes
-from AdditionExpression import AdditionExpression
-from SubtractionExpression import SubtractionExpression
-from MultiplicationExpression import MultiplicationExpression
-from DivisionExpression import DivisionExpression
-from BracketExpression import BracketExpression
-from TrigMode import TrigMode
-from AngleUnit import AngleUnit
-from DegUnitProtocol import DegUnitProtocol
-from RadUnitProtocol import RadUnitProtocol
-from GraUnitProtocol import GraUnitProtocol
-from SinExpression import SinExpression
-from ArcSinExpression import ArcSinExpression
-from CosExpression import CosExpression
-from ArcCosExpression import ArcCosExpression
-from TanExpression import TanExpression
-from ArcTanExpression import ArcTanExpression
-from LnExpression import LnExpression
-from EPowerXExpression import EPowerXExpression
-from LogExpression import LogExpression
-from TenPowerXExpression import TenPowerXExpression
-from MSExpression import MSExpression
-from MPlusExpression import MPlusExpression
-from MMinusExpression import MMinusExpression
-from ReciprocalExpression import ReciprocalExpression
-from CommentDialog import CommentDialog
-from FactorialExpression import FactorialExpression
-from PowExpression import PowExpression
-from SquareExpression import SquareExpression
-from CubeExpression import CubeExpression
-from SqrtExpression import SqrtExpression
-from CubeRootExpression import CubeRootExpression
-from MMultiplyExpression import MMultiplyExpression
-from MDisivionExpression import MDisivionExpression
+from ..AdditionExpression import AdditionExpression
+from ..SubtractionExpression import SubtractionExpression
+from ..MultiplicationExpression import MultiplicationExpression
+from ..DivisionExpression import DivisionExpression
+from ..BracketExpression import BracketExpression
+from ..TrigMode import TrigMode
+from ..AngleUnit import AngleUnit
+from ..DegUnitProtocol import DegUnitProtocol
+from ..RadUnitProtocol import RadUnitProtocol
+from ..GraUnitProtocol import GraUnitProtocol
+from ..SinExpression import SinExpression
+from ..ArcSinExpression import ArcSinExpression
+from ..CosExpression import CosExpression
+from ..ArcCosExpression import ArcCosExpression
+from ..TanExpression import TanExpression
+from ..ArcTanExpression import ArcTanExpression
+from ..LnExpression import LnExpression
+from ..EPowerXExpression import EPowerXExpression
+from ..LogExpression import LogExpression
+from ..TenPowerXExpression import TenPowerXExpression
+from ..MSExpression import MSExpression
+from ..MPlusExpression import MPlusExpression
+from ..MMinusExpression import MMinusExpression
+from ..ReciprocalExpression import ReciprocalExpression
+from ..CommentDialog import CommentDialog
+from ..FactorialExpression import FactorialExpression
+from ..PowExpression import PowExpression
+from ..SquareExpression import SquareExpression
+from ..CubeExpression import CubeExpression
+from ..SqrtExpression import SqrtExpression
+from ..CubeRootExpression import CubeRootExpression
+from ..MMultiplyExpression import MMultiplyExpression
+from ..MDisivionExpression import MDisivionExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed

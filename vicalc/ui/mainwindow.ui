@@ -14,8 +14,8 @@
    <string>ViCalc</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resource.qrc">
-    <normaloff>:/ViCalc/ui/icons/ViCalc.ico</normaloff>:/ViCalc/ui/icons/ViCalc.ico</iconset>
+   <iconset resource="../../resource.qrc">
+    <normaloff>:/ViCalc/icons/ViCalc.ico</normaloff>:/ViCalc/icons/ViCalc.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -912,16 +912,16 @@
   <customwidget>
    <class>CalcButton</class>
    <extends>QPushButton</extends>
-   <header>CalcButton</header>
+   <header>.CalcButton</header>
   </customwidget>
   <customwidget>
    <class>CalcTableWidget</class>
    <extends>QTableWidget</extends>
-   <header>CalcTableWidget</header>
+   <header>.CalcTableWidget</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from PySide6.QtCore import QLocale
-from CalcPrios import CalcPrios
 from PySide6.QtGui import QFont
+from .CalcPrios import CalcPrios
 
 class CalcExpression(ABC):
     next_result: float # result from next node

@@ -1,5 +1,5 @@
 import math
-from AngleUnit import AngleUnit
+from .AngleUnit import AngleUnit
 
 class GraUnit(AngleUnit):
 

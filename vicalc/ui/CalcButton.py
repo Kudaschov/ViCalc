@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QPushButton, QMessageBox
 from PySide6.QtGui import QFont, QPainter, QColor, QPaintEvent, QPen, QMouseEvent, QPixmap
 from PySide6.QtCore import Qt, QRect, QPoint, QMargins
-from CalcOperations import CalcOperations
+from ..CalcOperations import CalcOperations
 
 class CalcButton(QPushButton):
     def __init__(self, parent=None):

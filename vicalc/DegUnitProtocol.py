@@ -1,8 +1,8 @@
 import math
 from PySide6.QtWidgets import QTableWidgetItem
-from DegUnit import DegUnit
-from RadUnit import RadUnit
-from GraUnit import GraUnit
+from .DegUnit import DegUnit
+from .RadUnit import RadUnit
+from .GraUnit import GraUnit
 
 class DegUnitProtocol(DegUnit):
     def to_deg_with_protocol(self, a:float):

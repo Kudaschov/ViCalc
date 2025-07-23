@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="ViCalc">
+    <file>icons/ViCalc.ico</file>
+  </qresource>
+</RCC>

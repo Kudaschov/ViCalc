@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtWidgets import QApplication, QDialog
-from ui.comment_dialog_box import Ui_CommentDialog  # Import your generated UI class
+from .ui.comment_dialog_box import Ui_CommentDialog  # Import your generated UI class
 
 class CommentDialog(QDialog):
     def __init__(self):

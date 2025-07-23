@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug ViCalc (as package)",
+      "type": "python",
+      "request": "launch",
+      "module": "vicalc",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "env": {}
+    }
+  ]
+}

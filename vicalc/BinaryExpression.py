@@ -1,5 +1,5 @@
-from CalcPrios import CalcPrios
-from UnaryExpression import UnaryExpression
+from .CalcPrios import CalcPrios
+from .UnaryExpression import UnaryExpression
 
 class BinaryExpression(UnaryExpression):
     first_number: float

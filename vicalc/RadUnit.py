@@ -1,6 +1,6 @@
 import math
 from PySide6.QtWidgets import QTableWidgetItem
-from AngleUnit import AngleUnit
+from .AngleUnit import AngleUnit
 
 class RadUnit(AngleUnit):
 

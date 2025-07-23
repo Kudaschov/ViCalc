@@ -21,8 +21,8 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHeaderView, QLabel,
     QStatusBar, QTableWidgetItem, QTextEdit, QToolBar,
     QVBoxLayout, QWidget)
 
-from CalcButton import CalcButton
-from CalcTableWidget import CalcTableWidget
+from .CalcButton import CalcButton
+from .CalcTableWidget import CalcTableWidget
 import resource_rc
 
 class Ui_MainWindow(object):
@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(919, 588)
         icon = QIcon()
-        icon.addFile(u":/ViCalc/ui/icons/ViCalc.ico", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/ViCalc/icons/ViCalc.ico", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         MainWindow.setWindowIcon(icon)
         self.action_About = QAction(MainWindow)
         self.action_About.setObjectName(u"action_About")

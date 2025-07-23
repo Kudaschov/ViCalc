@@ -1,5 +1,5 @@
-from CalcPrios import CalcPrios
-from BinaryExpression import BinaryExpression
+from .CalcPrios import CalcPrios
+from .BinaryExpression import BinaryExpression
 from PySide6.QtWidgets import QTableWidgetItem
 
 class AdditionExpression(BinaryExpression):

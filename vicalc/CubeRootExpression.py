@@ -1,6 +1,6 @@
 import math
 from PySide6.QtWidgets import QTableWidgetItem
-from UnaryExpression import UnaryExpression
+from .UnaryExpression import UnaryExpression
 
 class CubeRootExpression(UnaryExpression):
     def calculate(self, number: float):
