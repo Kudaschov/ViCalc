@@ -11,7 +11,7 @@ a = Analysis(
     datas=[
         ('icons/ViCalc.ico', 'icons'),
         ('vicalc/ui/*.ui', 'vicalc/ui'),
-        ('resource.qrc', 'vicalc'),
+        ('resource.qrc', '.'),
     ],
     hiddenimports=collect_submodules('vicalc'),
     hookspath=[],
