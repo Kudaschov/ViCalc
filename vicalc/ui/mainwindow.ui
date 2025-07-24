@@ -797,6 +797,8 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="action_Help"/>
+    <addaction name="separator"/>
     <addaction name="action_About"/>
    </widget>
    <widget class="QMenu" name="menuMode">
@@ -807,16 +809,16 @@
     <addaction name="action_RAD"/>
     <addaction name="action_GRA"/>
    </widget>
-   <widget class="QMenu" name="menu_Protocol">
+   <widget class="QMenu" name="menu_Log">
     <property name="title">
-     <string>Pro&amp;tocol</string>
+     <string>&amp;Log</string>
     </property>
     <addaction name="actionToggle_Protocol"/>
     <addaction name="action_delete_full_protocol"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menuMode"/>
-   <addaction name="menu_Protocol"/>
+   <addaction name="menu_Log"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
@@ -890,7 +892,7 @@
   </action>
   <action name="actionToggle_Protocol">
    <property name="text">
-    <string>Toggle Pro&amp;tocol</string>
+    <string>Toggle  &amp;Log / Calculator</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -901,10 +903,18 @@
   </action>
   <action name="action_delete_full_protocol">
    <property name="text">
-    <string>&amp;Delete Full Protocol</string>
+    <string>&amp;Delete Full Log</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_Help">
+   <property name="text">
+    <string>&amp;Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

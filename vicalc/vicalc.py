@@ -71,7 +71,9 @@ class MainWindow(QMainWindow):
         self.ui.action_DEG.triggered.connect(self.mode_deg)
         self.ui.action_RAD.triggered.connect(self.mode_rad)
         self.ui.action_GRA.triggered.connect(self.mode_gra)
+
         self.ui.action_About.triggered.connect(self.show_about_dialog)
+        self.ui.action_Help.triggered.connect(self.show_help)
 
         # important: set tableWidget before read_settings because of angle units
         self.ui.inputTextEdit.tableWidget = self.ui.tableWidget
@@ -154,19 +156,19 @@ class MainWindow(QMainWindow):
         self.button_list.append(self.ui.pushButton7numpad)
 
         self.ui.pushButton8numpad.shift_text = "("
-        self.ui.pushButton8numpad.ctrl_text = ""
+        self.ui.pushButton8numpad.ctrl_text = "MS"
         self.ui.pushButton8numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
         self.ui.pushButton8numpad.shift_operation = CalcOperations.opening_bracket
-        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.nop
+        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
         self.button_list.append(self.ui.pushButton8numpad)
 
         self.ui.pushButton9numpad.shift_text = ")"
-        self.ui.pushButton9numpad.ctrl_text = ""
+        self.ui.pushButton9numpad.ctrl_text = "MR"
         self.ui.pushButton9numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
         self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
-        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.nop
+        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
         self.button_list.append(self.ui.pushButton9numpad)
 
         self.ui.pushButtonAC.setText("AC")
@@ -215,11 +217,11 @@ class MainWindow(QMainWindow):
         self.button_list.append(self.ui.pushButtonEnter)
 
         self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonEnterNumpad.shift_text = "MS"
-        self.ui.pushButtonEnterNumpad.ctrl_text = "MR"
+        self.ui.pushButtonEnterNumpad.shift_text = "%"
+        self.ui.pushButtonEnterNumpad.ctrl_text = "%"
         self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
-        self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.MS
-        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.MR
+        self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
+        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.percent
         self.ui.pushButtonEnterNumpad.input_text_edit = self.ui.inputTextEdit
         self.button_list.append(self.ui.pushButtonEnterNumpad)
 
@@ -271,8 +273,8 @@ class MainWindow(QMainWindow):
         self.ui.inputTextEdit.button_list = self.button_list
 
         self.ui.tableWidget.verticalHeader().setStyleSheet("QHeaderView::section { color: gray; }")
-        self.ui.tableWidget.setColumnCount(6)
-        self.ui.tableWidget.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F"])
+        self.ui.tableWidget.setColumnCount(7)
+        self.ui.tableWidget.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F", "G"])
         self.connect_table_signals()
 
         self.memory_label = ClickableLabel("Memory:")
@@ -455,6 +457,21 @@ class MainWindow(QMainWindow):
         about_dialog = AboutDialog(self)
 #        about_dialog.setWindowTitle("Über die Anwendung")
         about_dialog.exec()
+
+    def resource_path(self, relative_path):
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(sys._MEIPASS, relative_path)
+        return os.path.abspath(relative_path)
+
+    def show_help(self):
+        help_path = self.resource_path("help/site/index.html")
+
+        if os.path.exists(help_path):
+            webbrowser.open(f"file:///{help_path}")
+        else:
+            # Optional: Add a warning dialog here
+            print("Help file not found. Run `mkdocs build` first.")
+            QMessageBox.information(self, "Path not found!", help_path)
 
     def closeEvent(self, event):
         settings = QSettings("Kudaschov", "ViCalc")
@@ -788,12 +805,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButton4.ctrl_operation = CalcOperations.number_4
         self.button_list.append(self.ui.pushButton4)
 
-        #self.ui.pushButton5.shift_text = "n!"
+        self.ui.pushButton5.shift_text = "%"
         #self.ui.pushButton5.ctrl_text = "n!"
         self.ui.pushButton5.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton5.base_operation = CalcOperations.number_5
-        self.ui.pushButton5.shift_operation = CalcOperations.number_5
-        self.ui.pushButton5.ctrl_operation = CalcOperations.number_5
+        self.ui.pushButton5.shift_operation = CalcOperations.percent
+        self.ui.pushButton5.ctrl_operation = CalcOperations.percent
         self.button_list.append(self.ui.pushButton5)
 
         #self.ui.pushButton6.shift_text = "n!"

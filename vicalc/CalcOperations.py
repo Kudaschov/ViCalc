@@ -59,3 +59,4 @@ class CalcOperations(Enum):
     paste_from_clipboard = auto()
     undo = auto()
     redo = auto()
+    

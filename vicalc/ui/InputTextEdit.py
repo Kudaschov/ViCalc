@@ -42,6 +42,7 @@ from ..SqrtExpression import SqrtExpression
 from ..CubeRootExpression import CubeRootExpression
 from ..MMultiplyExpression import MMultiplyExpression
 from ..MDisivionExpression import MDisivionExpression
+from ..PercentExpression import PercentExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -306,6 +307,18 @@ class InputTextEdit(QLineEdit):
                 self.root_expression = None
                 self.update_expression_label()
 
+    def exec_percent(self):
+        if self.store_number():
+            if self.last_expression() != None:
+                percent = PercentExpression(self.tableWidget, self.last_expression())
+                self.setTextSelect(self.toString(percent.calculate(self.number)))
+                # remove node, because it is calculated
+                if (self.last_expression().prev_expression != None):
+                    self.last_expression().prev_expression.next_expression = None
+                else:
+                    self.root_expression = None
+                self.update_expression_label()
+
     def exec_closing_bracket(self):
         if self.store_number():
             current_expression = self.last_expression()
@@ -318,11 +331,17 @@ class InputTextEdit(QLineEdit):
                 current_expression = current_expression.prev_expression
 
             # bracket expression is no longer required, exclude it from chain
-            current_expression = current_expression.prev_expression
-            current_expression.next_expression = None
+            if current_expression == None:
+                self.root_expression = None
+            else:
+                current_expression = current_expression.prev_expression
+                if current_expression == None:
+                    self.root_expression = None
+                else:
+                    current_expression.next_expression = None
+
             self.setTextSelect(self.toString(last_number))
             self.update_expression_label()
-
 
     def exec_pi(self):
         self.setText(self.toString(math.pi))
@@ -451,6 +470,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_swap()
                 case CalcOperations.memory_swap:
                     self.exec_memory_swap()
+                case CalcOperations.percent:
+                    self.exec_percent()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -720,9 +741,9 @@ class InputTextEdit(QLineEdit):
             # shift was pressed
             match self.key:
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
-                    self.exec_MS()
+                    self.exec_percent()
                 case Qt.Key.Key_Plus:
-                    self.exec_M_plus()
+                    self.exec_percent()
                 case Qt.Key.Key_Slash:
                     self.exec_pi()
                 case Qt.Key.Key_Asterisk:
@@ -735,7 +756,7 @@ class InputTextEdit(QLineEdit):
             # ctrl is pressed
             match self.key:
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
-                    self.exec_MR()
+                    self.exec_percent()
                 case Qt.Key.Key_Comma:
                     self.exec_factorial()
                 case Qt.Key.Key_1:
@@ -752,6 +773,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_arctan()
                 case Qt.Key.Key_7: # Numpad 7
                     self.exec_ten_power_x()
+                case Qt.Key.Key_8: # Numpad 8
+                    self.exec_MS()
+                case Qt.Key.Key_9: # Numpad 9
+                    self.exec_MR()
                 case Qt.Key_Plus:
                     self.exec_M_plus()
                 case Qt.Key_Minus:
@@ -785,6 +810,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_tan()
                 case Qt.Key.Key_Home: # Numpad 7
                     self.exec_log()
+                case Qt.Key.Key_Up: # Numpad 8
+                    self.exec_opening_bracket()
+                case Qt.Key.Key_PageUp: # Numpad 9
+                    self.exec_closing_bracket();
                 case Qt.Key.Key_Plus:
                     self.exec_addition()
                 case Qt.Key.Key_Minus:
@@ -793,10 +822,6 @@ class InputTextEdit(QLineEdit):
                     self.exec_multiplication()
                 case Qt.Key.Key_Slash | Qt.Key.Key_division:
                     self.exec_division()
-                case Qt.Key.Key_Up:
-                    self.exec_opening_bracket()
-                case Qt.Key.Key_PageUp:
-                    self.exec_closing_bracket();
                 case Qt.Key.Key_Enter | Qt.Key.Key_Return | Qt.Key.Key_Equal:         
                     self.execute()
                 case _:
@@ -820,6 +845,8 @@ class InputTextEdit(QLineEdit):
             self.execute()
         elif event.text() == " ": # space
             self.exec_comment()
+        elif event.text() == "%":
+            self.exec_percent()
         else:
             return False
         
