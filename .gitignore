@@ -10,3 +10,6 @@ dist_installer/
 build/
 dist/
 *.egg-info/
+
+# Ignore MkDocs build output
+help/site/
