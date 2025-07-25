@@ -116,11 +116,10 @@ class InputTextEdit(QLineEdit):
         # 'nativeScanCode()' returns the hardware-dependent scan code.
         # This is specific to the keyboard hardware and operating system.
 
-        output = f"Key Pressed: '{char_pressed}'\n" \
+        output = f"Key Pressed: '{char_pressed}' ---------------------\n" \
                  f"Key Name (Qt.Key constant): {key_name}\n" \
                  f"Virtual Key Code (int): {virtual_key_code}\n" \
-                 f"Scan Code (Native): {self.scan_code}\n" \
-                 f"----------------------------------------\n"
+                 f"Scan Code (Native): {self.scan_code}"
         
         print(output)
 
@@ -736,7 +735,7 @@ class InputTextEdit(QLineEdit):
     def numlock_state(self):
         return self.get_key_state(0x90)
 
-    def handle_keypad_keys(self, event):
+    def handle_numpad_keys(self, event):
         if self.current_shift_state:
             # shift was pressed
             match self.key:
@@ -829,24 +828,42 @@ class InputTextEdit(QLineEdit):
                     super().keyPressEvent(event)
 
     def handle_chars(self, event):
-        if event.text() == '+':
-            self.exec_addition()
-        elif event.text() == '-':
-            self.exec_subtraction()
-        elif event.text() == '*':
-            self.exec_multiplication()
-        elif event.text() == '/':
-            self.exec_division()
-        elif event.text() == '(':
-            self.exec_opening_bracket()
-        elif event.text() == ')':
-            self.exec_closing_bracket()
-        elif event.text() == "=":
-            self.execute()
-        elif event.text() == " ": # space
-            self.exec_comment()
-        elif event.text() == "%":
-            self.exec_percent()
+        match self.key:
+            case Qt.Key.Key_Plus:
+                self.exec_addition()
+            case Qt.Key.Key_Minus:
+                self.exec_subtraction()
+            case Qt.Key.Key_Asterisk:
+                self.exec_multiplication()
+            case Qt.Key.Key_Slash:
+                self.exec_division()
+            case Qt.Key.Key_ParenLeft:
+                self.exec_opening_bracket()
+            case Qt.Key.Key_ParenRight:
+                self.exec_closing_bracket()
+            case Qt.Key.Key_Equal:
+                self.execute()
+            case Qt.Key.Key_Space:
+                self.exec_comment()    
+            case Qt.Key.Key_Percent:
+                self.exec_percent()
+            case Qt.Key.Key_Exclam:
+                self.exec_factorial()
+            case _:
+                return False
+            
+        return True
+    
+    def handle_scan_codes(self):
+        if self.current_shift_state:
+            match self.scan_code:
+                case 3: # Key 2
+                    self.exec_sqrt()
+                case 4: # Key 3
+                    self.exec_cube_root()
+                case _:
+                    return False
+            return True
         else:
             return False
         
@@ -854,16 +871,18 @@ class InputTextEdit(QLineEdit):
 
     def handle_keys(self, event):
         if (event.modifiers() & Qt.KeypadModifier) and self.numlock_state(): # keypad keys
-            self.handle_keypad_keys(event)
+            self.handle_numpad_keys(event)
         else: # usual keys (no keypad keys)
             if self.handle_chars(event):
                 return # it was a char, no further handling
+            if self.handle_scan_codes():
+                return
 
             if self.current_shift_state:
                 # Shift pressed
                 match self.key:
-                    case Qt.Key.Key_Exclam:
-                        self.exec_factorial()
+                    # case Qt.Key.Key_Exclam:
+                    #    self.exec_factorial()
                     case Qt.Key.Key_Q:
                         self.exec_M_minus()
                     case Qt.Key.Key_W:

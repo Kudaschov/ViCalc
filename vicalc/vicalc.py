@@ -781,20 +781,19 @@ class MainWindow(QMainWindow):
         self.ui.pushButton1.ctrl_operation = CalcOperations.factorial
         self.button_list.append(self.ui.pushButton1)
 
-#        self.ui.pushButton2.shift_text = "n!"
-#        self.ui.pushButton2.ctrl_text = "n!"
+        self.ui.pushButton2.shift_text = "√"
         self.ui.pushButton2.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton2.base_operation = CalcOperations.number_2
-        self.ui.pushButton2.shift_operation = CalcOperations.number_2
-        self.ui.pushButton2.ctrl_operation = CalcOperations.number_2
+        self.ui.pushButton2.shift_operation = CalcOperations.sqrt
+        self.ui.pushButton2.ctrl_operation = CalcOperations.sqrt
         self.button_list.append(self.ui.pushButton2)
 
-        #self.ui.pushButton3.shift_text = "n!"
+        self.ui.pushButton3.shift_text = "³√x"
         #self.ui.pushButton3.ctrl_text = "n!"
         self.ui.pushButton3.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton3.base_operation = CalcOperations.number_3
-        self.ui.pushButton3.shift_operation = CalcOperations.number_3
-        self.ui.pushButton3.ctrl_operation = CalcOperations.number_3
+        self.ui.pushButton3.shift_operation = CalcOperations.cube_root
+        self.ui.pushButton3.ctrl_operation = CalcOperations.cube_root
         self.button_list.append(self.ui.pushButton3)
 
         #self.ui.pushButton4.shift_text = "n!"
