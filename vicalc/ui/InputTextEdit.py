@@ -746,11 +746,10 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Slash:
                     self.exec_pi()
                 case Qt.Key.Key_Asterisk:
-                    self.exec_swap()
+                    self.exec_pow()
                 case _:
                     # Call base class to keep normal behavior
                     super().keyPressEvent(event)
-                    QMessageBox.information(self, "Information", "No operation configured")
         elif self.current_ctrl_state:
             # ctrl is pressed
             match self.key:
@@ -758,6 +757,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_percent()
                 case Qt.Key.Key_Comma:
                     self.exec_factorial()
+                case Qt.Key.Key_0:
+                    self.exec_swap()
                 case Qt.Key.Key_1:
                     self.exec_ex()
                 case Qt.Key.Key_2: # Numpad 2
@@ -849,6 +850,8 @@ class InputTextEdit(QLineEdit):
                 self.exec_percent()
             case Qt.Key.Key_Exclam:
                 self.exec_factorial()
+            case Qt.Key.Key_Underscore:
+                self.exec_sign_change()
             case _:
                 return False
             

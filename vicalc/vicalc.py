@@ -90,11 +90,11 @@ class MainWindow(QMainWindow):
         self.button_list = []
 
         self.ui.pushButton0numpad.shift_text = "1/X"
-        self.ui.pushButton0numpad.ctrl_text = "1/X"
+        self.ui.pushButton0numpad.ctrl_text = "<>"
         self.ui.pushButton0numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
         self.ui.pushButton0numpad.shift_operation = CalcOperations.reciprocal
-        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.reciprocal
+        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.swap
         self.button_list.append(self.ui.pushButton0numpad)
 
         self.ui.pushButton1numpad.shift_text = "ln"
@@ -235,14 +235,14 @@ class MainWindow(QMainWindow):
         self.button_list.append(self.ui.pushButtonPlusNumpad)
 
         self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonMultiplyNumpad.shift_text = "<>"
+        self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
         self.ui.pushButtonMultiplyNumpad.shift_font = QFont("Helvetica", 8)
         self.ui.pushButtonMultiplyNumpad.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonMultiplyNumpad.ctrl_text = "X<>M"
+        self.ui.pushButtonMultiplyNumpad.ctrl_text = "x<>M"
         self.ui.pushButtonMultiplyNumpad.ctrl_font = QFont("Helvetica", 8)
         self.ui.pushButtonMultiplyNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
-        self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.swap
+        self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
         self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.memory_swap
         self.ui.pushButtonMultiplyNumpad.input_text_edit = self.ui.inputTextEdit
         self.button_list.append(self.ui.pushButtonMultiplyNumpad)
