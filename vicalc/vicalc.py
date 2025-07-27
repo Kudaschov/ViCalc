@@ -9,7 +9,6 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessa
 from PySide6.QtGui import QActionGroup, QIcon
 from PySide6.QtCore import QSettings, QByteArray, QSize, QPoint
 from .ui.mainWindow import Ui_MainWindow # Make sure this path is correct
-from .ui.about_dialog import Ui_AboutDialog
 from PySide6.QtCore import QTimer
 from PySide6.QtCore import QStandardPaths
 from PySide6.QtWidgets import QTableWidgetItem
@@ -19,25 +18,7 @@ from .CalcOperations import CalcOperations
 from .TrigMode import TrigMode
 from PySide6.QtCore import QUrl
 from .ui.ClicableLabel import ClickableLabel
-import webbrowser
-
-class AboutDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.ui = Ui_AboutDialog()
-        self.ui.setupUi(self)
-
-        # Disable default handling
-        self.ui.textBrowser.setOpenExternalLinks(False)
-
-        # Connect signal to instance method
-        self.ui.textBrowser.anchorClicked.connect(self.handle_link_clicked)
-
-    def handle_link_clicked(self, url: QUrl):
-        webbrowser.open(url.toString())
-        
-        # Prevent QTextBrowser from trying to load it
-        self.ui.textBrowser.setSource(QUrl())
+from .AboutDialog import AboutDialog
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -71,6 +52,11 @@ class MainWindow(QMainWindow):
         self.ui.action_DEG.triggered.connect(self.mode_deg)
         self.ui.action_RAD.triggered.connect(self.mode_rad)
         self.ui.action_GRA.triggered.connect(self.mode_gra)
+
+        self.ui.action_convert_from_binary.triggered.connect(self.convert_from_binary)
+        self.ui.action_convert_from_octal.triggered.connect(self.convert_from_octal)
+        self.ui.action_convert_from_decimal.triggered.connect(self.convert_from_decimal)
+        self.ui.action_convert_from_hexadecimal.triggered.connect(self.convert_from_hexadecimal)
 
         self.ui.action_About.triggered.connect(self.show_about_dialog)
         self.ui.action_Help.triggered.connect(self.show_help)
@@ -199,7 +185,7 @@ class MainWindow(QMainWindow):
         self.button_list.append(self.ui.pushButtonCommaNumpad)
 
         self.ui.pushButtonMinusNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonMinusNumpad.shift_text = "+/-"
+        self.ui.pushButtonMinusNumpad.shift_text = "(-)"
         self.ui.pushButtonMinusNumpad.ctrl_text = "M-"
         self.ui.pushButtonMinusNumpad.base_operation = CalcOperations.Minus
         self.ui.pushButtonMinusNumpad.shift_operation = CalcOperations.SignChange
@@ -761,14 +747,14 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.input_text_edit = self.ui.inputTextEdit
         self.button_list.append(self.ui.pushButtonV)
 
-        self.ui.pushButtonB.setText("MS")
+        self.ui.pushButtonB.setText("Base")
         self.ui.pushButtonB.original_keyboard_text = "B"
-        self.ui.pushButtonB.shift_text = "MS"
+        self.ui.pushButtonB.shift_text = ""
         self.ui.pushButtonB.ctrl_text = ""
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonB.base_operation = CalcOperations.MS
-        self.ui.pushButtonB.shift_operation = CalcOperations.MS
-        self.ui.pushButtonB.ctrl_operation = CalcOperations.MS
+        self.ui.pushButtonB.base_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonB.shift_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonB.ctrl_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonB.input_text_edit = self.ui.inputTextEdit
         self.button_list.append(self.ui.pushButtonB)
 
@@ -819,6 +805,18 @@ class MainWindow(QMainWindow):
         self.ui.pushButton6.shift_operation = CalcOperations.number_6
         self.ui.pushButton6.ctrl_operation = CalcOperations.number_6
         self.button_list.append(self.ui.pushButton6)
+
+    def convert_from_binary(self):
+        self.ui.inputTextEdit.exec_from_binary()
+
+    def convert_from_octal(self):
+        self.ui.inputTextEdit.exec_from_octal()
+
+    def convert_from_decimal(self):
+        self.ui.inputTextEdit.exec_from_decimal()
+
+    def convert_from_hexadecimal(self):
+        self.ui.inputTextEdit.exec_from_hexadecimal()
 
 # main
 def main():

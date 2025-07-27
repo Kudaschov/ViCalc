@@ -34,6 +34,7 @@ from ..MPlusExpression import MPlusExpression
 from ..MMinusExpression import MMinusExpression
 from ..ReciprocalExpression import ReciprocalExpression
 from ..CommentDialog import CommentDialog
+from ..ConvertFromBaseDialog import ConvertFromBaseDialog
 from ..FactorialExpression import FactorialExpression
 from ..PowExpression import PowExpression
 from ..SquareExpression import SquareExpression
@@ -43,6 +44,8 @@ from ..CubeRootExpression import CubeRootExpression
 from ..MMultiplyExpression import MMultiplyExpression
 from ..MDisivionExpression import MDisivionExpression
 from ..PercentExpression import PercentExpression
+from ..ConvertToBasesExpression import ConvertToBasesExpression
+from ..BaseExpression import BaseExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -471,6 +474,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_memory_swap()
                 case CalcOperations.percent:
                     self.exec_percent()
+                case CalcOperations.convert_to_bases:
+                    self.exec_convert_to_bases()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -915,7 +920,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_V:
                         self.exec_MR()
                     case Qt.Key.Key_B:
-                        self.exec_MS()
+                        self.exec_convert_to_bases()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_last_line()
                     case Qt.Key.Key_Greater:
@@ -962,7 +967,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_V:
                         self.exec_MR()
                     case Qt.Key.Key_B:
-                        self.exec_MS()
+                        self.exec_convert_to_bases()
                     case Qt.Key.Key_Escape:
                         self.exec_ac()
                     case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:
@@ -1021,3 +1026,83 @@ class InputTextEdit(QLineEdit):
                 self.last_expression().first_number = self.number
                 self.setTextSelect(self.toString(temp_number))
                 self.update_expression_label()
+
+    def exec_convert_to_bases(self):
+        if self.store_number():
+            ConvertToBasesExpression(self.tableWidget).calculate(self.number)
+            self.selectAll()
+
+    def exec_from_binary(self):
+        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 2))
+        dialog.setWindowTitle("Convert form Binary")
+        dialog.ui.number_label.setText("&Binary:")
+        i_number = 0
+
+        try:
+           i_number = int(self.text())
+        except Exception as e:
+            print(f"{str(e)}")
+                
+        dialog.ui.numberLineEdit.setText(format(i_number, 'b'))
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            success, str_value = dialog.log()
+            if success:
+                self.setTextSelect(str_value)
+
+    def exec_from_octal(self):
+        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 8))
+        dialog.setWindowTitle("Convert form Octal")
+        dialog.ui.number_label.setText("&Octal:")
+        i_number = 0
+
+        try:
+           i_number = int(self.text())
+        except Exception as e:
+            print(f"{str(e)}")
+                
+        dialog.ui.numberLineEdit.setText(format(i_number, 'o'))
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            success, str_value = dialog.log()
+            if success:
+                self.setTextSelect(str_value)
+
+    def exec_from_decimal(self):
+        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 10))
+        dialog.setWindowTitle("Convert form Decimal")
+        dialog.ui.number_label.setText("&Decimal:")
+        i_number = 0
+
+        try:
+           i_number = int(self.text())
+        except Exception as e:
+            print(f"{str(e)}")
+                
+        dialog.ui.numberLineEdit.setText(format(i_number, 'd'))
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            success, str_value = dialog.log()
+            if success:
+                self.setTextSelect(str_value)
+
+    def exec_from_hexadecimal(self):
+        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 16))
+        dialog.setWindowTitle("Convert form Hexadecimal")
+        i_number = 0
+
+        try:
+           i_number = int(self.text())
+        except Exception as e:
+            print(f"{str(e)}")
+                
+        dialog.ui.numberLineEdit.setText(f"{i_number:X}")
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            success, str_value = dialog.log()
+            if success:
+                self.setTextSelect(str_value)

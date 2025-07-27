@@ -816,8 +816,18 @@
     <addaction name="actionToggle_Protocol"/>
     <addaction name="action_delete_full_protocol"/>
    </widget>
+   <widget class="QMenu" name="menu_Base">
+    <property name="title">
+     <string>&amp;Base</string>
+    </property>
+    <addaction name="action_convert_from_binary"/>
+    <addaction name="action_convert_from_octal"/>
+    <addaction name="action_convert_from_decimal"/>
+    <addaction name="action_convert_from_hexadecimal"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menuMode"/>
+   <addaction name="menu_Base"/>
    <addaction name="menu_Log"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -915,6 +925,53 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="action_convert_from_hexadecimal">
+   <property name="text">
+    <string>Convert from He&amp;xadecimal...</string>
+   </property>
+   <property name="toolTip">
+    <string>Convert from Hexadecimal</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_convert_from_binary">
+   <property name="text">
+    <string>Convert from &amp;Binary...</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_convert_from_octal">
+   <property name="text">
+    <string>Convert from &amp;Octal...</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_convert_from_decimal">
+   <property name="text">
+    <string>Convert from &amp;Decimal...</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
  </widget>
