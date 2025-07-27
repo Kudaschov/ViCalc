@@ -5,8 +5,8 @@ from .UnaryExpression import UnaryExpression
 # converts decimal number to bases 2, 8, and 16
 class ConvertToBasesExpression(UnaryExpression):
     def calculate(self, number):
-        result = number
-        i_number = int(number)
+        i_number: int = int(number)
+        result:float = float(i_number)
 
         self.insert_scroll_table()
         self.protocol(f"{bin(i_number)}", 0)

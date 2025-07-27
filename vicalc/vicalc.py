@@ -19,6 +19,7 @@ from .TrigMode import TrigMode
 from PySide6.QtCore import QUrl
 from .ui.ClicableLabel import ClickableLabel
 from .AboutDialog import AboutDialog
+import webbrowser
 
 class MainWindow(QMainWindow):
     def __init__(self):

@@ -1029,6 +1029,7 @@ class InputTextEdit(QLineEdit):
 
     def exec_convert_to_bases(self):
         if self.store_number():
+            i_number: float = int(self.text())
             ConvertToBasesExpression(self.tableWidget).calculate(self.number)
             self.selectAll()
 
