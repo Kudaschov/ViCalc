@@ -539,9 +539,9 @@ class InputTextEdit(QLineEdit):
         self.angle_unit.tableWidget = self.tableWidget
 
     def trig_mode_init(self, value):
-        self._trig_mode = value
+        self._trig_mode = TrigMode(value)
 
-        match value:
+        match TrigMode(value):
             case TrigMode.RAD:
                 self.angle_unit = RadUnitProtocol()
                 self.angle_unit.tableWidget = self.tableWidget

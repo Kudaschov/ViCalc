@@ -463,7 +463,7 @@ class MainWindow(QMainWindow):
     def closeEvent(self, event):
         settings = QSettings("Kudaschov", "ViCalc")
         settings.setValue("inputText", self.ui.inputTextEdit.text())
-        settings.setValue("trig_mode", self.ui.inputTextEdit.trig_mode)
+        settings.setValue("trig_mode", self.ui.inputTextEdit.trig_mode.value)
         settings.setValue("memory", self.ui.inputTextEdit.memory)
 
         self.save_table_data()
