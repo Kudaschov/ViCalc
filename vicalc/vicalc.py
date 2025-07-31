@@ -19,6 +19,12 @@ from .TrigMode import TrigMode
 from PySide6.QtCore import QUrl
 from .ui.ClicableLabel import ClickableLabel
 from .AboutDialog import AboutDialog
+from .NumFormatDialog import NumFormatDialog
+from .NumericFormat import NumericFormat
+from .CellValue import CellValue
+from .AppGlobals import AppGlobals
+from .NumericCellValue import NumericCellValue
+from PySide6.QtCore import QLocale
 import webbrowser
 
 class MainWindow(QMainWindow):
@@ -61,8 +67,10 @@ class MainWindow(QMainWindow):
 
         self.ui.action_About.triggered.connect(self.show_about_dialog)
         self.ui.action_Help.triggered.connect(self.show_help)
+        self.ui.action_numeric_format.triggered.connect(self.numeric_format)
 
         # important: set tableWidget before read_settings because of angle units
+        AppGlobals.table = self.ui.tableWidget
         self.ui.inputTextEdit.tableWidget = self.ui.tableWidget
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
@@ -267,6 +275,11 @@ class MainWindow(QMainWindow):
         self.memory_label = ClickableLabel("Memory:")
         self.memory_label.clicked.connect(self.memory_label_clicked)
         self.ui.statusbar.addWidget(self.memory_label)
+
+        self.numeric_format_label = ClickableLabel("Numeric Format:")
+        self.numeric_format_label.clicked.connect(self.numeric_format_clicked)
+        self.ui.statusbar.addWidget(self.numeric_format_label)
+
         self.capslock_label = QLabel("CapsLock")
         self.ui.statusbar.addWidget(self.capslock_label)
         self.numlock_label = QLabel("Numlock")
@@ -276,7 +289,7 @@ class MainWindow(QMainWindow):
         self.ui.statusbar.addWidget(self.mode_label)
 
         self.save_path = os.path.join(
-        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "table_data.json")
+        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "vicalc_data.vic")
         self.load_table_data()         
 
         self.start_key_state_monitor()     
@@ -302,7 +315,13 @@ class MainWindow(QMainWindow):
             action_delete = menu.addAction("Delete row(s)")
             action = menu.exec(global_pos)
             if action == action_paste_to_calculator:
-                self.ui.inputTextEdit.setText(item.text())
+                val = item.data(Qt.UserRole)
+                str = item.data(Qt.DisplayRole)
+                if val:
+                    if isinstance(val, NumericCellValue):
+                        self.ui.inputTextEdit.setText(AppGlobals.to_normal_string(val.value()))
+                else:
+                    self.ui.inputTextEdit.setText(item.text())
                 self.ui.inputTextEdit.setFocus()
                 self.ui.inputTextEdit.selectAll()
             elif action == action_delete:
@@ -351,10 +370,17 @@ class MainWindow(QMainWindow):
             self.ui.inputTextEdit.setFocus()
             self.ui.inputTextEdit.selectAll()
 
-    def cell_enter_pressed(self, text):
+    def cell_enter_pressed(self, row, col):
         if (self.is_tableWidget_editing() == False):
             # tableWidget is not editing, put the current value in inputTextEdit
-            self.ui.inputTextEdit.setText(text)
+            item = AppGlobals.table.item(row, col)
+            val = item.data(Qt.UserRole)
+            str = item.data(Qt.DisplayRole)
+            if val:
+                if isinstance(val, NumericCellValue):
+                    self.ui.inputTextEdit.setText(AppGlobals.to_normal_string(val.value()))
+            else:
+                self.ui.inputTextEdit.setText(item.text())
             self.ui.inputTextEdit.setFocus()
             self.ui.inputTextEdit.selectAll()
 
@@ -371,6 +397,9 @@ class MainWindow(QMainWindow):
             self.ui.inputTextEdit.setText(saved_text)
             self.ui.inputTextEdit.trig_mode_init(self.settings.value("trig_mode"))
             self.ui.inputTextEdit.memory = self.settings.value("memory", type=float)
+
+            AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
+            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
 
             match self.ui.inputTextEdit.trig_mode:
                 case TrigMode.RAD:
@@ -445,6 +474,69 @@ class MainWindow(QMainWindow):
 #        about_dialog.setWindowTitle("Über die Anwendung")
         about_dialog.exec()
 
+    def numeric_format(self):
+        dialog = NumFormatDialog()
+
+        match AppGlobals.numeric_format:
+            case NumericFormat.normal:
+                dialog.ui.normRadioButton.setChecked(True)
+            case NumericFormat.fixed:
+                dialog.ui.fixRadioButton.setChecked(True)
+            case NumericFormat.scientific:
+                dialog.ui.sciRadioButton.setChecked(True)
+            case NumericFormat.engineering:
+                dialog.ui.engRadioButton.setChecked(True)
+            case _:
+                dialog.ui.generalRadioButton.setChecked(True)
+
+        dialog.ui.precisionSpinBox.setValue(AppGlobals.numeric_precision)
+
+        if dialog.exec() != True:
+            return
+        
+        AppGlobals.numeric_precision = dialog.ui.precisionSpinBox.value()
+        if dialog.ui.generalRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.general
+        elif dialog.ui.fixRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.fixed
+        elif dialog.ui.sciRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.scientific
+        elif dialog.ui.engRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.engineering
+        else:
+            AppGlobals.numeric_format = NumericFormat.normal
+
+        self.update_numeric_format_label()
+
+        # update table
+        rows = AppGlobals.table.rowCount()
+        cols = AppGlobals.table.columnCount()
+
+        for row in range(rows):
+            for col in range(cols):
+                item = AppGlobals.table.item(row, col)
+                if item:
+                    cell_value = item.data(Qt.UserRole)
+                    if item.text().strip() or cell_value != None:  # Zelle ist vorhanden und nicht leer
+                        if isinstance(cell_value, CellValue):
+                            item.setText(cell_value.to_string())
+        # update memory
+        self.memory_changed(self.ui.inputTextEdit.memory_to_format_string())
+
+    def update_numeric_format_label(self):
+        match AppGlobals.numeric_format:
+            case NumericFormat.general:
+                self.numeric_format_label.setText("General format: " + str(AppGlobals.numeric_precision))
+            case NumericFormat.fixed:
+                self.numeric_format_label.setText("Fixed format: " + str(AppGlobals.numeric_precision))
+            case NumericFormat.scientific:
+                self.numeric_format_label.setText("Scientific format: " + str(AppGlobals.numeric_precision))
+            case NumericFormat.engineering:
+                self.numeric_format_label.setText("Engineerig format: " + str(AppGlobals.numeric_precision))
+            case _:
+                self.numeric_format_label.setText("")
+
+
     def resource_path(self, relative_path):
         if hasattr(sys, '_MEIPASS'):
             return os.path.join(sys._MEIPASS, relative_path)
@@ -466,6 +558,9 @@ class MainWindow(QMainWindow):
         settings.setValue("trig_mode", self.ui.inputTextEdit.trig_mode.value)
         settings.setValue("memory", self.ui.inputTextEdit.memory)
 
+        settings.setValue("numeric_format", AppGlobals.numeric_format.value)
+        settings.setValue("numeric_precision", AppGlobals.numeric_precision)
+
         self.save_table_data()
 
         self.settings.setValue("MainWindow/geometry", self.saveGeometry())
@@ -474,41 +569,16 @@ class MainWindow(QMainWindow):
         super().closeEvent(event)
 
     def save_table_data(self):
-        data = []
-        for row in range(self.ui.tableWidget.rowCount()):
-            row_data = []
-            for col in range(self.ui.tableWidget.columnCount()):
-                item = self.ui.tableWidget.item(row, col)
-                row_data.append(item.text() if item else "")
-            data.append(row_data)
-
         os.makedirs(os.path.dirname(self.save_path), exist_ok=True)
-        with open(self.save_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)           
+        AppGlobals.table.save_to_file(self.save_path)
 
     def load_table_data(self):
-        if os.path.exists(self.save_path):
-            with open(self.save_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-
-            self.ui.tableWidget.setRowCount(0)   # Clear existing
-            for row_data in data:
-                row = self.ui.tableWidget.rowCount()
-                self.ui.tableWidget.insertRow(row)
-                for col, text in enumerate(row_data):
-                    self.ui.tableWidget.setItem(row, col, QTableWidgetItem(text))
-
-            self.ui.tableWidget.scrollToBottom()
-            last_row_index = self.ui.tableWidget.rowCount() - 1
-            if last_row_index >= 0:
-                prev_col = None
-                for col in range(self.ui.tableWidget.columnCount()):
-                    item = self.ui.tableWidget.item(last_row_index, col)
-                    if item is None or item.text().strip() == "":
-                        prev_col = col - 1 if col > 0 else None
-                        break
-                if prev_col is not None:
-                    self.ui.tableWidget.setCurrentCell(last_row_index, prev_col)
+        try:
+            if os.path.exists(self.save_path):
+                AppGlobals.table.load_from_file(self.save_path)
+            AppGlobals.table.scrollToBottom()
+        except Exception as err:
+            print(f"Possible for the first reading {err=}, {type(err)=}")
 
   # --- New Slot Method to update buttons ---
     def updateButtonsForShift(self, is_shift_pressed: bool):
@@ -561,17 +631,23 @@ class MainWindow(QMainWindow):
 
     def showEvent(self, event):
         super().showEvent(event)
-        QTimer.singleShot(0, self.after_show)
+        QTimer.singleShot(0, self.after_mainwindow_show)
 
-    def after_show(self):
-        self.memory_changed(self.ui.inputTextEdit.memory_to_string())
+    def after_mainwindow_show(self):
+        self.memory_changed(self.ui.inputTextEdit.memory_to_format_string())
+        self.update_numeric_format_label()
 
     def memory_label_clicked(self):
         self.ui.inputTextEdit.exec_MR()
 
+    def numeric_format_clicked(self):
+        self.numeric_format()
+
     def toggle_protocol(self):
         if self.ui.inputTextEdit.hasFocus():
             self.ui.tableWidget.setFocus()
+            if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
+                AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
         else:
             self.ui.inputTextEdit.setFocus()
 

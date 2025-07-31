@@ -4,8 +4,6 @@ from PySide6.QtGui import QFont
 from .CalcPrios import CalcPrios
 
 class CalcExpression(ABC):
-    next_result: float # result from next node
-
     def __init__(self, tableWidget):
         self.operation_prio = CalcPrios.Min
         self.prev_expression = None
@@ -14,7 +12,6 @@ class CalcExpression(ABC):
         self.tableWidget = tableWidget
         self.resultFont = QFont()
         self.resultFont.setBold(True)
-        self.next_result = None
         self.row = 0 # row in TableWidget
 
     def text(self):

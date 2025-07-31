@@ -46,6 +46,7 @@ from ..MDisivionExpression import MDisivionExpression
 from ..PercentExpression import PercentExpression
 from ..ConvertToBasesExpression import ConvertToBasesExpression
 from ..BaseExpression import BaseExpression
+from ..AppGlobals import AppGlobals
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -170,10 +171,13 @@ class InputTextEdit(QLineEdit):
         QMessageBox.critical(self, "Error", message)
 
     def toString(self, number):
-        return self.locale.toString(number, "g", 16)
+        return AppGlobals.to_normal_string(number)
     
     def memory_to_string(self):
         return self.toString(self.memory)
+
+    def memory_to_format_string(self):
+        return AppGlobals.to_format_string(self.memory)
 
     def toDouble(self, text):
         return self.locale.toDouble(text)
@@ -186,7 +190,6 @@ class InputTextEdit(QLineEdit):
             self.selectAll()
         except ValueError:
             self._show_error("Invalid input: nonnegative integer expected.")
-
 
     def unary_operation(self, event):
         if self.current_shift_state:
@@ -660,7 +663,7 @@ class InputTextEdit(QLineEdit):
     @memory.setter
     def memory(self, value: float):
         self._memory = value
-        self.memory_changed.emit(self.memory_to_string())
+        self.memory_changed.emit(self.memory_to_format_string())
         
     def exec_MS(self):
         if self.store_number():

@@ -10,6 +10,13 @@
       "console": "integratedTerminal",
       "justMyCode": false,
       "env": {}
-    }
+    },
+    {
+      "name": "Debug Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    }    
   ]
 }

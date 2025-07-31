@@ -808,6 +808,8 @@
     <addaction name="action_DEG"/>
     <addaction name="action_RAD"/>
     <addaction name="action_GRA"/>
+    <addaction name="separator"/>
+    <addaction name="action_numeric_format"/>
    </widget>
    <widget class="QMenu" name="menu_Log">
     <property name="title">
@@ -969,6 +971,17 @@
    </property>
    <property name="shortcut">
     <string>F8</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_numeric_format">
+   <property name="text">
+    <string>Numeric &amp;Format...</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
