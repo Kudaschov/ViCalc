@@ -68,7 +68,7 @@ class Ui_FormatDialog(object):
         FormatDialog.setWindowTitle(QCoreApplication.translate("FormatDialog", u"Numeric Format", None))
         self.normRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Normal", None))
         self.generalRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&General", None))
-        self.fixRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Fixed", None))
+        self.fixRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Fixed point", None))
         self.sciRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Scientific", None))
         self.engRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Engineering", None))
         self.label.setText(QCoreApplication.translate("FormatDialog", u"&Precision:", None))

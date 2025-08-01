@@ -11,12 +11,6 @@ class UnaryExpression(CalcExpression):
         super().__init__(tableWidget)
     
     def protocol_result(self, result, column_number):
-        """
-        item = QTableWidgetItem(self.toString(result))
-        item.setFont(self.resultFont)
-        self.tableWidget.setItem(self.row, column_number, item)
-        self.tableWidget.setCurrentCell(self.row, column_number)
-        """
         ResultCellValue(result, self.row, column_number)        
 
     @singledispatchmethod

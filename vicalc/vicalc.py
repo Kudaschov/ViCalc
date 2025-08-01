@@ -24,7 +24,7 @@ from .NumericFormat import NumericFormat
 from .CellValue import CellValue
 from .AppGlobals import AppGlobals
 from .NumericCellValue import NumericCellValue
-from PySide6.QtCore import QLocale
+from PySide6.QtCore import QLocale, QDate, QTime
 import webbrowser
 
 class MainWindow(QMainWindow):
@@ -528,14 +528,13 @@ class MainWindow(QMainWindow):
             case NumericFormat.general:
                 self.numeric_format_label.setText("General format: " + str(AppGlobals.numeric_precision))
             case NumericFormat.fixed:
-                self.numeric_format_label.setText("Fixed format: " + str(AppGlobals.numeric_precision))
+                self.numeric_format_label.setText("Fixed point format: " + str(AppGlobals.numeric_precision))
             case NumericFormat.scientific:
                 self.numeric_format_label.setText("Scientific format: " + str(AppGlobals.numeric_precision))
             case NumericFormat.engineering:
                 self.numeric_format_label.setText("Engineerig format: " + str(AppGlobals.numeric_precision))
             case _:
                 self.numeric_format_label.setText("")
-
 
     def resource_path(self, relative_path):
         if hasattr(sys, '_MEIPASS'):
@@ -636,6 +635,36 @@ class MainWindow(QMainWindow):
     def after_mainwindow_show(self):
         self.memory_changed(self.ui.inputTextEdit.memory_to_format_string())
         self.update_numeric_format_label()
+        self.date_time_stamp()
+
+    def date_time_stamp(self):
+        separator = "**********"
+        if AppGlobals.table.columnCount() < 5:
+            AppGlobals.table.setColumnCount(5)
+        row = AppGlobals.table.rowCount()
+        AppGlobals.table.insertRow(row)
+
+        item = QTableWidgetItem()
+        item.setText(separator)
+        AppGlobals.table.setItem(row, 0, item)
+        
+        item = QTableWidgetItem()
+        item.setText(QLocale().toString(QDate.currentDate(), QLocale.ShortFormat))
+        AppGlobals.table.setItem(row, 1, item)
+
+        item = QTableWidgetItem()
+        item.setText(separator)
+        AppGlobals.table.setItem(row, 2, item)
+
+        item = QTableWidgetItem()
+        item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
+        AppGlobals.table.setItem(row, 3, item)
+
+        item = QTableWidgetItem()
+        item.setText(separator)
+        AppGlobals.table.setItem(row, 4, item)
+
+        AppGlobals.table.scrollToBottom()
 
     def memory_label_clicked(self):
         self.ui.inputTextEdit.exec_MR()

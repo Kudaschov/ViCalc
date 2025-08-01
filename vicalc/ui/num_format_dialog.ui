@@ -65,7 +65,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Fixed</string>
+    <string>&amp;Fixed point</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="sciRadioButton">
