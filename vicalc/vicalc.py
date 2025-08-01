@@ -65,9 +65,13 @@ class MainWindow(QMainWindow):
         self.ui.action_convert_from_decimal.triggered.connect(self.convert_from_decimal)
         self.ui.action_convert_from_hexadecimal.triggered.connect(self.convert_from_hexadecimal)
 
+        self.ui.action_dms_to_dd.triggered.connect(self.dms_to_dd)
+
         self.ui.action_About.triggered.connect(self.show_about_dialog)
         self.ui.action_Help.triggered.connect(self.show_help)
         self.ui.action_numeric_format.triggered.connect(self.numeric_format)
+
+        self.ui.actionInsertDateTime.triggered.connect(self.date_time_stamp)
 
         # important: set tableWidget before read_settings because of angle units
         AppGlobals.table = self.ui.tableWidget
@@ -76,6 +80,9 @@ class MainWindow(QMainWindow):
         self.read_settings()
         self.ui.inputTextEdit.setFocus()
         self.ui.inputTextEdit.selectAll()
+
+        # connect mouse double click on table
+        AppGlobals.table.cellDoubleClicked.connect(self.table_cell_double_clicked)
 
         # context menu
         self.ui.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -221,7 +228,7 @@ class MainWindow(QMainWindow):
         self.button_list.append(self.ui.pushButtonEnterNumpad)
 
         self.ui.pushButtonPlusNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonPlusNumpad.shift_text = ""
+        self.ui.pushButtonPlusNumpad.shift_text = "M+"
         self.ui.pushButtonPlusNumpad.ctrl_text = "M+"
         self.ui.pushButtonPlusNumpad.base_operation = CalcOperations.Plus
         self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.M_plus
@@ -309,7 +316,7 @@ class MainWindow(QMainWindow):
     def show_context_menu(self, pos):
         global_pos = self.ui.tableWidget.viewport().mapToGlobal(pos)
         item = self.ui.tableWidget.itemAt(pos)
-        if item is not None:
+        if item:
             menu = QMenu(self)
             action_paste_to_calculator = menu.addAction("Paste to calculator")
             action_delete = menu.addAction("Delete row(s)")
@@ -350,7 +357,7 @@ class MainWindow(QMainWindow):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Warning)
         msg_box.setWindowTitle("Warning")
-        msg_box.setText("Are you sure you want to Delete Full Protocol?")
+        msg_box.setText("Are you sure you want to Delete Full Log?")
         msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg_box.setDefaultButton(QMessageBox.No)
 
@@ -615,7 +622,7 @@ class MainWindow(QMainWindow):
     def change_mode(self):
         if self.ui.tableWidget.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
-            self.mode_label.setText("Edit Protocol")
+            self.mode_label.setText("Log")
         else:
             self.mode_label.setText("")
 
@@ -836,6 +843,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonC.ctrl_text = "Copy"
         self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonC.ctrl_font = QFont("Helvetica", 9)
         self.ui.pushButtonC.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonC.base_operation = CalcOperations.C
         self.ui.pushButtonC.shift_operation = CalcOperations.MS
@@ -847,6 +855,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.shift_text = "MR"
         self.ui.pushButtonV.ctrl_text = "Paste"
         self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonV.ctrl_font = QFont("Helvetica", 9)
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.MR
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
@@ -855,12 +864,12 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonB.setText("Base")
         self.ui.pushButtonB.original_keyboard_text = "B"
-        self.ui.pushButtonB.shift_text = ""
-        self.ui.pushButtonB.ctrl_text = ""
+        self.ui.pushButtonB.shift_text = "DMS"
+        self.ui.pushButtonB.ctrl_text = "DD"
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.convert_to_bases
-        self.ui.pushButtonB.shift_operation = CalcOperations.convert_to_bases
-        self.ui.pushButtonB.ctrl_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonB.shift_operation = CalcOperations.convert_to_dms
+        self.ui.pushButtonB.ctrl_operation = CalcOperations.convert_to_dd
         self.ui.pushButtonB.input_text_edit = self.ui.inputTextEdit
         self.button_list.append(self.ui.pushButtonB)
 
@@ -923,6 +932,21 @@ class MainWindow(QMainWindow):
 
     def convert_from_hexadecimal(self):
         self.ui.inputTextEdit.exec_from_hexadecimal()
+
+    def dms_to_dd(self):
+        self.ui.inputTextEdit.exec_convert_to_dd()
+
+    def table_cell_double_clicked(self, row, column):
+        item = AppGlobals.table.item(row, column)
+        if not item:
+            print(f"No item at ({row}, {column})")
+            return
+
+        user_data = item.data(Qt.UserRole)
+        if user_data is not None:
+            self.cell_enter_pressed(row, column)
+        else:
+            print(f"Cell ({row}, {column}) does NOT have UserRole data.")        
 
 # main
 def main():

@@ -815,21 +815,25 @@
     <property name="title">
      <string>&amp;Log</string>
     </property>
+    <addaction name="actionInsertDateTime"/>
     <addaction name="actionToggle_Protocol"/>
+    <addaction name="separator"/>
     <addaction name="action_delete_full_protocol"/>
    </widget>
-   <widget class="QMenu" name="menu_Base">
+   <widget class="QMenu" name="menu_Convert">
     <property name="title">
-     <string>&amp;Base</string>
+     <string>&amp;Convert</string>
     </property>
     <addaction name="action_convert_from_binary"/>
     <addaction name="action_convert_from_octal"/>
     <addaction name="action_convert_from_decimal"/>
     <addaction name="action_convert_from_hexadecimal"/>
+    <addaction name="separator"/>
+    <addaction name="action_dms_to_dd"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menuMode"/>
-   <addaction name="menu_Base"/>
+   <addaction name="menu_Convert"/>
    <addaction name="menu_Log"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -931,7 +935,7 @@
   </action>
   <action name="action_convert_from_hexadecimal">
    <property name="text">
-    <string>Convert from He&amp;xadecimal...</string>
+    <string>From He&amp;xadecimal...</string>
    </property>
    <property name="toolTip">
     <string>Convert from Hexadecimal</string>
@@ -945,7 +949,7 @@
   </action>
   <action name="action_convert_from_binary">
    <property name="text">
-    <string>Convert from &amp;Binary...</string>
+    <string>From &amp;Binary...</string>
    </property>
    <property name="shortcut">
     <string>F6</string>
@@ -956,7 +960,7 @@
   </action>
   <action name="action_convert_from_octal">
    <property name="text">
-    <string>Convert from &amp;Octal...</string>
+    <string>From &amp;Octal...</string>
    </property>
    <property name="shortcut">
     <string>F7</string>
@@ -967,7 +971,7 @@
   </action>
   <action name="action_convert_from_decimal">
    <property name="text">
-    <string>Convert from &amp;Decimal...</string>
+    <string>From &amp;Decimal...</string>
    </property>
    <property name="shortcut">
     <string>F8</string>
@@ -982,6 +986,28 @@
    </property>
    <property name="shortcut">
     <string>F10</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionInsertDateTime">
+   <property name="text">
+    <string>Insert &amp;Date and Time</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_dms_to_dd">
+   <property name="text">
+    <string>&amp;DMS to DD...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

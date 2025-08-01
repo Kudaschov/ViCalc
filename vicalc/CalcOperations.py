@@ -60,4 +60,5 @@ class CalcOperations(Enum):
     undo = auto()
     redo = auto()
     convert_to_bases = auto()
-    
+    convert_to_dms = auto()
+    convert_to_dd = auto()

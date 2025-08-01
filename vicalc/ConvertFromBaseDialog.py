@@ -22,9 +22,9 @@ class ConvertFromBaseDialog(QDialog):
             self.ui.decimalLineEdit.setText("- - -")
             self.ui.hexadecimalLineEdit.setText("- - -")
 
-    def log(self):
+    def add_to_log(self):
         if self.base_expression.conv_from_string(self.ui.numberLineEdit.text()):
-            self.base_expression.log()
+            self.base_expression.add_to_log()
             return True, self.base_expression.to_decimal()
         else:
             return False, ""

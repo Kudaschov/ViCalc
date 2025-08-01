@@ -271,7 +271,11 @@ class CalcButton(QPushButton):
         return QRect(0, 1, self.rect().width() / 2, self.height_shift_area)
     
     def ctrl_rect(self) -> QRect:
-        return QRect(self.rect().width() / 2, 1, self.rect().width() / 2, self.height_shift_area)
+        rect = QRect(self.rect().width() / 2, 1, self.rect().width() / 2, self.height_shift_area)
+        #rect = rect.adjusted(0, 0, -20, 0)
+        return rect
     
     def shift_and_ctrl_rect(self) -> QRect:
-        return QRect(0, 1, self.rect().width(), self.height_shift_area)
+        rect = QRect(0, 1, self.rect().width(), self.height_shift_area)
+        rect = rect.adjusted(0, 0, -2, 0)
+        return rect

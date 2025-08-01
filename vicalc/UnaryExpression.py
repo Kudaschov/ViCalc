@@ -7,7 +7,7 @@ from .ResultCellValue import ResultCellValue
 from. StringCellValue import StringCellValue
 
 class UnaryExpression(CalcExpression):
-    def __init__(self, tableWidget):
+    def __init__(self, tableWidget = None):
         super().__init__(tableWidget)
     
     def protocol_result(self, result, column_number):

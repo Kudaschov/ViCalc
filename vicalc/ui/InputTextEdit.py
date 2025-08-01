@@ -47,6 +47,9 @@ from ..PercentExpression import PercentExpression
 from ..ConvertToBasesExpression import ConvertToBasesExpression
 from ..BaseExpression import BaseExpression
 from ..AppGlobals import AppGlobals
+from ..DMSExpression import DMSExpression
+from ..DMStoDD_Dialog import DMStoDD_Dialog
+from ..DDExpression import DDExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -479,6 +482,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_percent()
                 case CalcOperations.convert_to_bases:
                     self.exec_convert_to_bases()
+                case CalcOperations.convert_to_dms:
+                    self.exec_convert_to_dms()
+                case CalcOperations.convert_to_dd:
+                    self.exec_convert_to_dd()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -923,7 +930,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_V:
                         self.exec_MR()
                     case Qt.Key.Key_B:
-                        self.exec_convert_to_bases()
+                        self.exec_convert_to_dms()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_last_line()
                     case Qt.Key.Key_Greater:
@@ -1036,6 +1043,38 @@ class InputTextEdit(QLineEdit):
             ConvertToBasesExpression(self.tableWidget).calculate(self.number)
             self.selectAll()
 
+    def exec_convert_to_dms(self):
+        if self.store_number():
+            DMSExpression().calculate(self.number)
+
+    def exec_convert_to_dd(self):
+        dialog = DMStoDD_Dialog()
+
+        number, ok = self.locale.toDouble(self.text())
+
+        if ok:
+            is_negative = number < 0
+            decimal_deg = abs(number)
+            degrees = int(decimal_deg)
+            minutes_float = (decimal_deg - degrees) * 60
+            minutes = int(minutes_float)
+            seconds = (minutes_float - minutes) * 60
+            if is_negative:
+                degrees = -1 * degrees
+
+        dialog.ui.degreesLineEdit.setText(str(degrees))
+        dialog.ui.minutesLineEdit.setText(str(minutes))
+        dialog.ui.secondsLineEdit.setText(AppGlobals.to_normal_string(seconds))
+        dialog.ui.degreesLineEdit.setFocus()
+
+        if not dialog.exec():
+            return
+        
+        degrees, ok = self.locale.toInt(dialog.ui.degreesLineEdit.text())
+        minutes, ok  = self.locale.toInt(dialog.ui.minutesLineEdit.text())
+        seconds, ok = self.locale.toDouble(dialog.ui.secondsLineEdit.text())
+        self.setTextSelect(self.toString(DDExpression().calculate(degrees, minutes, seconds)))
+
     def exec_from_binary(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 2))
         dialog.setWindowTitle("Convert form Binary")
@@ -1051,7 +1090,7 @@ class InputTextEdit(QLineEdit):
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
-            success, str_value = dialog.log()
+            success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
 
@@ -1070,7 +1109,7 @@ class InputTextEdit(QLineEdit):
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
-            success, str_value = dialog.log()
+            success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
 
@@ -1089,7 +1128,7 @@ class InputTextEdit(QLineEdit):
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
-            success, str_value = dialog.log()
+            success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
 
@@ -1107,6 +1146,6 @@ class InputTextEdit(QLineEdit):
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
-            success, str_value = dialog.log()
+            success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)

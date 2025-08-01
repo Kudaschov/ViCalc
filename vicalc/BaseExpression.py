@@ -27,7 +27,7 @@ class BaseExpression(UnaryExpression):
     def to_hexadecimal(self):
         return f"0x{self.i_number:X}"
     
-    def log(self):
+    def add_to_log(self):
         self.insert_scroll_table()
         self.protocol(f"{bin(self.i_number)}", 0)
         self.protocol(f"{oct(self.i_number)}", 1)
