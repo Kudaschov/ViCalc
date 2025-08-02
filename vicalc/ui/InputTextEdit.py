@@ -50,6 +50,13 @@ from ..AppGlobals import AppGlobals
 from ..DMSExpression import DMSExpression
 from ..DMStoDD_Dialog import DMStoDD_Dialog
 from ..DDExpression import DDExpression
+from ..ResultCellValue import ResultCellValue
+from ..SinhExpression import SinhExpression
+from ..CoshExpression import CoshExpression
+from ..TanhExpression import TanhExpression
+from ..ArsinhExpression import ArsinhExpression
+from ..ArcoshExpression import ArcoshExpression
+from ..ArtanhExpression import ArtanhExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -295,11 +302,12 @@ class InputTextEdit(QLineEdit):
             row = self.tableWidget.rowCount()
             self.tableWidget.insertRow(row)        
             self.tableWidget.scrollToBottom()
-            item = QTableWidgetItem(self.text())
-            item.setFont(self.resultFont)
-            self.tableWidget.setItem(row, 0, item)
-            self.tableWidget.setCurrentCell(row, 0)
             self.selectAll()
+
+            self.number, ok = self.locale.toDouble(self.text())
+            if ok:
+                ResultCellValue(self.number, row, 0)
+
         elif self.store_number():
             # go to last expression
 
@@ -486,6 +494,18 @@ class InputTextEdit(QLineEdit):
                     self.exec_convert_to_dms()
                 case CalcOperations.convert_to_dd:
                     self.exec_convert_to_dd()
+                case CalcOperations.sinh:
+                    self.exec_sinh()
+                case CalcOperations.cosh:
+                    self.exec_cosh()
+                case CalcOperations.tanh:
+                    self.exec_tanh()
+                case CalcOperations.arsinh:
+                    self.exec_arsinh()
+                case CalcOperations.arcosh:
+                    self.exec_arcosh()
+                case CalcOperations.artanh:
+                    self.exec_artanh()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -860,7 +880,7 @@ class InputTextEdit(QLineEdit):
             case Qt.Key.Key_Equal:
                 self.execute()
             case Qt.Key.Key_Space:
-                self.exec_comment()    
+                self.execute()    
             case Qt.Key.Key_Percent:
                 self.exec_percent()
             case Qt.Key.Key_Exclam:
@@ -1149,3 +1169,33 @@ class InputTextEdit(QLineEdit):
             success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
+
+    def exec_sinh(self):
+        if self.store_number():
+            expr = SinhExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_cosh(self):
+        if self.store_number():
+            expr = CoshExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_tanh(self):
+        if self.store_number():
+            expr = TanhExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_arsinh(self):
+        if self.store_number():
+            expr = ArsinhExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_arcosh(self):
+        if self.store_number():
+            expr = ArcoshExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_artanh(self):
+        if self.store_number():
+            expr = ArtanhExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))

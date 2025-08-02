@@ -803,7 +803,7 @@
    </widget>
    <widget class="QMenu" name="menuMode">
     <property name="title">
-     <string>&amp;Mode</string>
+     <string>Mo&amp;de</string>
     </property>
     <addaction name="action_DEG"/>
     <addaction name="action_RAD"/>
@@ -831,7 +831,20 @@
     <addaction name="separator"/>
     <addaction name="action_dms_to_dd"/>
    </widget>
+   <widget class="QMenu" name="menu_Math">
+    <property name="title">
+     <string>&amp;Math</string>
+    </property>
+    <addaction name="action_sinh"/>
+    <addaction name="action_cosh"/>
+    <addaction name="action_tanh"/>
+    <addaction name="separator"/>
+    <addaction name="action_arsinh"/>
+    <addaction name="action_arcosh"/>
+    <addaction name="action_artanh"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menu_Math"/>
    <addaction name="menuMode"/>
    <addaction name="menu_Convert"/>
    <addaction name="menu_Log"/>
@@ -996,7 +1009,7 @@
     <string>Insert &amp;Date and Time</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Ctrl+I</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1008,6 +1021,69 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_sinh">
+   <property name="text">
+    <string>&amp;sinh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="action_cosh">
+   <property name="text">
+    <string>&amp;cosh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_tanh">
+   <property name="text">
+    <string>&amp;tanh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_arsinh">
+   <property name="text">
+    <string>&amp;arsinh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_arcosh">
+   <property name="text">
+    <string>a&amp;rcosh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_artanh">
+   <property name="text">
+    <string>arta&amp;nh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

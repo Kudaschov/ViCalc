@@ -8,6 +8,10 @@ class AppGlobals:
     table = None # tableWidget in main window
     current_row = -1 # current row in table
     current_column = -1 # current column in table
+    keyboard_grid_width = 58
+    pushbutton_width = 59
+    numpad_button_width = 52
+    numpad_start_column = 7
 
     @staticmethod
     def to_format_string(number):

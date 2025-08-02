@@ -6,6 +6,9 @@ from ..CalcOperations import CalcOperations
 class CalcButton(QPushButton):
     def __init__(self, parent=None):
         super().__init__("", parent)
+        self.row = -1 # row in keyboard grid
+        self.column = -1 # column in keyboard grid
+        self.norm_width = 1 # ratio: width to with of norm (usual) key
 
         self.shift_text = ""
         self._shift = False # shift key not pressed
@@ -277,5 +280,5 @@ class CalcButton(QPushButton):
     
     def shift_and_ctrl_rect(self) -> QRect:
         rect = QRect(0, 1, self.rect().width(), self.height_shift_area)
-        rect = rect.adjusted(0, 0, -2, 0)
+        rect = rect.adjusted(0, 0, -1, 0)
         return rect
