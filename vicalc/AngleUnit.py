@@ -3,15 +3,14 @@ from functools import singledispatchmethod
 from PySide6.QtCore import QLocale
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QTableWidgetItem
+from .AppGlobals import AppGlobals
 
 class AngleUnit(ABC):
     def __init__(self):
-        self.tableWidget = None
         self.locale = QLocale()
         self.resultFont = QFont()
         self.resultFont.setBold(True)
         self.row = None
-        
 
     def toString(self, number:float):
         return self.locale.toString(number, "g", 16)
@@ -49,15 +48,15 @@ class AngleUnit(ABC):
         pass  # No implementation here    
 
     def insert_scroll_table(self):
-        self.row = self.tableWidget.rowCount()
-        self.tableWidget.insertRow(self.row)        
-        self.tableWidget.scrollToBottom()
+        self.row = AppGlobals.table.rowCount()
+        AppGlobals.table.insertRow(self.row)        
+        AppGlobals.table.scrollToBottom()
 
     def protocol_result(self, result: float, column_number: int):
         item = QTableWidgetItem(self.toString(result))
         item.setFont(self.resultFont)
-        self.tableWidget.setItem(self.row, column_number, item)
-        self.tableWidget.setCurrentCell(self.row, column_number)
+        AppGlobals.table.setItem(self.row, column_number, item)
+        AppGlobals.table.setCurrentCell(self.row, column_number)
 
     @singledispatchmethod
     def protocol(self, arg, column_number):
@@ -68,9 +67,9 @@ class AngleUnit(ABC):
     
     @protocol.register(str)
     def _(self, arg: str, column_number: int):
-        self.tableWidget.setItem(self.row, column_number, QTableWidgetItem(arg))
+        AppGlobals.table.setItem(self.row, column_number, QTableWidgetItem(arg))
 
     @protocol.register(float)
     def _(self, arg: float, column_number: int):
-        self.tableWidget.setItem(self.row, column_number, QTableWidgetItem(self.toString(arg)))
+        AppGlobals.table.setItem(self.row, column_number, QTableWidgetItem(self.toString(arg)))
 

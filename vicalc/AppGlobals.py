@@ -3,6 +3,7 @@ from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
 
 class AppGlobals:
+    angle_unit = None
     numeric_format = NumericFormat.normal
     numeric_precision = 5
     table = None # tableWidget in main window

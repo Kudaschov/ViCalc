@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QTableWidgetItem
 from .DegUnit import DegUnit
 from .RadUnit import RadUnit
 from .GraUnit import GraUnit
+from .AppGlobals import AppGlobals
 
 class DegUnitProtocol(DegUnit):
     def to_deg_with_protocol(self, a:float):
@@ -11,7 +12,7 @@ class DegUnitProtocol(DegUnit):
     def to_rad_with_protocol(self, a:float):
         result = self.to_rad(a)
 
-        if self.tableWidget != None:
+        if AppGlobals.table != None:
             self.insert_scroll_table()
             self.protocol(a, 0)
             self.protocol(self.angle_symbol() + " =", 1)
@@ -22,7 +23,7 @@ class DegUnitProtocol(DegUnit):
     def to_gra_with_protocol(self, a:float):
         result = self.to_gra(a)
 
-        if self.tableWidget != None:
+        if AppGlobals.table != None:
             self.insert_scroll_table()
             self.protocol(a, 0)
             self.protocol(self.angle_symbol() + " =", 1)

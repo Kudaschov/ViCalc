@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>919</width>
+    <width>635</width>
     <height>588</height>
    </rect>
   </property>
@@ -783,7 +783,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>919</width>
+     <width>635</width>
      <height>22</height>
     </rect>
    </property>
@@ -830,6 +830,9 @@
     <addaction name="action_convert_from_hexadecimal"/>
     <addaction name="separator"/>
     <addaction name="action_dms_to_dd"/>
+    <addaction name="separator"/>
+    <addaction name="action_rectangular_to_polar"/>
+    <addaction name="action_polar_to_rectangular"/>
    </widget>
    <widget class="QMenu" name="menu_Math">
     <property name="title">
@@ -1084,6 +1087,25 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+F</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_rectangular_to_polar">
+   <property name="text">
+    <string>&amp;Rectangular to Polar...</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_polar_to_rectangular">
+   <property name="text">
+    <string>&amp;Polar to Rectangular...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

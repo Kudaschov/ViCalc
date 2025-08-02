@@ -68,3 +68,5 @@ class CalcOperations(Enum):
     convert_to_bases = auto()
     convert_to_dms = auto()
     convert_to_dd = auto()
+    rectangular_to_polar = auto()
+    polar_to_rectangular = auto()

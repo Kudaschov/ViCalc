@@ -57,6 +57,10 @@ from ..TanhExpression import TanhExpression
 from ..ArsinhExpression import ArsinhExpression
 from ..ArcoshExpression import ArcoshExpression
 from ..ArtanhExpression import ArtanhExpression
+from ..RectangularToPolarDialog import RectangularToPolarDialog
+from ..RectangularToPolarExpression import RectangularToPolarExpression
+from ..PolarToRectangularDialog import PolarToRectangularDialog
+from ..PolarToRectangularExpression import PolarToRectangularExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -71,12 +75,11 @@ class InputTextEdit(QLineEdit):
         self.number: float = None  # Holds the parsed number
         self._memory: float = 0
         self._trig_mode = TrigMode.DEG
-        self.angle_unit = DegUnitProtocol()
+        AppGlobals.angle_unit = DegUnitProtocol()
         self.expressionLabel = None
         self.key = None
         self.modifiers = None
         self.scan_code = None
-        self._tableWidget = None
         self.resultFont = QFont()
         self.resultFont.setBold(True)
         self._last_shift_state = False # Keep track of the last shift state
@@ -195,7 +198,7 @@ class InputTextEdit(QLineEdit):
     def exec_factorial(self):
         try:
             i = int(self.text())
-            f = FactorialExpression(self.tableWidget).calculate(float(i))
+            f = FactorialExpression(AppGlobals.table).calculate(float(i))
             self.setText(str(f))
             self.selectAll()
         except ValueError:
@@ -275,33 +278,33 @@ class InputTextEdit(QLineEdit):
 
     def exec_addition(self):
         if self.store_number():
-            self.create_expression_node(AdditionExpression(self.number, self.tableWidget))
+            self.create_expression_node(AdditionExpression(self.number, AppGlobals.table))
 
     def exec_pow(self):
         if self.store_number():
-            self.create_expression_node(PowExpression(self.number, self.tableWidget))
+            self.create_expression_node(PowExpression(self.number, AppGlobals.table))
 
     def exec_opening_bracket(self):
-        self.create_expression_node(BracketExpression(self.tableWidget))
+        self.create_expression_node(BracketExpression(AppGlobals.table))
 
     def exec_subtraction(self):
         if self.store_number():
-            self.create_expression_node(SubtractionExpression(self.number, self.tableWidget))
+            self.create_expression_node(SubtractionExpression(self.number, AppGlobals.table))
 
     def exec_multiplication(self):
         if self.store_number():
-            self.create_expression_node(MultiplicationExpression(self.number, self.tableWidget))
+            self.create_expression_node(MultiplicationExpression(self.number, AppGlobals.table))
 
     def exec_division(self):
         if self.store_number():
-            self.create_expression_node(DivisionExpression(self.number, self.tableWidget))
+            self.create_expression_node(DivisionExpression(self.number, AppGlobals.table))
 
     def execute(self):
         if (self.root_expression == None):
             # it is just a text without expression in textedit, put it in tablewidget, e. g. to notice
-            row = self.tableWidget.rowCount()
-            self.tableWidget.insertRow(row)        
-            self.tableWidget.scrollToBottom()
+            row = AppGlobals.table.rowCount()
+            AppGlobals.table.insertRow(row)        
+            AppGlobals.table.scrollToBottom()
             self.selectAll()
 
             self.number, ok = self.locale.toDouble(self.text())
@@ -326,7 +329,7 @@ class InputTextEdit(QLineEdit):
     def exec_percent(self):
         if self.store_number():
             if self.last_expression() != None:
-                percent = PercentExpression(self.tableWidget, self.last_expression())
+                percent = PercentExpression(AppGlobals.table, self.last_expression())
                 self.setTextSelect(self.toString(percent.calculate(self.number)))
                 # remove node, because it is calculated
                 if (self.last_expression().prev_expression != None):
@@ -506,6 +509,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_arcosh()
                 case CalcOperations.artanh:
                     self.exec_artanh()
+                case CalcOperations.rectangular_to_polar:
+                    self.exec_rectangular_to_polar()
+                case CalcOperations.polar_to_rectangular:
+                    self.exec_polar_to_rectangular()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -555,96 +562,81 @@ class InputTextEdit(QLineEdit):
         match value:
             case TrigMode.RAD:
                 if ok:
-                    self.setTextSelect(self.toString(self.angle_unit.to_rad_with_protocol(number)))
-                self.angle_unit = RadUnitProtocol()
+                    self.setTextSelect(self.toString(AppGlobals.angle_unit.to_rad_with_protocol(number)))
+                AppGlobals.angle_unit = RadUnitProtocol()
             case TrigMode.GRA:
                 if ok:
-                    self.setTextSelect(self.toString(self.angle_unit.to_gra_with_protocol(number)))
-                self.angle_unit = GraUnitProtocol()
+                    self.setTextSelect(self.toString(AppGlobals.angle_unit.to_gra_with_protocol(number)))
+                AppGlobals.angle_unit = GraUnitProtocol()
             case _:
                 if ok:
-                    self.setTextSelect(self.toString(self.angle_unit.to_deg_with_protocol(number)))
-                self.angle_unit = DegUnitProtocol()
-
-        self.angle_unit.tableWidget = self.tableWidget
+                    self.setTextSelect(self.toString(AppGlobals.angle_unit.to_deg_with_protocol(number)))
+                AppGlobals.angle_unit = DegUnitProtocol()
 
     def trig_mode_init(self, value):
         self._trig_mode = TrigMode(value)
 
         match TrigMode(value):
             case TrigMode.RAD:
-                self.angle_unit = RadUnitProtocol()
-                self.angle_unit.tableWidget = self.tableWidget
+                AppGlobals.angle_unit = RadUnitProtocol()
             case TrigMode.GRA:
-                self.angle_unit = GraUnitProtocol()
-                self.angle_unit.tableWidget = self.tableWidget
+                AppGlobals.angle_unit = GraUnitProtocol()
             case _:
-                self.angle_unit = DegUnitProtocol()
-                self.angle_unit.tableWidget = self.tableWidget
-
-    @property
-    def tableWidget(self):
-        return self._tableWidget
-
-    @tableWidget.setter
-    def tableWidget(self, value):
-        self._tableWidget = value
-        if self.angle_unit != None:
-            self.angle_unit.tableWidget = value
+                AppGlobals.angle_unit = DegUnitProtocol()
 
     def exec_ln(self):
         if (self.store_number()):
-            expr = LnExpression(self.tableWidget)
+            expr = LnExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_ex(self):
         if (self.store_number()):
-            expr = EPowerXExpression(self.tableWidget)
+            expr = EPowerXExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_log(self):
         if (self.store_number()):
-            expr = LogExpression(self.tableWidget)
+            expr = LogExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_ten_power_x(self):
         if (self.store_number()):
-            expr = TenPowerXExpression(self.tableWidget)
+            expr = TenPowerXExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_sin(self):
         if (self.store_number()):
-            expr = SinExpression(self.tableWidget, self.angle_unit)
+            expr = SinExpression(AppGlobals.table, AppGlobals.angle_unit)
             self.setText(self.toString(expr.calculate(self.number)))
             self.selectAll()
 
     def exec_arcsin(self):
         if (self.store_number()):
-            expr = ArcSinExpression(self.tableWidget, self.angle_unit)
+            expr = ArcSinExpression(AppGlobals.table, AppGlobals.angle_unit)
             self.setText(self.toString(expr.calculate(self.number)))
             self.selectAll()
 
     def exec_cos(self):
         if (self.store_number()):
-            expr = CosExpression(self.tableWidget, self.angle_unit)
+            expr = CosExpression(AppGlobals.table, AppGlobals.angle_unit)
             self.setText(self.toString(expr.calculate(self.number)))
             self.selectAll()
 
     def exec_arccos(self):
         if (self.store_number()):
-            expr = ArcCosExpression(self.tableWidget, self.angle_unit)
+            expr = ArcCosExpression(AppGlobals.table, AppGlobals.angle_unit)
             self.setText(self.toString(expr.calculate(self.number)))
             self.selectAll()
 
     def exec_tan(self):
         if (self.store_number()):
-            expr = TanExpression(self.tableWidget, self.angle_unit)
+            expr = TanExpression(AppGlobals.table, AppGlobals.angle_unit)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
             self.selectAll()
 
     def exec_arctan(self):
         if (self.store_number()):
-            expr = ArcTanExpression(self.tableWidget, self.angle_unit)
+            expr = ArcTanExpression(AppGlobals.table, AppGlobals.angle_unit)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def handle_keys_check_errors(self, event):
@@ -697,7 +689,7 @@ class InputTextEdit(QLineEdit):
             self.memory = self.number
             self.selectAll()
             # show in protocol
-            MSExpression(self.tableWidget).calculate(self.number)
+            MSExpression(AppGlobals.table).calculate(self.number)
 
     def exec_MR(self):
         self.setText(self.memory_to_string())
@@ -705,19 +697,19 @@ class InputTextEdit(QLineEdit):
 
     def exec_M_plus(self):
         if self.store_number():
-            self.memory = MPlusExpression(self.memory, self.tableWidget).calculate(self.number)
+            self.memory = MPlusExpression(self.memory, AppGlobals.table).calculate(self.number)
 
     def exec_M_minus(self):
         if self.store_number():
-            self.memory = MMinusExpression(self.memory, self.tableWidget).calculate(self.number)
+            self.memory = MMinusExpression(self.memory, AppGlobals.table).calculate(self.number)
 
     def exec_m_multiply(self):
         if self.store_number():
-            self.memory = MMultiplyExpression(self.memory, self.tableWidget).calculate(self.number)
+            self.memory = MMultiplyExpression(self.memory, AppGlobals.table).calculate(self.number)
 
     def exec_m_division(self):
         if self.store_number():
-            self.memory = MDisivionExpression(self.memory, self.tableWidget).calculate(self.number)
+            self.memory = MDisivionExpression(self.memory, AppGlobals.table).calculate(self.number)
 
     def exec_backspace(self):
         # Create and send a backspace key event
@@ -726,7 +718,7 @@ class InputTextEdit(QLineEdit):
 
     def exec_reciprocal(self):
         if (self.store_number()):
-            expr = ReciprocalExpression(self.tableWidget)
+            expr = ReciprocalExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_sign_change(self):
@@ -750,19 +742,19 @@ class InputTextEdit(QLineEdit):
 
         if result == QMessageBox.Yes:
             # Proceed with deletion
-            last_row = self.tableWidget.rowCount() - 1
+            last_row = AppGlobals.table.rowCount() - 1
             if last_row >= 0:
-                self.tableWidget.removeRow(last_row)
+                AppGlobals.table.removeRow(last_row)
 
     def exec_comment(self):
         dialog = CommentDialog()
         dialog.ui.lineEdit.setText(self.text())
         if dialog.exec():
             comment = dialog.get_comment()
-            row = self.tableWidget.rowCount()
-            self.tableWidget.insertRow(row)        
-            self.tableWidget.scrollToBottom()
-            self.tableWidget.setItem(row, 0, QTableWidgetItem(comment))
+            row = AppGlobals.table.rowCount()
+            AppGlobals.table.insertRow(row)        
+            AppGlobals.table.scrollToBottom()
+            AppGlobals.table.setItem(row, 0, QTableWidgetItem(comment))
 
     def get_key_state(self, key_code):
         return bool(ctypes.windll.user32.GetKeyState(key_code) & 0x0001)
@@ -879,8 +871,6 @@ class InputTextEdit(QLineEdit):
                 self.exec_closing_bracket()
             case Qt.Key.Key_Equal:
                 self.execute()
-            case Qt.Key.Key_Space:
-                self.execute()    
             case Qt.Key.Key_Percent:
                 self.exec_percent()
             case Qt.Key.Key_Exclam:
@@ -940,7 +930,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_F:
                         self.exec_arctan()
                     case Qt.Key.Key_G:
-                        self.exec_reciprocal()
+                        self.exec_rectangular_to_polar()
                     case Qt.Key.Key_Y:
                         self.exec_ex()
                     case Qt.Key.Key_X:
@@ -955,11 +945,15 @@ class InputTextEdit(QLineEdit):
                         self.exec_del_last_line()
                     case Qt.Key.Key_Greater:
                         self.exec_memory_swap()
+                    case Qt.Key.Key_Space:
+                        self.exec_comment()
                     case _:
                         super().keyPressEvent(event) # keep normal behavior
 
             elif self.current_ctrl_state:
                 match self.key:
+                    case Qt.Key.Key_Space:
+                        self.exec_comment()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_last_line()
                     case _:
@@ -1004,6 +998,8 @@ class InputTextEdit(QLineEdit):
                             self.execute()
                     case Qt.Key.Key_Less:
                         self.exec_swap()
+                    case Qt.Key.Key_Space:
+                        self.execute()    
                     case _:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
@@ -1025,22 +1021,22 @@ class InputTextEdit(QLineEdit):
 
     def exec_square(self):
         if (self.store_number()):
-            expr = SquareExpression(self.tableWidget)
+            expr = SquareExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_cube(self):
         if (self.store_number()):
-            expr = CubeExpression(self.tableWidget)
+            expr = CubeExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_sqrt(self):
         if (self.store_number()):
-            expr = SqrtExpression(self.tableWidget)
+            expr = SqrtExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_cube_root(self):
         if (self.store_number()):
-            expr = CubeRootExpression(self.tableWidget)
+            expr = CubeRootExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_memory_swap(self):
@@ -1060,7 +1056,7 @@ class InputTextEdit(QLineEdit):
     def exec_convert_to_bases(self):
         if self.store_number():
             i_number: float = int(self.text())
-            ConvertToBasesExpression(self.tableWidget).calculate(self.number)
+            ConvertToBasesExpression(AppGlobals.table).calculate(self.number)
             self.selectAll()
 
     def exec_convert_to_dms(self):
@@ -1082,10 +1078,10 @@ class InputTextEdit(QLineEdit):
             if is_negative:
                 degrees = -1 * degrees
 
-        dialog.ui.degreesLineEdit.setText(str(degrees))
-        dialog.ui.minutesLineEdit.setText(str(minutes))
-        dialog.ui.secondsLineEdit.setText(AppGlobals.to_normal_string(seconds))
-        dialog.ui.degreesLineEdit.setFocus()
+            dialog.ui.degreesLineEdit.setText(str(degrees))
+            dialog.ui.minutesLineEdit.setText(str(minutes))
+            dialog.ui.secondsLineEdit.setText(AppGlobals.to_normal_string(seconds))
+            dialog.ui.degreesLineEdit.setFocus()
 
         if not dialog.exec():
             return
@@ -1096,7 +1092,7 @@ class InputTextEdit(QLineEdit):
         self.setTextSelect(self.toString(DDExpression().calculate(degrees, minutes, seconds)))
 
     def exec_from_binary(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 2))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 2))
         dialog.setWindowTitle("Convert form Binary")
         dialog.ui.number_label.setText("&Binary:")
         i_number = 0
@@ -1115,7 +1111,7 @@ class InputTextEdit(QLineEdit):
                 self.setTextSelect(str_value)
 
     def exec_from_octal(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 8))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 8))
         dialog.setWindowTitle("Convert form Octal")
         dialog.ui.number_label.setText("&Octal:")
         i_number = 0
@@ -1134,7 +1130,7 @@ class InputTextEdit(QLineEdit):
                 self.setTextSelect(str_value)
 
     def exec_from_decimal(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 10))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 10))
         dialog.setWindowTitle("Convert form Decimal")
         dialog.ui.number_label.setText("&Decimal:")
         i_number = 0
@@ -1153,7 +1149,7 @@ class InputTextEdit(QLineEdit):
                 self.setTextSelect(str_value)
 
     def exec_from_hexadecimal(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(self.tableWidget, 16))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 16))
         dialog.setWindowTitle("Convert form Hexadecimal")
         i_number = 0
 
@@ -1199,3 +1195,31 @@ class InputTextEdit(QLineEdit):
         if self.store_number():
             expr = ArtanhExpression()
             self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_rectangular_to_polar(self):
+        dialog = RectangularToPolarDialog()
+        x, ok = self.locale.toDouble(self.text())
+        if ok:
+            dialog.ui.xLineEdit.setText(self.text())
+
+        dialog.ui.xLineEdit.setFocus()
+
+        if dialog.exec():
+            x, ok = self.locale.toDouble(dialog.ui.xLineEdit.text())
+            y, ok = self.locale.toDouble(dialog.ui.yLineEdit.text())
+            expr = RectangularToPolarExpression(x)
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(y)))
+    
+    def exec_polar_to_rectangular(self):
+        dialog = PolarToRectangularDialog()
+        r, ok = self.locale.toDouble(self.text())
+        if ok:
+            dialog.ui.radiusLineEdit.setText(self.text())
+
+        dialog.ui.radiusLineEdit.setFocus()
+
+        if dialog.exec():
+            r, ok = self.locale.toDouble(dialog.ui.radiusLineEdit.text())
+            a, ok = self.locale.toDouble(dialog.ui.angleLineEdit.text())
+            expr = PolarToRectangularExpression(r)
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(a)))

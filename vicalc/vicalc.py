@@ -80,9 +80,11 @@ class MainWindow(QMainWindow):
         self.ui.action_arcosh.triggered.connect(self.arcosh)
         self.ui.action_artanh.triggered.connect(self.artanh)
 
+        self.ui.action_rectangular_to_polar.triggered.connect(self.rectangular_to_polar)
+        self.ui.action_polar_to_rectangular.triggered.connect(self.polar_to_rectangular)
+
         # important: set tableWidget before read_settings because of angle units
         AppGlobals.table = self.ui.tableWidget
-        self.ui.inputTextEdit.tableWidget = self.ui.tableWidget
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
         self.ui.inputTextEdit.setFocus()
@@ -92,8 +94,8 @@ class MainWindow(QMainWindow):
         AppGlobals.table.cellDoubleClicked.connect(self.table_cell_double_clicked)
 
         # context menu
-        self.ui.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.ui.tableWidget.customContextMenuRequested.connect(self.show_context_menu)
+        AppGlobals.table.setContextMenuPolicy(Qt.CustomContextMenu)
+        AppGlobals.table.customContextMenuRequested.connect(self.show_context_menu)
 
         # Define a list to store QPushButton objects
         self.button_list = []
@@ -312,11 +314,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonSpace.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonSpace.norm_width = 5.93
         self.ui.pushButtonSpace.setText("=")
-        self.ui.pushButtonSpace.shift_text = ""
-        self.ui.pushButtonSpace.ctrl_text = ""
+        self.ui.pushButtonSpace.shift_text = "Comment"
+        self.ui.pushButtonSpace.ctrl_text = "Comment"
         self.ui.pushButtonSpace.base_operation = CalcOperations.calculate
-        self.ui.pushButtonSpace.shift_operation = CalcOperations.calculate
-        self.ui.pushButtonSpace.ctrl_operation = CalcOperations.calculate
+        self.ui.pushButtonSpace.shift_operation = CalcOperations.comment
+        self.ui.pushButtonSpace.ctrl_operation = CalcOperations.comment
         self.ui.pushButtonSpace.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonSpace)
 
@@ -328,9 +330,9 @@ class MainWindow(QMainWindow):
 
         self.ui.inputTextEdit.button_list = self.button_list
 
-        self.ui.tableWidget.verticalHeader().setStyleSheet("QHeaderView::section { color: gray; }")
-        self.ui.tableWidget.setColumnCount(7)
-        self.ui.tableWidget.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F", "G"])
+        AppGlobals.table.verticalHeader().setStyleSheet("QHeaderView::section { color: gray; }")
+        AppGlobals.table.setColumnCount(7)
+        AppGlobals.table.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F", "G"])
         self.connect_table_signals()
 
         self.memory_label = ClickableLabel("Memory:")
@@ -368,8 +370,8 @@ class MainWindow(QMainWindow):
         self.ui.action_delete_full_protocol.triggered.connect(self.delete_full_protocol)
 
     def show_context_menu(self, pos):
-        global_pos = self.ui.tableWidget.viewport().mapToGlobal(pos)
-        item = self.ui.tableWidget.itemAt(pos)
+        global_pos = AppGlobals.table.viewport().mapToGlobal(pos)
+        item = AppGlobals.table.itemAt(pos)
         if item:
             menu = QMenu(self)
             action_paste_to_calculator = menu.addAction("Paste to calculator")
@@ -398,13 +400,13 @@ class MainWindow(QMainWindow):
                 result = msg_box.exec()
 
                 if result == QMessageBox.Yes:
-                    selected_ranges = self.ui.tableWidget.selectedRanges()
+                    selected_ranges = AppGlobals.table.selectedRanges()
                     rows_to_delete = set()
                     for r in selected_ranges:
                         rows_to_delete.update(range(r.topRow(), r.bottomRow() + 1))
 
                     for row in sorted(rows_to_delete, reverse=True):
-                        self.ui.tableWidget.removeRow(row)
+                        AppGlobals.table.removeRow(row)
 
     def delete_full_protocol(self):                        
         # Create a warning message box
@@ -419,11 +421,11 @@ class MainWindow(QMainWindow):
         result = msg_box.exec()
 
         if result == QMessageBox.Yes:
-            self.ui.tableWidget.setRowCount(0)
+            AppGlobals.table.setRowCount(0)
 
     def connect_table_signals(self):
-        self.ui.tableWidget.enterPressed.connect(self.cell_enter_pressed)
-        self.ui.tableWidget.escPressed.connect(self.cell_esc_pressed)
+        AppGlobals.table.enterPressed.connect(self.cell_enter_pressed)
+        AppGlobals.table.escPressed.connect(self.cell_esc_pressed)
 
     def cell_esc_pressed(self):
         if (self.is_tableWidget_editing() == False):
@@ -447,9 +449,9 @@ class MainWindow(QMainWindow):
 
     def is_tableWidget_editing(self) -> bool:
         # is the tableWidget in edit mode
-        current_item = self.ui.tableWidget.currentItem()
+        current_item = AppGlobals.table.currentItem()
         if current_item:
-            return self.ui.tableWidget.isPersistentEditorOpen(current_item)
+            return AppGlobals.table.isPersistentEditorOpen(current_item)
         return False         
 
     def read_settings(self):
@@ -674,7 +676,7 @@ class MainWindow(QMainWindow):
         self.memory_label.setText("Memory: " + sMemory)
 
     def change_mode(self):
-        if self.ui.tableWidget.hasFocus():
+        if AppGlobals.table.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.mode_label.setText("Log")
         else:
@@ -735,7 +737,7 @@ class MainWindow(QMainWindow):
 
     def toggle_protocol(self):
         if self.ui.inputTextEdit.hasFocus():
-            self.ui.tableWidget.setFocus()
+            AppGlobals.table.setFocus()
             if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
                 AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
         else:
@@ -934,11 +936,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonG.column = 5
         self.ui.pushButtonG.setText("1/x")
         self.ui.pushButtonG.original_keyboard_text = "G"
-        self.ui.pushButtonG.shift_text = "1/x"
-        self.ui.pushButtonG.ctrl_text = ""
+        self.ui.pushButtonG.shift_text = "R->P"
+        self.ui.pushButtonG.ctrl_text = "P->R"
         self.ui.pushButtonG.base_operation = CalcOperations.reciprocal
-        self.ui.pushButtonG.shift_operation = CalcOperations.reciprocal
-        self.ui.pushButtonG.ctrl_operation = CalcOperations.reciprocal
+        self.ui.pushButtonG.shift_operation = CalcOperations.rectangular_to_polar
+        self.ui.pushButtonG.ctrl_operation = CalcOperations.polar_to_rectangular
         self.ui.pushButtonG.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonG)
 
@@ -1083,6 +1085,12 @@ class MainWindow(QMainWindow):
 
     def artanh(self):
         self.ui.inputTextEdit.exec_artanh()
+
+    def rectangular_to_polar(self):
+        self.ui.inputTextEdit.exec_rectangular_to_polar()
+
+    def polar_to_rectangular(self):
+        self.ui.inputTextEdit.exec_polar_to_rectangular()
 
 # main
 def main():

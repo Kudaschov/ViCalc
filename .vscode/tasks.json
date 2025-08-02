@@ -62,6 +62,26 @@
       "problemMatcher": []
     },
     {
+      "label": "Compile rectangular_to_polar_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/rectangular_to_polar_dialog.ui -o vicalc/ui/rectangular_to_polar_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile polar_to_rectangular_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/polar_to_rectangular_dialog.ui -o vicalc/ui/polar_to_rectangular_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Compile resource file",
       "type": "shell",
       "command": "pyside6-rcc resource.qrc -o resource_rc.py",
