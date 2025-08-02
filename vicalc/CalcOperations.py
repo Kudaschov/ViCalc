@@ -70,3 +70,5 @@ class CalcOperations(Enum):
     convert_to_dd = auto()
     rectangular_to_polar = auto()
     polar_to_rectangular = auto()
+    combination = auto()
+    permutation = auto()

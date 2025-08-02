@@ -845,6 +845,9 @@
     <addaction name="action_arsinh"/>
     <addaction name="action_arcosh"/>
     <addaction name="action_artanh"/>
+    <addaction name="separator"/>
+    <addaction name="action_combination"/>
+    <addaction name="action_permutaton"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Math"/>
@@ -1106,6 +1109,28 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+G</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_combination">
+   <property name="text">
+    <string>Co&amp;mbination nCr...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_permutaton">
+   <property name="text">
+    <string>&amp;Permutaton nPr...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

@@ -61,6 +61,9 @@ from ..RectangularToPolarDialog import RectangularToPolarDialog
 from ..RectangularToPolarExpression import RectangularToPolarExpression
 from ..PolarToRectangularDialog import PolarToRectangularDialog
 from ..PolarToRectangularExpression import PolarToRectangularExpression
+from ..CombinationDialog import CombinationDialog
+from ..CombinationExpression import CombinationExpression
+from ..PermutationExpression import PermutationExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -513,6 +516,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_rectangular_to_polar()
                 case CalcOperations.polar_to_rectangular:
                     self.exec_polar_to_rectangular()
+                case CalcOperations.combination:
+                    self.exec_combination()
+                case CalcOperations.permutation:
+                    self.exec_permutation()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -1223,3 +1230,30 @@ class InputTextEdit(QLineEdit):
             a, ok = self.locale.toDouble(dialog.ui.angleLineEdit.text())
             expr = PolarToRectangularExpression(r)
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(a)))
+
+    def exec_combination(self):
+        dialog = CombinationDialog()
+        n, n_valid = self.locale.toInt(self.text())
+        if n_valid:
+            dialog.ui.nLineEdit.setText(str(n))
+
+        dialog.ui.nLineEdit.setFocus()
+
+        if dialog.exec():
+            expr = CombinationExpression(int(dialog.ui.nLineEdit.text()))
+            result = float(expr.calculate(int(dialog.ui.rLineEdit.text())))
+            self.setTextSelect(AppGlobals.to_normal_string(result))
+
+    def exec_permutation(self):
+        dialog = CombinationDialog()
+        dialog.setWindowTitle("Permutation nPr")
+        n, n_valid = self.locale.toInt(self.text())
+        if n_valid:
+            dialog.ui.nLineEdit.setText(str(n))
+
+        dialog.ui.nLineEdit.setFocus()
+
+        if dialog.exec():
+            expr = PermutationExpression(int(dialog.ui.nLineEdit.text()))
+            result = float(expr.calculate(int(dialog.ui.rLineEdit.text())))
+            self.setTextSelect(AppGlobals.to_normal_string(result))

@@ -82,6 +82,16 @@
       "problemMatcher": []
     },
     {
+      "label": "Compile combination_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/combination_dialog.ui -o vicalc/ui/combination_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Compile resource file",
       "type": "shell",
       "command": "pyside6-rcc resource.qrc -o resource_rc.py",

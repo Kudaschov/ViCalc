@@ -82,6 +82,8 @@ class MainWindow(QMainWindow):
 
         self.ui.action_rectangular_to_polar.triggered.connect(self.rectangular_to_polar)
         self.ui.action_polar_to_rectangular.triggered.connect(self.polar_to_rectangular)
+        self.ui.action_combination.triggered.connect(self.combination)
+        self.ui.action_permutaton.triggered.connect(self.permutation)
 
         # important: set tableWidget before read_settings because of angle units
         AppGlobals.table = self.ui.tableWidget
@@ -809,10 +811,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonQ.setText("Pi")
         self.ui.pushButtonQ.original_keyboard_text = "Q"
         self.ui.pushButtonQ.shift_text = "M-"
-        self.ui.pushButtonQ.ctrl_text = ""
+        self.ui.pushButtonQ.ctrl_text = "nCr"
         self.ui.pushButtonQ.base_operation = CalcOperations.pi
         self.ui.pushButtonQ.shift_operation = CalcOperations.M_minus
-        self.ui.pushButtonQ.ctrl_operation = CalcOperations.M_minus
+        self.ui.pushButtonQ.ctrl_operation = CalcOperations.combination
         self.ui.pushButtonQ.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonQ)
 
@@ -821,10 +823,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonW.setText("x^y")
         self.ui.pushButtonW.original_keyboard_text = "W"
         self.ui.pushButtonW.shift_text = "M+"
-        self.ui.pushButtonW.ctrl_text = ""
+        self.ui.pushButtonW.ctrl_text = "nPr"
         self.ui.pushButtonW.base_operation = CalcOperations.pow
         self.ui.pushButtonW.shift_operation = CalcOperations.M_plus
-        self.ui.pushButtonW.ctrl_operation = CalcOperations.M_plus
+        self.ui.pushButtonW.ctrl_operation = CalcOperations.permutation
         self.ui.pushButtonW.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonW)
 
@@ -1091,6 +1093,12 @@ class MainWindow(QMainWindow):
 
     def polar_to_rectangular(self):
         self.ui.inputTextEdit.exec_polar_to_rectangular()
+
+    def combination(self):
+        self.ui.inputTextEdit.exec_combination()
+
+    def permutation(self):
+        self.ui.inputTextEdit.exec_permutation()
 
 # main
 def main():
