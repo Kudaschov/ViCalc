@@ -6,6 +6,7 @@ class AppGlobals:
     angle_unit = None
     numeric_format = NumericFormat.normal
     numeric_precision = 5
+    timestamp_at_start = True
     table = None # tableWidget in main window
     current_row = -1 # current row in table
     current_column = -1 # current column in table

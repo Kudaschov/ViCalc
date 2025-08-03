@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import ctypes
-
+import webbrowser
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu
@@ -25,7 +25,7 @@ from .CellValue import CellValue
 from .AppGlobals import AppGlobals
 from .NumericCellValue import NumericCellValue
 from PySide6.QtCore import QLocale, QDate, QTime
-import webbrowser
+from .OptionsDialog import OptionsDialog
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -84,6 +84,8 @@ class MainWindow(QMainWindow):
         self.ui.action_polar_to_rectangular.triggered.connect(self.polar_to_rectangular)
         self.ui.action_combination.triggered.connect(self.combination)
         self.ui.action_permutaton.triggered.connect(self.permutation)
+
+        self.ui.action_options.triggered.connect(self.options)
 
         # important: set tableWidget before read_settings because of angle units
         AppGlobals.table = self.ui.tableWidget
@@ -465,6 +467,7 @@ class MainWindow(QMainWindow):
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
             AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
+            AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
 
             match self.ui.inputTextEdit.trig_mode:
                 case TrigMode.RAD:
@@ -617,13 +620,13 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Path not found!", help_path)
 
     def closeEvent(self, event):
-        settings = QSettings("Kudaschov", "ViCalc")
-        settings.setValue("inputText", self.ui.inputTextEdit.text())
-        settings.setValue("trig_mode", self.ui.inputTextEdit.trig_mode.value)
-        settings.setValue("memory", self.ui.inputTextEdit.memory)
+        self.settings.setValue("inputText", self.ui.inputTextEdit.text())
+        self.settings.setValue("trig_mode", self.ui.inputTextEdit.trig_mode.value)
+        self.settings.setValue("memory", self.ui.inputTextEdit.memory)
 
-        settings.setValue("numeric_format", AppGlobals.numeric_format.value)
-        settings.setValue("numeric_precision", AppGlobals.numeric_precision)
+        self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
+        self.settings.setValue("numeric_precision", AppGlobals.numeric_precision)
+        self.settings.setValue("timestamp_at_start", AppGlobals.timestamp_at_start)
 
         self.save_table_data()
 
@@ -700,7 +703,8 @@ class MainWindow(QMainWindow):
     def after_mainwindow_show(self):
         self.memory_changed(self.ui.inputTextEdit.memory_to_format_string())
         self.update_numeric_format_label()
-        self.date_time_stamp()
+        if AppGlobals.timestamp_at_start:
+            self.date_time_stamp()
 
     def date_time_stamp(self):
         separator = "**********"
@@ -1099,6 +1103,13 @@ class MainWindow(QMainWindow):
 
     def permutation(self):
         self.ui.inputTextEdit.exec_permutation()
+
+    def options(self):
+        dialog = OptionsDialog(self)
+        dialog.ui.timestampCheckBox.setChecked(AppGlobals.timestamp_at_start)
+
+        if dialog.exec():
+            AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
 
 # main
 def main():

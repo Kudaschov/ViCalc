@@ -849,11 +849,18 @@
     <addaction name="action_combination"/>
     <addaction name="action_permutaton"/>
    </widget>
+   <widget class="QMenu" name="menu_Tools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="action_options"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Math"/>
    <addaction name="menuMode"/>
    <addaction name="menu_Convert"/>
    <addaction name="menu_Log"/>
+   <addaction name="menu_Tools"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
@@ -1131,6 +1138,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_options">
+   <property name="text">
+    <string>&amp;Options...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
