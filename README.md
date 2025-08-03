@@ -18,6 +18,16 @@ Originating in 2003, ViCalc was rewritten in Python to modernize it. It was crea
 
 ## Installation
 
+You can install and run **ViCalc** using one of the following methods:
+
+### Option 1: Use the Installer (Windows)
+
+1. Go to the [Releases](https://github.com/Kudaschov/ViCalc/releases) page.
+2. Download **`ViCalcSetup.exe`** from the **Assets** section of the latest release.
+3. Run the installer and follow the on-screen instructions.
+
+### Option 2: Clone and Run from Source
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/kudaschov/ViCalc.git
