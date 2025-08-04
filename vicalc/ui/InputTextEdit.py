@@ -64,6 +64,8 @@ from ..PolarToRectangularExpression import PolarToRectangularExpression
 from ..CombinationDialog import CombinationDialog
 from ..CombinationExpression import CombinationExpression
 from ..PermutationExpression import PermutationExpression
+from ..FourthRootExpression import FourthRootExpression
+from ..FourthPowerExpression import FourthPowerExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -520,6 +522,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_combination()
                 case CalcOperations.permutation:
                     self.exec_permutation()
+                case CalcOperations.fourth_root:
+                    self.exec_fourth_root()
+                case CalcOperations.fourth_power:
+                    self.exec_fourth_power()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -891,11 +897,14 @@ class InputTextEdit(QLineEdit):
     
     def handle_scan_codes(self):
         if self.current_shift_state:
+            # shift pressed
             match self.scan_code:
                 case 3: # Key 2
                     self.exec_sqrt()
                 case 4: # Key 3
                     self.exec_cube_root()
+                case 5: # Key 4
+                    self.exec_fourth_root()
                 case _:
                     return False
             return True
@@ -1036,6 +1045,11 @@ class InputTextEdit(QLineEdit):
             expr = CubeExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
+    def exec_fourth_power(self):
+        if self.store_number():
+            expr = FourthPowerExpression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
+
     def exec_sqrt(self):
         if (self.store_number()):
             expr = SqrtExpression(AppGlobals.table)
@@ -1045,6 +1059,11 @@ class InputTextEdit(QLineEdit):
         if (self.store_number()):
             expr = CubeRootExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
+
+    def exec_fourth_root(self):
+        if (self.store_number()):
+            expr = FourthRootExpression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
 
     def exec_memory_swap(self):
         if self.store_number():

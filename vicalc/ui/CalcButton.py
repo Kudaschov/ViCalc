@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QPushButton, QMessageBox
 from PySide6.QtGui import QFont, QPainter, QColor, QPaintEvent, QPen, QMouseEvent, QPixmap
 from PySide6.QtCore import Qt, QRect, QPoint, QMargins
 from ..CalcOperations import CalcOperations
+from ..AppGlobals import AppGlobals
 
 class CalcButton(QPushButton):
     def __init__(self, parent=None):
@@ -63,19 +64,18 @@ class CalcButton(QPushButton):
         self.base_operation = CalcOperations.nop
         self.shift_operation = CalcOperations.nop
         self.ctrl_operation = CalcOperations.nop
-        self.input_text_edit = None
 
         # self.setCursor(Qt.PointingHandCursor)
         self.clicked.connect(self._on_button_clicked)
 
     def _on_button_clicked(self):
-        if self.input_text_edit != None:
+        if AppGlobals.input_box != None:
             if (self.mouse_pos != None and self.shift_rect().contains(self.mouse_pos)):
-                self.input_text_edit.button_clicked(self.shift_operation)
+                AppGlobals.input_box.button_clicked(self.shift_operation)
             elif (self.mouse_pos != None and self.ctrl_rect().contains(self.mouse_pos)):
-                self.input_text_edit.button_clicked(self.ctrl_operation)
+                AppGlobals.input_box.button_clicked(self.ctrl_operation)
             else:
-                self.input_text_edit.button_clicked(self.base_operation)
+                AppGlobals.input_box.button_clicked(self.base_operation)
         else:
             QMessageBox.information(self, "Information", "No operation configured")
 

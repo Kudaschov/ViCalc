@@ -43,18 +43,21 @@ class MainWindow(QMainWindow):
         self.c_ac_bg_color = QColor("#D8D8FF")
         self.arithmetic_operation_color = QColor("#FEFEFE")
 
+        AppGlobals.table = self.ui.tableWidget
+        AppGlobals.input_box = self.ui.inputTextEdit
+
         layout = self.ui.verticalLayout
-        old_widget = self.ui.inputTextEdit
+        old_widget = AppGlobals.input_box
         index = layout.indexOf(old_widget)
         layout.removeWidget(old_widget)
         old_widget.deleteLater()
 
-        self.ui.inputTextEdit = InputTextEdit(self)
-        self.ui.inputTextEdit.setObjectName("inputTextEdit")
-        self.ui.inputTextEdit.setFont(old_widget.font())
-        self.ui.inputTextEdit.setMaximumSize(old_widget.maximumSize())
-        self.ui.inputTextEdit.expressionLabel = self.ui.expressionLabel
-        layout.insertWidget(index, self.ui.inputTextEdit)
+        AppGlobals.input_box = InputTextEdit(self)
+        AppGlobals.input_box.setObjectName("inputTextEdit")
+        AppGlobals.input_box.setFont(old_widget.font())
+        AppGlobals.input_box.setMaximumSize(old_widget.maximumSize())
+        AppGlobals.input_box.expressionLabel = self.ui.expressionLabel
+        layout.insertWidget(index, AppGlobals.input_box)
 
         self.ui.action_DEG.triggered.connect(self.mode_deg)
         self.ui.action_RAD.triggered.connect(self.mode_rad)
@@ -75,6 +78,7 @@ class MainWindow(QMainWindow):
 
         self.ui.action_square.triggered.connect(self.square)
         self.ui.action_cube.triggered.connect(self.cube)
+        self.ui.action_fourth_power.triggered.connect(self.fourth_power)
         self.ui.action_sinh.triggered.connect(self.sinh)
         self.ui.action_cosh.triggered.connect(self.cosh)
         self.ui.action_tanh.triggered.connect(self.tanh)
@@ -89,13 +93,10 @@ class MainWindow(QMainWindow):
 
         self.ui.action_options.triggered.connect(self.options)
 
-        # important: set tableWidget before read_settings because of angle units
-        AppGlobals.table = self.ui.tableWidget
-        AppGlobals.input_box = self.ui.inputTextEdit
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
-        self.ui.inputTextEdit.setFocus()
-        self.ui.inputTextEdit.selectAll()
+        AppGlobals.input_box.setFocus()
+        AppGlobals.input_box.selectAll()
 
         # connect mouse double click on table
         AppGlobals.table.cellDoubleClicked.connect(self.table_cell_double_clicked)
@@ -114,7 +115,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.norm_width = 2
         self.ui.pushButton0numpad.shift_text = "<>"
         self.ui.pushButton0numpad.ctrl_text = "X<>M"
-        self.ui.pushButton0numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
         self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
         self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
@@ -124,7 +124,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton1numpad.column = 0
         self.ui.pushButton1numpad.shift_text = "ln"
         self.ui.pushButton1numpad.ctrl_text = "e^x"
-        self.ui.pushButton1numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
         self.ui.pushButton1numpad.shift_operation = CalcOperations.ln
         self.ui.pushButton1numpad.ctrl_operation = CalcOperations.ex
@@ -134,7 +133,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton2numpad.column = 1
         self.ui.pushButton2numpad.shift_text = "√"
         self.ui.pushButton2numpad.ctrl_text = "x²"
-        self.ui.pushButton2numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton2numpad.base_operation = CalcOperations.number_2
         self.ui.pushButton2numpad.shift_operation = CalcOperations.sqrt
         self.ui.pushButton2numpad.ctrl_operation = CalcOperations.square
@@ -144,7 +142,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton3numpad.column = 2
         self.ui.pushButton3numpad.shift_text = "³√x"
         self.ui.pushButton3numpad.ctrl_text = "x³"
-        self.ui.pushButton3numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton3numpad.base_operation = CalcOperations.number_3
         self.ui.pushButton3numpad.shift_operation = CalcOperations.cube_root
         self.ui.pushButton3numpad.ctrl_operation = CalcOperations.cube
@@ -154,7 +151,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton4numpad.column = 0
         self.ui.pushButton4numpad.shift_text = "sin"
         self.ui.pushButton4numpad.ctrl_text = "-1"
-        self.ui.pushButton4numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton4numpad.base_operation = CalcOperations.number_4
         self.ui.pushButton4numpad.shift_operation = CalcOperations.sin
         self.ui.pushButton4numpad.ctrl_operation = CalcOperations.arcsin
@@ -164,7 +160,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton5numpad.column = 1
         self.ui.pushButton5numpad.shift_text = "cos"
         self.ui.pushButton5numpad.ctrl_text = "-1"
-        self.ui.pushButton5numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton5numpad.base_operation = CalcOperations.number_5
         self.ui.pushButton5numpad.shift_operation = CalcOperations.cos
         self.ui.pushButton5numpad.ctrl_operation = CalcOperations.arccos
@@ -174,7 +169,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton6numpad.column = 2
         self.ui.pushButton6numpad.shift_text = "tan"
         self.ui.pushButton6numpad.ctrl_text = "-1"
-        self.ui.pushButton6numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton6numpad.base_operation = CalcOperations.number_6
         self.ui.pushButton6numpad.shift_operation = CalcOperations.tan
         self.ui.pushButton6numpad.ctrl_operation = CalcOperations.arctan
@@ -186,7 +180,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton7numpad.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButton7numpad.ctrl_text = "10^X"
         self.ui.pushButton7numpad.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButton7numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton7numpad.base_operation = CalcOperations.number_7
         self.ui.pushButton7numpad.shift_operation = CalcOperations.log
         self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ten_power_x
@@ -196,7 +189,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton8numpad.column = 1
         self.ui.pushButton8numpad.shift_text = "("
         self.ui.pushButton8numpad.ctrl_text = "MS"
-        self.ui.pushButton8numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
         self.ui.pushButton8numpad.shift_operation = CalcOperations.opening_bracket
         self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
@@ -206,7 +198,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton9numpad.column = 2
         self.ui.pushButton9numpad.shift_text = ")"
         self.ui.pushButton9numpad.ctrl_text = "MR"
-        self.ui.pushButton9numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
         self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
         self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
@@ -218,7 +209,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonAC.bg_color = self.c_ac_bg_color
         self.ui.pushButtonAC.shift_text = "C"
         self.ui.pushButtonAC.ctrl_text = "C"
-        self.ui.pushButtonAC.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonAC.base_operation = CalcOperations.AC
         self.ui.pushButtonAC.shift_operation = CalcOperations.C
         self.ui.pushButtonAC.ctrl_operation = CalcOperations.C
@@ -229,7 +219,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
         self.ui.pushButtonBackspace.shift_text = "Del Line"
         self.ui.pushButtonBackspace.ctrl_text = "Del Line"
-        self.ui.pushButtonBackspace.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonBackspace.base_operation = CalcOperations.backspace
         self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_last_line
         self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_last_line
@@ -239,7 +228,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonCommaNumpad.column = 2
         self.ui.pushButtonCommaNumpad.shift_text = "<-"
         self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
-        self.ui.pushButtonCommaNumpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
         self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
         self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
@@ -253,7 +241,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonMinusNumpad.base_operation = CalcOperations.Minus
         self.ui.pushButtonMinusNumpad.shift_operation = CalcOperations.SignChange
         self.ui.pushButtonMinusNumpad.ctrl_operation = CalcOperations.M_minus
-        self.ui.pushButtonMinusNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonMinusNumpad)
 
         self.ui.pushButtonEnter.row = 2
@@ -265,7 +252,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnter.shift_operation = CalcOperations.calculate
         self.ui.pushButtonEnter.ctrl_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonEnter)
 
         self.ui.pushButtonEnterNumpad.row = 2
@@ -276,7 +262,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
         self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.percent
-        self.ui.pushButtonEnterNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonEnterNumpad)
 
         self.ui.pushButtonPlusNumpad.row = 1
@@ -287,7 +272,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonPlusNumpad.base_operation = CalcOperations.Plus
         self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.M_plus
         self.ui.pushButtonPlusNumpad.ctrl_operation = CalcOperations.M_plus
-        self.ui.pushButtonPlusNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonPlusNumpad)
 
         self.ui.pushButtonMultiplyNumpad.row = 0
@@ -302,7 +286,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
         self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
         self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.factorial
-        self.ui.pushButtonMultiplyNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonMultiplyNumpad)
 
         self.ui.pushButtonDivisionNumpad.row = 0
@@ -313,7 +296,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonDivisionNumpad.base_operation = CalcOperations.Division
         self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.reciprocal
         self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.pi
-        self.ui.pushButtonDivisionNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonDivisionNumpad)
 
         self.ui.pushButtonSpace.row = 4
@@ -326,7 +308,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonSpace.base_operation = CalcOperations.calculate
         self.ui.pushButtonSpace.shift_operation = CalcOperations.comment
         self.ui.pushButtonSpace.ctrl_operation = CalcOperations.comment
-        self.ui.pushButtonSpace.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonSpace)
 
         self.numbers_row_keyboard()
@@ -335,7 +316,7 @@ class MainWindow(QMainWindow):
         self.third_row_keyboard()
         self.arrange_keyboard()
 
-        self.ui.inputTextEdit.button_list = self.button_list
+        AppGlobals.input_box.button_list = self.button_list
 
         AppGlobals.table.verticalHeader().setStyleSheet("QHeaderView::section { color: gray; }")
         AppGlobals.table.setColumnCount(7)
@@ -365,10 +346,10 @@ class MainWindow(QMainWindow):
         self.start_key_state_monitor()     
 
         # --- Connect the custom signal from InputTextEdit ---
-        self.ui.inputTextEdit.shiftStatusChanged.connect(self.updateButtonsForShift)
-        self.ui.inputTextEdit.ctrlStatusChanged.connect(self.updateButtonsForCtrl)
-        self.ui.inputTextEdit.focusOut.connect(self.change_mode)
-        self.ui.inputTextEdit.memory_changed.connect(self.memory_changed)
+        AppGlobals.input_box.shiftStatusChanged.connect(self.updateButtonsForShift)
+        AppGlobals.input_box.ctrlStatusChanged.connect(self.updateButtonsForCtrl)
+        AppGlobals.input_box.focusOut.connect(self.change_mode)
+        AppGlobals.input_box.memory_changed.connect(self.memory_changed)
         # --- End custom signal connection ---       
 
         # Exit-Menüaktion verbinden
@@ -389,11 +370,11 @@ class MainWindow(QMainWindow):
                 str = item.data(Qt.DisplayRole)
                 if val:
                     if isinstance(val, NumericCellValue):
-                        self.ui.inputTextEdit.setText(AppGlobals.to_normal_string(val.value()))
+                        AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
                 else:
-                    self.ui.inputTextEdit.setText(item.text())
-                self.ui.inputTextEdit.setFocus()
-                self.ui.inputTextEdit.selectAll()
+                    AppGlobals.input_box.setText(item.text())
+                AppGlobals.input_box.setFocus()
+                AppGlobals.input_box.selectAll()
             elif action == action_delete:
                 # Create a warning message box
                 msg_box = QMessageBox()
@@ -437,8 +418,8 @@ class MainWindow(QMainWindow):
     def cell_esc_pressed(self):
         if (self.is_tableWidget_editing() == False):
             # tableWidget is not editing, go in calculator mode
-            self.ui.inputTextEdit.setFocus()
-            self.ui.inputTextEdit.selectAll()
+            AppGlobals.input_box.setFocus()
+            AppGlobals.input_box.selectAll()
 
     def cell_enter_pressed(self, row, col):
         if (self.is_tableWidget_editing() == False):
@@ -448,11 +429,11 @@ class MainWindow(QMainWindow):
             str = item.data(Qt.DisplayRole)
             if val:
                 if isinstance(val, NumericCellValue):
-                    self.ui.inputTextEdit.setText(AppGlobals.to_normal_string(val.value()))
+                    AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
             else:
-                self.ui.inputTextEdit.setText(item.text())
-            self.ui.inputTextEdit.setFocus()
-            self.ui.inputTextEdit.selectAll()
+                AppGlobals.input_box.setText(item.text())
+            AppGlobals.input_box.setFocus()
+            AppGlobals.input_box.selectAll()
 
     def is_tableWidget_editing(self) -> bool:
         # is the tableWidget in edit mode
@@ -464,15 +445,15 @@ class MainWindow(QMainWindow):
     def read_settings(self):
         saved_text = self.settings.value("inputText", "")
         try:
-            self.ui.inputTextEdit.setText(saved_text)
-            self.ui.inputTextEdit.trig_mode_init(self.settings.value("trig_mode"))
-            self.ui.inputTextEdit.memory = self.settings.value("memory", type=float)
+            AppGlobals.input_box.setText(saved_text)
+            AppGlobals.input_box.trig_mode_init(self.settings.value("trig_mode"))
+            AppGlobals.input_box.memory = self.settings.value("memory", type=float)
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
             AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
 
-            match self.ui.inputTextEdit.trig_mode:
+            match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
                     self.ui.action_RAD.setChecked(True)
                 case TrigMode.GRA:
@@ -592,7 +573,7 @@ class MainWindow(QMainWindow):
                         if isinstance(cell_value, CellValue):
                             item.setText(cell_value.to_string())
         # update memory
-        self.memory_changed(self.ui.inputTextEdit.memory_to_format_string())
+        self.memory_changed(AppGlobals.input_box.memory_to_format_string())
 
     def update_numeric_format_label(self):
         match AppGlobals.numeric_format:
@@ -623,9 +604,9 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Path not found!", help_path)
 
     def closeEvent(self, event):
-        self.settings.setValue("inputText", self.ui.inputTextEdit.text())
-        self.settings.setValue("trig_mode", self.ui.inputTextEdit.trig_mode.value)
-        self.settings.setValue("memory", self.ui.inputTextEdit.memory)
+        self.settings.setValue("inputText", AppGlobals.input_box.text())
+        self.settings.setValue("trig_mode", AppGlobals.input_box.trig_mode.value)
+        self.settings.setValue("memory", AppGlobals.input_box.memory)
 
         self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
         self.settings.setValue("numeric_precision", AppGlobals.numeric_precision)
@@ -681,7 +662,7 @@ class MainWindow(QMainWindow):
     # --- End New Slot Method ---        
 
     def memory_changed(self, sMemory: str):
-        if self.ui.inputTextEdit.memory == 0:
+        if AppGlobals.input_box.memory == 0:
             self.memory_label.setText("")
         else:
             self.memory_label.setText("Memory: " + sMemory)
@@ -694,20 +675,20 @@ class MainWindow(QMainWindow):
             self.mode_label.setText("")
 
     def mode_deg(self):
-        self.ui.inputTextEdit.trig_mode = TrigMode.DEG
+        AppGlobals.input_box.trig_mode = TrigMode.DEG
 
     def mode_rad(self):
-        self.ui.inputTextEdit.trig_mode = TrigMode.RAD
+        AppGlobals.input_box.trig_mode = TrigMode.RAD
 
     def mode_gra(self):
-        self.ui.inputTextEdit.trig_mode = TrigMode.GRA
+        AppGlobals.input_box.trig_mode = TrigMode.GRA
 
     def showEvent(self, event):
         super().showEvent(event)
         QTimer.singleShot(0, self.after_mainwindow_show)
 
     def after_mainwindow_show(self):
-        self.memory_changed(self.ui.inputTextEdit.memory_to_format_string())
+        self.memory_changed(AppGlobals.input_box.memory_to_format_string())
         self.update_numeric_format_label()
         if AppGlobals.timestamp_at_start:
             self.date_time_stamp()
@@ -742,25 +723,24 @@ class MainWindow(QMainWindow):
         AppGlobals.table.scrollToBottom()
 
     def memory_label_clicked(self):
-        self.ui.inputTextEdit.exec_MR()
+        AppGlobals.input_box.exec_MR()
 
     def numeric_format_clicked(self):
         self.numeric_format()
 
     def toggle_protocol(self):
-        if self.ui.inputTextEdit.hasFocus():
+        if AppGlobals.input_box.hasFocus():
             AppGlobals.table.setFocus()
             if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
                 AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
         else:
-            self.ui.inputTextEdit.setFocus()
+            AppGlobals.input_box.setFocus()
 
     def numbers_row_keyboard(self):
         self.ui.pushButton1.row = 0
         self.ui.pushButton1.column = 0
         self.ui.pushButton1.shift_text = "n!"
         self.ui.pushButton1.ctrl_text = ""
-        self.ui.pushButton1.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton1.base_operation = CalcOperations.number_1
         self.ui.pushButton1.shift_operation = CalcOperations.factorial
         self.ui.pushButton1.ctrl_operation = CalcOperations.factorial
@@ -770,7 +750,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton2.column = 1
         self.ui.pushButton2.shift_text = "√"
         self.ui.pushButton2.ctrl_text = "x²"
-        self.ui.pushButton2.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton2.base_operation = CalcOperations.number_2
         self.ui.pushButton2.shift_operation = CalcOperations.sqrt
         self.ui.pushButton2.ctrl_operation = CalcOperations.square
@@ -780,7 +759,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton3.column = 2
         self.ui.pushButton3.shift_text = "³√x"
         self.ui.pushButton3.ctrl_text = "x³"
-        self.ui.pushButton3.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton3.base_operation = CalcOperations.number_3
         self.ui.pushButton3.shift_operation = CalcOperations.cube_root
         self.ui.pushButton3.ctrl_operation = CalcOperations.cube
@@ -788,19 +766,17 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton4.row = 0
         self.ui.pushButton4.column = 3
-        #self.ui.pushButton4.shift_text = "n!"
-        #self.ui.pushButton4.ctrl_text = "n!"
-        self.ui.pushButton4.input_text_edit = self.ui.inputTextEdit
+        self.ui.pushButton4.shift_text = "⁴√x"
+        self.ui.pushButton4.ctrl_text = "x⁴"
         self.ui.pushButton4.base_operation = CalcOperations.number_4
-        self.ui.pushButton4.shift_operation = CalcOperations.number_4
-        self.ui.pushButton4.ctrl_operation = CalcOperations.number_4
+        self.ui.pushButton4.shift_operation = CalcOperations.fourth_root
+        self.ui.pushButton4.ctrl_operation = CalcOperations.fourth_power
         self.leftside_button_list.append(self.ui.pushButton4)
 
         self.ui.pushButton5.row = 0
         self.ui.pushButton5.column = 4
         self.ui.pushButton5.shift_text = "%"
         #self.ui.pushButton5.ctrl_text = "n!"
-        self.ui.pushButton5.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
         self.ui.pushButton5.ctrl_operation = CalcOperations.percent
@@ -810,7 +786,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton6.column = 5
         #self.ui.pushButton6.shift_text = "n!"
         #self.ui.pushButton6.ctrl_text = "n!"
-        self.ui.pushButton6.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton6.base_operation = CalcOperations.number_6
         self.ui.pushButton6.shift_operation = CalcOperations.number_6
         self.ui.pushButton6.ctrl_operation = CalcOperations.number_6
@@ -826,7 +801,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonQ.base_operation = CalcOperations.pi
         self.ui.pushButtonQ.shift_operation = CalcOperations.M_minus
         self.ui.pushButtonQ.ctrl_operation = CalcOperations.combination
-        self.ui.pushButtonQ.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonQ)
 
         self.ui.pushButtonW.row = 1
@@ -838,7 +812,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonW.base_operation = CalcOperations.pow
         self.ui.pushButtonW.shift_operation = CalcOperations.M_plus
         self.ui.pushButtonW.ctrl_operation = CalcOperations.permutation
-        self.ui.pushButtonW.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonW)
 
         self.ui.pushButtonE.row = 1
@@ -847,7 +820,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.bg_color = self.arithmetic_operation_color
         #self.ui.pushButtonE.shift_text = "n!"
         #self.ui.pushButtonE.ctrl_text = "n!"
-        self.ui.pushButtonE.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
         self.ui.pushButtonE.shift_operation = CalcOperations.exponent
         self.ui.pushButtonE.ctrl_operation = CalcOperations.exponent
@@ -862,7 +834,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonR.base_operation = CalcOperations.sqrt
         self.ui.pushButtonR.shift_operation = CalcOperations.square
         self.ui.pushButtonR.ctrl_operation = CalcOperations.square
-        self.ui.pushButtonR.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonR)
 
         self.ui.pushButtonT.row = 1
@@ -876,7 +847,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonT.base_operation = CalcOperations.tan
         self.ui.pushButtonT.shift_operation = CalcOperations.arctan
         self.ui.pushButtonT.ctrl_operation = CalcOperations.tanh
-        self.ui.pushButtonT.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonT)
 
         self.ui.pushButtonZ.row = 1
@@ -890,7 +860,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonZ.base_operation = CalcOperations.m_multiply
         self.ui.pushButtonZ.shift_operation = CalcOperations.m_division
         self.ui.pushButtonZ.ctrl_operation = CalcOperations.undo
-        self.ui.pushButtonZ.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonZ)
 
     def second_row_keyboard(self):
@@ -901,7 +870,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonA.bg_color = self.c_ac_bg_color
         self.ui.pushButtonA.shift_text = ""
         self.ui.pushButtonA.ctrl_text = "Select All"
-        self.ui.pushButtonA.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonA.base_operation = CalcOperations.AC
         self.ui.pushButtonA.shift_operation = CalcOperations.C
         self.ui.pushButtonA.ctrl_operation = CalcOperations.C
@@ -916,7 +884,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonS.base_operation = CalcOperations.sin
         self.ui.pushButtonS.shift_operation = CalcOperations.arcsin
         self.ui.pushButtonS.ctrl_operation = CalcOperations.sinh
-        self.ui.pushButtonS.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonS)
 
         self.ui.pushButtonD.row = 2
@@ -930,7 +897,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonD.base_operation = CalcOperations.cos
         self.ui.pushButtonD.shift_operation = CalcOperations.arccos
         self.ui.pushButtonD.ctrl_operation = CalcOperations.cosh
-        self.ui.pushButtonD.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonD)
 
         self.ui.pushButtonF.row = 2
@@ -944,7 +910,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.base_operation = CalcOperations.MS
         self.ui.pushButtonF.shift_operation = CalcOperations.cube
         self.ui.pushButtonF.ctrl_operation = CalcOperations.cube
-        self.ui.pushButtonF.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonF)
 
         self.ui.pushButtonG.row = 2
@@ -956,7 +921,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonG.base_operation = CalcOperations.log
         self.ui.pushButtonG.shift_operation = CalcOperations.ten_power_x
         self.ui.pushButtonG.ctrl_operation = CalcOperations.polar_to_rectangular
-        self.ui.pushButtonG.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonG)
 
     def third_row_keyboard(self):
@@ -969,7 +933,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonLess.base_operation = CalcOperations.swap
         self.ui.pushButtonLess.shift_operation = CalcOperations.memory_swap
         self.ui.pushButtonLess.ctrl_operation = CalcOperations.memory_swap
-        self.ui.pushButtonLess.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonLess)
 
         self.ui.pushButtonY.row = 3
@@ -982,7 +945,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.base_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
-        self.ui.pushButtonY.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonY)
 
         self.ui.pushButtonX.row = 3
@@ -997,7 +959,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
         self.ui.pushButtonX.shift_operation = CalcOperations.rectangular_to_polar
         self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
-        self.ui.pushButtonX.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonX)
 
         self.ui.pushButtonC.row = 3
@@ -1009,7 +970,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.ctrl_text = "Copy"
         self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonC.ctrl_font = QFont("Helvetica", 9)
-        self.ui.pushButtonC.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonC.base_operation = CalcOperations.C
         self.ui.pushButtonC.shift_operation = CalcOperations.MS
         self.ui.pushButtonC.ctrl_operation = CalcOperations.copy_to_clipboard
@@ -1026,7 +986,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.MR
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
-        self.ui.pushButtonV.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonV)
 
         self.ui.pushButtonB.row = 3
@@ -1039,23 +998,22 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.base_operation = CalcOperations.ln
         self.ui.pushButtonB.shift_operation = CalcOperations.ex
         self.ui.pushButtonB.ctrl_operation = CalcOperations.convert_to_dd
-        self.ui.pushButtonB.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonB)
 
     def convert_from_binary(self):
-        self.ui.inputTextEdit.exec_from_binary()
+        AppGlobals.input_box.exec_from_binary()
 
     def convert_from_octal(self):
-        self.ui.inputTextEdit.exec_from_octal()
+        AppGlobals.input_box.exec_from_octal()
 
     def convert_from_decimal(self):
-        self.ui.inputTextEdit.exec_from_decimal()
+        AppGlobals.input_box.exec_from_decimal()
 
     def convert_from_hexadecimal(self):
-        self.ui.inputTextEdit.exec_from_hexadecimal()
+        AppGlobals.input_box.exec_from_hexadecimal()
 
     def dms_to_dd(self):
-        self.ui.inputTextEdit.exec_convert_to_dd()
+        AppGlobals.input_box.exec_convert_to_dd()
 
     def table_cell_double_clicked(self, row, column):
         item = AppGlobals.table.item(row, column)
@@ -1084,34 +1042,34 @@ class MainWindow(QMainWindow):
                 button.setFixedWidth(button.norm_width * AppGlobals.numpad_button_width)
 
     def sinh(self):
-        self.ui.inputTextEdit.exec_sinh()
+        AppGlobals.input_box.exec_sinh()
 
     def cosh(self):
-        self.ui.inputTextEdit.exec_cosh()
+        AppGlobals.input_box.exec_cosh()
 
     def tanh(self):
-        self.ui.inputTextEdit.exec_tanh()
+        AppGlobals.input_box.exec_tanh()
 
     def arsinh(self):
-        self.ui.inputTextEdit.exec_arsinh()
+        AppGlobals.input_box.exec_arsinh()
 
     def arcosh(self):
-        self.ui.inputTextEdit.exec_arcosh()
+        AppGlobals.input_box.exec_arcosh()
 
     def artanh(self):
-        self.ui.inputTextEdit.exec_artanh()
+        AppGlobals.input_box.exec_artanh()
 
     def rectangular_to_polar(self):
-        self.ui.inputTextEdit.exec_rectangular_to_polar()
+        AppGlobals.input_box.exec_rectangular_to_polar()
 
     def polar_to_rectangular(self):
-        self.ui.inputTextEdit.exec_polar_to_rectangular()
+        AppGlobals.input_box.exec_polar_to_rectangular()
 
     def combination(self):
-        self.ui.inputTextEdit.exec_combination()
+        AppGlobals.input_box.exec_combination()
 
     def permutation(self):
-        self.ui.inputTextEdit.exec_permutation()
+        AppGlobals.input_box.exec_permutation()
 
     def options(self):
         dialog = OptionsDialog(self)
@@ -1125,6 +1083,9 @@ class MainWindow(QMainWindow):
 
     def cube(self):
         AppGlobals.input_box.exec_cube()
+
+    def fourth_power(self):
+        AppGlobals.input_box.exec_fourth_power()
 
 # main
 def main():

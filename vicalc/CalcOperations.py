@@ -29,6 +29,8 @@ class CalcOperations(Enum):
     square = auto()
     cube_root = auto()
     cube = auto()
+    fourth_root = auto()
+    fourth_power = auto()
     ln = auto()
     ex = auto()
     log = auto()

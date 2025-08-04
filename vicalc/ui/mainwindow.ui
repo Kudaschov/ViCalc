@@ -840,6 +840,7 @@
     </property>
     <addaction name="action_square"/>
     <addaction name="action_cube"/>
+    <addaction name="action_fourth_power"/>
     <addaction name="separator"/>
     <addaction name="action_sinh"/>
     <addaction name="action_cosh"/>
@@ -1174,6 +1175,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+3</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_fourth_power">
+   <property name="text">
+    <string>&amp;Fourth Power</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
