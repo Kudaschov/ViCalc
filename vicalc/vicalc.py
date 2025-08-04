@@ -452,6 +452,8 @@ class MainWindow(QMainWindow):
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
             AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
+            AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
+            AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -611,6 +613,8 @@ class MainWindow(QMainWindow):
         self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
         self.settings.setValue("numeric_precision", AppGlobals.numeric_precision)
         self.settings.setValue("timestamp_at_start", AppGlobals.timestamp_at_start)
+        self.settings.setValue("copy_to_clipboard_replace", AppGlobals.copy_to_clipboard_replace)
+        self.settings.setValue("paste_from_clipboard_replace", AppGlobals.paste_from_clipboard_replace)
 
         self.save_table_data()
 
@@ -1074,9 +1078,13 @@ class MainWindow(QMainWindow):
     def options(self):
         dialog = OptionsDialog(self)
         dialog.ui.timestampCheckBox.setChecked(AppGlobals.timestamp_at_start)
+        dialog.ui.copyCheckBox.setChecked(AppGlobals.copy_to_clipboard_replace)
+        dialog.ui.pasteCheckBox.setChecked(AppGlobals.paste_from_clipboard_replace)
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
+            AppGlobals.copy_to_clipboard_replace = dialog.ui.copyCheckBox.isChecked()
+            AppGlobals.paste_from_clipboard_replace = dialog.ui.pasteCheckBox.isChecked()
 
     def square(self):
         AppGlobals.input_box.exec_square()

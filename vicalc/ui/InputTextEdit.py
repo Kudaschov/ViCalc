@@ -2,8 +2,8 @@ from PySide6.QtWidgets import QApplication, QLineEdit, QStyleOptionFrame
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtWidgets import QTableWidgetItem
-from PySide6.QtGui import QFont
-from PySide6.QtGui import QKeyEvent, QFocusEvent 
+from PySide6.QtGui import QFont, QGuiApplication
+from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
 from ..CalcOperations import CalcOperations
 import math
@@ -968,6 +968,11 @@ class InputTextEdit(QLineEdit):
 
             elif self.current_ctrl_state:
                 match self.key:
+                    # handle copy/paste with possible replacing            
+                    case Qt.Key.Key_C:
+                        self.handle_copy()
+                    case Qt.Key.Key_V:
+                        self.handle_paste()
                     case Qt.Key.Key_Space:
                         self.exec_comment()
                     case Qt.Key.Key_Backspace:
@@ -1024,10 +1029,10 @@ class InputTextEdit(QLineEdit):
         self.cut()
 
     def exec_copy_to_clipboard(self):
-        self.copy()
+        self.handle_copy()
 
     def exec_paste_from_clipboard(self):
-        self.paste()
+        self.handle_paste()
 
     def exec_undo(self):
         self.undo()
@@ -1276,3 +1281,21 @@ class InputTextEdit(QLineEdit):
             expr = PermutationExpression(int(dialog.ui.nLineEdit.text()))
             result = float(expr.calculate(int(dialog.ui.rLineEdit.text())))
             self.setTextSelect(AppGlobals.to_normal_string(result))
+
+    def handle_paste(self):
+        if AppGlobals.paste_from_clipboard_replace:
+            clipboard = QGuiApplication.clipboard()
+            text = clipboard.text()
+            # Replace '.' with ',' before pasting
+            modified_text = text.replace('.', ',')
+            self.insert(modified_text)
+        else:
+            self.paste()
+
+    def handle_copy(self):
+        if AppGlobals.copy_to_clipboard_replace:
+            selected_text = self.selectedText()
+            modified = selected_text.replace(',', '.')
+            QGuiApplication.clipboard().setText(modified)            
+        else:
+            self.copy()

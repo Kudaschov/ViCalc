@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>320</width>
+    <width>410</width>
     <height>240</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>200</y>
-     <width>301</width>
+     <width>391</width>
      <height>32</height>
     </rect>
    </property>
@@ -40,6 +40,32 @@
    </property>
    <property name="text">
     <string>&amp;Automatically date and time stamp at start</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="copyCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>On &amp;copy to clipboard: replace comma (,) with decimal point (.)</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="pasteCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>On &amp;paste from clipboard: replace decimal point (.) with comma (,)</string>
    </property>
   </widget>
  </widget>

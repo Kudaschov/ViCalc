@@ -22,15 +22,21 @@ class Ui_optionsDialog(object):
     def setupUi(self, optionsDialog):
         if not optionsDialog.objectName():
             optionsDialog.setObjectName(u"optionsDialog")
-        optionsDialog.resize(320, 240)
+        optionsDialog.resize(410, 240)
         self.buttonBox = QDialogButtonBox(optionsDialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(10, 200, 301, 32))
+        self.buttonBox.setGeometry(QRect(10, 200, 391, 32))
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
         self.timestampCheckBox = QCheckBox(optionsDialog)
         self.timestampCheckBox.setObjectName(u"timestampCheckBox")
         self.timestampCheckBox.setGeometry(QRect(20, 20, 291, 20))
+        self.copyCheckBox = QCheckBox(optionsDialog)
+        self.copyCheckBox.setObjectName(u"copyCheckBox")
+        self.copyCheckBox.setGeometry(QRect(20, 50, 381, 20))
+        self.pasteCheckBox = QCheckBox(optionsDialog)
+        self.pasteCheckBox.setObjectName(u"pasteCheckBox")
+        self.pasteCheckBox.setGeometry(QRect(20, 80, 381, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -42,5 +48,7 @@ class Ui_optionsDialog(object):
     def retranslateUi(self, optionsDialog):
         optionsDialog.setWindowTitle(QCoreApplication.translate("optionsDialog", u"Dialog", None))
         self.timestampCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Automatically date and time stamp at start", None))
+        self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace comma (,) with decimal point (.)", None))
+        self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace decimal point (.) with comma (,)", None))
     # retranslateUi
 
