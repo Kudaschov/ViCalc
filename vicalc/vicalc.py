@@ -109,12 +109,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.row = 4
         self.ui.pushButton0numpad.column = 0
         self.ui.pushButton0numpad.norm_width = 2
-        self.ui.pushButton0numpad.shift_text = "1/X"
-        self.ui.pushButton0numpad.ctrl_text = "<>"
+        self.ui.pushButton0numpad.shift_text = "<>"
+        self.ui.pushButton0numpad.ctrl_text = "X<>M"
         self.ui.pushButton0numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
-        self.ui.pushButton0numpad.shift_operation = CalcOperations.reciprocal
-        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.swap
+        self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
+        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
         self.numpad_button_list.append(self.ui.pushButton0numpad)
 
         self.ui.pushButton1numpad.row = 3
@@ -234,12 +234,12 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonCommaNumpad.row = 4
         self.ui.pushButtonCommaNumpad.column = 2
-        self.ui.pushButtonCommaNumpad.shift_text = "DL"
-        self.ui.pushButtonCommaNumpad.ctrl_text = "n!"
+        self.ui.pushButtonCommaNumpad.shift_text = "<-"
+        self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
         self.ui.pushButtonCommaNumpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
-        self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.del_last_line
-        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.factorial
+        self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
+        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
         self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
 
         self.ui.pushButtonMinusNumpad.row = 0
@@ -291,24 +291,24 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonMultiplyNumpad.column = 2
         self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
-        self.ui.pushButtonMultiplyNumpad.shift_font = QFont("Helvetica", 8)
-        self.ui.pushButtonMultiplyNumpad.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonMultiplyNumpad.ctrl_text = "x<>M"
-        self.ui.pushButtonMultiplyNumpad.ctrl_font = QFont("Helvetica", 8)
-        self.ui.pushButtonMultiplyNumpad.ctrl_text_alignment = Qt.AlignRight
+        #self.ui.pushButtonMultiplyNumpad.shift_font = QFont("Helvetica", 8)
+        #self.ui.pushButtonMultiplyNumpad.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonMultiplyNumpad.ctrl_text = "n!"
+        #self.ui.pushButtonMultiplyNumpad.ctrl_font = QFont("Helvetica", 8)
+        #self.ui.pushButtonMultiplyNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
         self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
-        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.memory_swap
+        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.factorial
         self.ui.pushButtonMultiplyNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonMultiplyNumpad)
 
         self.ui.pushButtonDivisionNumpad.row = 0
         self.ui.pushButtonDivisionNumpad.column = 1
         self.ui.pushButtonDivisionNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonDivisionNumpad.shift_text = "Pi"
+        self.ui.pushButtonDivisionNumpad.shift_text = "1/x"
         self.ui.pushButtonDivisionNumpad.ctrl_text = "Pi"
         self.ui.pushButtonDivisionNumpad.base_operation = CalcOperations.Division
-        self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.pi
+        self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.reciprocal
         self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.pi
         self.ui.pushButtonDivisionNumpad.input_text_edit = self.ui.inputTextEdit
         self.numpad_button_list.append(self.ui.pushButtonDivisionNumpad)
@@ -678,7 +678,10 @@ class MainWindow(QMainWindow):
     # --- End New Slot Method ---        
 
     def memory_changed(self, sMemory: str):
-        self.memory_label.setText("Memory: " + sMemory)
+        if self.ui.inputTextEdit.memory == 0:
+            self.memory_label.setText("")
+        else:
+            self.memory_label.setText("Memory: " + sMemory)
 
     def change_mode(self):
         if AppGlobals.table.hasFocus():
@@ -860,11 +863,11 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonT.row = 1
         self.ui.pushButtonT.column = 4.5
-        self.ui.pushButtonT.setText("³√x")
+        self.ui.pushButtonT.setText("MS")
         self.ui.pushButtonT.original_keyboard_text = "T"
         self.ui.pushButtonT.shift_text = "x³"
         self.ui.pushButtonT.ctrl_text = ""
-        self.ui.pushButtonT.base_operation = CalcOperations.cube_root
+        self.ui.pushButtonT.base_operation = CalcOperations.MS
         self.ui.pushButtonT.shift_operation = CalcOperations.cube
         self.ui.pushButtonT.ctrl_operation = CalcOperations.cube
         self.ui.pushButtonT.input_text_edit = self.ui.inputTextEdit

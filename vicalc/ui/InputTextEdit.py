@@ -776,9 +776,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_percent()
                 case Qt.Key.Key_Plus:
-                    self.exec_percent()
+                    self.exec_M_plus()
                 case Qt.Key.Key_Slash:
-                    self.exec_pi()
+                    self.exec_reciprocal()
                 case Qt.Key.Key_Asterisk:
                     self.exec_pow()
                 case _:
@@ -790,9 +790,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_percent()
                 case Qt.Key.Key_Comma:
-                    self.exec_factorial()
+                    self.exec_del_last_line()
                 case Qt.Key.Key_0:
-                    self.exec_swap()
+                    self.exec_memory_swap()
                 case Qt.Key.Key_1:
                     self.exec_ex()
                 case Qt.Key.Key_2: # Numpad 2
@@ -816,7 +816,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Minus:
                     self.exec_M_minus()
                 case Qt.Key.Key_Asterisk:
-                    self.exec_memory_swap()
+                    self.exec_factorial()
                 case Qt.Key.Key_Slash:
                     self.exec_pi()
                 case _:
@@ -827,9 +827,9 @@ class InputTextEdit(QLineEdit):
             # no shift and no ctrl was pressed
             match self.key:
                 case Qt.Key.Key_Insert: # Numpad 0
-                    self.exec_reciprocal()
+                    self.exec_swap()
                 case Qt.Key.Key_Delete: # Numpad comma
-                    self.exec_del_last_line()
+                    self.exec_backspace()
                 case Qt.Key.Key_End: # Numpad 1
                     self.exec_ln()
                 case Qt.Key.Key_Down: # Numpad 2
@@ -976,7 +976,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_R:
                         self.exec_sqrt()
                     case Qt.Key.Key_T:
-                        self.exec_cube_root()    
+                        self.exec_MS()    
                     case Qt.Key.Key_Z:
                         self.exec_m_multiply()
                     case Qt.Key.Key_A:
