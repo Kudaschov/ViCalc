@@ -32,7 +32,7 @@ class CalcOperations(Enum):
     ln = auto()
     ex = auto()
     log = auto()
-    ten_power_10 = auto()
+    ten_power_x = auto()
     factorial = auto()
     pi = auto()
     sin = auto()

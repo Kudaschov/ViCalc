@@ -428,7 +428,7 @@ class InputTextEdit(QLineEdit):
                     self.exec_ex()
                 case CalcOperations.log:
                     self.exec_log()
-                case CalcOperations.ten_power_10:
+                case CalcOperations.ten_power_x:
                     self.exec_ten_power_x()
                 case CalcOperations.factorial:
                     self.exec_factorial()
@@ -935,19 +935,19 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_D:
                         self.exec_arccos()
                     case Qt.Key.Key_F:
-                        self.exec_arctan()
+                        self.exec_cube()
                     case Qt.Key.Key_G:
-                        self.exec_rectangular_to_polar()
-                    case Qt.Key.Key_Y:
-                        self.exec_ex()
-                    case Qt.Key.Key_X:
                         self.exec_ten_power_x()
+                    case Qt.Key.Key_Y:
+                        self.exec_convert_to_dms()
+                    case Qt.Key.Key_X:
+                        self.exec_rectangular_to_polar()
                     case Qt.Key.Key_C:
                         self.exec_MS()
                     case Qt.Key.Key_V:
                         self.exec_MR()
                     case Qt.Key.Key_B:
-                        self.exec_convert_to_dms()
+                        self.exec_ex()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_last_line()
                     case Qt.Key.Key_Greater:
@@ -986,19 +986,19 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_D:
                         self.exec_cos()
                     case Qt.Key.Key_F:
-                        self.exec_tan()
+                        self.exec_MS()
                     case Qt.Key.Key_G:
-                        self.exec_reciprocal()
-                    case Qt.Key.Key_Y:
-                        self.exec_ln()
-                    case Qt.Key.Key_X:
                         self.exec_log()
+                    case Qt.Key.Key_Y:
+                        self.exec_convert_to_bases()
+                    case Qt.Key.Key_X:
+                        self.exec_reciprocal()
                     case Qt.Key.Key_C:
                         self.exec_c()
                     case Qt.Key.Key_V:
                         self.exec_MR()
                     case Qt.Key.Key_B:
-                        self.exec_convert_to_bases()
+                        self.exec_ln()
                     case Qt.Key.Key_Escape:
                         self.exec_ac()
                     case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:

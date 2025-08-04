@@ -8,6 +8,7 @@ class AppGlobals:
     numeric_precision = 5
     timestamp_at_start = True
     table = None # tableWidget in main window
+    input_box = None # inputTextEdit in main window
     current_row = -1 # current row in table
     current_column = -1 # current column in table
     keyboard_grid_width = 58

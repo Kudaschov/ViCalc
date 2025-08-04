@@ -73,6 +73,8 @@ class MainWindow(QMainWindow):
 
         self.ui.actionInsertDateTime.triggered.connect(self.date_time_stamp)
 
+        self.ui.action_square.triggered.connect(self.square)
+        self.ui.action_cube.triggered.connect(self.cube)
         self.ui.action_sinh.triggered.connect(self.sinh)
         self.ui.action_cosh.triggered.connect(self.cosh)
         self.ui.action_tanh.triggered.connect(self.tanh)
@@ -89,6 +91,7 @@ class MainWindow(QMainWindow):
 
         # important: set tableWidget before read_settings because of angle units
         AppGlobals.table = self.ui.tableWidget
+        AppGlobals.input_box = self.ui.inputTextEdit
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
         self.ui.inputTextEdit.setFocus()
@@ -186,7 +189,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton7numpad.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton7numpad.base_operation = CalcOperations.number_7
         self.ui.pushButton7numpad.shift_operation = CalcOperations.log
-        self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ten_power_10
+        self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ten_power_x
         self.numpad_button_list.append(self.ui.pushButton7numpad)
 
         self.ui.pushButton8numpad.row = 1
@@ -766,20 +769,21 @@ class MainWindow(QMainWindow):
         self.ui.pushButton2.row = 0
         self.ui.pushButton2.column = 1
         self.ui.pushButton2.shift_text = "√"
+        self.ui.pushButton2.ctrl_text = "x²"
         self.ui.pushButton2.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton2.base_operation = CalcOperations.number_2
         self.ui.pushButton2.shift_operation = CalcOperations.sqrt
-        self.ui.pushButton2.ctrl_operation = CalcOperations.sqrt
+        self.ui.pushButton2.ctrl_operation = CalcOperations.square
         self.leftside_button_list.append(self.ui.pushButton2)
 
         self.ui.pushButton3.row = 0
         self.ui.pushButton3.column = 2
         self.ui.pushButton3.shift_text = "³√x"
-        #self.ui.pushButton3.ctrl_text = "n!"
+        self.ui.pushButton3.ctrl_text = "x³"
         self.ui.pushButton3.input_text_edit = self.ui.inputTextEdit
         self.ui.pushButton3.base_operation = CalcOperations.number_3
         self.ui.pushButton3.shift_operation = CalcOperations.cube_root
-        self.ui.pushButton3.ctrl_operation = CalcOperations.cube_root
+        self.ui.pushButton3.ctrl_operation = CalcOperations.cube
         self.leftside_button_list.append(self.ui.pushButton3)
 
         self.ui.pushButton4.row = 0
@@ -863,13 +867,15 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonT.row = 1
         self.ui.pushButtonT.column = 4.5
-        self.ui.pushButtonT.setText("MS")
+        self.ui.pushButtonT.setText("tan")
         self.ui.pushButtonT.original_keyboard_text = "T"
-        self.ui.pushButtonT.shift_text = "x³"
-        self.ui.pushButtonT.ctrl_text = ""
-        self.ui.pushButtonT.base_operation = CalcOperations.MS
-        self.ui.pushButtonT.shift_operation = CalcOperations.cube
-        self.ui.pushButtonT.ctrl_operation = CalcOperations.cube
+        self.ui.pushButtonT.shift_text = "tan⁻¹"
+        self.ui.pushButtonT.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonT.ctrl_text = "tanh"
+        self.ui.pushButtonT.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonT.base_operation = CalcOperations.tan
+        self.ui.pushButtonT.shift_operation = CalcOperations.arctan
+        self.ui.pushButtonT.ctrl_operation = CalcOperations.tanh
         self.ui.pushButtonT.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonT)
 
@@ -878,7 +884,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonZ.setText("M*")
         self.ui.pushButtonZ.original_keyboard_text = "Z"
         self.ui.pushButtonZ.shift_text = "M/"
-        self.ui.pushButtonZ.shift_text_alignment = Qt.AlignLeft
+#        self.ui.pushButtonZ.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonZ.ctrl_text = "Undo"
         self.ui.pushButtonZ.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonZ.base_operation = CalcOperations.m_multiply
@@ -929,26 +935,26 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonF.row = 2
         self.ui.pushButtonF.column = 4
-        self.ui.pushButtonF.setText("tan")
+        self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
-        self.ui.pushButtonF.shift_text = "tan⁻¹"
-        self.ui.pushButtonF.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonF.ctrl_text = "tanh"
-        self.ui.pushButtonF.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonF.base_operation = CalcOperations.tan
-        self.ui.pushButtonF.shift_operation = CalcOperations.arctan
-        self.ui.pushButtonF.ctrl_operation = CalcOperations.tanh
+        self.ui.pushButtonF.shift_text = "x³"
+#        self.ui.pushButtonF.shift_text_alignment = Qt.AlignLeft
+#        self.ui.pushButtonF.ctrl_text = "tanh"
+#        self.ui.pushButtonF.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonF.base_operation = CalcOperations.MS
+        self.ui.pushButtonF.shift_operation = CalcOperations.cube
+        self.ui.pushButtonF.ctrl_operation = CalcOperations.cube
         self.ui.pushButtonF.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonF)
 
         self.ui.pushButtonG.row = 2
         self.ui.pushButtonG.column = 5
-        self.ui.pushButtonG.setText("1/x")
+        self.ui.pushButtonG.setText("log")
         self.ui.pushButtonG.original_keyboard_text = "G"
-        self.ui.pushButtonG.shift_text = "R->P"
+        self.ui.pushButtonG.shift_text = "10^x"
         self.ui.pushButtonG.ctrl_text = "P->R"
-        self.ui.pushButtonG.base_operation = CalcOperations.reciprocal
-        self.ui.pushButtonG.shift_operation = CalcOperations.rectangular_to_polar
+        self.ui.pushButtonG.base_operation = CalcOperations.log
+        self.ui.pushButtonG.shift_operation = CalcOperations.ten_power_x
         self.ui.pushButtonG.ctrl_operation = CalcOperations.polar_to_rectangular
         self.ui.pushButtonG.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonG)
@@ -968,28 +974,28 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
-        self.ui.pushButtonY.setText("ln")
+        self.ui.pushButtonY.setText("Base")
         self.ui.pushButtonY.original_keyboard_text = "Y"
-        self.ui.pushButtonY.shift_text = "e^x"
+        self.ui.pushButtonY.shift_text = "DMS"
         self.ui.pushButtonY.ctrl_text = "Redo"
         self.ui.pushButtonY.ctrl_font = QFont("Helvetica", 8)
-        self.ui.pushButtonY.base_operation = CalcOperations.ln
-        self.ui.pushButtonY.shift_operation = CalcOperations.ex
+        self.ui.pushButtonY.base_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
         self.ui.pushButtonY.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonY)
 
         self.ui.pushButtonX.row = 3
         self.ui.pushButtonX.column = 2.5
-        self.ui.pushButtonX.setText("log")
+        self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
-        self.ui.pushButtonX.shift_text = "10^x"
+        self.ui.pushButtonX.shift_text = "R->P"
         self.ui.pushButtonX.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonX.ctrl_text = "Cut"
         self.ui.pushButtonX.ctrl_font = QFont("Helvetica", 9)
         self.ui.pushButtonX.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonX.base_operation = CalcOperations.log
-        self.ui.pushButtonX.shift_operation = CalcOperations.ten_power_10
+        self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
+        self.ui.pushButtonX.shift_operation = CalcOperations.rectangular_to_polar
         self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
         self.ui.pushButtonX.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonX)
@@ -1025,13 +1031,13 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonB.row = 3
         self.ui.pushButtonB.column = 5.5
-        self.ui.pushButtonB.setText("Base")
+        self.ui.pushButtonB.setText("ln")
         self.ui.pushButtonB.original_keyboard_text = "B"
-        self.ui.pushButtonB.shift_text = "DMS"
+        self.ui.pushButtonB.shift_text = "e^x"
         self.ui.pushButtonB.ctrl_text = "DD"
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonB.base_operation = CalcOperations.convert_to_bases
-        self.ui.pushButtonB.shift_operation = CalcOperations.convert_to_dms
+        self.ui.pushButtonB.base_operation = CalcOperations.ln
+        self.ui.pushButtonB.shift_operation = CalcOperations.ex
         self.ui.pushButtonB.ctrl_operation = CalcOperations.convert_to_dd
         self.ui.pushButtonB.input_text_edit = self.ui.inputTextEdit
         self.leftside_button_list.append(self.ui.pushButtonB)
@@ -1113,6 +1119,12 @@ class MainWindow(QMainWindow):
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
+
+    def square(self):
+        AppGlobals.input_box.exec_square()
+
+    def cube(self):
+        AppGlobals.input_box.exec_cube()
 
 # main
 def main():

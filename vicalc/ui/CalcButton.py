@@ -57,7 +57,7 @@ class CalcButton(QPushButton):
         self.ctrl_highlight_font = QFont("Helvetica", 10, QFont.Bold)
         self.ctrl_color = QColor("#009000")
         self.ctrl_highlight_color = QColor("#00C000")
-        self.original_keyboard_text_color = QColor("#000000")
+        self.original_keyboard_text_color = QColor("#606060")
         self.original_keyboard_text_font = QFont("Helvetica", 9)
 
         self.base_operation = CalcOperations.nop

@@ -838,6 +838,9 @@
     <property name="title">
      <string>&amp;Math</string>
     </property>
+    <addaction name="action_square"/>
+    <addaction name="action_cube"/>
+    <addaction name="separator"/>
     <addaction name="action_sinh"/>
     <addaction name="action_cosh"/>
     <addaction name="action_tanh"/>
@@ -1063,7 +1066,7 @@
     <string>&amp;tanh</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F</string>
+    <string>Ctrl+T</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1096,7 +1099,7 @@
     <string>arta&amp;nh</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+F</string>
+    <string>Ctrl+Shift+T</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1149,6 +1152,28 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+O</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_square">
+   <property name="text">
+    <string>S&amp;quare</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_cube">
+   <property name="text">
+    <string>C&amp;ube</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
