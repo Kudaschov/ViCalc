@@ -586,6 +586,18 @@ class InputTextEdit(QLineEdit):
                     self.setTextSelect(self.toString(AppGlobals.angle_unit.to_deg_with_protocol(number)))
                 AppGlobals.angle_unit = DegUnitProtocol()
 
+    def exec_convert_to_deg(self):
+        if self.store_number():
+            self.setTextSelect(self.toString(AppGlobals.angle_unit.to_deg_with_protocol(self.number)))
+
+    def exec_convert_to_rad(self):
+        if self.store_number():
+            self.setTextSelect(self.toString(AppGlobals.angle_unit.to_rad_with_protocol(self.number)))
+
+    def exec_convert_to_gra(self):
+        if self.store_number():
+            self.setTextSelect(self.toString(AppGlobals.angle_unit.to_gra_with_protocol(self.number)))
+
     def trig_mode_init(self, value):
         self._trig_mode = TrigMode(value)
 

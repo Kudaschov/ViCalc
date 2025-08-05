@@ -64,6 +64,9 @@ class MainWindow(QMainWindow):
         self.ui.action_DEG.triggered.connect(self.mode_deg)
         self.ui.action_RAD.triggered.connect(self.mode_rad)
         self.ui.action_GRA.triggered.connect(self.mode_gra)
+        self.ui.action_convert_to_deg.triggered.connect(self.convert_to_deg)
+        self.ui.action_convert_to_rad.triggered.connect(self.convert_to_rad)
+        self.ui.action_convert_to_gra.triggered.connect(self.convert_to_gra)
 
         self.ui.action_convert_from_binary.triggered.connect(self.convert_from_binary)
         self.ui.action_convert_from_octal.triggered.connect(self.convert_from_octal)
@@ -699,6 +702,15 @@ class MainWindow(QMainWindow):
 
     def mode_gra(self):
         AppGlobals.input_box.trig_mode = TrigMode.GRA
+
+    def convert_to_deg(self):
+        AppGlobals.input_box.exec_convert_to_deg()
+
+    def convert_to_rad(self):
+        AppGlobals.input_box.exec_convert_to_rad()
+
+    def convert_to_gra(self):
+        AppGlobals.input_box.exec_convert_to_gra()
 
     def showEvent(self, event):
         super().showEvent(event)
