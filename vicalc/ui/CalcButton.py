@@ -22,7 +22,9 @@ class CalcButton(QPushButton):
         self.mouse_pos = None
         self.setMouseTracking(True)  # needed to get mouseMoveEvent without clicking
 
-        self.bg_color = None # background color for special cases like C and AC buttons
+        self.bg_color = QColor("#FAFAFA") # background color for special cases like C and AC buttons
+
+        self.corner_radius = 3 # button corner radius
 
         # default text alignment, if it differs from this, then use instead
         # only shift or ctrl rect both of them shift_and_ctrl_rect
@@ -81,14 +83,14 @@ class CalcButton(QPushButton):
 
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self)
-        # painter.setRenderHint(QPainter.Antialiasing) # Keep anti-aliasing for smooth lines
+        painter.setRenderHint(QPainter.Antialiasing) # Keep anti-aliasing for smooth lines
         painter.save()
 
         # self.pixmap = QPixmap('ui/img/cube_root.png')
         # painter.drawPixmap(0, 0, self.pixmap)
 
         # Manual drawing of the button's background based on state
-        current_bg_color = QColor("#DDDDDD") # Default background color
+        current_bg_color = QColor("#F9F9F9") # Default background color
         bg_rect = self.rect().adjusted(0, self.height_shift_area, -1, -1)
 
         if self.isDown(): # Button is currently pressed
@@ -104,33 +106,20 @@ class CalcButton(QPushButton):
                 if ((len(self.shift_text) == 0 or len(self.ctrl_text) == 0) and
                     self.mouse_pos != None and self.shift_and_ctrl_rect().contains(self.mouse_pos)):
                     # one of texts is empty, use the whole rect
-                    painter.drawRoundedRect(self.shift_and_ctrl_rect(), 6, 6)
+                    painter.drawRoundedRect(self.shift_and_ctrl_rect(), self.corner_radius, self.corner_radius)
                 elif (self.mouse_pos != None and self.shift_rect().contains(self.mouse_pos)):
-                    painter.drawRoundedRect(self.shift_rect(), 6, 6)
+                    painter.drawRoundedRect(self.shift_rect(), self.corner_radius, self.corner_radius)
                 elif (self.mouse_pos != None and self.ctrl_rect().contains(self.mouse_pos)):
-                    painter.drawRoundedRect(self.ctrl_rect(), 6, 6)
+                    painter.drawRoundedRect(self.ctrl_rect(), self.corner_radius, self.corner_radius)
                 else:
-                    painter.fillRect(bg_rect, current_bg_color)
+#                    painter.fillRect(bg_rect, current_bg_color)
+                    painter.drawRoundedRect(bg_rect, self.corner_radius, self.corner_radius)
             else:
                 # shift and ctrl text is equal
                 if (self.mouse_pos != None and self.shift_and_ctrl_rect().contains(self.mouse_pos)):
-                    painter.drawRoundedRect(self.shift_and_ctrl_rect(), 6, 6)
+                    painter.drawRoundedRect(self.shift_and_ctrl_rect(), self.corner_radius, self.corner_radius)
                 else:
                     painter.fillRect(bg_rect, current_bg_color)
-
-            """
-            if self.mouse_pos.y() < self.height_shift_area: # mouse in shift/ctrl area
-                if self.mouse_pos.x() < bg_rect.width() / 2:
-                    bg_rect = QRect(0, 0, self.rect().width() / 2, self.height_shift_area)
-                else:
-                    bg_rect = QRect(self.rect().width() / 2, 0, self.rect().width() / 2, self.height_shift_area)
-
-                painter.setBrush(current_bg_color)
-                painter.setPen(Qt.NoPen)
-                painter.drawRoundedRect(bg_rect, 6, 6)
-            else:
-                painter.fillRect(bg_rect, current_bg_color)
-            """
 
         if self.shift_text != self.ctrl_text:
             # shift and ctrl text is different, draw both texts
@@ -200,22 +189,23 @@ class CalcButton(QPushButton):
 
         if self.underMouse():
             # draw background
-            painter.setPen(QPen(QColor("#707070"), 0, Qt.SolidLine))
+            painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
             if (self.bg_color == None):
                 painter.setBrush(Qt.NoBrush) # Ensures only the outline is drawn
             else:
                 # mouse over shift and ctrl, set base background
                 if (self.mouse_pos != None and self.shift_and_ctrl_rect().contains(self.mouse_pos)):
                     painter.setBrush(QColor(self.bg_color))
-            painter.drawRect(rectangle_to_draw) # Draws the complete rectangle outline
+            painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
         else:
             # draw background
-            painter.setPen(QPen(QColor("#707070"), 0, Qt.SolidLine))
+#            painter.setPen(QPen(QColor("#707070"), 0, Qt.SolidLine))
+            painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
             if (self.bg_color == None):
                 painter.setBrush(Qt.NoBrush) # Ensures only the outline is drawn
             else:
                 painter.setBrush(QColor(self.bg_color))
-            painter.drawRect(rectangle_to_draw) # Draws the complete rectangle outline
+            painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
 
         # Draw the main centered text
         if (self._shift == False and self._ctrl == False):

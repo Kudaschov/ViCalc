@@ -40,8 +40,10 @@ class MainWindow(QMainWindow):
         self.trig_mode_group.addAction(self.ui.action_GRA)
 
         # background color of C and AC buttons
-        self.c_ac_bg_color = QColor("#D8D8FF")
-        self.arithmetic_operation_color = QColor("#FEFEFE")
+        self.c_ac_bg_color = QColor("#EAEAFF")
+        #self.arithmetic_operation_color = QColor("#FEFEFE")
+        self.arithmetic_operation_color = QColor("#FAFAFA")
+        self.number_key_color = QColor("#FFFFFF")
 
         AppGlobals.table = self.ui.tableWidget
         AppGlobals.input_box = self.ui.inputTextEdit
@@ -113,6 +115,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.row = 4
         self.ui.pushButton0numpad.column = 0
         self.ui.pushButton0numpad.norm_width = 2
+        self.ui.pushButton0numpad.bg_color = self.number_key_color
         self.ui.pushButton0numpad.shift_text = "<>"
         self.ui.pushButton0numpad.ctrl_text = "X<>M"
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
@@ -122,6 +125,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton1numpad.row = 3
         self.ui.pushButton1numpad.column = 0
+        self.ui.pushButton1numpad.bg_color = self.number_key_color
         self.ui.pushButton1numpad.shift_text = "ln"
         self.ui.pushButton1numpad.ctrl_text = "e^x"
         self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
@@ -131,6 +135,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton2numpad.row = 3
         self.ui.pushButton2numpad.column = 1
+        self.ui.pushButton2numpad.bg_color = self.number_key_color
         self.ui.pushButton2numpad.shift_text = "√"
         self.ui.pushButton2numpad.ctrl_text = "x²"
         self.ui.pushButton2numpad.base_operation = CalcOperations.number_2
@@ -140,6 +145,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton3numpad.row = 3
         self.ui.pushButton3numpad.column = 2
+        self.ui.pushButton3numpad.bg_color = self.number_key_color
         self.ui.pushButton3numpad.shift_text = "³√x"
         self.ui.pushButton3numpad.ctrl_text = "x³"
         self.ui.pushButton3numpad.base_operation = CalcOperations.number_3
@@ -149,6 +155,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton4numpad.row = 2
         self.ui.pushButton4numpad.column = 0
+        self.ui.pushButton4numpad.bg_color = self.number_key_color
         self.ui.pushButton4numpad.shift_text = "sin"
         self.ui.pushButton4numpad.ctrl_text = "-1"
         self.ui.pushButton4numpad.base_operation = CalcOperations.number_4
@@ -158,6 +165,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton5numpad.row = 2
         self.ui.pushButton5numpad.column = 1
+        self.ui.pushButton5numpad.bg_color = self.number_key_color
         self.ui.pushButton5numpad.shift_text = "cos"
         self.ui.pushButton5numpad.ctrl_text = "-1"
         self.ui.pushButton5numpad.base_operation = CalcOperations.number_5
@@ -167,6 +175,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton6numpad.row = 2
         self.ui.pushButton6numpad.column = 2
+        self.ui.pushButton6numpad.bg_color = self.number_key_color
         self.ui.pushButton6numpad.shift_text = "tan"
         self.ui.pushButton6numpad.ctrl_text = "-1"
         self.ui.pushButton6numpad.base_operation = CalcOperations.number_6
@@ -176,6 +185,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton7numpad.row = 1
         self.ui.pushButton7numpad.column = 0
+        self.ui.pushButton7numpad.bg_color = self.number_key_color
         self.ui.pushButton7numpad.shift_text = "log"
         self.ui.pushButton7numpad.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButton7numpad.ctrl_text = "10^X"
@@ -187,6 +197,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton8numpad.row = 1
         self.ui.pushButton8numpad.column = 1
+        self.ui.pushButton8numpad.bg_color = self.number_key_color
         self.ui.pushButton8numpad.shift_text = "("
         self.ui.pushButton8numpad.ctrl_text = "MS"
         self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
@@ -196,6 +207,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton9numpad.row = 1
         self.ui.pushButton9numpad.column = 2
+        self.ui.pushButton9numpad.bg_color = self.number_key_color
         self.ui.pushButton9numpad.shift_text = ")"
         self.ui.pushButton9numpad.ctrl_text = "MR"
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
@@ -226,6 +238,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonCommaNumpad.row = 4
         self.ui.pushButtonCommaNumpad.column = 2
+        self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
         self.ui.pushButtonCommaNumpad.shift_text = "<-"
         self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
@@ -246,7 +259,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnter.row = 2
         self.ui.pushButtonEnter.column = 6
 #        self.ui.pushButtonEnter.norm_width = 1
-        self.ui.pushButtonEnter.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
 #        self.ui.pushButtonEnter.shift_text = "MS"
 #        self.ui.pushButtonEnter.ctrl_text = "MR"
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
@@ -736,13 +749,21 @@ class MainWindow(QMainWindow):
         if AppGlobals.input_box.hasFocus():
             AppGlobals.table.setFocus()
             if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
-                AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
+                row_count = AppGlobals.table.rowCount()
+                column_count = AppGlobals.table.columnCount()
+                if AppGlobals.current_row < row_count and AppGlobals.current_column < column_count:
+                    AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
+                else:
+                    self.go_to_last_row_last_non_empty_col()
+            else:
+                self.go_to_last_row_last_non_empty_col()
         else:
             AppGlobals.input_box.setFocus()
 
     def numbers_row_keyboard(self):
         self.ui.pushButton1.row = 0
         self.ui.pushButton1.column = 0
+        self.ui.pushButton1.bg_color = self.number_key_color
         self.ui.pushButton1.shift_text = "n!"
         self.ui.pushButton1.ctrl_text = ""
         self.ui.pushButton1.base_operation = CalcOperations.number_1
@@ -752,6 +773,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton2.row = 0
         self.ui.pushButton2.column = 1
+        self.ui.pushButton2.bg_color = self.number_key_color
         self.ui.pushButton2.shift_text = "√"
         self.ui.pushButton2.ctrl_text = "x²"
         self.ui.pushButton2.base_operation = CalcOperations.number_2
@@ -761,6 +783,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton3.row = 0
         self.ui.pushButton3.column = 2
+        self.ui.pushButton3.bg_color = self.number_key_color
         self.ui.pushButton3.shift_text = "³√x"
         self.ui.pushButton3.ctrl_text = "x³"
         self.ui.pushButton3.base_operation = CalcOperations.number_3
@@ -770,6 +793,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton4.row = 0
         self.ui.pushButton4.column = 3
+        self.ui.pushButton4.bg_color = self.number_key_color
         self.ui.pushButton4.shift_text = "⁴√x"
         self.ui.pushButton4.ctrl_text = "x⁴"
         self.ui.pushButton4.base_operation = CalcOperations.number_4
@@ -779,8 +803,8 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton5.row = 0
         self.ui.pushButton5.column = 4
+        self.ui.pushButton5.bg_color = self.number_key_color
         self.ui.pushButton5.shift_text = "%"
-        #self.ui.pushButton5.ctrl_text = "n!"
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
         self.ui.pushButton5.ctrl_operation = CalcOperations.percent
@@ -788,8 +812,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton6.row = 0
         self.ui.pushButton6.column = 5
-        #self.ui.pushButton6.shift_text = "n!"
-        #self.ui.pushButton6.ctrl_text = "n!"
+        self.ui.pushButton6.bg_color = self.number_key_color
         self.ui.pushButton6.base_operation = CalcOperations.number_6
         self.ui.pushButton6.shift_operation = CalcOperations.number_6
         self.ui.pushButton6.ctrl_operation = CalcOperations.number_6
@@ -821,7 +844,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.row = 1
         self.ui.pushButtonE.column = 2.5
         # special key exponent have other bg color
-        self.ui.pushButtonE.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonE.bg_color = self.number_key_color
         #self.ui.pushButtonE.shift_text = "n!"
         #self.ui.pushButtonE.ctrl_text = "n!"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
@@ -1094,6 +1117,30 @@ class MainWindow(QMainWindow):
 
     def fourth_power(self):
         AppGlobals.input_box.exec_fourth_power()
+
+    def go_to_last_row_last_non_empty_col(self):
+        row_count = AppGlobals.table.rowCount()
+        col_count = AppGlobals.table.columnCount()
+
+        if row_count == 0 or col_count == 0:
+            return  # Nothing to do
+
+        last_row = row_count - 1
+
+        # Find last non-empty column in the last row
+        last_non_empty_col = -1
+        for col in reversed(range(col_count)):
+            item = AppGlobals.table.item(last_row, col)
+            if item and item.text().strip() != "":
+                last_non_empty_col = col
+                break
+
+        if last_non_empty_col == -1:
+            print("No non-empty column found in last row.")
+            return
+
+        # Set current cell (will highlight/select it)
+        AppGlobals.table.setCurrentCell(last_row, last_non_empty_col)
 
 # main
 def main():

@@ -4,6 +4,7 @@ from PySide6.QtCore import QLocale
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QTableWidgetItem
 from .AppGlobals import AppGlobals
+from .ResultCellValue import ResultCellValue
 
 class AngleUnit(ABC):
     def __init__(self):
@@ -13,7 +14,7 @@ class AngleUnit(ABC):
         self.row = None
 
     def toString(self, number:float):
-        return self.locale.toString(number, "g", 16)
+        return AppGlobals.to_format_string(number)
     
     @abstractmethod
     def to_deg(self, a:float):
@@ -53,10 +54,7 @@ class AngleUnit(ABC):
         AppGlobals.table.scrollToBottom()
 
     def protocol_result(self, result: float, column_number: int):
-        item = QTableWidgetItem(self.toString(result))
-        item.setFont(self.resultFont)
-        AppGlobals.table.setItem(self.row, column_number, item)
-        AppGlobals.table.setCurrentCell(self.row, column_number)
+        ResultCellValue(result, self.row, column_number) 
 
     @singledispatchmethod
     def protocol(self, arg, column_number):
