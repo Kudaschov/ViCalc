@@ -2,7 +2,8 @@
 
 ViCalc is an open-source scientific Python calculator designed for efficient touch typing. It combines the simplicity of a traditional calculator with the power of a PC, allowing users to perform calculations without leaving the keyboard.
 
-<img src="ViCalc.png" alt="ViCalc" width="550" />
+<img src="docs/images/ViCalc.png" alt="ViCalc Screenshot" width="550" />
+<img src="docs/images/ViCalc_rightside_keyboard.png" alt="ViCalc Screenshot" width="670" />
 
 ## Key Features
 
@@ -36,3 +37,8 @@ You can install and run **ViCalc** using one of the following methods:
 2. Run ViCalc
    ```bash
    python -m vicalc
+
+## License
+Copyright (c) Dr. Vitali Kudaschov, 2003 - 2025.
+
+Licensed under the [MIT License](./LICENSE).
