@@ -5,6 +5,8 @@ from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QTableWidgetItem
 from .AppGlobals import AppGlobals
 from .ResultCellValue import ResultCellValue
+from .StringCellValue import StringCellValue
+from .FloatCellValue import FloatCellValue
 
 class AngleUnit(ABC):
     def __init__(self):
@@ -65,9 +67,9 @@ class AngleUnit(ABC):
     
     @protocol.register(str)
     def _(self, arg: str, column_number: int):
-        AppGlobals.table.setItem(self.row, column_number, QTableWidgetItem(arg))
+        StringCellValue(arg, self.row, column_number)
 
     @protocol.register(float)
     def _(self, arg: float, column_number: int):
-        AppGlobals.table.setItem(self.row, column_number, QTableWidgetItem(self.toString(arg)))
+        FloatCellValue(arg, self.row, column_number)
 

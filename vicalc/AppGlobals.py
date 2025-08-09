@@ -16,7 +16,8 @@ class AppGlobals:
     keyboard_grid_width = 58
     pushbutton_width = 59
     numpad_button_width = 52
-    numpad_start_column = 7
+    right_side_keyboard_visible = False
+    numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
 
     @staticmethod
     def to_format_string(number):

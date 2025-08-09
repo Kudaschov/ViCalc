@@ -115,209 +115,15 @@ class MainWindow(QMainWindow):
         self.leftside_button_list = [] # for arrange position and size
         self.numpad_button_list = [] # for arrange position and size
 
-        self.ui.pushButton0numpad.row = 4
-        self.ui.pushButton0numpad.column = 0
-        self.ui.pushButton0numpad.norm_width = 2
-        self.ui.pushButton0numpad.bg_color = self.number_key_color
-        self.ui.pushButton0numpad.shift_text = "<>"
-        self.ui.pushButton0numpad.ctrl_text = "X<>M"
-        self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
-        self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
-        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
-        self.numpad_button_list.append(self.ui.pushButton0numpad)
-
-        self.ui.pushButton1numpad.row = 3
-        self.ui.pushButton1numpad.column = 0
-        self.ui.pushButton1numpad.bg_color = self.number_key_color
-        self.ui.pushButton1numpad.shift_text = "ln"
-        self.ui.pushButton1numpad.ctrl_text = "e^x"
-        self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
-        self.ui.pushButton1numpad.shift_operation = CalcOperations.ln
-        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.ex
-        self.numpad_button_list.append(self.ui.pushButton1numpad)
-
-        self.ui.pushButton2numpad.row = 3
-        self.ui.pushButton2numpad.column = 1
-        self.ui.pushButton2numpad.bg_color = self.number_key_color
-        self.ui.pushButton2numpad.shift_text = "√"
-        self.ui.pushButton2numpad.ctrl_text = "x²"
-        self.ui.pushButton2numpad.base_operation = CalcOperations.number_2
-        self.ui.pushButton2numpad.shift_operation = CalcOperations.sqrt
-        self.ui.pushButton2numpad.ctrl_operation = CalcOperations.square
-        self.numpad_button_list.append(self.ui.pushButton2numpad)
-
-        self.ui.pushButton3numpad.row = 3
-        self.ui.pushButton3numpad.column = 2
-        self.ui.pushButton3numpad.bg_color = self.number_key_color
-        self.ui.pushButton3numpad.shift_text = "³√x"
-        self.ui.pushButton3numpad.ctrl_text = "x³"
-        self.ui.pushButton3numpad.base_operation = CalcOperations.number_3
-        self.ui.pushButton3numpad.shift_operation = CalcOperations.cube_root
-        self.ui.pushButton3numpad.ctrl_operation = CalcOperations.cube
-        self.numpad_button_list.append(self.ui.pushButton3numpad)
-
-        self.ui.pushButton4numpad.row = 2
-        self.ui.pushButton4numpad.column = 0
-        self.ui.pushButton4numpad.bg_color = self.number_key_color
-        self.ui.pushButton4numpad.shift_text = "sin"
-        self.ui.pushButton4numpad.ctrl_text = "-1"
-        self.ui.pushButton4numpad.base_operation = CalcOperations.number_4
-        self.ui.pushButton4numpad.shift_operation = CalcOperations.sin
-        self.ui.pushButton4numpad.ctrl_operation = CalcOperations.arcsin
-        self.numpad_button_list.append(self.ui.pushButton4numpad)
-
-        self.ui.pushButton5numpad.row = 2
-        self.ui.pushButton5numpad.column = 1
-        self.ui.pushButton5numpad.bg_color = self.number_key_color
-        self.ui.pushButton5numpad.shift_text = "cos"
-        self.ui.pushButton5numpad.ctrl_text = "-1"
-        self.ui.pushButton5numpad.base_operation = CalcOperations.number_5
-        self.ui.pushButton5numpad.shift_operation = CalcOperations.cos
-        self.ui.pushButton5numpad.ctrl_operation = CalcOperations.arccos
-        self.numpad_button_list.append(self.ui.pushButton5numpad)
-
-        self.ui.pushButton6numpad.row = 2
-        self.ui.pushButton6numpad.column = 2
-        self.ui.pushButton6numpad.bg_color = self.number_key_color
-        self.ui.pushButton6numpad.shift_text = "tan"
-        self.ui.pushButton6numpad.ctrl_text = "-1"
-        self.ui.pushButton6numpad.base_operation = CalcOperations.number_6
-        self.ui.pushButton6numpad.shift_operation = CalcOperations.tan
-        self.ui.pushButton6numpad.ctrl_operation = CalcOperations.arctan
-        self.numpad_button_list.append(self.ui.pushButton6numpad)
-
-        self.ui.pushButton7numpad.row = 1
-        self.ui.pushButton7numpad.column = 0
-        self.ui.pushButton7numpad.bg_color = self.number_key_color
-        self.ui.pushButton7numpad.shift_text = "log"
-        self.ui.pushButton7numpad.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButton7numpad.ctrl_text = "10^X"
-        self.ui.pushButton7numpad.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButton7numpad.base_operation = CalcOperations.number_7
-        self.ui.pushButton7numpad.shift_operation = CalcOperations.log
-        self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ten_power_x
-        self.numpad_button_list.append(self.ui.pushButton7numpad)
-
-        self.ui.pushButton8numpad.row = 1
-        self.ui.pushButton8numpad.column = 1
-        self.ui.pushButton8numpad.bg_color = self.number_key_color
-        self.ui.pushButton8numpad.shift_text = "("
-        self.ui.pushButton8numpad.ctrl_text = "MS"
-        self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
-        self.ui.pushButton8numpad.shift_operation = CalcOperations.opening_bracket
-        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
-        self.numpad_button_list.append(self.ui.pushButton8numpad)
-
-        self.ui.pushButton9numpad.row = 1
-        self.ui.pushButton9numpad.column = 2
-        self.ui.pushButton9numpad.bg_color = self.number_key_color
-        self.ui.pushButton9numpad.shift_text = ")"
-        self.ui.pushButton9numpad.ctrl_text = "MR"
-        self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
-        self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
-        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
-        self.numpad_button_list.append(self.ui.pushButton9numpad)
-
-        self.ui.pushButtonAC.row = 0
-        self.ui.pushButtonAC.column = 0
-        self.ui.pushButtonAC.setText("AC")
-        self.ui.pushButtonAC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonAC.shift_text = "C"
-        self.ui.pushButtonAC.ctrl_text = "C"
-        self.ui.pushButtonAC.base_operation = CalcOperations.AC
-        self.ui.pushButtonAC.shift_operation = CalcOperations.C
-        self.ui.pushButtonAC.ctrl_operation = CalcOperations.C
-        self.numpad_button_list.append(self.ui.pushButtonAC)
-
-        self.ui.pushButtonBackspace.row = 0
-        self.ui.pushButtonBackspace.column = 6
-        self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonBackspace.shift_text = "Del Line"
-        self.ui.pushButtonBackspace.ctrl_text = "Del Line"
-        self.ui.pushButtonBackspace.base_operation = CalcOperations.backspace
-        self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_last_line
-        self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_last_line
-        self.leftside_button_list.append(self.ui.pushButtonBackspace)
-
-        self.ui.pushButtonCommaNumpad.row = 4
-        self.ui.pushButtonCommaNumpad.column = 2
-        self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
-        self.ui.pushButtonCommaNumpad.shift_text = "<-"
-        self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
-        self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
-        self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
-        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
-        self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
-
-        self.ui.pushButtonMinusNumpad.row = 0
-        self.ui.pushButtonMinusNumpad.column = 3
-        self.ui.pushButtonMinusNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonMinusNumpad.shift_text = "(-)"
-        self.ui.pushButtonMinusNumpad.ctrl_text = "M-"
-        self.ui.pushButtonMinusNumpad.base_operation = CalcOperations.Minus
-        self.ui.pushButtonMinusNumpad.shift_operation = CalcOperations.SignChange
-        self.ui.pushButtonMinusNumpad.ctrl_operation = CalcOperations.M_minus
-        self.numpad_button_list.append(self.ui.pushButtonMinusNumpad)
-
-        self.ui.pushButtonEnter.row = 2
-        self.ui.pushButtonEnter.column = 6
-#        self.ui.pushButtonEnter.norm_width = 1
-        self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
-#        self.ui.pushButtonEnter.shift_text = "MS"
-#        self.ui.pushButtonEnter.ctrl_text = "MR"
-        self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.shift_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.ctrl_operation = CalcOperations.calculate
-        self.leftside_button_list.append(self.ui.pushButtonEnter)
-
-        self.ui.pushButtonEnterNumpad.row = 2
-        self.ui.pushButtonEnterNumpad.column = 3
-        self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonEnterNumpad.shift_text = "%"
-        self.ui.pushButtonEnterNumpad.ctrl_text = "%"
-        self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
-        self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
-        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.percent
-        self.numpad_button_list.append(self.ui.pushButtonEnterNumpad)
-
-        self.ui.pushButtonPlusNumpad.row = 1
-        self.ui.pushButtonPlusNumpad.column = 3
-        self.ui.pushButtonPlusNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonPlusNumpad.shift_text = "M+"
-        self.ui.pushButtonPlusNumpad.ctrl_text = "M+"
-        self.ui.pushButtonPlusNumpad.base_operation = CalcOperations.Plus
-        self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.M_plus
-        self.ui.pushButtonPlusNumpad.ctrl_operation = CalcOperations.M_plus
-        self.numpad_button_list.append(self.ui.pushButtonPlusNumpad)
-
-        self.ui.pushButtonMultiplyNumpad.row = 0
-        self.ui.pushButtonMultiplyNumpad.column = 2
-        self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
-        #self.ui.pushButtonMultiplyNumpad.shift_font = QFont("Helvetica", 8)
-        #self.ui.pushButtonMultiplyNumpad.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonMultiplyNumpad.ctrl_text = "n!"
-        #self.ui.pushButtonMultiplyNumpad.ctrl_font = QFont("Helvetica", 8)
-        #self.ui.pushButtonMultiplyNumpad.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
-        self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
-        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.factorial
-        self.numpad_button_list.append(self.ui.pushButtonMultiplyNumpad)
-
-        self.ui.pushButtonDivisionNumpad.row = 0
-        self.ui.pushButtonDivisionNumpad.column = 1
-        self.ui.pushButtonDivisionNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonDivisionNumpad.shift_text = "1/x"
-        self.ui.pushButtonDivisionNumpad.ctrl_text = "Pi"
-        self.ui.pushButtonDivisionNumpad.base_operation = CalcOperations.Division
-        self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.reciprocal
-        self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.pi
-        self.numpad_button_list.append(self.ui.pushButtonDivisionNumpad)
-
         self.ui.pushButtonSpace.row = 4
-        self.ui.pushButtonSpace.column = 0.5
+        self.ui.pushButtonSpace.column = 1
         self.ui.pushButtonSpace.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonSpace.norm_width = 5.93
+
+        if AppGlobals.right_side_keyboard_visible:
+            self.ui.pushButtonSpace.norm_width = 8.93
+        else:
+            self.ui.pushButtonSpace.norm_width = 4.94
+        
         self.ui.pushButtonSpace.setText("=")
         self.ui.pushButtonSpace.shift_text = "Comment"
         self.ui.pushButtonSpace.ctrl_text = "Comment"
@@ -326,10 +132,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonSpace.ctrl_operation = CalcOperations.comment
         self.leftside_button_list.append(self.ui.pushButtonSpace)
 
+        self.numpad_keys()
         self.numbers_row_keyboard()
         self.first_row_keyboard()
         self.second_row_keyboard()
         self.third_row_keyboard()
+        self.right_side_keyboard()
         self.arrange_keyboard()
 
         AppGlobals.input_box.button_list = self.button_list
@@ -772,6 +580,205 @@ class MainWindow(QMainWindow):
         else:
             AppGlobals.input_box.setFocus()
 
+    def numpad_keys(self):
+        self.ui.pushButton0numpad.row = 4
+        self.ui.pushButton0numpad.column = 0
+        self.ui.pushButton0numpad.norm_width = 2
+        self.ui.pushButton0numpad.bg_color = self.number_key_color
+        self.ui.pushButton0numpad.shift_text = "<>"
+        self.ui.pushButton0numpad.ctrl_text = "X<>M"
+        self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
+        self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
+        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
+        self.numpad_button_list.append(self.ui.pushButton0numpad)
+
+        self.ui.pushButton1numpad.row = 3
+        self.ui.pushButton1numpad.column = 0
+        self.ui.pushButton1numpad.bg_color = self.number_key_color
+        self.ui.pushButton1numpad.shift_text = "ln"
+        self.ui.pushButton1numpad.ctrl_text = "e^x"
+        self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
+        self.ui.pushButton1numpad.shift_operation = CalcOperations.ln
+        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.ex
+        self.numpad_button_list.append(self.ui.pushButton1numpad)
+
+        self.ui.pushButton2numpad.row = 3
+        self.ui.pushButton2numpad.column = 1
+        self.ui.pushButton2numpad.bg_color = self.number_key_color
+        self.ui.pushButton2numpad.shift_text = "√"
+        self.ui.pushButton2numpad.ctrl_text = "x²"
+        self.ui.pushButton2numpad.base_operation = CalcOperations.number_2
+        self.ui.pushButton2numpad.shift_operation = CalcOperations.sqrt
+        self.ui.pushButton2numpad.ctrl_operation = CalcOperations.square
+        self.numpad_button_list.append(self.ui.pushButton2numpad)
+
+        self.ui.pushButton3numpad.row = 3
+        self.ui.pushButton3numpad.column = 2
+        self.ui.pushButton3numpad.bg_color = self.number_key_color
+        self.ui.pushButton3numpad.shift_text = "³√x"
+        self.ui.pushButton3numpad.ctrl_text = "x³"
+        self.ui.pushButton3numpad.base_operation = CalcOperations.number_3
+        self.ui.pushButton3numpad.shift_operation = CalcOperations.cube_root
+        self.ui.pushButton3numpad.ctrl_operation = CalcOperations.cube
+        self.numpad_button_list.append(self.ui.pushButton3numpad)
+
+        self.ui.pushButton4numpad.row = 2
+        self.ui.pushButton4numpad.column = 0
+        self.ui.pushButton4numpad.bg_color = self.number_key_color
+        self.ui.pushButton4numpad.shift_text = "sin"
+        self.ui.pushButton4numpad.ctrl_text = "-1"
+        self.ui.pushButton4numpad.base_operation = CalcOperations.number_4
+        self.ui.pushButton4numpad.shift_operation = CalcOperations.sin
+        self.ui.pushButton4numpad.ctrl_operation = CalcOperations.arcsin
+        self.numpad_button_list.append(self.ui.pushButton4numpad)
+
+        self.ui.pushButton5numpad.row = 2
+        self.ui.pushButton5numpad.column = 1
+        self.ui.pushButton5numpad.bg_color = self.number_key_color
+        self.ui.pushButton5numpad.shift_text = "cos"
+        self.ui.pushButton5numpad.ctrl_text = "-1"
+        self.ui.pushButton5numpad.base_operation = CalcOperations.number_5
+        self.ui.pushButton5numpad.shift_operation = CalcOperations.cos
+        self.ui.pushButton5numpad.ctrl_operation = CalcOperations.arccos
+        self.numpad_button_list.append(self.ui.pushButton5numpad)
+
+        self.ui.pushButton6numpad.row = 2
+        self.ui.pushButton6numpad.column = 2
+        self.ui.pushButton6numpad.bg_color = self.number_key_color
+        self.ui.pushButton6numpad.shift_text = "tan"
+        self.ui.pushButton6numpad.ctrl_text = "-1"
+        self.ui.pushButton6numpad.base_operation = CalcOperations.number_6
+        self.ui.pushButton6numpad.shift_operation = CalcOperations.tan
+        self.ui.pushButton6numpad.ctrl_operation = CalcOperations.arctan
+        self.numpad_button_list.append(self.ui.pushButton6numpad)
+
+        self.ui.pushButton7numpad.row = 1
+        self.ui.pushButton7numpad.column = 0
+        self.ui.pushButton7numpad.bg_color = self.number_key_color
+        self.ui.pushButton7numpad.shift_text = "log"
+        self.ui.pushButton7numpad.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButton7numpad.ctrl_text = "10^X"
+        self.ui.pushButton7numpad.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton7numpad.base_operation = CalcOperations.number_7
+        self.ui.pushButton7numpad.shift_operation = CalcOperations.log
+        self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ten_power_x
+        self.numpad_button_list.append(self.ui.pushButton7numpad)
+
+        self.ui.pushButton8numpad.row = 1
+        self.ui.pushButton8numpad.column = 1
+        self.ui.pushButton8numpad.bg_color = self.number_key_color
+        self.ui.pushButton8numpad.shift_text = "("
+        self.ui.pushButton8numpad.ctrl_text = "MS"
+        self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
+        self.ui.pushButton8numpad.shift_operation = CalcOperations.opening_bracket
+        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
+        self.numpad_button_list.append(self.ui.pushButton8numpad)
+
+        self.ui.pushButton9numpad.row = 1
+        self.ui.pushButton9numpad.column = 2
+        self.ui.pushButton9numpad.bg_color = self.number_key_color
+        self.ui.pushButton9numpad.shift_text = ")"
+        self.ui.pushButton9numpad.ctrl_text = "MR"
+        self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
+        self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
+        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
+        self.numpad_button_list.append(self.ui.pushButton9numpad)
+
+        self.ui.pushButtonAC.row = 0
+        self.ui.pushButtonAC.column = 0
+        self.ui.pushButtonAC.setText("AC")
+        self.ui.pushButtonAC.bg_color = self.c_ac_bg_color
+        self.ui.pushButtonAC.shift_text = "C"
+        self.ui.pushButtonAC.ctrl_text = "C"
+        self.ui.pushButtonAC.base_operation = CalcOperations.AC
+        self.ui.pushButtonAC.shift_operation = CalcOperations.C
+        self.ui.pushButtonAC.ctrl_operation = CalcOperations.C
+        self.numpad_button_list.append(self.ui.pushButtonAC)
+
+        self.ui.pushButtonBackspace.row = 0
+        if AppGlobals.right_side_keyboard_visible:
+            self.ui.pushButtonBackspace.column = 12
+        else:
+            self.ui.pushButtonBackspace.column = 6
+        self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
+        self.ui.pushButtonBackspace.shift_text = "Del Line"
+        self.ui.pushButtonBackspace.ctrl_text = "Del Line"
+        self.ui.pushButtonBackspace.base_operation = CalcOperations.backspace
+        self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_last_line
+        self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_last_line
+        self.leftside_button_list.append(self.ui.pushButtonBackspace)
+
+        self.ui.pushButtonCommaNumpad.row = 4
+        self.ui.pushButtonCommaNumpad.column = 2
+        self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
+        self.ui.pushButtonCommaNumpad.shift_text = "<-"
+        self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
+        self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
+        self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
+        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
+        self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
+
+        self.ui.pushButtonMinusNumpad.row = 0
+        self.ui.pushButtonMinusNumpad.column = 3
+        self.ui.pushButtonMinusNumpad.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonMinusNumpad.shift_text = "(-)"
+        self.ui.pushButtonMinusNumpad.ctrl_text = "M-"
+        self.ui.pushButtonMinusNumpad.base_operation = CalcOperations.Minus
+        self.ui.pushButtonMinusNumpad.shift_operation = CalcOperations.SignChange
+        self.ui.pushButtonMinusNumpad.ctrl_operation = CalcOperations.M_minus
+        self.numpad_button_list.append(self.ui.pushButtonMinusNumpad)
+
+        self.ui.pushButtonEnter.row = 2
+        if AppGlobals.right_side_keyboard_visible:
+            self.ui.pushButtonEnter.column = 12
+        else:
+            self.ui.pushButtonEnter.column = 6
+        self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
+        self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
+        self.ui.pushButtonEnter.shift_operation = CalcOperations.calculate
+        self.ui.pushButtonEnter.ctrl_operation = CalcOperations.calculate
+        self.leftside_button_list.append(self.ui.pushButtonEnter)
+
+        self.ui.pushButtonEnterNumpad.row = 2
+        self.ui.pushButtonEnterNumpad.column = 3
+        self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonEnterNumpad.shift_text = "%"
+        self.ui.pushButtonEnterNumpad.ctrl_text = "%"
+        self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
+        self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
+        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.percent
+        self.numpad_button_list.append(self.ui.pushButtonEnterNumpad)
+
+        self.ui.pushButtonPlusNumpad.row = 1
+        self.ui.pushButtonPlusNumpad.column = 3
+        self.ui.pushButtonPlusNumpad.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonPlusNumpad.shift_text = "M+"
+        self.ui.pushButtonPlusNumpad.ctrl_text = "M+"
+        self.ui.pushButtonPlusNumpad.base_operation = CalcOperations.Plus
+        self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.M_plus
+        self.ui.pushButtonPlusNumpad.ctrl_operation = CalcOperations.M_plus
+        self.numpad_button_list.append(self.ui.pushButtonPlusNumpad)
+
+        self.ui.pushButtonMultiplyNumpad.row = 0
+        self.ui.pushButtonMultiplyNumpad.column = 2
+        self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
+        self.ui.pushButtonMultiplyNumpad.ctrl_text = "n!"
+        self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
+        self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
+        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.factorial
+        self.numpad_button_list.append(self.ui.pushButtonMultiplyNumpad)
+
+        self.ui.pushButtonDivisionNumpad.row = 0
+        self.ui.pushButtonDivisionNumpad.column = 1
+        self.ui.pushButtonDivisionNumpad.bg_color = self.arithmetic_operation_color
+        self.ui.pushButtonDivisionNumpad.shift_text = "1/x"
+        self.ui.pushButtonDivisionNumpad.ctrl_text = "Pi"
+        self.ui.pushButtonDivisionNumpad.base_operation = CalcOperations.Division
+        self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.reciprocal
+        self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.pi
+        self.numpad_button_list.append(self.ui.pushButtonDivisionNumpad)
+
     def numbers_row_keyboard(self):
         self.ui.pushButton1.row = 0
         self.ui.pushButton1.column = 0
@@ -957,6 +964,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonG.original_keyboard_text = "G"
         self.ui.pushButtonG.shift_text = "10^x"
         self.ui.pushButtonG.ctrl_text = "P->R"
+        self.ui.pushButtonG.ctrl_font = QFont("Helvetica", 9)
         self.ui.pushButtonG.base_operation = CalcOperations.log
         self.ui.pushButtonG.shift_operation = CalcOperations.ten_power_x
         self.ui.pushButtonG.ctrl_operation = CalcOperations.polar_to_rectangular
@@ -980,7 +988,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.original_keyboard_text = "Y"
         self.ui.pushButtonY.shift_text = "DMS"
         self.ui.pushButtonY.ctrl_text = "Redo"
-        self.ui.pushButtonY.ctrl_font = QFont("Helvetica", 8)
+        self.ui.pushButtonY.ctrl_font = QFont("Helvetica", 9)
         self.ui.pushButtonY.base_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
@@ -990,13 +998,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.column = 2.5
         self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
-        self.ui.pushButtonX.shift_text = "R->P"
-        self.ui.pushButtonX.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonX.shift_text = "DD"
+#        self.ui.pushButtonX.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonX.ctrl_text = "Cut"
         self.ui.pushButtonX.ctrl_font = QFont("Helvetica", 9)
-        self.ui.pushButtonX.ctrl_text_alignment = Qt.AlignRight
+#        self.ui.pushButtonX.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
-        self.ui.pushButtonX.shift_operation = CalcOperations.rectangular_to_polar
+        self.ui.pushButtonX.shift_operation = CalcOperations.convert_to_dd
         self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
         self.leftside_button_list.append(self.ui.pushButtonX)
 
@@ -1032,11 +1040,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.setText("ln")
         self.ui.pushButtonB.original_keyboard_text = "B"
         self.ui.pushButtonB.shift_text = "e^x"
-        self.ui.pushButtonB.ctrl_text = "DD"
+        self.ui.pushButtonB.ctrl_text = "R->P"
+        self.ui.pushButtonB.ctrl_font = QFont("Helvetica", 9)
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.ln
         self.ui.pushButtonB.shift_operation = CalcOperations.ex
-        self.ui.pushButtonB.ctrl_operation = CalcOperations.convert_to_dd
+        self.ui.pushButtonB.ctrl_operation = CalcOperations.rectangular_to_polar
         self.leftside_button_list.append(self.ui.pushButtonB)
 
     def convert_from_binary(self):
@@ -1153,6 +1162,185 @@ class MainWindow(QMainWindow):
 
         # Set current cell (will highlight/select it)
         AppGlobals.table.setCurrentCell(last_row, last_non_empty_col)
+
+    def right_side_keyboard(self):
+        self.numbers_row_right_side()
+        self.first_row_right_side()
+        self.second_row_right_side()
+        self.third_row_right_side()
+
+    def numbers_row_right_side(self):
+        self.ui.pushButton7.row = 0
+        self.ui.pushButton7.column = 6
+        self.ui.pushButton7.bg_color = self.number_key_color
+        self.ui.pushButton7.shift_text = "/"
+        self.ui.pushButton7.base_operation = CalcOperations.number_7
+        self.ui.pushButton7.shift_operation = CalcOperations.Division
+        self.ui.pushButton7.ctrl_operation = CalcOperations.Division
+        self.add_to_rightside_list(self.ui.pushButton7)
+
+        self.ui.pushButton8.row = 0
+        self.ui.pushButton8.column = 7
+        self.ui.pushButton8.bg_color = self.number_key_color
+        self.ui.pushButton8.shift_text = "("
+        self.ui.pushButton8.base_operation = CalcOperations.number_8
+        self.ui.pushButton8.shift_operation = CalcOperations.opening_bracket
+        self.ui.pushButton8.ctrl_operation = CalcOperations.opening_bracket
+        self.add_to_rightside_list(self.ui.pushButton8)
+
+        self.ui.pushButton9.row = 0
+        self.ui.pushButton9.column = 8
+        self.ui.pushButton9.bg_color = self.number_key_color
+        self.ui.pushButton9.shift_text = ")"
+        self.ui.pushButton9.base_operation = CalcOperations.number_9
+        self.ui.pushButton9.shift_operation = CalcOperations.closing_bracket
+        self.ui.pushButton9.ctrl_operation = CalcOperations.closing_bracket
+        self.add_to_rightside_list(self.ui.pushButton9)
+
+        self.ui.pushButton0.row = 0
+        self.ui.pushButton0.column = 9
+        self.ui.pushButton0.bg_color = self.number_key_color
+        self.ui.pushButton0.shift_text = "="
+        self.ui.pushButton0.base_operation = CalcOperations.number_0
+        self.ui.pushButton0.shift_operation = CalcOperations.calculate
+        self.ui.pushButton0.ctrl_operation = CalcOperations.calculate
+        self.add_to_rightside_list(self.ui.pushButton0)
+
+        self.ui.pushButtonSsharp.row = 0
+        self.ui.pushButtonSsharp.column = 10
+        self.ui.pushButtonSsharp.setText("")
+        self.ui.pushButtonSsharp.original_keyboard_text = "ß"
+        self.ui.pushButtonSsharp.shift_text = ""
+        self.add_to_rightside_list(self.ui.pushButtonSsharp)
+        
+        self.ui.pushButtonAcute.row = 0
+        self.ui.pushButtonAcute.column = 11
+        self.ui.pushButtonAcute.setText("")
+        self.ui.pushButtonAcute.original_keyboard_text = "´"
+        self.ui.pushButtonAcute.shift_text = ""
+        self.add_to_rightside_list(self.ui.pushButtonAcute)
+
+    def first_row_right_side(self):
+        self.ui.pushButtonU.row = 1
+        self.ui.pushButtonU.column = 6.5
+        self.ui.pushButtonU.setText("")
+        self.ui.pushButtonU.original_keyboard_text = "U"
+        self.add_to_rightside_list(self.ui.pushButtonU)
+
+        self.ui.pushButtonI.row = 1
+        self.ui.pushButtonI.column = 7.5
+        self.ui.pushButtonI.setText("")
+        self.ui.pushButtonI.original_keyboard_text = "I"
+        self.add_to_rightside_list(self.ui.pushButtonI)
+
+        self.ui.pushButtonO.row = 1
+        self.ui.pushButtonO.column = 8.5
+        self.ui.pushButtonO.setText("")
+        self.ui.pushButtonO.original_keyboard_text = "O"
+        self.add_to_rightside_list(self.ui.pushButtonO)
+
+        self.ui.pushButtonP.row = 1
+        self.ui.pushButtonP.column = 9.5
+        self.ui.pushButtonP.setText("")
+        self.ui.pushButtonP.original_keyboard_text = "P"
+        self.add_to_rightside_list(self.ui.pushButtonP)
+
+        self.ui.pushButtonUdiaeresis.row = 1
+        self.ui.pushButtonUdiaeresis.column = 10.5
+        self.ui.pushButtonUdiaeresis.setText("")
+        self.ui.pushButtonUdiaeresis.original_keyboard_text = "Ü"
+        self.add_to_rightside_list(self.ui.pushButtonUdiaeresis)
+
+        self.ui.pushButtonPlus.row = 1
+        self.ui.pushButtonPlus.column = 11.5
+        self.ui.pushButtonPlus.setText("+")
+        self.ui.pushButtonPlus.shift_text = "*"
+        self.ui.pushButtonPlus.ctrl_text = "*"
+        self.ui.pushButtonPlus.base_operation = CalcOperations.Plus
+        self.ui.pushButtonPlus.shift_operation = CalcOperations.Multiply
+        self.ui.pushButtonPlus.ctrl_operation = CalcOperations.Multiply
+        self.add_to_rightside_list(self.ui.pushButtonPlus)
+
+    def second_row_right_side(self):
+        self.ui.pushButtonH.row = 2
+        self.ui.pushButtonH.column = 6
+        self.ui.pushButtonH.setText("")
+        self.ui.pushButtonH.original_keyboard_text = "H"
+        self.add_to_rightside_list(self.ui.pushButtonH)
+
+        self.ui.pushButtonJ.row = 2
+        self.ui.pushButtonJ.column = 7
+        self.ui.pushButtonJ.setText("")
+        self.ui.pushButtonJ.original_keyboard_text = "J"
+        self.add_to_rightside_list(self.ui.pushButtonJ)
+
+        self.ui.pushButtonK.row = 2
+        self.ui.pushButtonK.column = 8
+        self.ui.pushButtonK.setText("")
+        self.ui.pushButtonK.original_keyboard_text = "K"
+        self.add_to_rightside_list(self.ui.pushButtonK)
+
+        self.ui.pushButtonL.row = 2
+        self.ui.pushButtonL.column = 9
+        self.ui.pushButtonL.setText("")
+        self.ui.pushButtonL.original_keyboard_text = "L"
+        self.add_to_rightside_list(self.ui.pushButtonL)
+
+        self.ui.pushButtonOdiaeresis.row = 2
+        self.ui.pushButtonOdiaeresis.column = 10
+        self.ui.pushButtonOdiaeresis.setText("")
+        self.ui.pushButtonOdiaeresis.original_keyboard_text = "Ö"
+        self.add_to_rightside_list(self.ui.pushButtonOdiaeresis)
+        
+        self.ui.pushButtonAdiaeresis.row = 2
+        self.ui.pushButtonAdiaeresis.column = 11
+        self.ui.pushButtonAdiaeresis.setText("")
+        self.ui.pushButtonAdiaeresis.original_keyboard_text = "Ä"
+        self.add_to_rightside_list(self.ui.pushButtonAdiaeresis)
+
+    def third_row_right_side(self):
+        self.ui.pushButtonN.row = 3
+        self.ui.pushButtonN.column = 6.5
+        self.ui.pushButtonN.setText("")
+        self.ui.pushButtonN.original_keyboard_text = "N"
+        self.add_to_rightside_list(self.ui.pushButtonN)
+
+        self.ui.pushButtonM.row = 3
+        self.ui.pushButtonM.column = 7.5
+        self.ui.pushButtonM.setText("")
+        self.ui.pushButtonM.original_keyboard_text = "M"
+        self.add_to_rightside_list(self.ui.pushButtonM)
+
+        self.ui.pushButtonComma.row = 3
+        self.ui.pushButtonComma.column = 8.5
+        self.ui.pushButtonComma.setText(",")
+        self.ui.pushButtonComma.base_operation = CalcOperations.comma
+        self.ui.pushButtonComma.shift_operation = CalcOperations.comma
+        self.ui.pushButtonComma.ctrl_operation = CalcOperations.comma
+        self.add_to_rightside_list(self.ui.pushButtonComma)
+
+        self.ui.pushButtonPeriod.row = 3
+        self.ui.pushButtonPeriod.column = 9.5
+        self.ui.pushButtonPeriod.setText("")
+        self.ui.pushButtonPeriod.original_keyboard_text = "."
+        self.add_to_rightside_list(self.ui.pushButtonPeriod)
+
+        self.ui.pushButtonMinus.row = 3
+        self.ui.pushButtonMinus.column = 10.5
+        self.ui.pushButtonMinus.setText("-")
+        self.ui.pushButtonMinus.shift_text = "(-)"
+        self.ui.pushButtonMinus.ctrl_text = "(-)"
+        self.ui.pushButtonMinus.original_keyboard_text = "."
+        self.ui.pushButtonMinus.base_operation = CalcOperations.Minus
+        self.ui.pushButtonMinus.shift_operation = CalcOperations.SignChange
+        self.ui.pushButtonMinus.ctrl_operation = CalcOperations.SignChange
+        self.add_to_rightside_list(self.ui.pushButtonMinus)
+
+    def add_to_rightside_list(self, key_button):
+        if AppGlobals.right_side_keyboard_visible:
+            self.leftside_button_list.append(key_button)
+        else:
+            key_button.hide()
 
 # main
 def main():

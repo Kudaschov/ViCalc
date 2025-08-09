@@ -962,7 +962,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Y:
                         self.exec_convert_to_dms()
                     case Qt.Key.Key_X:
-                        self.exec_rectangular_to_polar()
+                        self.exec_convert_to_dd()
                     case Qt.Key.Key_C:
                         self.exec_MS()
                     case Qt.Key.Key_V:
