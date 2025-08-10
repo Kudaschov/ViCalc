@@ -526,6 +526,12 @@ class InputTextEdit(QLineEdit):
                     self.exec_fourth_root()
                 case CalcOperations.fourth_power:
                     self.exec_fourth_power()
+                case CalcOperations.convert_to_deg:
+                    self.exec_convert_to_deg()
+                case CalcOperations.convert_to_rad:
+                    self.exec_convert_to_rad()
+                case CalcOperations.convert_to_gra:
+                    self.exec_convert_to_gra()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -912,11 +918,11 @@ class InputTextEdit(QLineEdit):
             # shift pressed
             match self.scan_code:
                 case 3: # Key 2
-                    self.exec_sqrt()
+                    self.exec_square()
                 case 4: # Key 3
-                    self.exec_cube_root()
+                    self.exec_cube()
                 case 5: # Key 4
-                    self.exec_fourth_root()
+                    self.exec_fourth_power()
                 case _:
                     return False
             return True
@@ -944,7 +950,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_W:
                         self.exec_M_plus()
                     case Qt.Key.Key_R:
-                        self.exec_square()
+                        self.exec_cube_root()
                     case Qt.Key.Key_T:
                         self.exec_cube() 
                     case Qt.Key.Key_Z:
@@ -956,7 +962,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_D:
                         self.exec_arccos()
                     case Qt.Key.Key_F:
-                        self.exec_cube()
+                        self.exec_MS()
                     case Qt.Key.Key_G:
                         self.exec_ten_power_x()
                     case Qt.Key.Key_Y:
@@ -964,7 +970,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_X:
                         self.exec_convert_to_dd()
                     case Qt.Key.Key_C:
-                        self.exec_MS()
+                        self.exec_c()
                     case Qt.Key.Key_V:
                         self.exec_MR()
                     case Qt.Key.Key_B:

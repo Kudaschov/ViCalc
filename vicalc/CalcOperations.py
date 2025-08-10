@@ -74,3 +74,6 @@ class CalcOperations(Enum):
     polar_to_rectangular = auto()
     combination = auto()
     permutation = auto()
+    convert_to_deg = auto()
+    convert_to_rad = auto()
+    convert_to_gra = auto()

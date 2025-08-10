@@ -123,6 +123,8 @@ class MainWindow(QMainWindow):
             self.ui.pushButtonSpace.norm_width = 8.93
         else:
             self.ui.pushButtonSpace.norm_width = 4.94
+
+        self.font_long_names = QFont("Helvetica", 9)
         
         self.ui.pushButtonSpace.setText("=")
         self.ui.pushButtonSpace.shift_text = "Comment"
@@ -793,31 +795,37 @@ class MainWindow(QMainWindow):
         self.ui.pushButton2.row = 0
         self.ui.pushButton2.column = 1
         self.ui.pushButton2.bg_color = self.number_key_color
-        self.ui.pushButton2.shift_text = "√"
-        self.ui.pushButton2.ctrl_text = "x²"
+        self.ui.pushButton2.shift_text = "x²"
+        self.ui.pushButton2.ctrl_text = "->DEG"
+        self.ui.pushButton2.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton2.ctrl_font = self.font_long_names
         self.ui.pushButton2.base_operation = CalcOperations.number_2
-        self.ui.pushButton2.shift_operation = CalcOperations.sqrt
-        self.ui.pushButton2.ctrl_operation = CalcOperations.square
+        self.ui.pushButton2.shift_operation = CalcOperations.square
+        self.ui.pushButton2.ctrl_operation = CalcOperations.convert_to_deg
         self.leftside_button_list.append(self.ui.pushButton2)
 
         self.ui.pushButton3.row = 0
         self.ui.pushButton3.column = 2
         self.ui.pushButton3.bg_color = self.number_key_color
-        self.ui.pushButton3.shift_text = "³√x"
-        self.ui.pushButton3.ctrl_text = "x³"
+        self.ui.pushButton3.shift_text = "x³"
+        self.ui.pushButton3.ctrl_text = "->RAD"
+        self.ui.pushButton3.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton3.ctrl_font = self.font_long_names
         self.ui.pushButton3.base_operation = CalcOperations.number_3
-        self.ui.pushButton3.shift_operation = CalcOperations.cube_root
-        self.ui.pushButton3.ctrl_operation = CalcOperations.cube
+        self.ui.pushButton3.shift_operation = CalcOperations.cube
+        self.ui.pushButton3.ctrl_operation = CalcOperations.convert_to_rad
         self.leftside_button_list.append(self.ui.pushButton3)
 
         self.ui.pushButton4.row = 0
         self.ui.pushButton4.column = 3
         self.ui.pushButton4.bg_color = self.number_key_color
-        self.ui.pushButton4.shift_text = "⁴√x"
-        self.ui.pushButton4.ctrl_text = "x⁴"
+        self.ui.pushButton4.shift_text = "x⁴"
+        self.ui.pushButton4.ctrl_text = "->GRA"
+        self.ui.pushButton4.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton4.ctrl_font = self.font_long_names
         self.ui.pushButton4.base_operation = CalcOperations.number_4
-        self.ui.pushButton4.shift_operation = CalcOperations.fourth_root
-        self.ui.pushButton4.ctrl_operation = CalcOperations.fourth_power
+        self.ui.pushButton4.shift_operation = CalcOperations.fourth_power
+        self.ui.pushButton4.ctrl_operation = CalcOperations.convert_to_gra
         self.leftside_button_list.append(self.ui.pushButton4)
 
         self.ui.pushButton5.row = 0
@@ -875,11 +883,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonR.column = 3.5
         self.ui.pushButtonR.setText("√")
         self.ui.pushButtonR.original_keyboard_text = "R"
-        self.ui.pushButtonR.shift_text = "x²"
+        self.ui.pushButtonR.shift_text = "³√x"
         self.ui.pushButtonR.ctrl_text = ""
         self.ui.pushButtonR.base_operation = CalcOperations.sqrt
-        self.ui.pushButtonR.shift_operation = CalcOperations.square
-        self.ui.pushButtonR.ctrl_operation = CalcOperations.square
+        self.ui.pushButtonR.shift_operation = CalcOperations.cube_root
+        self.ui.pushButtonR.ctrl_operation = CalcOperations.cube_root
         self.leftside_button_list.append(self.ui.pushButtonR)
 
         self.ui.pushButtonT.row = 1
@@ -949,13 +957,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.column = 4
         self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
-        self.ui.pushButtonF.shift_text = "x³"
+        self.ui.pushButtonF.shift_text = ""
 #        self.ui.pushButtonF.shift_text_alignment = Qt.AlignLeft
 #        self.ui.pushButtonF.ctrl_text = "tanh"
 #        self.ui.pushButtonF.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonF.base_operation = CalcOperations.MS
-        self.ui.pushButtonF.shift_operation = CalcOperations.cube
-        self.ui.pushButtonF.ctrl_operation = CalcOperations.cube
+        self.ui.pushButtonF.shift_operation = CalcOperations.MS
+        self.ui.pushButtonF.ctrl_operation = CalcOperations.MS
         self.leftside_button_list.append(self.ui.pushButtonF)
 
         self.ui.pushButtonG.row = 2
@@ -964,7 +972,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonG.original_keyboard_text = "G"
         self.ui.pushButtonG.shift_text = "10^x"
         self.ui.pushButtonG.ctrl_text = "P->R"
-        self.ui.pushButtonG.ctrl_font = QFont("Helvetica", 9)
+        self.ui.pushButtonG.ctrl_font = self.font_long_names
         self.ui.pushButtonG.base_operation = CalcOperations.log
         self.ui.pushButtonG.shift_operation = CalcOperations.ten_power_x
         self.ui.pushButtonG.ctrl_operation = CalcOperations.polar_to_rectangular
@@ -988,7 +996,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.original_keyboard_text = "Y"
         self.ui.pushButtonY.shift_text = "DMS"
         self.ui.pushButtonY.ctrl_text = "Redo"
-        self.ui.pushButtonY.ctrl_font = QFont("Helvetica", 9)
+        self.ui.pushButtonY.ctrl_font = self.font_long_names
         self.ui.pushButtonY.base_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
@@ -1001,7 +1009,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.shift_text = "DD"
 #        self.ui.pushButtonX.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonX.ctrl_text = "Cut"
-        self.ui.pushButtonX.ctrl_font = QFont("Helvetica", 9)
+        self.ui.pushButtonX.ctrl_font = self.font_long_names
 #        self.ui.pushButtonX.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
         self.ui.pushButtonX.shift_operation = CalcOperations.convert_to_dd
@@ -1012,13 +1020,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.column = 3.5
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonC.shift_text = "MS"
+        self.ui.pushButtonC.shift_text = ""
         self.ui.pushButtonC.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonC.ctrl_text = "Copy"
         self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonC.ctrl_font = QFont("Helvetica", 9)
+        self.ui.pushButtonC.ctrl_font = self.font_long_names
         self.ui.pushButtonC.base_operation = CalcOperations.C
-        self.ui.pushButtonC.shift_operation = CalcOperations.MS
+        self.ui.pushButtonC.shift_operation = CalcOperations.C
         self.ui.pushButtonC.ctrl_operation = CalcOperations.copy_to_clipboard
         self.leftside_button_list.append(self.ui.pushButtonC)
 
@@ -1029,7 +1037,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.shift_text = "MR"
         self.ui.pushButtonV.ctrl_text = "Paste"
         self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButtonV.ctrl_font = QFont("Helvetica", 9)
+        self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.MR
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
@@ -1041,7 +1049,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.original_keyboard_text = "B"
         self.ui.pushButtonB.shift_text = "e^x"
         self.ui.pushButtonB.ctrl_text = "R->P"
-        self.ui.pushButtonB.ctrl_font = QFont("Helvetica", 9)
+        self.ui.pushButtonB.ctrl_font = self.font_long_names
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.ln
         self.ui.pushButtonB.shift_operation = CalcOperations.ex
@@ -1088,6 +1096,9 @@ class MainWindow(QMainWindow):
                 offset = AppGlobals.numpad_start_column * AppGlobals.keyboard_grid_width
                 button.move(offset + button.column * AppGlobals.numpad_button_width, button.y())
                 button.setFixedWidth(button.norm_width * AppGlobals.numpad_button_width)
+
+        if True:
+            self.check_double_operations()
 
     def sinh(self):
         AppGlobals.input_box.exec_sinh()
@@ -1341,6 +1352,26 @@ class MainWindow(QMainWindow):
             self.leftside_button_list.append(key_button)
         else:
             key_button.hide()
+
+    def check_double_operations(self):
+        # for debugging
+        operations = []
+
+        for button in self.leftside_button_list:
+            if button.base_operation in operations:
+                print(f"Duplicate found in base operation: {button.text()}, {button.base_operation}")
+            else:
+                operations.append(button.base_operation)
+
+            if button.shift_operation in operations:
+                print(f"Duplicate found in shift operation: {button.text()}, {button.shift_operation}")
+            else:
+                operations.append(button.shift_operation)
+
+            if button.ctrl_operation in operations:
+                print(f"Duplication found in ctrl operations: {button.text()}, {button.ctrl_operation}")
+            else:
+                operations.append(button.ctrl_operation)
 
 # main
 def main():

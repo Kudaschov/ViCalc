@@ -1208,10 +1208,6 @@
     <property name="title">
      <string>&amp;Math</string>
     </property>
-    <addaction name="action_square"/>
-    <addaction name="action_cube"/>
-    <addaction name="action_fourth_power"/>
-    <addaction name="separator"/>
     <addaction name="action_sinh"/>
     <addaction name="action_cosh"/>
     <addaction name="action_tanh"/>
@@ -1532,9 +1528,6 @@
    <property name="text">
     <string>S&amp;quare</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+2</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1543,9 +1536,6 @@
    <property name="text">
     <string>C&amp;ube</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+3</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1553,9 +1543,6 @@
   <action name="action_fourth_power">
    <property name="text">
     <string>&amp;Fourth Power</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+4</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1566,7 +1553,7 @@
     <string>To D&amp;egrees</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F2</string>
+    <string>Ctrl+2</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1577,7 +1564,7 @@
     <string>To &amp;Radians</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F3</string>
+    <string>Ctrl+3</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1588,7 +1575,7 @@
     <string>To &amp;Grads</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F4</string>
+    <string>Ctrl+4</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
