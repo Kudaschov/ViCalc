@@ -77,3 +77,6 @@ class CalcOperations(Enum):
     convert_to_deg = auto()
     convert_to_rad = auto()
     convert_to_gra = auto()
+    convert_from_binary = auto()
+    convert_from_octal = auto()
+    convert_from_hexadecimal = auto()

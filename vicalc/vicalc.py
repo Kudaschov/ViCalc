@@ -957,13 +957,14 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.column = 4
         self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
-        self.ui.pushButtonF.shift_text = ""
+        self.ui.pushButtonF.shift_text = "Oct->"
 #        self.ui.pushButtonF.shift_text_alignment = Qt.AlignLeft
 #        self.ui.pushButtonF.ctrl_text = "tanh"
 #        self.ui.pushButtonF.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonF.shift_font = self.font_long_names
         self.ui.pushButtonF.base_operation = CalcOperations.MS
-        self.ui.pushButtonF.shift_operation = CalcOperations.MS
-        self.ui.pushButtonF.ctrl_operation = CalcOperations.MS
+        self.ui.pushButtonF.shift_operation = CalcOperations.convert_from_octal
+        self.ui.pushButtonF.ctrl_operation = CalcOperations.convert_from_octal
         self.leftside_button_list.append(self.ui.pushButtonF)
 
         self.ui.pushButtonG.row = 2
@@ -992,7 +993,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
-        self.ui.pushButtonY.setText("Base")
+        self.ui.pushButtonY.setText("Dec->")
         self.ui.pushButtonY.original_keyboard_text = "Y"
         self.ui.pushButtonY.shift_text = "DMS"
         self.ui.pushButtonY.ctrl_text = "Redo"
@@ -1020,13 +1021,14 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.column = 3.5
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonC.shift_text = ""
+        self.ui.pushButtonC.shift_text = "Bin->"
         self.ui.pushButtonC.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonC.shift_font = self.font_long_names
         self.ui.pushButtonC.ctrl_text = "Copy"
         self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonC.ctrl_font = self.font_long_names
         self.ui.pushButtonC.base_operation = CalcOperations.C
-        self.ui.pushButtonC.shift_operation = CalcOperations.C
+        self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_binary
         self.ui.pushButtonC.ctrl_operation = CalcOperations.copy_to_clipboard
         self.leftside_button_list.append(self.ui.pushButtonC)
 
@@ -1034,12 +1036,14 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.column = 4.5
         self.ui.pushButtonV.setText("MR")
         self.ui.pushButtonV.original_keyboard_text = "V"
-        self.ui.pushButtonV.shift_text = "MR"
-        self.ui.pushButtonV.ctrl_text = "Paste"
+        self.ui.pushButtonV.shift_text = "Hex->"
+        self.ui.pushButtonV.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonV.shift_font = self.font_long_names
+        self.ui.pushButtonV.ctrl_text = "Pste"
         self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
-        self.ui.pushButtonV.shift_operation = CalcOperations.MR
+        self.ui.pushButtonV.shift_operation = CalcOperations.convert_from_hexadecimal
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
         self.leftside_button_list.append(self.ui.pushButtonV)
 

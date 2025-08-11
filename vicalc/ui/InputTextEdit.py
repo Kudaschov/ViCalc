@@ -532,6 +532,12 @@ class InputTextEdit(QLineEdit):
                     self.exec_convert_to_rad()
                 case CalcOperations.convert_to_gra:
                     self.exec_convert_to_gra()
+                case CalcOperations.convert_from_binary:
+                    self.exec_from_binary()
+                case CalcOperations.convert_from_octal:
+                    self.exec_from_octal()
+                case CalcOperations.convert_from_hexadecimal:
+                    self.exec_from_hexadecimal()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -962,7 +968,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_D:
                         self.exec_arccos()
                     case Qt.Key.Key_F:
-                        self.exec_MS()
+                        self.exec_from_octal()
                     case Qt.Key.Key_G:
                         self.exec_ten_power_x()
                     case Qt.Key.Key_Y:
@@ -970,9 +976,9 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_X:
                         self.exec_convert_to_dd()
                     case Qt.Key.Key_C:
-                        self.exec_c()
+                        self.exec_from_binary()
                     case Qt.Key.Key_V:
-                        self.exec_MR()
+                        self.exec_from_hexadecimal()
                     case Qt.Key.Key_B:
                         self.exec_ex()
                     case Qt.Key.Key_Backspace:
@@ -1158,6 +1164,24 @@ class InputTextEdit(QLineEdit):
             success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
+        self.update_shift_ctrl_status()
+
+    def update_shift_ctrl_status(self):
+        mods = QApplication.keyboardModifiers()
+        self.current_shift_state = bool(mods & Qt.ShiftModifier)
+        self.current_ctrl_state = bool(mods & Qt.ControlModifier)
+
+        # Emit signal only if the shift state has actually changed
+        if self.current_shift_state != self._last_shift_state:
+            self.shiftStatusChanged.emit(self.current_shift_state)
+            self._last_shift_state = self.current_shift_state
+            print(f"Shift status changed to: {'Pressed' if self.current_shift_state else 'Released'}")        
+
+        # Emit signal only if the shift state has actually changed
+        if self.current_ctrl_state != self._last_ctrl_state:
+            self.ctrlStatusChanged.emit(self.current_ctrl_state)
+            self._last_ctrl_state = self.current_ctrl_state
+            print(f"Ctrl status changed to: {'Pressed' if self.current_ctrl_state else 'Released'}")        
 
     def exec_from_octal(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 8))
@@ -1177,6 +1201,7 @@ class InputTextEdit(QLineEdit):
             success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
+        self.update_shift_ctrl_status()
 
     def exec_from_decimal(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 10))
@@ -1196,6 +1221,7 @@ class InputTextEdit(QLineEdit):
             success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
+        self.update_shift_ctrl_status()
 
     def exec_from_hexadecimal(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 16))
@@ -1214,6 +1240,7 @@ class InputTextEdit(QLineEdit):
             success, str_value = dialog.add_to_log()
             if success:
                 self.setTextSelect(str_value)
+        self.update_shift_ctrl_status()
 
     def exec_sinh(self):
         if self.store_number():
