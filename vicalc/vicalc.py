@@ -908,8 +908,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonZ.setText("M*")
         self.ui.pushButtonZ.original_keyboard_text = "Z"
         self.ui.pushButtonZ.shift_text = "M/"
-#        self.ui.pushButtonZ.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonZ.ctrl_text = "Undo"
+        self.ui.pushButtonZ.ctrl_text = ""
         self.ui.pushButtonZ.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonZ.base_operation = CalcOperations.m_multiply
         self.ui.pushButtonZ.shift_operation = CalcOperations.m_division
@@ -923,7 +922,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonA.original_keyboard_text = "A"
         self.ui.pushButtonA.bg_color = self.c_ac_bg_color
         self.ui.pushButtonA.shift_text = ""
-        self.ui.pushButtonA.ctrl_text = "Select All"
+        self.ui.pushButtonA.ctrl_text = ""
         self.ui.pushButtonA.base_operation = CalcOperations.AC
         self.ui.pushButtonA.shift_operation = CalcOperations.C
         self.ui.pushButtonA.ctrl_operation = CalcOperations.C
@@ -996,7 +995,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.setText("Dec->")
         self.ui.pushButtonY.original_keyboard_text = "Y"
         self.ui.pushButtonY.shift_text = "DMS"
-        self.ui.pushButtonY.ctrl_text = "Redo"
+        self.ui.pushButtonY.ctrl_text = ""
         self.ui.pushButtonY.ctrl_font = self.font_long_names
         self.ui.pushButtonY.base_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
@@ -1008,10 +1007,8 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
         self.ui.pushButtonX.shift_text = "DD"
-#        self.ui.pushButtonX.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonX.ctrl_text = "Cut"
+        self.ui.pushButtonX.ctrl_text = ""
         self.ui.pushButtonX.ctrl_font = self.font_long_names
-#        self.ui.pushButtonX.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
         self.ui.pushButtonX.shift_operation = CalcOperations.convert_to_dd
         self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
@@ -1022,10 +1019,8 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
         self.ui.pushButtonC.shift_text = "Bin->"
-        self.ui.pushButtonC.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonC.shift_font = self.font_long_names
-        self.ui.pushButtonC.ctrl_text = "Copy"
-        self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonC.ctrl_text = ""
         self.ui.pushButtonC.ctrl_font = self.font_long_names
         self.ui.pushButtonC.base_operation = CalcOperations.C
         self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_binary
@@ -1037,10 +1032,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.setText("MR")
         self.ui.pushButtonV.original_keyboard_text = "V"
         self.ui.pushButtonV.shift_text = "Hex->"
-        self.ui.pushButtonV.shift_text_alignment = Qt.AlignLeft
+#        self.ui.pushButtonV.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonV.shift_font = self.font_long_names
-        self.ui.pushButtonV.ctrl_text = "Pste"
-        self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButtonV.ctrl_text = ""
+#        self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.convert_from_hexadecimal

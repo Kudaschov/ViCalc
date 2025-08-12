@@ -40,6 +40,6 @@ class Ui_CommentDialog(object):
     # setupUi
 
     def retranslateUi(self, CommentDialog):
-        CommentDialog.setWindowTitle(QCoreApplication.translate("CommentDialog", u"Comment for protocol", None))
+        CommentDialog.setWindowTitle(QCoreApplication.translate("CommentDialog", u"Comment for Log", None))
     # retranslateUi
 
