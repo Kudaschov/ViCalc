@@ -66,6 +66,9 @@ from ..CombinationExpression import CombinationExpression
 from ..PermutationExpression import PermutationExpression
 from ..FourthRootExpression import FourthRootExpression
 from ..FourthPowerExpression import FourthPowerExpression
+from ..NumFormatDialog import NumFormatDialog
+from ..NumericFormat import NumericFormat
+from ..CellValue import CellValue
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -74,6 +77,7 @@ class InputTextEdit(QLineEdit):
     memory_changed = Signal(str)
     focusOut = Signal()
     focusIn = Signal()
+    statusbar_changed = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -955,6 +959,8 @@ class InputTextEdit(QLineEdit):
                         self.exec_M_minus()
                     case Qt.Key.Key_W:
                         self.exec_M_plus()
+                    case Qt.Key.Key_E:
+                        self.exec_numeric_format()
                     case Qt.Key.Key_R:
                         self.exec_cube_root()
                     case Qt.Key.Key_T:
@@ -1007,6 +1013,8 @@ class InputTextEdit(QLineEdit):
             else:
                 # just keys, no shift, no ctrl
                 match self.key:
+                    case Qt.Key.Key_Up:
+                        self.exec_toggle_log()
                     case Qt.Key.Key_Q:
                         self.exec_pi()
                     case Qt.Key.Key_W:
@@ -1344,3 +1352,64 @@ class InputTextEdit(QLineEdit):
             QGuiApplication.clipboard().setText(modified)            
         else:
             self.copy()
+
+    def exec_numeric_format(self):
+        dialog = NumFormatDialog()
+
+        match AppGlobals.numeric_format:
+            case NumericFormat.normal:
+                dialog.ui.normRadioButton.setChecked(True)
+            case NumericFormat.fixed:
+                dialog.ui.fixRadioButton.setChecked(True)
+            case NumericFormat.scientific:
+                dialog.ui.sciRadioButton.setChecked(True)
+            case NumericFormat.engineering:
+                dialog.ui.engRadioButton.setChecked(True)
+            case _:
+                dialog.ui.generalRadioButton.setChecked(True)
+
+        dialog.ui.precisionSpinBox.setValue(AppGlobals.numeric_precision)
+
+        if dialog.exec() != True:
+            return
+        
+        AppGlobals.numeric_precision = dialog.ui.precisionSpinBox.value()
+        if dialog.ui.generalRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.general
+        elif dialog.ui.fixRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.fixed
+        elif dialog.ui.sciRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.scientific
+        elif dialog.ui.engRadioButton.isChecked():
+            AppGlobals.numeric_format = NumericFormat.engineering
+        else:
+            AppGlobals.numeric_format = NumericFormat.normal
+
+        # update table
+        rows = AppGlobals.table.rowCount()
+        cols = AppGlobals.table.columnCount()
+
+        for row in range(rows):
+            for col in range(cols):
+                item = AppGlobals.table.item(row, col)
+                if item:
+                    cell_value = item.data(Qt.UserRole)
+                    if item.text().strip() or cell_value != None:  # Zelle ist vorhanden und nicht leer
+                        if isinstance(cell_value, CellValue):
+                            item.setText(cell_value.to_string())
+        self.statusbar_changed.emit()
+
+    def exec_toggle_log(self):
+        if self.hasFocus():
+            AppGlobals.table.setFocus()
+            if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
+                row_count = AppGlobals.table.rowCount()
+                column_count = AppGlobals.table.columnCount()
+                if AppGlobals.current_row < row_count and AppGlobals.current_column < column_count:
+                    AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
+                else:
+                    self.go_to_last_row_last_non_empty_col()
+            else:
+                self.go_to_last_row_last_non_empty_col()
+        else:
+            self.setFocus()

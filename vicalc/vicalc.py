@@ -176,6 +176,7 @@ class MainWindow(QMainWindow):
         AppGlobals.input_box.ctrlStatusChanged.connect(self.updateButtonsForCtrl)
         AppGlobals.input_box.focusOut.connect(self.change_mode)
         AppGlobals.input_box.memory_changed.connect(self.memory_changed)
+        AppGlobals.input_box.statusbar_changed.connect(self.statusbar_changed)
         # --- End custom signal connection ---       
 
         # Exit-Menüaktion verbinden
@@ -188,6 +189,7 @@ class MainWindow(QMainWindow):
         item = AppGlobals.table.itemAt(pos)
         if item:
             menu = QMenu(self)
+            action_copy_table_to_clipboard = menu.addAction("Copy")
             action_paste_to_calculator = menu.addAction("Paste to calculator")
             action_delete = menu.addAction("Delete row(s)")
             action = menu.exec(global_pos)
@@ -201,6 +203,8 @@ class MainWindow(QMainWindow):
                     AppGlobals.input_box.setText(item.text())
                 AppGlobals.input_box.setFocus()
                 AppGlobals.input_box.selectAll()
+            elif action == action_copy_table_to_clipboard:
+                AppGlobals.table.copy_selection_to_clipboard()
             elif action == action_delete:
                 # Create a warning message box
                 msg_box = QMessageBox()
@@ -355,53 +359,7 @@ class MainWindow(QMainWindow):
         about_dialog.exec()
 
     def numeric_format(self):
-        dialog = NumFormatDialog()
-
-        match AppGlobals.numeric_format:
-            case NumericFormat.normal:
-                dialog.ui.normRadioButton.setChecked(True)
-            case NumericFormat.fixed:
-                dialog.ui.fixRadioButton.setChecked(True)
-            case NumericFormat.scientific:
-                dialog.ui.sciRadioButton.setChecked(True)
-            case NumericFormat.engineering:
-                dialog.ui.engRadioButton.setChecked(True)
-            case _:
-                dialog.ui.generalRadioButton.setChecked(True)
-
-        dialog.ui.precisionSpinBox.setValue(AppGlobals.numeric_precision)
-
-        if dialog.exec() != True:
-            return
-        
-        AppGlobals.numeric_precision = dialog.ui.precisionSpinBox.value()
-        if dialog.ui.generalRadioButton.isChecked():
-            AppGlobals.numeric_format = NumericFormat.general
-        elif dialog.ui.fixRadioButton.isChecked():
-            AppGlobals.numeric_format = NumericFormat.fixed
-        elif dialog.ui.sciRadioButton.isChecked():
-            AppGlobals.numeric_format = NumericFormat.scientific
-        elif dialog.ui.engRadioButton.isChecked():
-            AppGlobals.numeric_format = NumericFormat.engineering
-        else:
-            AppGlobals.numeric_format = NumericFormat.normal
-
-        self.update_numeric_format_label()
-
-        # update table
-        rows = AppGlobals.table.rowCount()
-        cols = AppGlobals.table.columnCount()
-
-        for row in range(rows):
-            for col in range(cols):
-                item = AppGlobals.table.item(row, col)
-                if item:
-                    cell_value = item.data(Qt.UserRole)
-                    if item.text().strip() or cell_value != None:  # Zelle ist vorhanden und nicht leer
-                        if isinstance(cell_value, CellValue):
-                            item.setText(cell_value.to_string())
-        # update memory
-        self.memory_changed(AppGlobals.input_box.memory_to_format_string())
+        AppGlobals.input_box.exec_numeric_format()
 
     def update_numeric_format_label(self):
         match AppGlobals.numeric_format:
@@ -497,6 +455,11 @@ class MainWindow(QMainWindow):
         else:
             self.memory_label.setText("Memory: " + sMemory)
 
+    def statusbar_changed(self):            
+        self.update_numeric_format_label()
+        # update memory
+        self.memory_changed(AppGlobals.input_box.memory_to_format_string())
+
     def change_mode(self):
         if AppGlobals.table.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
@@ -568,19 +531,7 @@ class MainWindow(QMainWindow):
         self.numeric_format()
 
     def toggle_protocol(self):
-        if AppGlobals.input_box.hasFocus():
-            AppGlobals.table.setFocus()
-            if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
-                row_count = AppGlobals.table.rowCount()
-                column_count = AppGlobals.table.columnCount()
-                if AppGlobals.current_row < row_count and AppGlobals.current_column < column_count:
-                    AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
-                else:
-                    self.go_to_last_row_last_non_empty_col()
-            else:
-                self.go_to_last_row_last_non_empty_col()
-        else:
-            AppGlobals.input_box.setFocus()
+        AppGlobals.input_box.toggle_log()
 
     def numpad_keys(self):
         self.ui.pushButton0numpad.row = 4
@@ -775,7 +726,9 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonDivisionNumpad.column = 1
         self.ui.pushButtonDivisionNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonDivisionNumpad.shift_text = "1/x"
-        self.ui.pushButtonDivisionNumpad.ctrl_text = "Pi"
+        self.ui.pushButtonDivisionNumpad.ctrl_text = "π"
+        self.ui.pushButtonDivisionNumpad.ctrl_font = QFont("Times New Roman", 13)
+        self.ui.pushButtonDivisionNumpad.ctrl_highlight_font = QFont("Times New Roman", 13, QFont.Bold)
         self.ui.pushButtonDivisionNumpad.base_operation = CalcOperations.Division
         self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.reciprocal
         self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.pi
@@ -848,7 +801,9 @@ class MainWindow(QMainWindow):
     def first_row_keyboard(self):
         self.ui.pushButtonQ.row = 1
         self.ui.pushButtonQ.column = 0.5
-        self.ui.pushButtonQ.setText("Pi")
+        self.ui.pushButtonQ.text_highlight_font = QFont("Times New Roman", 14, QFont.Bold)
+        self.ui.pushButtonQ.text_font = QFont("Times New Roman", 14)
+        self.ui.pushButtonQ.setText("π")
         self.ui.pushButtonQ.original_keyboard_text = "Q"
         self.ui.pushButtonQ.shift_text = "M-"
         self.ui.pushButtonQ.ctrl_text = "nCr"
@@ -872,11 +827,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.column = 2.5
         # special key exponent have other bg color
         self.ui.pushButtonE.bg_color = self.number_key_color
-        #self.ui.pushButtonE.shift_text = "n!"
+        self.ui.pushButtonE.shift_text = "Format"
         #self.ui.pushButtonE.ctrl_text = "n!"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
-        self.ui.pushButtonE.shift_operation = CalcOperations.exponent
-        self.ui.pushButtonE.ctrl_operation = CalcOperations.exponent
+        self.ui.pushButtonE.shift_operation = CalcOperations.numeric_format
+        self.ui.pushButtonE.ctrl_operation = CalcOperations.numeric_format
         self.leftside_button_list.append(self.ui.pushButtonE)
 
         self.ui.pushButtonR.row = 1

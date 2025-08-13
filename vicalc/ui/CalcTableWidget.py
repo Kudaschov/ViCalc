@@ -2,6 +2,7 @@ import sys
 import pickle
 from PySide6.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetItem
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QKeySequence
 from ..NumericFormat import NumericFormat
 from ..CellValue import CellValue
 from ..AppGlobals import AppGlobals
@@ -20,8 +21,19 @@ class CalcTableWidget(QTableWidget):
             item = self.item(row, col)
             if item:
                 self.enterPressed.emit(row, col)
-        if event.key() == Qt.Key.Key_Escape:
+        elif event.key() == Qt.Key.Key_Escape:
             self.escPressed.emit()
+        elif event.matches(QKeySequence.Copy): # copy to clipboard
+            self.copy_selection_to_clipboard()
+        elif event.key() == Qt.Key.Key_Down:
+            current_row = self.currentRow()
+            last_row = self.rowCount() - 1
+            if current_row == last_row:
+                AppGlobals.input_box.setFocus()
+                AppGlobals.input_box.selectAll()
+            else:
+                # Standardverhalten beibehalten (z. B. Navigation mit Pfeiltasten)
+                super().keyPressEvent(event)
         else:
             # Standardverhalten beibehalten (z. B. Navigation mit Pfeiltasten)
             super().keyPressEvent(event)
@@ -99,3 +111,25 @@ class CalcTableWidget(QTableWidget):
         with open(filepath, 'rb') as f:
             data = pickle.load(f)
         self.load_serialized_data(data)
+
+    def copy_selection_to_clipboard(self):
+        selection = self.selectedIndexes()
+        if not selection:
+            return
+
+        # Sort indexes by row and column
+        selection.sort(key=lambda index: (index.row(), index.column()))
+
+        # Build a matrix of text
+        rows = {}
+        for index in selection:
+            rows.setdefault(index.row(), {})[index.column()] = self.item(index.row(), index.column()).text()
+
+        # Format as tab-separated values
+        text_lines = []
+        for r in sorted(rows.keys()):
+            line = [rows[r].get(c, "") for c in sorted(rows[r].keys())]
+            text_lines.append("\t".join(line))
+
+        # Copy to clipboard
+        QApplication.clipboard().setText("\n".join(text_lines))        

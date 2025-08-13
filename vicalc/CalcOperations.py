@@ -80,3 +80,4 @@ class CalcOperations(Enum):
     convert_from_binary = auto()
     convert_from_octal = auto()
     convert_from_hexadecimal = auto()
+    numeric_format = auto()
