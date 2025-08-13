@@ -1413,3 +1413,4 @@ class InputTextEdit(QLineEdit):
                 self.go_to_last_row_last_non_empty_col()
         else:
             self.setFocus()
+            self.selectAll()

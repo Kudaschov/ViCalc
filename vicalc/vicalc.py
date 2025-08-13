@@ -531,7 +531,7 @@ class MainWindow(QMainWindow):
         self.numeric_format()
 
     def toggle_protocol(self):
-        AppGlobals.input_box.toggle_log()
+        AppGlobals.input_box.exec_toggle_log()
 
     def numpad_keys(self):
         self.ui.pushButton0numpad.row = 4
