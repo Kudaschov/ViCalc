@@ -123,7 +123,10 @@ class CalcTableWidget(QTableWidget):
         # Build a matrix of text
         rows = {}
         for index in selection:
-            rows.setdefault(index.row(), {})[index.column()] = self.item(index.row(), index.column()).text()
+            if self.item(index.row(), index.column()):
+                rows.setdefault(index.row(), {})[index.column()] = self.item(index.row(), index.column()).text()
+            else:
+                rows.setdefault(index.row(), {})[index.column()] = ""
 
         # Format as tab-separated values
         text_lines = []
