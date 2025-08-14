@@ -542,11 +542,19 @@ class InputTextEdit(QLineEdit):
                     self.exec_from_octal()
                 case CalcOperations.convert_from_hexadecimal:
                     self.exec_from_hexadecimal()
+                case CalcOperations.toggle_table:
+                    self.exec_toggle_table()
+                case CalcOperations.numeric_format:
+                    self.exec_numeric_format()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
             self._show_error(f"{str(e)}")
-        self.setFocus()
+
+        if calc_operation == CalcOperations.toggle_table:
+            AppGlobals.table.setFocus()
+        else:
+            self.setFocus()
 
     def exec_comma(self):
         # Get the current OS locale (LC_ALL affects all categories like number, date, etc.)
@@ -571,7 +579,7 @@ class InputTextEdit(QLineEdit):
         """
 
     def focusInEvent(self, event: QFocusEvent):
-        self.focusOut.emit()
+        self.focusIn.emit()
         super().focusInEvent(event) # Call the base class implementation
 
     def focusOutEvent(self, event: QFocusEvent):
@@ -826,7 +834,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Comma:
                     self.exec_del_last_line()
                 case Qt.Key.Key_0:
-                    self.exec_memory_swap()
+                    self.exec_swap()
                 case Qt.Key.Key_1:
                     self.exec_ex()
                 case Qt.Key.Key_2: # Numpad 2
@@ -858,10 +866,10 @@ class InputTextEdit(QLineEdit):
                     super().keyPressEvent(event)
                     QMessageBox.information(self, "Information", "No operation configured")
         else:
-            # no shift and no ctrl was pressed
+            # no shift and no ctrl was pressed or shift is supressed by os
             match self.key:
                 case Qt.Key.Key_Insert: # Numpad 0
-                    self.exec_swap()
+                    self.exec_closing_bracket()
                 case Qt.Key.Key_Delete: # Numpad comma
                     self.exec_backspace()
                 case Qt.Key.Key_End: # Numpad 1
@@ -879,9 +887,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Home: # Numpad 7
                     self.exec_log()
                 case Qt.Key.Key_Up: # Numpad 8
-                    self.exec_opening_bracket()
+                    self.exec_toggle_table()
                 case Qt.Key.Key_PageUp: # Numpad 9
-                    self.exec_closing_bracket();
+                    self.exec_opening_bracket();
                 case Qt.Key.Key_Plus:
                     self.exec_addition()
                 case Qt.Key.Key_Minus:
@@ -960,7 +968,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_W:
                         self.exec_M_plus()
                     case Qt.Key.Key_E:
-                        self.exec_numeric_format()
+                        self.exec_toggle_table()
                     case Qt.Key.Key_R:
                         self.exec_cube_root()
                     case Qt.Key.Key_T:
@@ -968,7 +976,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Z:
                         self.exec_m_division()
                     case Qt.Key.Key_A:
-                        self.exec_ac()
+                        self.exec_numeric_format()
                     case Qt.Key.Key_S:
                         self.exec_arcsin()
                     case Qt.Key.Key_D:
@@ -1014,7 +1022,7 @@ class InputTextEdit(QLineEdit):
                 # just keys, no shift, no ctrl
                 match self.key:
                     case Qt.Key.Key_Up:
-                        self.exec_toggle_log()
+                        self.exec_toggle_table()
                     case Qt.Key.Key_Q:
                         self.exec_pi()
                     case Qt.Key.Key_W:
@@ -1399,10 +1407,10 @@ class InputTextEdit(QLineEdit):
                             item.setText(cell_value.to_string())
         self.statusbar_changed.emit()
 
-    def exec_toggle_log(self):
+    def exec_toggle_table(self):
         if self.hasFocus():
-            AppGlobals.table.setFocus()
             if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
+                AppGlobals.table.clearSelection()
                 row_count = AppGlobals.table.rowCount()
                 column_count = AppGlobals.table.columnCount()
                 if AppGlobals.current_row < row_count and AppGlobals.current_column < column_count:
@@ -1411,6 +1419,7 @@ class InputTextEdit(QLineEdit):
                     self.go_to_last_row_last_non_empty_col()
             else:
                 self.go_to_last_row_last_non_empty_col()
+            AppGlobals.table.setFocus()
         else:
             self.setFocus()
             self.selectAll()

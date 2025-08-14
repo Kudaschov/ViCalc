@@ -174,6 +174,7 @@ class MainWindow(QMainWindow):
         # --- Connect the custom signal from InputTextEdit ---
         AppGlobals.input_box.shiftStatusChanged.connect(self.updateButtonsForShift)
         AppGlobals.input_box.ctrlStatusChanged.connect(self.updateButtonsForCtrl)
+        AppGlobals.input_box.focusIn.connect(self.input_box_focus_in)
         AppGlobals.input_box.focusOut.connect(self.change_mode)
         AppGlobals.input_box.memory_changed.connect(self.memory_changed)
         AppGlobals.input_box.statusbar_changed.connect(self.statusbar_changed)
@@ -194,15 +195,7 @@ class MainWindow(QMainWindow):
             action_delete = menu.addAction("Delete row(s)")
             action = menu.exec(global_pos)
             if action == action_paste_to_calculator:
-                val = item.data(Qt.UserRole)
-                str = item.data(Qt.DisplayRole)
-                if val:
-                    if isinstance(val, NumericCellValue):
-                        AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
-                else:
-                    AppGlobals.input_box.setText(item.text())
-                AppGlobals.input_box.setFocus()
-                AppGlobals.input_box.selectAll()
+                self.paste_item_to_calculator(item)
             elif action == action_copy_table_to_clipboard:
                 AppGlobals.table.copy_selection_to_clipboard()
             elif action == action_delete:
@@ -255,15 +248,7 @@ class MainWindow(QMainWindow):
         if (self.is_tableWidget_editing() == False):
             # tableWidget is not editing, put the current value in inputTextEdit
             item = AppGlobals.table.item(row, col)
-            val = item.data(Qt.UserRole)
-            str = item.data(Qt.DisplayRole)
-            if val:
-                if isinstance(val, NumericCellValue):
-                    AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
-            else:
-                AppGlobals.input_box.setText(item.text())
-            AppGlobals.input_box.setFocus()
-            AppGlobals.input_box.selectAll()
+            self.paste_item_to_calculator(item)
 
     def is_tableWidget_editing(self) -> bool:
         # is the tableWidget in edit mode
@@ -461,9 +446,18 @@ class MainWindow(QMainWindow):
         self.memory_changed(AppGlobals.input_box.memory_to_format_string())
 
     def change_mode(self):
+        print("input_box_focus_out")
         if AppGlobals.table.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
-            self.mode_label.setText("Log")
+            self.mode_label.setText("Calculation History")
+        else:
+            self.mode_label.setText("")
+
+    def input_box_focus_in(self):
+        print("input_box_focus_in")
+        if AppGlobals.table.hasFocus():
+            self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
+            self.mode_label.setText("Calculation History")
         else:
             self.mode_label.setText("")
 
@@ -531,18 +525,18 @@ class MainWindow(QMainWindow):
         self.numeric_format()
 
     def toggle_protocol(self):
-        AppGlobals.input_box.exec_toggle_log()
+        AppGlobals.input_box.exec_toggle_table()
 
     def numpad_keys(self):
         self.ui.pushButton0numpad.row = 4
         self.ui.pushButton0numpad.column = 0
         self.ui.pushButton0numpad.norm_width = 2
         self.ui.pushButton0numpad.bg_color = self.number_key_color
-        self.ui.pushButton0numpad.shift_text = "<>"
-        self.ui.pushButton0numpad.ctrl_text = "X<>M"
+        self.ui.pushButton0numpad.shift_text = ")"
+        self.ui.pushButton0numpad.ctrl_text = "<>"
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
-        self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
-        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
+        self.ui.pushButton0numpad.shift_operation = CalcOperations.closing_bracket
+        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.swap
         self.numpad_button_list.append(self.ui.pushButton0numpad)
 
         self.ui.pushButton1numpad.row = 3
@@ -620,20 +614,20 @@ class MainWindow(QMainWindow):
         self.ui.pushButton8numpad.row = 1
         self.ui.pushButton8numpad.column = 1
         self.ui.pushButton8numpad.bg_color = self.number_key_color
-        self.ui.pushButton8numpad.shift_text = "("
+        self.ui.pushButton8numpad.shift_text = "Hist"
         self.ui.pushButton8numpad.ctrl_text = "MS"
         self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
-        self.ui.pushButton8numpad.shift_operation = CalcOperations.opening_bracket
+        self.ui.pushButton8numpad.shift_operation = CalcOperations.toggle_table
         self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
         self.numpad_button_list.append(self.ui.pushButton8numpad)
 
         self.ui.pushButton9numpad.row = 1
         self.ui.pushButton9numpad.column = 2
         self.ui.pushButton9numpad.bg_color = self.number_key_color
-        self.ui.pushButton9numpad.shift_text = ")"
+        self.ui.pushButton9numpad.shift_text = "("
         self.ui.pushButton9numpad.ctrl_text = "MR"
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
-        self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
+        self.ui.pushButton9numpad.shift_operation = CalcOperations.opening_bracket
         self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
         self.numpad_button_list.append(self.ui.pushButton9numpad)
 
@@ -827,11 +821,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.column = 2.5
         # special key exponent have other bg color
         self.ui.pushButtonE.bg_color = self.number_key_color
-        self.ui.pushButtonE.shift_text = "Format"
+        self.ui.pushButtonE.shift_text = "History"
         #self.ui.pushButtonE.ctrl_text = "n!"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
-        self.ui.pushButtonE.shift_operation = CalcOperations.numeric_format
-        self.ui.pushButtonE.ctrl_operation = CalcOperations.numeric_format
+        self.ui.pushButtonE.shift_operation = CalcOperations.toggle_table
+        self.ui.pushButtonE.ctrl_operation = CalcOperations.toggle_table
         self.leftside_button_list.append(self.ui.pushButtonE)
 
         self.ui.pushButtonR.row = 1
@@ -876,11 +870,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonA.setText("AC")
         self.ui.pushButtonA.original_keyboard_text = "A"
         self.ui.pushButtonA.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonA.shift_text = ""
+        self.ui.pushButtonA.shift_text = "Format"
         self.ui.pushButtonA.ctrl_text = ""
         self.ui.pushButtonA.base_operation = CalcOperations.AC
-        self.ui.pushButtonA.shift_operation = CalcOperations.C
-        self.ui.pushButtonA.ctrl_operation = CalcOperations.C
+        self.ui.pushButtonA.shift_operation = CalcOperations.numeric_format
+        self.ui.pushButtonA.ctrl_operation = CalcOperations.numeric_format
         self.leftside_button_list.append(self.ui.pushButtonA)
 
         self.ui.pushButtonS.row = 2
@@ -1026,16 +1020,25 @@ class MainWindow(QMainWindow):
         AppGlobals.input_box.exec_convert_to_dd()
 
     def table_cell_double_clicked(self, row, column):
-        item = AppGlobals.table.item(row, column)
-        if not item:
-            print(f"No item at ({row}, {column})")
-            return
 
-        user_data = item.data(Qt.UserRole)
-        if user_data is not None:
-            self.cell_enter_pressed(row, column)
+        item = AppGlobals.table.item(row, column)
+        self.paste_item_to_calculator(item)
+
+    def paste_item_to_calculator(self, item):
+        if not item:
+            return
+        
+        val = item.data(Qt.UserRole)
+        str = item.data(Qt.DisplayRole)
+        if val:
+            if isinstance(val, NumericCellValue):
+                AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
+            else:
+                AppGlobals.input_box.setText(str)
         else:
-            print(f"Cell ({row}, {column}) does NOT have UserRole data.")        
+            AppGlobals.input_box.setText(item.text())
+        AppGlobals.input_box.setFocus()
+        AppGlobals.input_box.selectAll()    
 
     def arrange_keyboard(self):
         for button in self.leftside_button_list:
@@ -1051,7 +1054,8 @@ class MainWindow(QMainWindow):
                 button.move(offset + button.column * AppGlobals.numpad_button_width, button.y())
                 button.setFixedWidth(button.norm_width * AppGlobals.numpad_button_width)
 
-        if True:
+        # for debug
+        if False:
             self.check_double_operations()
 
     def sinh(self):

@@ -2,7 +2,7 @@ import sys
 import pickle
 from PySide6.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetItem
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QKeySequence
+from PySide6.QtGui import QKeySequence, QKeyEvent
 from ..NumericFormat import NumericFormat
 from ..CellValue import CellValue
 from ..AppGlobals import AppGlobals
@@ -15,6 +15,17 @@ class CalcTableWidget(QTableWidget):
     escPressed = Signal()
 
     def keyPressEvent(self, event):
+        # Map custom keys to arrow key events
+        key_map = {
+            Qt.Key_E: Qt.Key_Up,
+            Qt.Key_S: Qt.Key_Left,
+            Qt.Key_D: Qt.Key_Down,
+            Qt.Key_F: Qt.Key_Right,
+            Qt.Key_I: Qt.Key_Up,
+            Qt.Key_J: Qt.Key_Left,
+            Qt.Key_K: Qt.Key_Down,
+            Qt.Key_L: Qt.Key_Right
+        }        
         if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             row = self.currentRow()
             col = self.currentColumn()
@@ -22,6 +33,9 @@ class CalcTableWidget(QTableWidget):
             if item:
                 self.enterPressed.emit(row, col)
         elif event.key() == Qt.Key.Key_Escape:
+            self.escPressed.emit()
+        # Shift+E is the same as Esc
+        elif event.key() == Qt.Key_E and event.modifiers() & Qt.ShiftModifier:
             self.escPressed.emit()
         elif event.matches(QKeySequence.Copy): # copy to clipboard
             self.copy_selection_to_clipboard()
@@ -34,6 +48,14 @@ class CalcTableWidget(QTableWidget):
             else:
                 # Standardverhalten beibehalten (z. B. Navigation mit Pfeiltasten)
                 super().keyPressEvent(event)
+        elif event.key() in key_map:
+            # Create a new event pretending the arrow key was pressed
+            fake_event = QKeyEvent(
+                QKeyEvent.KeyPress,
+                key_map[event.key()],
+                Qt.NoModifier
+            )
+            super().keyPressEvent(fake_event)
         else:
             # Standardverhalten beibehalten (z. B. Navigation mit Pfeiltasten)
             super().keyPressEvent(event)
