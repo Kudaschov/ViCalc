@@ -82,3 +82,5 @@ class CalcOperations(Enum):
     convert_from_hexadecimal = auto()
     numeric_format = auto()
     toggle_table = auto()
+    round = auto()
+    random = auto()

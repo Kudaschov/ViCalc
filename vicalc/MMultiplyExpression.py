@@ -11,7 +11,7 @@ class MMultiplyExpression(BinaryExpression):
         result: float = self.first_number * number
 
         self.insert_scroll_table()
-        self.protocol("Memory:", 0)
+        self.protocol("M*", 0)
         self.protocol(self.first_number, 1)
         self.protocol("*", 2)
         self.protocol(number, 3)

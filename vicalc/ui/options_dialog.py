@@ -37,6 +37,9 @@ class Ui_optionsDialog(object):
         self.pasteCheckBox = QCheckBox(optionsDialog)
         self.pasteCheckBox.setObjectName(u"pasteCheckBox")
         self.pasteCheckBox.setGeometry(QRect(20, 80, 381, 20))
+        self.inputReplacePointcheckBox = QCheckBox(optionsDialog)
+        self.inputReplacePointcheckBox.setObjectName(u"inputReplacePointcheckBox")
+        self.inputReplacePointcheckBox.setGeometry(QRect(20, 110, 381, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -50,5 +53,6 @@ class Ui_optionsDialog(object):
         self.timestampCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Automatically date and time stamp at start", None))
         self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace comma (,) with decimal point (.)", None))
         self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace decimal point (.) with comma (,)", None))
+        self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert decimal point (.) to comma (,) on &input", None))
     # retranslateUi
 

@@ -1218,6 +1218,8 @@
     <addaction name="separator"/>
     <addaction name="action_combination"/>
     <addaction name="action_permutaton"/>
+    <addaction name="separator"/>
+    <addaction name="action_generate_random_number"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -1579,6 +1581,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+4</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_generate_random_number">
+   <property name="text">
+    <string>&amp;Generate Random Number</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

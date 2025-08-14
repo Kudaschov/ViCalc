@@ -9,6 +9,7 @@ class AppGlobals:
     timestamp_at_start = True
     copy_to_clipboard_replace = True
     paste_from_clipboard_replace = True
+    input_replace_point = False
     table = None # tableWidget in main window
     input_box = None # inputTextEdit in main window
     current_row = -1 # current row in table

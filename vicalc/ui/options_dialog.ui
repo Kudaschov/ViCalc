@@ -68,6 +68,19 @@
     <string>On &amp;paste from clipboard: replace decimal point (.) with comma (,)</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="inputReplacePointcheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>110</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Convert decimal point (.) to comma (,) on &amp;input</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

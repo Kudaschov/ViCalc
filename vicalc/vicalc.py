@@ -95,6 +95,7 @@ class MainWindow(QMainWindow):
         self.ui.action_polar_to_rectangular.triggered.connect(self.polar_to_rectangular)
         self.ui.action_combination.triggered.connect(self.combination)
         self.ui.action_permutaton.triggered.connect(self.permutation)
+        self.ui.action_generate_random_number.triggered.connect(AppGlobals.input_box.exec_random)
 
         self.ui.action_options.triggered.connect(self.options)
 
@@ -227,7 +228,7 @@ class MainWindow(QMainWindow):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Warning)
         msg_box.setWindowTitle("Warning")
-        msg_box.setText("Are you sure you want to Delete Full Log?")
+        msg_box.setText("Are you sure you want to delete full calculation history?")
         msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg_box.setDefaultButton(QMessageBox.No)
 
@@ -273,6 +274,7 @@ class MainWindow(QMainWindow):
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
+            AppGlobals.input_replace_point = self.settings.value("input_replace_point", False, type=bool)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -388,6 +390,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("timestamp_at_start", AppGlobals.timestamp_at_start)
         self.settings.setValue("copy_to_clipboard_replace", AppGlobals.copy_to_clipboard_replace)
         self.settings.setValue("paste_from_clipboard_replace", AppGlobals.paste_from_clipboard_replace)
+        self.settings.setValue("input_replace_point", AppGlobals.input_replace_point)
 
         self.save_table_data()
 
@@ -737,10 +740,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButton1.column = 0
         self.ui.pushButton1.bg_color = self.number_key_color
         self.ui.pushButton1.shift_text = "n!"
-        self.ui.pushButton1.ctrl_text = ""
+        self.ui.pushButton1.ctrl_text = "RAN#"
+        self.ui.pushButton1.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton1.ctrl_font = self.font_long_names
         self.ui.pushButton1.base_operation = CalcOperations.number_1
         self.ui.pushButton1.shift_operation = CalcOperations.factorial
-        self.ui.pushButton1.ctrl_operation = CalcOperations.factorial
+        self.ui.pushButton1.ctrl_operation = CalcOperations.random
         self.leftside_button_list.append(self.ui.pushButton1)
 
         self.ui.pushButton2.row = 0
@@ -791,9 +796,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButton6.row = 0
         self.ui.pushButton6.column = 5
         self.ui.pushButton6.bg_color = self.number_key_color
+        self.ui.pushButton6.shift_text = "Round"
         self.ui.pushButton6.base_operation = CalcOperations.number_6
-        self.ui.pushButton6.shift_operation = CalcOperations.number_6
-        self.ui.pushButton6.ctrl_operation = CalcOperations.number_6
+        self.ui.pushButton6.shift_operation = CalcOperations.round
+        self.ui.pushButton6.ctrl_operation = CalcOperations.round
         self.leftside_button_list.append(self.ui.pushButton6)
 
     def first_row_keyboard(self):
@@ -1097,11 +1103,13 @@ class MainWindow(QMainWindow):
         dialog.ui.timestampCheckBox.setChecked(AppGlobals.timestamp_at_start)
         dialog.ui.copyCheckBox.setChecked(AppGlobals.copy_to_clipboard_replace)
         dialog.ui.pasteCheckBox.setChecked(AppGlobals.paste_from_clipboard_replace)
+        dialog.ui.inputReplacePointcheckBox.setChecked(AppGlobals.input_replace_point)
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
             AppGlobals.copy_to_clipboard_replace = dialog.ui.copyCheckBox.isChecked()
             AppGlobals.paste_from_clipboard_replace = dialog.ui.pasteCheckBox.isChecked()
+            AppGlobals.input_replace_point = dialog.ui.inputReplacePointcheckBox.isChecked()
 
     def square(self):
         AppGlobals.input_box.exec_square()

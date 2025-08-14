@@ -9,6 +9,7 @@ from ..CalcOperations import CalcOperations
 import math
 import locale
 import ctypes
+import random
 from ..AdditionExpression import AdditionExpression
 from ..SubtractionExpression import SubtractionExpression
 from ..MultiplicationExpression import MultiplicationExpression
@@ -560,6 +561,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_toggle_table()
                 case CalcOperations.numeric_format:
                     self.exec_numeric_format()
+                case CalcOperations.round:
+                    self.exec_round()
+                case CalcOperations.random:
+                    self.exec_random()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -955,6 +960,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_cube()
                 case 5: # Key 4
                     self.exec_fourth_power()
+                case 7: # Key 6
+                    self.exec_round()
                 case _:
                     return False
             return True
@@ -1035,6 +1042,17 @@ class InputTextEdit(QLineEdit):
             else:
                 # just keys, no shift, no ctrl
                 match self.key:
+                    case Qt.Key.Key_Period:
+                        if AppGlobals.input_replace_point and event.key() == Qt.Key_Period:
+                            # Simulate comma press instead
+                            super().keyPressEvent(QKeyEvent(
+                                QKeyEvent.KeyPress,
+                                Qt.Key_Comma,
+                                Qt.NoModifier,
+                                ","
+                            ))
+                        else:
+                            super().keyPressEvent(event)
                     case Qt.Key.Key_Up:
                         self.exec_toggle_table()
                     case Qt.Key.Key_Q:
@@ -1044,7 +1062,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_R:
                         self.exec_sqrt()
                     case Qt.Key.Key_T:
-                        self.exec_MS()    
+                        self.exec_tan()    
                     case Qt.Key.Key_Z:
                         self.exec_m_multiply()
                     case Qt.Key.Key_A:
@@ -1461,3 +1479,10 @@ class InputTextEdit(QLineEdit):
 
         # Set current cell (will highlight/select it)
         AppGlobals.table.setCurrentCell(last_row, last_non_empty_col)
+
+    def exec_round(self):
+        if self.store_number():
+            self.setTextSelect(AppGlobals.to_format_string(self.number))
+
+    def exec_random(self):
+        self.setTextSelect(AppGlobals.to_normal_string(random.random()))
