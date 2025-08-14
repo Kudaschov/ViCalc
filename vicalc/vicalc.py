@@ -199,6 +199,9 @@ class MainWindow(QMainWindow):
             elif action == action_copy_table_to_clipboard:
                 AppGlobals.table.copy_selection_to_clipboard()
             elif action == action_delete:
+                self.delete_rows_in_history()
+
+    def delete_rows_in_history(self):
                 # Create a warning message box
                 msg_box = QMessageBox()
                 msg_box.setIcon(QMessageBox.Warning)
@@ -237,6 +240,7 @@ class MainWindow(QMainWindow):
     def connect_table_signals(self):
         AppGlobals.table.enterPressed.connect(self.cell_enter_pressed)
         AppGlobals.table.escPressed.connect(self.cell_esc_pressed)
+        AppGlobals.table.delete_pressed.connect(self.delete_rows_in_history)
 
     def cell_esc_pressed(self):
         if (self.is_tableWidget_editing() == False):
@@ -446,7 +450,7 @@ class MainWindow(QMainWindow):
         self.memory_changed(AppGlobals.input_box.memory_to_format_string())
 
     def change_mode(self):
-        print("input_box_focus_out")
+        #print("input_box_focus_out")
         if AppGlobals.table.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.mode_label.setText("Calculation History")
@@ -454,7 +458,7 @@ class MainWindow(QMainWindow):
             self.mode_label.setText("")
 
     def input_box_focus_in(self):
-        print("input_box_focus_in")
+        #print("input_box_focus_in")
         if AppGlobals.table.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.mode_label.setText("Calculation History")
@@ -1107,30 +1111,6 @@ class MainWindow(QMainWindow):
 
     def fourth_power(self):
         AppGlobals.input_box.exec_fourth_power()
-
-    def go_to_last_row_last_non_empty_col(self):
-        row_count = AppGlobals.table.rowCount()
-        col_count = AppGlobals.table.columnCount()
-
-        if row_count == 0 or col_count == 0:
-            return  # Nothing to do
-
-        last_row = row_count - 1
-
-        # Find last non-empty column in the last row
-        last_non_empty_col = -1
-        for col in reversed(range(col_count)):
-            item = AppGlobals.table.item(last_row, col)
-            if item and item.text().strip() != "":
-                last_non_empty_col = col
-                break
-
-        if last_non_empty_col == -1:
-            print("No non-empty column found in last row.")
-            return
-
-        # Set current cell (will highlight/select it)
-        AppGlobals.table.setCurrentCell(last_row, last_non_empty_col)
 
     def right_side_keyboard(self):
         self.numbers_row_right_side()

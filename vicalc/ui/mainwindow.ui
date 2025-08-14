@@ -1179,9 +1179,9 @@
     <addaction name="separator"/>
     <addaction name="action_numeric_format"/>
    </widget>
-   <widget class="QMenu" name="menu_Log">
+   <widget class="QMenu" name="menu_History">
     <property name="title">
-     <string>&amp;Log</string>
+     <string>H&amp;istory</string>
     </property>
     <addaction name="actionInsertDateTime"/>
     <addaction name="actionToggle_Protocol"/>
@@ -1229,7 +1229,7 @@
    <addaction name="menu_Math"/>
    <addaction name="menuMode"/>
    <addaction name="menu_Convert"/>
-   <addaction name="menu_Log"/>
+   <addaction name="menu_History"/>
    <addaction name="menu_Tools"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -1304,7 +1304,10 @@
   </action>
   <action name="actionToggle_Protocol">
    <property name="text">
-    <string>Toggle  &amp;Log / Calculator</string>
+    <string>Toggle  &amp;History / Calculator</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle  History / Calculator</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -1315,7 +1318,7 @@
   </action>
   <action name="action_delete_full_protocol">
    <property name="text">
-    <string>&amp;Delete Full Log</string>
+    <string>&amp;Delete Full History</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

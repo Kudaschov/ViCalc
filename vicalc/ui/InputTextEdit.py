@@ -260,17 +260,31 @@ class InputTextEdit(QLineEdit):
                     last_expression_temp.next_expression = expression
                     self.update_expression_label()
                 else:
-                    # prio of expression prio is lower or equal of last expression
-                    # calculate last expression and change this last expression with expression
-                    expression.first_number = last_expression_temp.calculate(self.number)
-                    expression.prev_expression = last_expression_temp.prev_expression
-                    expression.next_expression = last_expression_temp.next_expression
+                    # prio of expression is lower or equal of last expression
+                    if (last_expression_temp.prev_expression
+                            and last_expression_temp.prev_expression.operation_prio <= expression.operation_prio):
+                            #last_expression_temp.prev_expression is lower or equal prio as expression
+                            # expression 25 - 5 * 15 + 116
+                            expression.first_number = last_expression_temp.prev_expression.calculate(last_expression_temp.calculate(self.number))
 
-                    if last_expression_temp == self.root_expression:
-                        self.root_expression = expression
+                            if last_expression_temp.prev_expression.prev_expression:
+                                last_expression_temp.prev_expression.prev_expreesion.next_expression = None
+                            else:
+                                self.root_expression = None
+
+                            self.create_expression_node(expression)
+                            self.update_expression_label()
                     else:
-                        last_expression_temp.prev_expression.next_expression = expression
-                    self.update_expression_label()
+                        # calculate last expression and change this last expression with expression
+                        expression.first_number = last_expression_temp.calculate(self.number)
+                        expression.prev_expression = last_expression_temp.prev_expression
+                        expression.next_expression = last_expression_temp.next_expression
+
+                        if last_expression_temp == self.root_expression:
+                            self.root_expression = expression
+                        else:
+                            last_expression_temp.prev_expression.next_expression = expression
+                        self.update_expression_label()
 
     def update_expression_label(self):
         s = ""
@@ -1423,3 +1437,27 @@ class InputTextEdit(QLineEdit):
         else:
             self.setFocus()
             self.selectAll()
+
+    def go_to_last_row_last_non_empty_col(self):
+        row_count = AppGlobals.table.rowCount()
+        col_count = AppGlobals.table.columnCount()
+
+        if row_count == 0 or col_count == 0:
+            return  # Nothing to do
+
+        last_row = row_count - 1
+
+        # Find last non-empty column in the last row
+        last_non_empty_col = -1
+        for col in reversed(range(col_count)):
+            item = AppGlobals.table.item(last_row, col)
+            if item and item.text().strip() != "":
+                last_non_empty_col = col
+                break
+
+        if last_non_empty_col == -1:
+            print("No non-empty column found in last row.")
+            return
+
+        # Set current cell (will highlight/select it)
+        AppGlobals.table.setCurrentCell(last_row, last_non_empty_col)

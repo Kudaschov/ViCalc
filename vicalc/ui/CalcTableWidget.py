@@ -13,6 +13,7 @@ from ..StringCellValue import StringCellValue
 class CalcTableWidget(QTableWidget):
     enterPressed = Signal(int, int)
     escPressed = Signal()
+    delete_pressed = Signal()
 
     def keyPressEvent(self, event):
         # Map custom keys to arrow key events
@@ -37,6 +38,8 @@ class CalcTableWidget(QTableWidget):
         # Shift+E is the same as Esc
         elif event.key() == Qt.Key_E and event.modifiers() & Qt.ShiftModifier:
             self.escPressed.emit()
+        elif event.key() == Qt.Key_Delete:
+            self.delete_pressed.emit()
         elif event.matches(QKeySequence.Copy): # copy to clipboard
             self.copy_selection_to_clipboard()
         elif event.key() == Qt.Key.Key_Down:
