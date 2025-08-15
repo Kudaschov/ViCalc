@@ -1,7 +1,7 @@
 import sys
 import pickle
 from PySide6.QtWidgets import QMainWindow, QApplication, QTableWidget, QTableWidgetItem
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QCoreApplication
 from PySide6.QtGui import QKeySequence, QKeyEvent
 from ..NumericFormat import NumericFormat
 from ..CellValue import CellValue
@@ -16,11 +16,12 @@ class CalcTableWidget(QTableWidget):
     delete_pressed = Signal()
 
     def keyPressEvent(self, event):
+        print(f"Key Name (Qt.Key constant): {Qt.Key(event.key()).name}\n")
         # Map custom keys to arrow key events
         key_map = {
             Qt.Key_E: Qt.Key_Up,
             Qt.Key_S: Qt.Key_Left,
-            Qt.Key_D: Qt.Key_Down,
+            Qt.Key.Key_D: Qt.Key.Key_Down,
             Qt.Key_F: Qt.Key_Right,
             Qt.Key_I: Qt.Key_Up,
             Qt.Key_J: Qt.Key_Left,
@@ -56,9 +57,10 @@ class CalcTableWidget(QTableWidget):
             fake_event = QKeyEvent(
                 QKeyEvent.KeyPress,
                 key_map[event.key()],
-                Qt.NoModifier
+                event.modifiers()
             )
-            super().keyPressEvent(fake_event)
+            #super().keyPressEvent(fake_event)
+            QCoreApplication.postEvent(self, fake_event)
         else:
             # Standardverhalten beibehalten (z. B. Navigation mit Pfeiltasten)
             super().keyPressEvent(event)

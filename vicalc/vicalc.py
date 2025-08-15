@@ -324,20 +324,6 @@ class MainWindow(QMainWindow):
         else:
             self.capslock_label.setText("")
 
-        """
-        # Get the currently focused widget from the QApplication
-        focused_widget = QApplication.focusWidget()
-
-        if focused_widget:
-            # You can check its objectName for identification
-            print(f"Focused widget objectName: {focused_widget.objectName()}")
-            # Or check its class type
-            print(f"Focused widget class: {focused_widget.__class__.__name__}")
-        else:
-            print("No widget currently has focus.")
-#        self.ui.statusbar.showMessage(msg)
-        """
-
     def get_key_state(self, key_code):
         return bool(ctypes.windll.user32.GetKeyState(key_code) & 0x0001)
 
@@ -346,7 +332,6 @@ class MainWindow(QMainWindow):
 
     def show_about_dialog(self):
         about_dialog = AboutDialog(self)
-#        about_dialog.setWindowTitle("Über die Anwendung")
         about_dialog.exec()
 
     def numeric_format(self):
