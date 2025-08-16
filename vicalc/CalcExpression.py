@@ -22,7 +22,7 @@ class CalcExpression(ABC):
         pass  # No implementation here
 
     def toString(self, number:float):
-        return self.locale.toString(number, "g", 16)
+        return AppGlobals.to_normal_string(number)
 
     def insert_scroll_table(self):
         self.row = AppGlobals.table.rowCount()

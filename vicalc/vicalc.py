@@ -482,33 +482,7 @@ class MainWindow(QMainWindow):
             self.date_time_stamp()
 
     def date_time_stamp(self):
-        separator = "**********"
-        if AppGlobals.table.columnCount() < 5:
-            AppGlobals.table.setColumnCount(5)
-        row = AppGlobals.table.rowCount()
-        AppGlobals.table.insertRow(row)
-
-        item = QTableWidgetItem()
-        item.setText(separator)
-        AppGlobals.table.setItem(row, 0, item)
-        
-        item = QTableWidgetItem()
-        item.setText(QLocale().toString(QDate.currentDate(), QLocale.ShortFormat))
-        AppGlobals.table.setItem(row, 1, item)
-
-        item = QTableWidgetItem()
-        item.setText(separator)
-        AppGlobals.table.setItem(row, 2, item)
-
-        item = QTableWidgetItem()
-        item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
-        AppGlobals.table.setItem(row, 3, item)
-
-        item = QTableWidgetItem()
-        item.setText(separator)
-        AppGlobals.table.setItem(row, 4, item)
-
-        AppGlobals.table.scrollToBottom()
+        AppGlobals.input_box.exec_date_time_stamp()
 
     def memory_label_clicked(self):
         AppGlobals.input_box.exec_MR()
@@ -673,19 +647,21 @@ class MainWindow(QMainWindow):
         else:
             self.ui.pushButtonEnter.column = 6
         self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
+        self.ui.pushButtonEnter.shift_text = "Time"
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.shift_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.ctrl_operation = CalcOperations.calculate
+        self.ui.pushButtonEnter.shift_operation = CalcOperations.date_time_stamp
+        self.ui.pushButtonEnter.ctrl_operation = CalcOperations.date_time_stamp
         self.leftside_button_list.append(self.ui.pushButtonEnter)
 
         self.ui.pushButtonEnterNumpad.row = 2
         self.ui.pushButtonEnterNumpad.column = 3
         self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonEnterNumpad.shift_text = "%"
-        self.ui.pushButtonEnterNumpad.ctrl_text = "%"
+        self.ui.pushButtonEnterNumpad.ctrl_text = "Time"
+        self.ui.pushButtonEnterNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
-        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.percent
+        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.date_time_stamp
         self.numpad_button_list.append(self.ui.pushButtonEnterNumpad)
 
         self.ui.pushButtonPlusNumpad.row = 1

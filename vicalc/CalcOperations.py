@@ -84,3 +84,4 @@ class CalcOperations(Enum):
     toggle_table = auto()
     round = auto()
     random = auto()
+    date_time_stamp = auto()

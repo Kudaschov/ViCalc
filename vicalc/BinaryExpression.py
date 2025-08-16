@@ -1,3 +1,4 @@
+from .AppGlobals import AppGlobals
 from .CalcPrios import CalcPrios
 from .UnaryExpression import UnaryExpression
 
@@ -8,4 +9,4 @@ class BinaryExpression(UnaryExpression):
         self.first_number = first_number
 
     def first_number_to_string(self):
-        return self.locale.toString(self.first_number, "g", 16)
+        return AppGlobals.to_format_string(self.first_number)

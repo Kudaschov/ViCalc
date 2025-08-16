@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication, QLineEdit, QStyleOptionFrame
-from PySide6.QtCore import Qt, Signal
+from PySide6.QtCore import Qt, Signal, QDate, QTime
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtWidgets import QTableWidgetItem
 from PySide6.QtGui import QFont, QGuiApplication
@@ -565,6 +565,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_round()
                 case CalcOperations.random:
                     self.exec_random()
+                case CalcOperations.date_time_stamp:
+                    self.exec_date_time_stamp()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -849,7 +851,7 @@ class InputTextEdit(QLineEdit):
             # ctrl is pressed
             match self.key:
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
-                    self.exec_percent()
+                    self.exec_date_time_stamp()
                 case Qt.Key.Key_Comma:
                     self.exec_del_last_line()
                 case Qt.Key.Key_0:
@@ -1022,10 +1024,14 @@ class InputTextEdit(QLineEdit):
                         self.exec_memory_swap()
                     case Qt.Key.Key_Space:
                         self.exec_comment()
+                    case Qt.Key_Enter | Qt.Key_Return:
+                        self.exec_date_time_stamp()
                     case _:
                         super().keyPressEvent(event) # keep normal behavior
+                        print("Deafult operation")
 
             elif self.current_ctrl_state:
+                # ctrl pressed
                 match self.key:
                     # handle copy/paste with possible replacing            
                     case Qt.Key.Key_C:
@@ -1036,9 +1042,11 @@ class InputTextEdit(QLineEdit):
                         self.exec_comment()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_last_line()
+                    case Qt.Key_Enter | Qt.Key_Return:
+                        self.exec_date_time_stamp()
                     case _:
-                        # ctrl pressed
                         super().keyPressEvent(event)
+                        print("Deafult operation")
             else:
                 # just keys, no shift, no ctrl
                 match self.key:
@@ -1096,6 +1104,7 @@ class InputTextEdit(QLineEdit):
                     case _:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
+                        print("Deafult operation")
 
     def exec_cut_to_clipboard(self):
         self.cut()
@@ -1486,3 +1495,32 @@ class InputTextEdit(QLineEdit):
 
     def exec_random(self):
         self.setTextSelect(AppGlobals.to_normal_string(random.random()))
+
+    def exec_date_time_stamp(self):
+        separator = "**********"
+        if AppGlobals.table.columnCount() < 5:
+            AppGlobals.table.setColumnCount(5)
+        row = AppGlobals.table.rowCount()
+        AppGlobals.table.insertRow(row)
+
+        item = QTableWidgetItem()
+        item.setText(separator)
+        AppGlobals.table.setItem(row, 0, item)
+        
+        item = QTableWidgetItem()
+        item.setText(QLocale().toString(QDate.currentDate(), QLocale.ShortFormat))
+        AppGlobals.table.setItem(row, 1, item)
+
+        item = QTableWidgetItem()
+        item.setText(separator)
+        AppGlobals.table.setItem(row, 2, item)
+
+        item = QTableWidgetItem()
+        item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
+        AppGlobals.table.setItem(row, 3, item)
+
+        item = QTableWidgetItem()
+        item.setText(separator)
+        AppGlobals.table.setItem(row, 4, item)
+
+        AppGlobals.table.scrollToBottom()
