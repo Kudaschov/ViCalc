@@ -263,15 +263,21 @@ class InputTextEdit(QLineEdit):
                 else:
                     # prio of expression is lower or equal of last expression
                     if (last_expression_temp.prev_expression
-                            and last_expression_temp.prev_expression.operation_prio <= expression.operation_prio):
-                            #last_expression_temp.prev_expression is lower or equal prio as expression
-                            # expression 25 - 5 * 15 + 116
-                            expression.first_number = last_expression_temp.prev_expression.calculate(last_expression_temp.calculate(self.number))
-
-                            if last_expression_temp.prev_expression.prev_expression:
-                                last_expression_temp.prev_expression.prev_expreesion.next_expression = None
+                            and last_expression_temp.prev_expression.operation_prio >= expression.operation_prio):
+                            #last_expression_temp.prev_expression is equal prio as expression
+    
+                            if isinstance(last_expression_temp.prev_expression, BracketExpression):
+                                # expression 1 / (2 * 3 + 4) = 0.1
+                                expression.first_number = last_expression_temp.calculate(self.number)
+                                last_expression_temp.prev_expression.next_expression = None
                             else:
-                                self.root_expression = None
+                                # expression 25 - 5 * 15 + 116 = 66
+                                expression.first_number = last_expression_temp.prev_expression.calculate(last_expression_temp.calculate(self.number))
+
+                                if last_expression_temp.prev_expression.prev_expression:
+                                    last_expression_temp.prev_expression.prev_expression.next_expression = None
+                                else:
+                                    self.root_expression = None
 
                             self.create_expression_node(expression)
                             self.update_expression_label()
@@ -860,7 +866,7 @@ class InputTextEdit(QLineEdit):
                     self.exec_ex()
                 case Qt.Key.Key_2: # Numpad 2
                     self.exec_square()
-                case Qt.Key.Key_3:
+                case Qt.Key.Key_3: # Numpad 3
                     self.exec_cube()    
                 case Qt.Key.Key_4: # Numpad 4
                     self.exec_arcsin()
@@ -965,12 +971,22 @@ class InputTextEdit(QLineEdit):
                 case 7: # Key 6
                     self.exec_round()
                 case _:
-                    return False
+                    return False # False is case _:
             return True
+        elif self.current_ctrl_state:
+            # ctrl_pressed
+            match self.scan_code:
+                case 3: # Key 2
+                    self.exec_convert_to_deg()
+                case 4: # Key 3
+                    self.exec_convert_to_rad()
+                case 5: # Key 4
+                    self.exec_convert_to_gra()
+                case _:
+                    return False
+            return True # False is case _:
         else:
             return False
-        
-        return True
 
     def handle_keys(self, event):
         if (event.modifiers() & Qt.KeypadModifier) and self.numlock_state(): # keypad keys

@@ -1192,10 +1192,6 @@
     <property name="title">
      <string>&amp;Convert</string>
     </property>
-    <addaction name="action_convert_to_deg"/>
-    <addaction name="action_convert_to_rad"/>
-    <addaction name="action_convert_to_gra"/>
-    <addaction name="separator"/>
     <addaction name="action_convert_from_binary"/>
     <addaction name="action_convert_from_octal"/>
     <addaction name="action_convert_from_decimal"/>
@@ -1557,9 +1553,6 @@
    <property name="text">
     <string>To D&amp;egrees</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+2</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1568,9 +1561,6 @@
    <property name="text">
     <string>To &amp;Radians</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+3</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1578,9 +1568,6 @@
   <action name="action_convert_to_gra">
    <property name="text">
     <string>To &amp;Grads</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+4</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
