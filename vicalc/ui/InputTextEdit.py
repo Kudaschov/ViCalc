@@ -264,23 +264,9 @@ class InputTextEdit(QLineEdit):
                     # prio of expression is lower or equal of last expression
                     if (last_expression_temp.prev_expression
                             and last_expression_temp.prev_expression.operation_prio >= expression.operation_prio):
-                            #last_expression_temp.prev_expression is equal prio as expression
-    
-                            if isinstance(last_expression_temp.prev_expression, BracketExpression):
-                                # expression 1 / (2 * 3 + 4) = 0.1
-                                expression.first_number = last_expression_temp.calculate(self.number)
-                                last_expression_temp.prev_expression.next_expression = None
-                            else:
-                                # expression 25 - 5 * 15 + 116 = 66
-                                expression.first_number = last_expression_temp.prev_expression.calculate(last_expression_temp.calculate(self.number))
-
-                                if last_expression_temp.prev_expression.prev_expression:
-                                    last_expression_temp.prev_expression.prev_expression.next_expression = None
-                                else:
-                                    self.root_expression = None
-
-                            self.create_expression_node(expression)
-                            self.update_expression_label()
+                            #last_expression_temp.prev_expression is greater or equal to expression
+                            #chain calculation
+                            self.create_expression_node_chain(self.number, expression)
                     else:
                         # calculate last expression and change this last expression with expression
                         expression.first_number = last_expression_temp.calculate(self.number)
@@ -292,6 +278,30 @@ class InputTextEdit(QLineEdit):
                         else:
                             last_expression_temp.prev_expression.next_expression = expression
                         self.update_expression_label()
+
+    def create_expression_node_chain(self, number: float, expression):
+        last_expression_temp = self.last_expression()
+        if isinstance(last_expression_temp.prev_expression, BracketExpression):
+            # expression 1 / (2 * 3 + 4) = 0.1
+            expression.first_number = last_expression_temp.calculate(number)
+            last_expression_temp.prev_expression.next_expression = None
+            self.create_expression_node(expression)
+            self.update_expression_label()
+        else:
+            # expression 25 - 5 * 15 + 116 = 66
+            # expression 1 + 2 * 3 ^ 4 + 5 = 168
+            # expression 1 + 2 * 3 ^ 4 * 5 = 811
+            expression.first_number = last_expression_temp.calculate(number)
+
+            if last_expression_temp.prev_expression:
+                last_expression_temp.prev_expression.next_expression = None
+                if expression.operation_prio <= last_expression_temp.prev_expression.operation_prio:
+                    self.create_expression_node_chain(expression.first_number, expression)
+                else:
+                    self.create_expression_node(expression)
+            else:
+                self.root_expression = None
+                self.create_expression_node(expression)
 
     def update_expression_label(self):
         s = ""
