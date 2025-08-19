@@ -852,6 +852,10 @@ class InputTextEdit(QLineEdit):
         if self.current_shift_state:
             # shift was pressed
             match self.key:
+                case Qt.Key.Key_NumLock:
+                    if AppGlobals.numlock_ac:
+                        self.exec_c()
+                    super().keyPressEvent(event)
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_percent()
                 case Qt.Key.Key_Plus:
@@ -905,6 +909,10 @@ class InputTextEdit(QLineEdit):
         else:
             # no shift and no ctrl was pressed or shift is supressed by os
             match self.key:
+                case Qt.Key.Key_NumLock:
+                    if AppGlobals.numlock_ac:
+                        self.exec_ac()
+                    super().keyPressEvent(event)
                 case Qt.Key.Key_Insert: # Numpad 0
                     self.exec_closing_bracket()
                 case Qt.Key.Key_Delete: # Numpad comma

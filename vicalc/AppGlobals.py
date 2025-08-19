@@ -19,6 +19,7 @@ class AppGlobals:
     numpad_button_width = 52
     right_side_keyboard_visible = False
     numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
+    numlock_ac = False
 
     @staticmethod
     def to_format_string(number):

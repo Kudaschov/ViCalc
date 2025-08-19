@@ -40,6 +40,9 @@ class Ui_optionsDialog(object):
         self.inputReplacePointcheckBox = QCheckBox(optionsDialog)
         self.inputReplacePointcheckBox.setObjectName(u"inputReplacePointcheckBox")
         self.inputReplacePointcheckBox.setGeometry(QRect(20, 110, 381, 20))
+        self.NumlockACcheckBox = QCheckBox(optionsDialog)
+        self.NumlockACcheckBox.setObjectName(u"NumlockACcheckBox")
+        self.NumlockACcheckBox.setGeometry(QRect(20, 140, 381, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -54,5 +57,6 @@ class Ui_optionsDialog(object):
         self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace comma (,) with decimal point (.)", None))
         self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace decimal point (.) with comma (,)", None))
         self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert decimal point (.) to comma (,) on &input", None))
+        self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC - All Clear Key", None))
     # retranslateUi
 

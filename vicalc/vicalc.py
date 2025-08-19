@@ -275,6 +275,7 @@ class MainWindow(QMainWindow):
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
             AppGlobals.input_replace_point = self.settings.value("input_replace_point", False, type=bool)
+            AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -376,6 +377,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("copy_to_clipboard_replace", AppGlobals.copy_to_clipboard_replace)
         self.settings.setValue("paste_from_clipboard_replace", AppGlobals.paste_from_clipboard_replace)
         self.settings.setValue("input_replace_point", AppGlobals.input_replace_point)
+        self.settings.setValue("numlocK_ac", AppGlobals.numlock_ac)
 
         self.save_table_data()
 
@@ -1065,12 +1067,14 @@ class MainWindow(QMainWindow):
         dialog.ui.copyCheckBox.setChecked(AppGlobals.copy_to_clipboard_replace)
         dialog.ui.pasteCheckBox.setChecked(AppGlobals.paste_from_clipboard_replace)
         dialog.ui.inputReplacePointcheckBox.setChecked(AppGlobals.input_replace_point)
+        dialog.ui.NumlockACcheckBox.setChecked(AppGlobals.numlock_ac)
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
             AppGlobals.copy_to_clipboard_replace = dialog.ui.copyCheckBox.isChecked()
             AppGlobals.paste_from_clipboard_replace = dialog.ui.pasteCheckBox.isChecked()
             AppGlobals.input_replace_point = dialog.ui.inputReplacePointcheckBox.isChecked()
+            AppGlobals.numlock_ac = dialog.ui.NumlockACcheckBox.isChecked()
 
     def square(self):
         AppGlobals.input_box.exec_square()

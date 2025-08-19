@@ -81,6 +81,19 @@
     <string>Convert decimal point (.) to comma (,) on &amp;input</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="NumlockACcheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&amp;Numlock as AC - All Clear Key</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
