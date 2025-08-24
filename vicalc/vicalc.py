@@ -231,26 +231,43 @@ class MainWindow(QMainWindow):
                     comment = dialog.get_comment()
                     CommentCellValue(comment, index.row(), index.column())
 
+    def clear_cell_in_table(self):
+        # Create a warning message box
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setWindowTitle("Warning")
+        msg_box.setText("Are you sure you want to clear the cell?")
+        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg_box.setDefaultButton(QMessageBox.No)
+
+        # Show the message box and get the user's response
+        result = msg_box.exec()
+
+        if result == QMessageBox.Yes:
+            for index in AppGlobals.table.selectedIndexes():
+                r, c = index.row(), index.column()
+                AppGlobals.table.setItem(r, c, None)
+
     def delete_rows_in_history(self):
-                # Create a warning message box
-                msg_box = QMessageBox()
-                msg_box.setIcon(QMessageBox.Warning)
-                msg_box.setWindowTitle("Warning")
-                msg_box.setText("Are you sure you want to delete row(s)?")
-                msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-                msg_box.setDefaultButton(QMessageBox.No)
+        # Create a warning message box
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setWindowTitle("Warning")
+        msg_box.setText("Are you sure you want to delete row(s)?")
+        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msg_box.setDefaultButton(QMessageBox.No)
 
-                # Show the message box and get the user's response
-                result = msg_box.exec()
+        # Show the message box and get the user's response
+        result = msg_box.exec()
 
-                if result == QMessageBox.Yes:
-                    selected_ranges = AppGlobals.table.selectedRanges()
-                    rows_to_delete = set()
-                    for r in selected_ranges:
-                        rows_to_delete.update(range(r.topRow(), r.bottomRow() + 1))
+        if result == QMessageBox.Yes:
+            selected_ranges = AppGlobals.table.selectedRanges()
+            rows_to_delete = set()
+            for r in selected_ranges:
+                rows_to_delete.update(range(r.topRow(), r.bottomRow() + 1))
 
-                    for row in sorted(rows_to_delete, reverse=True):
-                        AppGlobals.table.removeRow(row)
+            for row in sorted(rows_to_delete, reverse=True):
+                AppGlobals.table.removeRow(row)
 
     def delete_full_protocol(self):                        
         # Create a warning message box
@@ -270,7 +287,8 @@ class MainWindow(QMainWindow):
     def connect_table_signals(self):
         AppGlobals.table.enterPressed.connect(self.cell_enter_pressed)
         AppGlobals.table.escPressed.connect(self.cell_esc_pressed)
-        AppGlobals.table.delete_pressed.connect(self.delete_rows_in_history)
+        AppGlobals.table.shift_delete_pressed.connect(self.delete_rows_in_history)
+        AppGlobals.table.delete_pressed.connect(self.clear_cell_in_table)
 
     def cell_esc_pressed(self):
         if (self.is_tableWidget_editing() == False):
@@ -305,6 +323,7 @@ class MainWindow(QMainWindow):
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
             AppGlobals.input_replace_point = self.settings.value("input_replace_point", False, type=bool)
             AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
+            AppGlobals.convert_angle_on_unit_change = self.settings.value("convert_angle", True, type=bool)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -407,6 +426,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("paste_from_clipboard_replace", AppGlobals.paste_from_clipboard_replace)
         self.settings.setValue("input_replace_point", AppGlobals.input_replace_point)
         self.settings.setValue("numlocK_ac", AppGlobals.numlock_ac)
+        self.settings.setValue("convert_angle", AppGlobals.convert_angle_on_unit_change)
 
         self.save_table_data()
 
@@ -1097,6 +1117,7 @@ class MainWindow(QMainWindow):
         dialog.ui.pasteCheckBox.setChecked(AppGlobals.paste_from_clipboard_replace)
         dialog.ui.inputReplacePointcheckBox.setChecked(AppGlobals.input_replace_point)
         dialog.ui.NumlockACcheckBox.setChecked(AppGlobals.numlock_ac)
+        dialog.ui.convertAngleCheckBox.setChecked(AppGlobals.convert_angle_on_unit_change)
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
@@ -1104,6 +1125,7 @@ class MainWindow(QMainWindow):
             AppGlobals.paste_from_clipboard_replace = dialog.ui.pasteCheckBox.isChecked()
             AppGlobals.input_replace_point = dialog.ui.inputReplacePointcheckBox.isChecked()
             AppGlobals.numlock_ac = dialog.ui.NumlockACcheckBox.isChecked()
+            AppGlobals.convert_angle_on_unit_change = dialog.ui.convertAngleCheckBox.isChecked()
 
     def square(self):
         AppGlobals.input_box.exec_square()

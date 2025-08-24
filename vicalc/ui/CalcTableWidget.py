@@ -15,6 +15,7 @@ class CalcTableWidget(QTableWidget):
     enterPressed = Signal(int, int)
     escPressed = Signal()
     delete_pressed = Signal()
+    shift_delete_pressed = Signal()
 
     def keyPressEvent(self, event):
         print(f"Key Name (Qt.Key constant): {Qt.Key(event.key()).name}\n")
@@ -40,6 +41,8 @@ class CalcTableWidget(QTableWidget):
         # Shift+E is the same as Esc
         elif event.key() == Qt.Key_E and event.modifiers() & Qt.ShiftModifier:
             self.escPressed.emit()
+        elif event.key() == Qt.Key.Key_Delete and (event.modifiers() & Qt.ShiftModifier):
+            self.shift_delete_pressed.emit()
         elif event.key() == Qt.Key_Delete:
             self.delete_pressed.emit()
         elif event.matches(QKeySequence.Copy): # copy to clipboard

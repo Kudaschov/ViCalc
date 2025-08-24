@@ -636,15 +636,15 @@ class InputTextEdit(QLineEdit):
 
         match value:
             case TrigMode.RAD:
-                if ok:
+                if ok and AppGlobals.convert_angle_on_unit_change:
                     self.setTextSelect(self.toString(AppGlobals.angle_unit.to_rad_with_protocol(number)))
                 AppGlobals.angle_unit = RadUnitProtocol()
             case TrigMode.GRA:
-                if ok:
+                if ok and AppGlobals.convert_angle_on_unit_change:
                     self.setTextSelect(self.toString(AppGlobals.angle_unit.to_gra_with_protocol(number)))
                 AppGlobals.angle_unit = GraUnitProtocol()
             case _:
-                if ok:
+                if ok and AppGlobals.convert_angle_on_unit_change:
                     self.setTextSelect(self.toString(AppGlobals.angle_unit.to_deg_with_protocol(number)))
                 AppGlobals.angle_unit = DegUnitProtocol()
 

@@ -94,6 +94,25 @@
     <string>&amp;Numlock as AC - All Clear Key</string>
    </property>
   </widget>
+  <widget class="QCheckBox" name="convertAngleCheckBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>170</y>
+     <width>381</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Convert angle automatically when changing units.</string>
+   </property>
+   <property name="whatsThis">
+    <string>If this checkbox is checked, the angle value will be converted automatically when you switch between degrees (D), radians (R), or grads (G). If unchecked, only the unit label changes.</string>
+   </property>
+   <property name="text">
+    <string>Con&amp;vert Angle on Unit Change</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

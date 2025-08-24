@@ -13,6 +13,7 @@
 - Arrows / ESDF / IJKL / Shift+2468* = Select entry<br>
 - Enter / Mouse Double-click = Insert<br>
 - Down / Shift+2* = Return from last line<br>
-- Delete = Remove lines from history<br>
+- Delete = Clear cells<br>
+- Shift+Delete = Remove lines from history<br>
 
 \* On numpad, NumLock must be on

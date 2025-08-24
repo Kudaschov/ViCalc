@@ -21,6 +21,11 @@ class AppGlobals:
     numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
     numlock_ac = False
 
+    # When checked, the angle value will be automatically converted to the new unit when
+    # changing between degrees (D), radians (R), or grads (G).
+    # If unchecked, only the unit display changes, and the angle value remains the same.    
+    convert_angle_on_unit_change = True
+
     # candidate for options
     different_view_negative_number = True
 

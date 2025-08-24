@@ -43,6 +43,9 @@ class Ui_optionsDialog(object):
         self.NumlockACcheckBox = QCheckBox(optionsDialog)
         self.NumlockACcheckBox.setObjectName(u"NumlockACcheckBox")
         self.NumlockACcheckBox.setGeometry(QRect(20, 140, 381, 20))
+        self.convertAngleCheckBox = QCheckBox(optionsDialog)
+        self.convertAngleCheckBox.setObjectName(u"convertAngleCheckBox")
+        self.convertAngleCheckBox.setGeometry(QRect(20, 170, 381, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -58,5 +61,12 @@ class Ui_optionsDialog(object):
         self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace decimal point (.) with comma (,)", None))
         self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert decimal point (.) to comma (,) on &input", None))
         self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC - All Clear Key", None))
+#if QT_CONFIG(tooltip)
+        self.convertAngleCheckBox.setToolTip(QCoreApplication.translate("optionsDialog", u"Convert angle automatically when changing units.", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.convertAngleCheckBox.setWhatsThis(QCoreApplication.translate("optionsDialog", u"If this checkbox is checked, the angle value will be converted automatically when you switch between degrees (D), radians (R), or grads (G). If unchecked, only the unit label changes.", None))
+#endif // QT_CONFIG(whatsthis)
+        self.convertAngleCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Con&vert Angle on Unit Change", None))
     # retranslateUi
 
