@@ -71,6 +71,8 @@ from ..NumFormatDialog import NumFormatDialog
 from ..NumericFormat import NumericFormat
 from ..CellValue import CellValue
 from ..CommentCellValue import CommentCellValue
+from ..StringCellValue import StringCellValue
+from ..ResultCellValue import ResultCellValue
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -886,8 +888,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_del_last_line()
                 case Qt.Key.Key_0:
                     self.exec_swap()
-                case Qt.Key.Key_1:
-                    self.exec_ex()
+                case Qt.Key.Key_1: # Numpad 1
+                    self.exec_ten_power_x()
                 case Qt.Key.Key_2: # Numpad 2
                     self.exec_square()
                 case Qt.Key.Key_3: # Numpad 3
@@ -899,7 +901,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_6: # Numpad 6
                     self.exec_arctan()
                 case Qt.Key.Key_7: # Numpad 7
-                    self.exec_ten_power_x()
+                    self.exec_ex()
                 case Qt.Key.Key_8: # Numpad 8
                     self.exec_MS()
                 case Qt.Key.Key_9: # Numpad 9
@@ -928,7 +930,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Delete: # Numpad comma
                     self.exec_backspace()
                 case Qt.Key.Key_End: # Numpad 1
-                    self.exec_ln()
+                    self.exec_log()
                 case Qt.Key.Key_Down: # Numpad 2
                     self.exec_sqrt()
                 case Qt.Key.Key_PageDown: # Numpad 3
@@ -940,7 +942,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Right: # Numpad 6
                     self.exec_tan()
                 case Qt.Key.Key_Home: # Numpad 7
-                    self.exec_log()
+                    self.exec_ln()
                 case Qt.Key.Key_Up: # Numpad 8
                     self.exec_toggle_table()
                 case Qt.Key.Key_PageUp: # Numpad 9
@@ -1031,9 +1033,9 @@ class InputTextEdit(QLineEdit):
                     # case Qt.Key.Key_Exclam:
                     #    self.exec_factorial()
                     case Qt.Key.Key_Q:
-                        self.exec_M_minus()
+                        self.exec_convert_to_dms()
                     case Qt.Key.Key_W:
-                        self.exec_M_plus()
+                        self.exec_convert_to_dd()
                     case Qt.Key.Key_E:
                         self.exec_toggle_table()
                     case Qt.Key.Key_R:
@@ -1049,15 +1051,15 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_D:
                         self.exec_arccos()
                     case Qt.Key.Key_F:
-                        self.exec_from_octal()
+                        self.exec_convert_to_bases()
                     case Qt.Key.Key_G:
                         self.exec_ten_power_x()
                     case Qt.Key.Key_Y:
-                        self.exec_convert_to_dms()
+                        self.exec_M_minus()
                     case Qt.Key.Key_X:
-                        self.exec_convert_to_dd()
-                    case Qt.Key.Key_C:
                         self.exec_from_binary()
+                    case Qt.Key.Key_C:
+                        self.exec_from_octal()
                     case Qt.Key.Key_V:
                         self.exec_from_hexadecimal()
                     case Qt.Key.Key_B:
@@ -1077,6 +1079,8 @@ class InputTextEdit(QLineEdit):
             elif self.current_ctrl_state:
                 # ctrl pressed
                 match self.key:
+                    case Qt.Key.Key_1:
+                        self.exec_random()
                     # handle copy/paste with possible replacing            
                     case Qt.Key.Key_C:
                         self.handle_copy()
@@ -1128,7 +1132,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_G:
                         self.exec_log()
                     case Qt.Key.Key_Y:
-                        self.exec_convert_to_bases()
+                        self.exec_M_plus()
                     case Qt.Key.Key_X:
                         self.exec_reciprocal()
                     case Qt.Key.Key_C:
@@ -1538,7 +1542,13 @@ class InputTextEdit(QLineEdit):
             self.setTextSelect(AppGlobals.to_format_string(self.number))
 
     def exec_random(self):
-        self.setTextSelect(AppGlobals.to_normal_string(random.random()))
+        r = AppGlobals.table.rowCount()
+        AppGlobals.table.insertRow(r)        
+        AppGlobals.table.scrollToBottom()
+        f = random.random()
+        StringCellValue("Random:", r, 0)
+        ResultCellValue(f, r, 1)
+        self.setTextSelect(AppGlobals.to_normal_string(f))
 
     def exec_date_time_stamp(self):
         separator = "**********"

@@ -1215,7 +1215,6 @@
     <addaction name="action_combination"/>
     <addaction name="action_permutaton"/>
     <addaction name="separator"/>
-    <addaction name="action_generate_random_number"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">

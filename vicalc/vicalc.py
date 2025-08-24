@@ -559,11 +559,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButton1numpad.row = 3
         self.ui.pushButton1numpad.column = 0
         self.ui.pushButton1numpad.bg_color = self.number_key_color
-        self.ui.pushButton1numpad.shift_text = "ln"
-        self.ui.pushButton1numpad.ctrl_text = "e^x"
+        self.ui.pushButton1numpad.shift_text = "log"
+        self.ui.pushButton1numpad.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButton1numpad.ctrl_text = "10^X"
+        self.ui.pushButton1numpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
-        self.ui.pushButton1numpad.shift_operation = CalcOperations.ln
-        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.ex
+        self.ui.pushButton1numpad.shift_operation = CalcOperations.log
+        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.ten_power_x
         self.numpad_button_list.append(self.ui.pushButton1numpad)
 
         self.ui.pushButton2numpad.row = 3
@@ -619,13 +621,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton7numpad.row = 1
         self.ui.pushButton7numpad.column = 0
         self.ui.pushButton7numpad.bg_color = self.number_key_color
-        self.ui.pushButton7numpad.shift_text = "log"
-        self.ui.pushButton7numpad.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButton7numpad.ctrl_text = "10^X"
-        self.ui.pushButton7numpad.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton7numpad.shift_text = "ln"
+        self.ui.pushButton7numpad.ctrl_text = "e^x"
         self.ui.pushButton7numpad.base_operation = CalcOperations.number_7
-        self.ui.pushButton7numpad.shift_operation = CalcOperations.log
-        self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ten_power_x
+        self.ui.pushButton7numpad.shift_operation = CalcOperations.ln
+        self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ex
         self.numpad_button_list.append(self.ui.pushButton7numpad)
 
         self.ui.pushButton8numpad.row = 1
@@ -821,10 +821,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonQ.text_font = QFont("Times New Roman", 14)
         self.ui.pushButtonQ.setText("π")
         self.ui.pushButtonQ.original_keyboard_text = "Q"
-        self.ui.pushButtonQ.shift_text = "M-"
+        self.ui.pushButtonQ.shift_text = "DMS"
         self.ui.pushButtonQ.ctrl_text = "nCr"
         self.ui.pushButtonQ.base_operation = CalcOperations.pi
-        self.ui.pushButtonQ.shift_operation = CalcOperations.M_minus
+        self.ui.pushButtonQ.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonQ.ctrl_operation = CalcOperations.combination
         self.leftside_button_list.append(self.ui.pushButtonQ)
 
@@ -832,10 +832,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonW.column = 1.5
         self.ui.pushButtonW.setText("x^y")
         self.ui.pushButtonW.original_keyboard_text = "W"
-        self.ui.pushButtonW.shift_text = "M+"
+        self.ui.pushButtonW.shift_text = "DD"
         self.ui.pushButtonW.ctrl_text = "nPr"
         self.ui.pushButtonW.base_operation = CalcOperations.pow
-        self.ui.pushButtonW.shift_operation = CalcOperations.M_plus
+        self.ui.pushButtonW.shift_operation = CalcOperations.convert_to_dd
         self.ui.pushButtonW.ctrl_operation = CalcOperations.permutation
         self.leftside_button_list.append(self.ui.pushButtonW)
 
@@ -927,14 +927,14 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.column = 4
         self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
-        self.ui.pushButtonF.shift_text = "Oct->"
+        self.ui.pushButtonF.shift_text = "Dec->"
 #        self.ui.pushButtonF.shift_text_alignment = Qt.AlignLeft
 #        self.ui.pushButtonF.ctrl_text = "tanh"
 #        self.ui.pushButtonF.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonF.shift_font = self.font_long_names
         self.ui.pushButtonF.base_operation = CalcOperations.MS
-        self.ui.pushButtonF.shift_operation = CalcOperations.convert_from_octal
-        self.ui.pushButtonF.ctrl_operation = CalcOperations.convert_from_octal
+        self.ui.pushButtonF.shift_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonF.ctrl_operation = CalcOperations.convert_to_bases
         self.leftside_button_list.append(self.ui.pushButtonF)
 
         self.ui.pushButtonG.row = 2
@@ -963,39 +963,39 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
-        self.ui.pushButtonY.setText("Dec->")
+        self.ui.pushButtonY.setText("M+")
         self.ui.pushButtonY.original_keyboard_text = "Y"
-        self.ui.pushButtonY.shift_text = "DMS"
+        self.ui.pushButtonY.shift_text = "M-"
         self.ui.pushButtonY.ctrl_text = ""
-        self.ui.pushButtonY.ctrl_font = self.font_long_names
-        self.ui.pushButtonY.base_operation = CalcOperations.convert_to_bases
-        self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
-        self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
+        # self.ui.pushButtonY.ctrl_font = self.font_long_names
+        self.ui.pushButtonY.base_operation = CalcOperations.M_plus
+        self.ui.pushButtonY.shift_operation = CalcOperations.M_minus
+        self.ui.pushButtonY.ctrl_operation = CalcOperations.M_minus
         self.leftside_button_list.append(self.ui.pushButtonY)
 
         self.ui.pushButtonX.row = 3
         self.ui.pushButtonX.column = 2.5
         self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
-        self.ui.pushButtonX.shift_text = "DD"
+        self.ui.pushButtonX.shift_text = "Bin->"
         self.ui.pushButtonX.ctrl_text = ""
         self.ui.pushButtonX.ctrl_font = self.font_long_names
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
-        self.ui.pushButtonX.shift_operation = CalcOperations.convert_to_dd
-        self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
+        self.ui.pushButtonX.shift_operation = CalcOperations.convert_from_binary
+        self.ui.pushButtonX.ctrl_operation = CalcOperations.convert_from_binary
         self.leftside_button_list.append(self.ui.pushButtonX)
 
         self.ui.pushButtonC.row = 3
         self.ui.pushButtonC.column = 3.5
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonC.shift_text = "Bin->"
+        self.ui.pushButtonC.shift_text = "Oct->"
         self.ui.pushButtonC.shift_font = self.font_long_names
         self.ui.pushButtonC.ctrl_text = ""
         self.ui.pushButtonC.ctrl_font = self.font_long_names
         self.ui.pushButtonC.base_operation = CalcOperations.C
-        self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_binary
-        self.ui.pushButtonC.ctrl_operation = CalcOperations.copy_to_clipboard
+        self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_octal
+        self.ui.pushButtonC.ctrl_operation = CalcOperations.convert_from_octal
         self.leftside_button_list.append(self.ui.pushButtonC)
 
         self.ui.pushButtonV.row = 3

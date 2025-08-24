@@ -505,7 +505,6 @@ class Ui_MainWindow(object):
         self.menu_Math.addAction(self.action_combination)
         self.menu_Math.addAction(self.action_permutaton)
         self.menu_Math.addSeparator()
-        self.menu_Math.addAction(self.action_generate_random_number)
         self.menu_Tools.addAction(self.action_options)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.action_DEG)
