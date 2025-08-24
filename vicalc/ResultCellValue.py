@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from .CellValue import CellValue
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QFont, QColor, QBrush
 from .AppGlobals import AppGlobals
 from .NumericCellValue import NumericCellValue
 
@@ -15,6 +15,8 @@ class ResultCellValue(NumericCellValue):
             if item:
                 resultFont = QFont()
                 resultFont.setBold(True)
+                if AppGlobals.different_view_negative_number and self.number < 0:
+                    item.setForeground(QBrush(QColor(AppGlobals.color_negative_number)))
                 item.setFont(resultFont)
 
         return super().to_string(row, col)

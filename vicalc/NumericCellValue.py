@@ -1,4 +1,5 @@
 from PySide6.QtCore import Qt, QLocale
+from PySide6.QtGui import QFont, QColor, QBrush
 from .CellValue import CellValue
 from .NumericFormat import NumericFormat
 from .AppGlobals import AppGlobals
@@ -14,6 +15,10 @@ class NumericCellValue(CellValue):
             AppGlobals.current_column = col
             item = AppGlobals.table.item(row, col)
             if item:
+                if AppGlobals.different_view_negative_number and self.number < 0:
+                    resultFont = QFont()
+                    item.setForeground(QBrush(QColor(AppGlobals.color_negative_number)))
+                    item.setFont(resultFont)
                 item.setText(self.to_string(row, col))
 
     def to_string(self, row = -1, col = -1):

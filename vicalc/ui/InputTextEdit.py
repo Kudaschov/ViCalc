@@ -70,6 +70,7 @@ from ..FourthPowerExpression import FourthPowerExpression
 from ..NumFormatDialog import NumFormatDialog
 from ..NumericFormat import NumericFormat
 from ..CellValue import CellValue
+from ..CommentCellValue import CommentCellValue
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -837,10 +838,19 @@ class InputTextEdit(QLineEdit):
         dialog.ui.lineEdit.setText(self.text())
         if dialog.exec():
             comment = dialog.get_comment()
-            row = AppGlobals.table.rowCount()
-            AppGlobals.table.insertRow(row)        
-            AppGlobals.table.scrollToBottom()
-            AppGlobals.table.setItem(row, 0, QTableWidgetItem(comment))
+            if (AppGlobals.non_empty_col_last_row_table() == -1
+                or AppGlobals.non_empty_col_last_row_table() > AppGlobals.column_number_next_line_comment):
+                row = AppGlobals.table.rowCount()
+                AppGlobals.table.insertRow(row)        
+                AppGlobals.table.scrollToBottom()
+                AppGlobals.table.setItem(row, 0, QTableWidgetItem(comment))
+                CommentCellValue(comment, row, 0)
+            else:
+                AppGlobals.table.scrollToBottom()
+                row = AppGlobals.table.rowCount() - 1
+                col = AppGlobals.non_empty_col_last_row_table() + 1
+                AppGlobals.table.setItem(row, col, QTableWidgetItem(comment))
+                CommentCellValue(comment, row, col)
 
     def get_key_state(self, key_code):
         return bool(ctypes.windll.user32.GetKeyState(key_code) & 0x0001)

@@ -21,6 +21,22 @@ class AppGlobals:
     numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
     numlock_ac = False
 
+    # candidate for options
+    different_view_negative_number = True
+
+    # e. g. red color for negative numbers
+    # candidate for options
+    color_negative_number = "#0000FF" # 
+
+    # comment color
+    # candidate for option
+    color_comment = "#008F00"
+
+    # last non empty column in last table row for comment in this last row,
+    # otherwise comment will be placed on the new row
+    # candidate for optrions
+    column_number_next_line_comment = 4
+
     @staticmethod
     def to_format_string(number):
         locale = QLocale()
@@ -65,3 +81,23 @@ class AppGlobals:
             raw_str = raw_str.rstrip('0').rstrip(locale.decimalPoint())
 
         return f"{raw_str}e{exponent:+03d}"    
+    
+    @staticmethod
+    def non_empty_col_last_row_table():
+        row_count = AppGlobals.table.rowCount()
+        col_count = AppGlobals.table.columnCount()
+
+        if row_count == 0 or col_count == 0:
+            return  -1 # Nothing to do
+
+        last_row = row_count - 1
+
+        # Find last non-empty column in the last row
+        last_non_empty_col = -1
+        for col in reversed(range(col_count)):
+            item = AppGlobals.table.item(last_row, col)
+            if item and item.text().strip() != "":
+                last_non_empty_col = col
+                break
+
+        return last_non_empty_col

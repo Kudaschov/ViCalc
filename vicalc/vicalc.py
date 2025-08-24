@@ -26,6 +26,8 @@ from .AppGlobals import AppGlobals
 from .NumericCellValue import NumericCellValue
 from PySide6.QtCore import QLocale, QDate, QTime
 from .OptionsDialog import OptionsDialog
+from .CommentDialog import CommentDialog
+from .CommentCellValue import CommentCellValue
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -188,11 +190,13 @@ class MainWindow(QMainWindow):
 
     def show_context_menu(self, pos):
         global_pos = AppGlobals.table.viewport().mapToGlobal(pos)
+        index = AppGlobals.table.indexAt(pos)
         item = AppGlobals.table.itemAt(pos)
         if item:
             menu = QMenu(self)
             action_copy_table_to_clipboard = menu.addAction("Copy")
             action_paste_to_calculator = menu.addAction("Paste to calculator")
+            action_clear_cell = menu.addAction("Clear Cell")
             action_delete = menu.addAction("Delete row(s)")
             action = menu.exec(global_pos)
             if action == action_paste_to_calculator:
@@ -201,6 +205,31 @@ class MainWindow(QMainWindow):
                 AppGlobals.table.copy_selection_to_clipboard()
             elif action == action_delete:
                 self.delete_rows_in_history()
+            elif action == action_clear_cell:
+                # Create a warning message box
+                msg_box = QMessageBox()
+                msg_box.setIcon(QMessageBox.Warning)
+                msg_box.setWindowTitle("Warning")
+                msg_box.setText("Are you sure you want to clear the cell?")
+                msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+                msg_box.setDefaultButton(QMessageBox.No)
+
+                # Show the message box and get the user's response
+                result = msg_box.exec()
+
+                if result == QMessageBox.Yes:
+                    AppGlobals.table.setItem(index.row(), index.column(), None)
+
+        elif index.isValid():
+            menu = QMenu(self)
+            action_add_comment = menu.addAction("Add Comment")
+            action = menu.exec(global_pos)
+            if action == action_add_comment:
+                dialog = CommentDialog()
+                dialog.ui.lineEdit.setText("")
+                if dialog.exec():
+                    comment = dialog.get_comment()
+                    CommentCellValue(comment, index.row(), index.column())
 
     def delete_rows_in_history(self):
                 # Create a warning message box
