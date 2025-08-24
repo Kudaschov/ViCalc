@@ -7,7 +7,7 @@ ViCalc is an open-source scientific Python calculator designed for efficient tou
 <img src="docs/images/key.png" alt="ViCalc Key" />
 
 ## Calculation Example
-<img src="docs/images/ViCalcExample.png" alt = "ViCalc Calculation Example" width="550" />
+<img src="docs/images/ViCalcExample.png" alt = "ViCalc Calculation Example" width="760" />
 
 ## Key Features
 
