@@ -1,6 +1,6 @@
 # ViCalc
 
-ViCalc is an open-source scientific Python calculator designed for efficient touch typing. It combines the simplicity of a traditional calculator with the power of a PC, allowing users to perform calculations without leaving the keyboard.
+ViCalc is an open-source touch-typing calculator with calculation history (Python). It combines the simplicity of a traditional calculator with the power of a PC, allowing users to perform calculations without leaving the keyboard.
 
 <img src="docs/images/ViCalc.png" alt="ViCalc Screenshot" width="550" />
 <img src="docs/images/ViCalc_rightside_keyboard.png" alt="ViCalc Screenshot" width="670" />
