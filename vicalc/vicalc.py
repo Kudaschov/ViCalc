@@ -817,14 +817,12 @@ class MainWindow(QMainWindow):
     def first_row_keyboard(self):
         self.ui.pushButtonQ.row = 1
         self.ui.pushButtonQ.column = 0.5
-        self.ui.pushButtonQ.text_highlight_font = QFont("Times New Roman", 14, QFont.Bold)
-        self.ui.pushButtonQ.text_font = QFont("Times New Roman", 14)
-        self.ui.pushButtonQ.setText("π")
+        self.ui.pushButtonQ.setText("M+")
         self.ui.pushButtonQ.original_keyboard_text = "Q"
-        self.ui.pushButtonQ.shift_text = "DMS"
+        self.ui.pushButtonQ.shift_text = "M-"
         self.ui.pushButtonQ.ctrl_text = "nCr"
-        self.ui.pushButtonQ.base_operation = CalcOperations.pi
-        self.ui.pushButtonQ.shift_operation = CalcOperations.convert_to_dms
+        self.ui.pushButtonQ.base_operation = CalcOperations.M_plus
+        self.ui.pushButtonQ.shift_operation = CalcOperations.M_minus
         self.ui.pushButtonQ.ctrl_operation = CalcOperations.combination
         self.leftside_button_list.append(self.ui.pushButtonQ)
 
@@ -928,9 +926,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
         self.ui.pushButtonF.shift_text = "Dec->"
-#        self.ui.pushButtonF.shift_text_alignment = Qt.AlignLeft
-#        self.ui.pushButtonF.ctrl_text = "tanh"
-#        self.ui.pushButtonF.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonF.shift_font = self.font_long_names
         self.ui.pushButtonF.base_operation = CalcOperations.MS
         self.ui.pushButtonF.shift_operation = CalcOperations.convert_to_bases
@@ -963,14 +958,15 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
-        self.ui.pushButtonY.setText("M+")
+        self.ui.pushButtonY.text_highlight_font = QFont("Times New Roman", 14, QFont.Bold)
+        self.ui.pushButtonY.text_font = QFont("Times New Roman", 14)
+        self.ui.pushButtonY.setText("π")
         self.ui.pushButtonY.original_keyboard_text = "Y"
-        self.ui.pushButtonY.shift_text = "M-"
+        self.ui.pushButtonY.shift_text = "DMS"
         self.ui.pushButtonY.ctrl_text = ""
-        # self.ui.pushButtonY.ctrl_font = self.font_long_names
-        self.ui.pushButtonY.base_operation = CalcOperations.M_plus
-        self.ui.pushButtonY.shift_operation = CalcOperations.M_minus
-        self.ui.pushButtonY.ctrl_operation = CalcOperations.M_minus
+        self.ui.pushButtonY.base_operation = CalcOperations.pi
+        self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
+        self.ui.pushButtonY.ctrl_operation = CalcOperations.convert_to_dms
         self.leftside_button_list.append(self.ui.pushButtonY)
 
         self.ui.pushButtonX.row = 3

@@ -1033,7 +1033,7 @@ class InputTextEdit(QLineEdit):
                     # case Qt.Key.Key_Exclam:
                     #    self.exec_factorial()
                     case Qt.Key.Key_Q:
-                        self.exec_convert_to_dms()
+                        self.exec_M_minus()
                     case Qt.Key.Key_W:
                         self.exec_convert_to_dd()
                     case Qt.Key.Key_E:
@@ -1055,7 +1055,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_G:
                         self.exec_ten_power_x()
                     case Qt.Key.Key_Y:
-                        self.exec_M_minus()
+                        self.exec_convert_to_dms()
                     case Qt.Key.Key_X:
                         self.exec_from_binary()
                     case Qt.Key.Key_C:
@@ -1112,7 +1112,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Up:
                         self.exec_toggle_table()
                     case Qt.Key.Key_Q:
-                        self.exec_pi()
+                        self.exec_M_plus()
                     case Qt.Key.Key_W:
                         self.exec_pow()
                     case Qt.Key.Key_R:
@@ -1132,7 +1132,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_G:
                         self.exec_log()
                     case Qt.Key.Key_Y:
-                        self.exec_M_plus()
+                        self.exec_pi()
                     case Qt.Key.Key_X:
                         self.exec_reciprocal()
                     case Qt.Key.Key_C:
