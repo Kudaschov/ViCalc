@@ -99,6 +99,7 @@ class MainWindow(QMainWindow):
         self.ui.action_permutaton.triggered.connect(self.permutation)
         self.ui.action_generate_random_number.triggered.connect(AppGlobals.input_box.exec_random)
 
+        self.ui.action_phy_const.triggered.connect(AppGlobals.input_box.exec_phy_const)
         self.ui.action_options.triggered.connect(self.options)
 
         self.settings = QSettings("Kudaschov", "ViCalc")
@@ -324,6 +325,7 @@ class MainWindow(QMainWindow):
             AppGlobals.input_replace_point = self.settings.value("input_replace_point", False, type=bool)
             AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
             AppGlobals.convert_angle_on_unit_change = self.settings.value("convert_angle", True, type=bool)
+            AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -427,6 +429,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("input_replace_point", AppGlobals.input_replace_point)
         self.settings.setValue("numlocK_ac", AppGlobals.numlock_ac)
         self.settings.setValue("convert_angle", AppGlobals.convert_angle_on_unit_change)
+        self.settings.setValue("phy_const_index", AppGlobals.phy_const_index)
 
         self.save_table_data()
 
@@ -853,10 +856,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonR.setText("√")
         self.ui.pushButtonR.original_keyboard_text = "R"
         self.ui.pushButtonR.shift_text = "³√x"
-        self.ui.pushButtonR.ctrl_text = ""
+        self.ui.pushButtonR.ctrl_text = "Phy"
         self.ui.pushButtonR.base_operation = CalcOperations.sqrt
         self.ui.pushButtonR.shift_operation = CalcOperations.cube_root
-        self.ui.pushButtonR.ctrl_operation = CalcOperations.cube_root
+        self.ui.pushButtonR.ctrl_operation = CalcOperations.phy_const
         self.leftside_button_list.append(self.ui.pushButtonR)
 
         self.ui.pushButtonT.row = 1

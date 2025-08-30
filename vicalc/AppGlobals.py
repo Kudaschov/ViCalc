@@ -20,6 +20,7 @@ class AppGlobals:
     right_side_keyboard_visible = False
     numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
     numlock_ac = False
+    phy_const_index = 0 # select index in phy const dialog
 
     # When checked, the angle value will be automatically converted to the new unit when
     # changing between degrees (D), radians (R), or grads (G).
@@ -60,11 +61,11 @@ class AppGlobals:
                 return AppGlobals.to_normal_string(number)
             
     @staticmethod
-    def to_normal_string(number):
+    def to_normal_string(number: float):
         # max precision
         locale = QLocale()
         locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
-        return locale.toString(number, "g", 16)
+        return locale.toString(number, "g", 15)
     
     @staticmethod
     def format_engineering(value):

@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QApplication, QLineEdit, QStyleOptionFrame
 from PySide6.QtCore import Qt, Signal, QDate, QTime
 from PySide6.QtWidgets import QMessageBox
-from PySide6.QtWidgets import QTableWidgetItem
+from PySide6.QtWidgets import QTableWidgetItem, QDialog
 from PySide6.QtGui import QFont, QGuiApplication
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
@@ -73,6 +73,7 @@ from ..CellValue import CellValue
 from ..CommentCellValue import CommentCellValue
 from ..StringCellValue import StringCellValue
 from ..ResultCellValue import ResultCellValue
+from ..PhyConstDialog import PhyConstDialog
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -586,6 +587,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_random()
                 case CalcOperations.date_time_stamp:
                     self.exec_date_time_stamp()
+                case CalcOperations.phy_const:
+                    self.exec_phy_const()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -1578,3 +1581,9 @@ class InputTextEdit(QLineEdit):
         AppGlobals.table.setItem(row, 4, item)
 
         AppGlobals.table.scrollToBottom()
+
+    def exec_phy_const(self):
+        dlg = PhyConstDialog(AppGlobals.phy_const_index)
+        if dlg.exec() == QDialog.Accepted:
+            const, AppGlobals.phy_const_index = dlg.get_selection_by_index()
+            self.setTextSelect(AppGlobals.to_normal_string(const['value']))

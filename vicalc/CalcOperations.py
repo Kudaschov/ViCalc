@@ -85,3 +85,4 @@ class CalcOperations(Enum):
     round = auto()
     random = auto()
     date_time_stamp = auto()
+    phy_const = auto()

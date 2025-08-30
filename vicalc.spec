@@ -11,6 +11,7 @@ a = Analysis(
     datas=[
         ('icons/ViCalc.ico', 'icons'),
         ('vicalc/ui/*.ui', 'vicalc/ui'),
+        ('vicalc/images/*.*', 'vicalc/images'),
         ('resource.qrc', '.'),
         ('help/site', 'help/site'),
     ],

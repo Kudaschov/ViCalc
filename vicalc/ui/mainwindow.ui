@@ -1220,6 +1220,8 @@
     <property name="title">
      <string>&amp;Tools</string>
     </property>
+    <addaction name="action_phy_const"/>
+    <addaction name="separator"/>
     <addaction name="action_options"/>
    </widget>
    <addaction name="menu_File"/>
@@ -1578,6 +1580,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+1</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_phy_const">
+   <property name="text">
+    <string>&amp;Physical Constants...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
