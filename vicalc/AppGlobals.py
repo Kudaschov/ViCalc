@@ -21,6 +21,8 @@ class AppGlobals:
     numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
     numlock_ac = False
     phy_const_index = 0 # select index in phy const dialog
+    unit_conversion_from = "in"
+    unit_conversion_to = "mm"
 
     # When checked, the angle value will be automatically converted to the new unit when
     # changing between degrees (D), radians (R), or grads (G).

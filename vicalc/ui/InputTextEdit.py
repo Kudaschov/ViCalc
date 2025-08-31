@@ -72,8 +72,10 @@ from ..NumericFormat import NumericFormat
 from ..CellValue import CellValue
 from ..CommentCellValue import CommentCellValue
 from ..StringCellValue import StringCellValue
+from ..FloatCellValue import FloatCellValue
 from ..ResultCellValue import ResultCellValue
 from ..PhyConstDialog import PhyConstDialog
+from ..unit_conversion import ConversionDialog
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -589,6 +591,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_date_time_stamp()
                 case CalcOperations.phy_const:
                     self.exec_phy_const()
+                case CalcOperations.unit_conversion:
+                    self.exec_unit_conversion()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -1393,6 +1397,7 @@ class InputTextEdit(QLineEdit):
             y, ok = self.locale.toDouble(dialog.ui.yLineEdit.text())
             expr = RectangularToPolarExpression(x)
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(y)))
+            self.update_shift_ctrl_status()
     
     def exec_polar_to_rectangular(self):
         dialog = PolarToRectangularDialog()
@@ -1407,6 +1412,7 @@ class InputTextEdit(QLineEdit):
             a, ok = self.locale.toDouble(dialog.ui.angleLineEdit.text())
             expr = PolarToRectangularExpression(r)
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(a)))
+            self.update_shift_ctrl_status()
 
     def exec_combination(self):
         dialog = CombinationDialog()
@@ -1587,3 +1593,22 @@ class InputTextEdit(QLineEdit):
         if dlg.exec() == QDialog.Accepted:
             const, AppGlobals.phy_const_index = dlg.get_selection_by_index()
             self.setTextSelect(AppGlobals.to_normal_string(const['value']))
+            self.update_shift_ctrl_status()
+
+    def exec_unit_conversion(self):
+        self.number, ok = self.locale.toDouble(self.text())
+        f: float = 1.0
+        if ok:
+            f = self.number
+        dlg = ConversionDialog(initial_value=f, initial_unit=AppGlobals.unit_conversion_from, result_unit=AppGlobals.unit_conversion_to)
+        if dlg.exec() == QDialog.Accepted:
+            v_from, AppGlobals.unit_conversion_from, v_to, AppGlobals.unit_conversion_to = dlg.get_results()
+            self.setTextSelect(AppGlobals.to_normal_string(v_to))
+            row = AppGlobals.table.rowCount()
+            AppGlobals.table.insertRow(row)        
+            AppGlobals.table.scrollToBottom()
+            FloatCellValue(v_from, row, 0)
+            StringCellValue(f"{AppGlobals.unit_conversion_from} =", row, 1)
+            ResultCellValue(v_to, row, 2)
+            StringCellValue(AppGlobals.unit_conversion_to, row, 3)
+            self.update_shift_ctrl_status()

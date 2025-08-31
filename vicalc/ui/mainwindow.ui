@@ -1199,6 +1199,8 @@
     <addaction name="separator"/>
     <addaction name="action_rectangular_to_polar"/>
     <addaction name="action_polar_to_rectangular"/>
+    <addaction name="separator"/>
+    <addaction name="action_unit_conversion"/>
    </widget>
    <widget class="QMenu" name="menu_Math">
     <property name="title">
@@ -1591,6 +1593,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_unit_conversion">
+   <property name="text">
+    <string>&amp;Unit Conversion...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

@@ -74,6 +74,7 @@ class MainWindow(QMainWindow):
         self.ui.action_convert_from_octal.triggered.connect(self.convert_from_octal)
         self.ui.action_convert_from_decimal.triggered.connect(self.convert_from_decimal)
         self.ui.action_convert_from_hexadecimal.triggered.connect(self.convert_from_hexadecimal)
+        self.ui.action_unit_conversion.triggered.connect(self.unit_conversion)
 
         self.ui.action_dms_to_dd.triggered.connect(self.dms_to_dd)
 
@@ -326,6 +327,8 @@ class MainWindow(QMainWindow):
             AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
             AppGlobals.convert_angle_on_unit_change = self.settings.value("convert_angle", True, type=bool)
             AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
+            AppGlobals.unit_conversion_from = self.settings.value("unit_conversion_from", "in", type=str)
+            AppGlobals.unit_conversion_to = self.settings.value("unit_conversion_to", "mm", type=str)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -430,6 +433,8 @@ class MainWindow(QMainWindow):
         self.settings.setValue("numlocK_ac", AppGlobals.numlock_ac)
         self.settings.setValue("convert_angle", AppGlobals.convert_angle_on_unit_change)
         self.settings.setValue("phy_const_index", AppGlobals.phy_const_index)
+        self.settings.setValue("unit_conversion_from", AppGlobals.unit_conversion_from)
+        self.settings.setValue("unit_conversion_to", AppGlobals.unit_conversion_to)
 
         self.save_table_data()
 
@@ -844,11 +849,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.column = 2.5
         # special key exponent have other bg color
         self.ui.pushButtonE.bg_color = self.number_key_color
-        self.ui.pushButtonE.shift_text = "History"
-        #self.ui.pushButtonE.ctrl_text = "n!"
+        self.ui.pushButtonE.shift_text = "Hist"
+        self.ui.pushButtonE.ctrl_text = "Conv"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
         self.ui.pushButtonE.shift_operation = CalcOperations.toggle_table
-        self.ui.pushButtonE.ctrl_operation = CalcOperations.toggle_table
+        self.ui.pushButtonE.ctrl_operation = CalcOperations.unit_conversion
         self.leftside_button_list.append(self.ui.pushButtonE)
 
         self.ui.pushButtonR.row = 1
@@ -1036,6 +1041,9 @@ class MainWindow(QMainWindow):
 
     def convert_from_hexadecimal(self):
         AppGlobals.input_box.exec_from_hexadecimal()
+
+    def unit_conversion(self):
+        AppGlobals.input_box.exec_unit_conversion()
 
     def dms_to_dd(self):
         AppGlobals.input_box.exec_convert_to_dd()

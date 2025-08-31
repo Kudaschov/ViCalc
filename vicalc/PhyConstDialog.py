@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem, QDialogButtonBox, QLabel
 )
 from PySide6.QtGui import QPixmap, QColor
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QEvent
 from pathlib import Path
 from .AppGlobals import AppGlobals
 
@@ -29,7 +29,6 @@ if getattr(sys, 'frozen', False):  # running as compiled .exe
     BASE_DIR = Path(sys._MEIPASS)
 else:  # running as script
     BASE_DIR = Path.cwd()
-#    BASE_DIR = Path(__file__).parent
 
 GIF_DIR = BASE_DIR / "vicalc/images"
 
@@ -96,7 +95,6 @@ class PhyConstDialog(QDialog):
                 pix = QPixmap(str(gif_path))
                 if pix:
                     lbl = QLabel()
-#                    lbl.setPixmap(pix.scaledToHeight(15, Qt.SmoothTransformation))
                     lbl.setPixmap(pix)
                     lbl.setAlignment(Qt.AlignCenter)
                     lbl.setStyleSheet("background-color: #D0F0C8;")
@@ -119,7 +117,7 @@ class PhyConstDialog(QDialog):
 
         self.table.setColumnWidth(0, 60)
         self.table.setColumnWidth(1, 200)
-        self.table.setColumnWidth(2, 150)
+        self.table.setColumnWidth(2, 120)
         self.table.setRowHeight(row, 22)
         layout.addWidget(self.table)
 
@@ -130,9 +128,24 @@ class PhyConstDialog(QDialog):
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
+        # Install event filter on the table for Home and End keys
+        self.table.installEventFilter(self)        
 
     def get_selection_by_index(self):
         row = self.table.currentRow()
         if row >= 0:
             return PHYSICAL_CONSTANTS[row], row
         return None, None
+
+    def eventFilter(self, obj, event):
+        if obj is self.table and event.type() == QEvent.KeyPress:
+            if event.key() == Qt.Key_Home:
+                self.table.selectRow(0)
+                return True
+            elif event.key() == Qt.Key_End:
+                self.table.selectRow(self.table.rowCount() - 1)
+                return True
+            elif event.key() in (Qt.Key_Return, Qt.Key_Enter):
+                self.accept()
+                return True
+        return super().eventFilter(obj, event)

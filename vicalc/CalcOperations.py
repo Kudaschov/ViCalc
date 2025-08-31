@@ -86,3 +86,4 @@ class CalcOperations(Enum):
     random = auto()
     date_time_stamp = auto()
     phy_const = auto()
+    unit_conversion = auto()
