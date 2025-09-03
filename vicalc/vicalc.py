@@ -28,6 +28,7 @@ from PySide6.QtCore import QLocale, QDate, QTime
 from .OptionsDialog import OptionsDialog
 from .CommentDialog import CommentDialog
 from .CommentCellValue import CommentCellValue
+from .key_preselect import KeyPreselect
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -146,8 +147,15 @@ class MainWindow(QMainWindow):
         self.third_row_keyboard()
         self.right_side_keyboard()
         self.arrange_keyboard()
+        self.map_to_preselect()
 
         AppGlobals.input_box.button_list = self.button_list
+
+        #Preselect polling timer
+        self.key_preselect = KeyPreselect(self.map_preselect)
+        self.preselect_timer = QTimer()
+        self.preselect_timer.timeout.connect(self.poll_key_preselect)
+        self.preselect_timer.start(50)
 
         AppGlobals.table.verticalHeader().setStyleSheet("QHeaderView::section { color: gray; }")
         AppGlobals.table.setColumnCount(7)
@@ -190,6 +198,9 @@ class MainWindow(QMainWindow):
         self.ui.actionToggle_Protocol.triggered.connect(self.toggle_protocol)
         self.ui.action_delete_full_protocol.triggered.connect(self.delete_full_protocol)
 
+    def poll_key_preselect(self):
+        self.key_preselect.poll_keys()
+
     def show_context_menu(self, pos):
         global_pos = AppGlobals.table.viewport().mapToGlobal(pos)
         index = AppGlobals.table.indexAt(pos)
@@ -198,7 +209,7 @@ class MainWindow(QMainWindow):
             menu = QMenu(self)
             action_copy_table_to_clipboard = menu.addAction("Copy")
             action_paste_to_calculator = menu.addAction("Paste to calculator")
-            action_clear_cell = menu.addAction("Clear Cell")
+            action_clear_cell = menu.addAction("Clear Cell(s)")
             action_delete = menu.addAction("Delete row(s)")
             action = menu.exec(global_pos)
             if action == action_paste_to_calculator:
@@ -1086,6 +1097,22 @@ class MainWindow(QMainWindow):
         # for debug
         if False:
             self.check_double_operations()
+
+    def map_to_preselect(self):
+        self.map_preselect = {
+            30: self.ui.pushButton1, 31: self.ui.pushButton2, 32: self.ui.pushButton3, 33: self.ui.pushButton4,
+            34: self.ui.pushButton5, 35: self.ui.pushButton6, 42: self.ui.pushButtonBackspace,
+            20: self.ui.pushButtonQ, 26: self.ui.pushButtonW, 8: self.ui.pushButtonE, 21: self.ui.pushButtonR, 23: self.ui.pushButtonT, 28: self.ui.pushButtonZ,
+            4: self.ui.pushButtonA, 22: self.ui.pushButtonS, 7: self.ui.pushButtonD, 9: self.ui.pushButtonF, 10: self.ui.pushButtonG, 40: self.ui.pushButtonEnter,
+            100: self.ui.pushButtonLess, 29: self.ui.pushButtonY, 27: self.ui.pushButtonX, 6: self.ui.pushButtonC, 25: self.ui.pushButtonV, 5: self.ui.pushButtonB,
+            44: self.ui.pushButtonSpace,
+
+            84: self.ui.pushButtonDivisionNumpad, 85: self.ui.pushButtonMultiplyNumpad, 86: self.ui.pushButtonMinusNumpad,
+            95: self.ui.pushButton7numpad, 96: self.ui.pushButton8numpad, 97: self.ui.pushButton9numpad, 87: self.ui.pushButtonPlusNumpad,
+            92: self.ui.pushButton4numpad, 93: self.ui.pushButton5numpad, 94: self.ui.pushButton6numpad,
+            89: self.ui.pushButton1numpad, 90: self.ui.pushButton2numpad, 91: self.ui.pushButton3numpad, 88: self.ui.pushButtonEnterNumpad,
+            98: self.ui.pushButton0numpad, 99: self.ui.pushButtonCommaNumpad
+        }
 
     def sinh(self):
         AppGlobals.input_box.exec_sinh()
