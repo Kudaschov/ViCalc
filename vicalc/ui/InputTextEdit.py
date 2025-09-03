@@ -1048,7 +1048,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_R:
                         self.exec_cube_root()
                     case Qt.Key.Key_T:
-                        self.exec_cube() 
+                        self.exec_arctan() 
                     case Qt.Key.Key_Z:
                         self.exec_m_division()
                     case Qt.Key.Key_A:
