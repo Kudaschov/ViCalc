@@ -10,7 +10,7 @@ ViCalc is an open-source touch-typing calculator with key-preselect function (Py
 Key-Preselect allows monitoring a key before the function is triggered.
 The Key-Preselect function requires a keyboard with analog input. The software was developed and tested using the Wooting Two HE.
 With a standard keyboard, ViCalc works fully, but without the Key-Preselect function.
-<img src="docs\images\preselect.png" alt = "Key-Preselect" />
+<img src="docs/images/preselect.png" alt="Key-Preselect" with = "965" />
 
 ## Calculation Example
 <img src="docs/images/ViCalcExample.png" alt = "ViCalc Calculation Example" width="760" />
