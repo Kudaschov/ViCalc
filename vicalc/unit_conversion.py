@@ -166,11 +166,12 @@ class UnitRegistry:
 
         V1 = "Volume"
         self.add(Unit(V1, "barrel (US)", "bbl", lambda x: x * 1.589873e-1, lambda x: x / 1.589873e-1))
+        self.add(Unit(V1, "cubic inch", "in³", lambda x: x * 1.6387064e-05, lambda x: x / 1.6387064e-05))
         self.add(Unit(V1, "cubic meter", "m³", lambda x: x, lambda x: x))
         self.add(Unit(V1, "gallon (UK)", "gal_UK", lambda x: x * 0.00454609, lambda x: x / 0.00454609))
         self.add(Unit(V1, "gallon (US)", "gal", lambda x: x * 3.785412e-3, lambda x: x / 3.785412e-3))
         self.add(Unit(V1, "liter", "L", lambda x: x * 0.001, lambda x: x / 0.001))
-        self.add(Unit(V1, "milliliter", "mL", lambda x: x * 1e-6, lambda x: x / 1e-6))
+        self.add(Unit(V1, "milliliter = cm³", "mL", lambda x: x * 1e-6, lambda x: x / 1e-6))
         self.add(Unit(V1, "ounce (UK fl oz)", "oz_UK", lambda x: x * 2.841306e-5, lambda x: x / 2.841306e-5))
         self.add(Unit(V1, "ounce (US fl oz)", "oz_US", lambda x: x * 2.957353e-5, lambda x: x / 2.957353e-5))
         self.add(Unit(V1, "pint (US liquid)", "liq pt", lambda x: x * 4.731765e-4, lambda x: x / 4.731765e-4))
