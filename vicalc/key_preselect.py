@@ -1,5 +1,6 @@
 import os
 import ctypes
+from .AppGlobals import AppGlobals
 
 # Thresholds in mm
 THRESHOLD_MM = 0.1
@@ -42,7 +43,7 @@ class KeyPreselect:
             if value > 0.0:
                 button = self.key_map[keycode]
                 if button:
-                    if button.preselect == False:
+                    if (AppGlobals.input_box.hasFocus()) and (button.preselect == False):
                         button.preselect = True
                         button.update()
             else:
