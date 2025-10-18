@@ -1025,7 +1025,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.convert_from_hexadecimal
-        self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
+        self.ui.pushButtonV.ctrl_operation = CalcOperations.convert_from_hexadecimal
         self.leftside_button_list.append(self.ui.pushButtonV)
 
         self.ui.pushButtonB.row = 3
