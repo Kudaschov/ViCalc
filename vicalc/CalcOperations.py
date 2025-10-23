@@ -87,3 +87,4 @@ class CalcOperations(Enum):
     date_time_stamp = auto()
     phy_const = auto()
     unit_conversion = auto()
+    del_operation = auto() # del last operation

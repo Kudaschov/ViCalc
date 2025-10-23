@@ -593,6 +593,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_phy_const()
                 case CalcOperations.unit_conversion:
                     self.exec_unit_conversion()
+                case CalcOperations.del_operation:
+                    self.exec_del_operation()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -892,7 +894,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_date_time_stamp()
                 case Qt.Key.Key_Comma:
-                    self.exec_del_last_line()
+                    self.exec_del_operation()
                 case Qt.Key.Key_0:
                     self.exec_swap()
                 case Qt.Key.Key_1: # Numpad 1
@@ -1096,7 +1098,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Space:
                         self.exec_comment()
                     case Qt.Key.Key_Backspace:
-                        self.exec_del_last_line()
+                        self.exec_del_operation()
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_date_time_stamp()
                     case _:
@@ -1612,3 +1614,11 @@ class InputTextEdit(QLineEdit):
             ResultCellValue(v_to, row, 2)
             StringCellValue(AppGlobals.unit_conversion_to, row, 3)
             self.update_shift_ctrl_status()
+
+    def exec_del_operation(self):
+        if self.last_expression():
+            if self.last_expression().prev_expression:
+                self.last_expression().prev_expression.next_expression = None
+            else:
+                self.root_expression = None
+            self.update_expression_label()

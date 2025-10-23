@@ -684,21 +684,21 @@ class MainWindow(QMainWindow):
         else:
             self.ui.pushButtonBackspace.column = 6
         self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonBackspace.shift_text = "Del Line"
-        self.ui.pushButtonBackspace.ctrl_text = "Del Line"
+        self.ui.pushButtonBackspace.shift_text = "DL"
+        self.ui.pushButtonBackspace.ctrl_text = "DO"
         self.ui.pushButtonBackspace.base_operation = CalcOperations.backspace
         self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_last_line
-        self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_last_line
+        self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_operation
         self.leftside_button_list.append(self.ui.pushButtonBackspace)
 
         self.ui.pushButtonCommaNumpad.row = 4
         self.ui.pushButtonCommaNumpad.column = 2
         self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
         self.ui.pushButtonCommaNumpad.shift_text = "<-"
-        self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
+        self.ui.pushButtonCommaNumpad.ctrl_text = "DO"
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
         self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
-        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
+        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_operation
         self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
 
         self.ui.pushButtonMinusNumpad.row = 0
