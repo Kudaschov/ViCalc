@@ -737,10 +737,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonPlusNumpad.row = 1
         self.ui.pushButtonPlusNumpad.column = 3
         self.ui.pushButtonPlusNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonPlusNumpad.shift_text = "M+"
+        self.ui.pushButtonPlusNumpad.shift_text = "DL"
         self.ui.pushButtonPlusNumpad.ctrl_text = "M+"
         self.ui.pushButtonPlusNumpad.base_operation = CalcOperations.Plus
-        self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.M_plus
+        self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.del_last_line
         self.ui.pushButtonPlusNumpad.ctrl_operation = CalcOperations.M_plus
         self.numpad_button_list.append(self.ui.pushButtonPlusNumpad)
 

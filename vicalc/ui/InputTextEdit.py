@@ -880,7 +880,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_percent()
                 case Qt.Key.Key_Plus:
-                    self.exec_M_plus()
+                    self.exec_del_last_line()
                 case Qt.Key.Key_Slash:
                     self.exec_reciprocal()
                 case Qt.Key.Key_Asterisk:
