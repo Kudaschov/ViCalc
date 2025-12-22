@@ -578,13 +578,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButton1numpad.row = 3
         self.ui.pushButton1numpad.column = 0
         self.ui.pushButton1numpad.bg_color = self.number_key_color
-        self.ui.pushButton1numpad.shift_text = "log"
-        self.ui.pushButton1numpad.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButton1numpad.ctrl_text = "10^X"
-        self.ui.pushButton1numpad.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton1numpad.shift_text = "1/x"
+        self.ui.pushButton1numpad.ctrl_text = "π"
+        self.ui.pushButton1numpad.ctrl_font = QFont("Times New Roman", 13)
+        self.ui.pushButton1numpad.ctrl_highlight_font = QFont("Times New Roman", 13, QFont.Bold)
         self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
-        self.ui.pushButton1numpad.shift_operation = CalcOperations.log
-        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.ten_power_x
+        self.ui.pushButton1numpad.shift_operation = CalcOperations.reciprocal
+        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.pi
         self.numpad_button_list.append(self.ui.pushButton1numpad)
 
         self.ui.pushButton2numpad.row = 3
@@ -757,13 +757,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonDivisionNumpad.row = 0
         self.ui.pushButtonDivisionNumpad.column = 1
         self.ui.pushButtonDivisionNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonDivisionNumpad.shift_text = "1/x"
-        self.ui.pushButtonDivisionNumpad.ctrl_text = "π"
-        self.ui.pushButtonDivisionNumpad.ctrl_font = QFont("Times New Roman", 13)
-        self.ui.pushButtonDivisionNumpad.ctrl_highlight_font = QFont("Times New Roman", 13, QFont.Bold)
+        self.ui.pushButtonDivisionNumpad.shift_text = "log"
+        self.ui.pushButtonDivisionNumpad.ctrl_text = "10^X"
+        self.ui.pushButtonDivisionNumpad.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonDivisionNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonDivisionNumpad.base_operation = CalcOperations.Division
-        self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.reciprocal
-        self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.pi
+        self.ui.pushButtonDivisionNumpad.shift_operation = CalcOperations.log
+        self.ui.pushButtonDivisionNumpad.ctrl_operation = CalcOperations.ten_power_x
         self.numpad_button_list.append(self.ui.pushButtonDivisionNumpad)
 
     def numbers_row_keyboard(self):

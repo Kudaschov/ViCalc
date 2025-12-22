@@ -831,7 +831,7 @@ class InputTextEdit(QLineEdit):
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Warning)
         msg_box.setWindowTitle("Warning")
-        msg_box.setText("Are you sure you want to delete the last row in protocol?")
+        msg_box.setText("Are you sure you want to delete the last row in history?")
         msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg_box.setDefaultButton(QMessageBox.Yes)
 
@@ -882,7 +882,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Plus:
                     self.exec_del_last_line()
                 case Qt.Key.Key_Slash:
-                    self.exec_reciprocal()
+                    self.exec_log()
                 case Qt.Key.Key_Asterisk:
                     self.exec_pow()
                 case _:
@@ -898,7 +898,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_0:
                     self.exec_swap()
                 case Qt.Key.Key_1: # Numpad 1
-                    self.exec_ten_power_x()
+                    self.exec_pi()
                 case Qt.Key.Key_2: # Numpad 2
                     self.exec_square()
                 case Qt.Key.Key_3: # Numpad 3
@@ -922,7 +922,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Asterisk:
                     self.exec_factorial()
                 case Qt.Key.Key_Slash:
-                    self.exec_pi()
+                    self.exec_ten_power_x()
                 case _:
                     # Call base class to keep normal behavior
                     super().keyPressEvent(event)
@@ -939,7 +939,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Delete: # Numpad comma
                     self.exec_backspace()
                 case Qt.Key.Key_End: # Numpad 1
-                    self.exec_log()
+                    self.exec_reciprocal()
                 case Qt.Key.Key_Down: # Numpad 2
                     self.exec_sqrt()
                 case Qt.Key.Key_PageDown: # Numpad 3
