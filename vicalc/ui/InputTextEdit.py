@@ -5,6 +5,7 @@ from PySide6.QtWidgets import QTableWidgetItem, QDialog
 from PySide6.QtGui import QFont, QGuiApplication
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
+from PySide6.QtCore import QTimer
 from ..CalcOperations import CalcOperations
 import math
 import locale
@@ -1046,7 +1047,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_W:
                         self.exec_convert_to_dd()
                     case Qt.Key.Key_E:
-                        self.exec_toggle_table()
+                        self.exec_exponent()
                     case Qt.Key.Key_R:
                         self.exec_cube_root()
                     case Qt.Key.Key_T:
@@ -1090,6 +1091,8 @@ class InputTextEdit(QLineEdit):
                 match self.key:
                     case Qt.Key.Key_1:
                         self.exec_random()
+                    case Qt.Key.Key_E:
+                        self.exec_toggle_table()
                     # handle copy/paste with possible replacing            
                     case Qt.Key.Key_C:
                         self.handle_copy()
@@ -1521,8 +1524,8 @@ class InputTextEdit(QLineEdit):
                 self.go_to_last_row_last_non_empty_col()
             AppGlobals.table.setFocus()
         else:
-            self.setFocus()
-            self.selectAll()
+            QTimer.singleShot(0, self.setFocus)
+            QTimer.singleShot(0, self.selectAll)
 
     def go_to_last_row_last_non_empty_col(self):
         row_count = AppGlobals.table.rowCount()

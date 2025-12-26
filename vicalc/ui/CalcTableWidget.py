@@ -38,8 +38,8 @@ class CalcTableWidget(QTableWidget):
                 self.enterPressed.emit(row, col)
         elif event.key() == Qt.Key.Key_Escape:
             self.escPressed.emit()
-        # Shift+E is the same as Esc
-        elif event.key() == Qt.Key_E and event.modifiers() & Qt.ShiftModifier:
+        # Ctrl+E is the same as Esc
+        elif event.key() == Qt.Key_E and event.modifiers() & Qt.ControlModifier:
             self.escPressed.emit()
         elif event.key() == Qt.Key.Key_Delete and (event.modifiers() & Qt.ShiftModifier):
             self.shift_delete_pressed.emit()

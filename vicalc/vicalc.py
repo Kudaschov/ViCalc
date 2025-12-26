@@ -819,15 +819,17 @@ class MainWindow(QMainWindow):
         self.ui.pushButton5.column = 4
         self.ui.pushButton5.bg_color = self.number_key_color
         self.ui.pushButton5.shift_text = "%"
+        self.ui.pushButton5.ctrl_text = "Conv"
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
-        self.ui.pushButton5.ctrl_operation = CalcOperations.percent
+        self.ui.pushButton5.ctrl_operation = CalcOperations.unit_conversion
         self.leftside_button_list.append(self.ui.pushButton5)
 
         self.ui.pushButton6.row = 0
         self.ui.pushButton6.column = 5
         self.ui.pushButton6.bg_color = self.number_key_color
         self.ui.pushButton6.shift_text = "Round"
+        self.ui.pushButton6.ctrl_text = self.ui.pushButton6.shift_text
         self.ui.pushButton6.base_operation = CalcOperations.number_6
         self.ui.pushButton6.shift_operation = CalcOperations.round
         self.ui.pushButton6.ctrl_operation = CalcOperations.round
@@ -860,11 +862,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.column = 2.5
         # special key exponent have other bg color
         self.ui.pushButtonE.bg_color = self.number_key_color
-        self.ui.pushButtonE.shift_text = "Hist"
-        self.ui.pushButtonE.ctrl_text = "Conv"
+        self.ui.pushButtonE.setText("EXP")
+        self.ui.pushButtonE.original_keyboard_text = "E"
+        self.ui.pushButtonE.shift_text = ""
+        self.ui.pushButtonE.ctrl_text = "Hist"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
         self.ui.pushButtonE.shift_operation = CalcOperations.toggle_table
-        self.ui.pushButtonE.ctrl_operation = CalcOperations.unit_conversion
+        self.ui.pushButtonE.ctrl_operation = CalcOperations.toggle_table
         self.leftside_button_list.append(self.ui.pushButtonE)
 
         self.ui.pushButtonR.row = 1

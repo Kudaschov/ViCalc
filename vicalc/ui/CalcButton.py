@@ -127,11 +127,13 @@ class CalcButton(QPushButton):
             # shift and ctrl text is different, draw both texts
             # Draw the shift text
             if self._shift:
-                painter.setFont(self.shift_highlight_font)
-                painter.setPen(self.shift_highlight_color)
                 if self.preselect:
+                    painter.setPen(Qt.NoPen)
                     painter.setBrush(self.preselect_color)
                     painter.drawRoundedRect(self.shift_rect(), self.corner_radius, self.corner_radius)
+
+                painter.setFont(self.shift_highlight_font)
+                painter.setPen(self.shift_highlight_color)
             else:
                 painter.setFont(self.shift_font)
                 painter.setPen(self.shift_color)
@@ -151,11 +153,13 @@ class CalcButton(QPushButton):
 
             # Draw the ctrl text
             if self._ctrl:
-                painter.setFont(self.ctrl_highlight_font)
-                painter.setPen(self.ctrl_highlight_color)
                 if self.preselect:
+                    painter.setPen(Qt.NoPen)
                     painter.setBrush(self.preselect_color)
                     painter.drawRoundedRect(self.ctrl_rect(), self.corner_radius, self.corner_radius)
+
+                painter.setFont(self.ctrl_highlight_font)
+                painter.setPen(self.ctrl_highlight_color)
             else:
                 painter.setFont(self.ctrl_font)
                 painter.setPen(self.ctrl_color)
@@ -174,6 +178,12 @@ class CalcButton(QPushButton):
         else:
             # shift and ctrl text is the same
             # Draw the shift text on top middle
+            if self._shift or self._ctrl:
+                if self.preselect:
+                    painter.setPen(Qt.NoPen)
+                    painter.setBrush(self.preselect_color)
+                    painter.drawRoundedRect(self.shift_and_ctrl_rect(), self.corner_radius, self.corner_radius)
+
             if self._shift:
                 painter.setFont(self.shift_highlight_font)
                 painter.setPen(self.shift_highlight_color)
@@ -183,12 +193,7 @@ class CalcButton(QPushButton):
             else:
                 painter.setFont(self.shift_font)
                 painter.setPen(self.shift_color)
-
-            if self._shift or self._ctrl:
-                if self.preselect:
-                    painter.setBrush(self.preselect_color)
-                    painter.drawRoundedRect(self.shift_and_ctrl_rect(), self.corner_radius, self.corner_radius)
-
+                
             # draw text only, if it is different to button text
             if (self.text() != self.shift_text):
                 painter.drawText(QRect(3, self.y_shift_area, self.width() - 6, 20), Qt.AlignTop | Qt.AlignHCenter, self.shift_text)
@@ -216,6 +221,7 @@ class CalcButton(QPushButton):
             painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
 
             if self.preselect and (self._shift == False) and (self._ctrl == False):
+                painter.setPen(Qt.NoPen)
                 painter.setBrush(self.preselect_color)
             else:
                 if (self.bg_color == None):

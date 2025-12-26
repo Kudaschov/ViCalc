@@ -643,7 +643,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(shortcut)
         self.action_unit_conversion.setText(QCoreApplication.translate("MainWindow", u"&Unit Conversion...", None))
 #if QT_CONFIG(shortcut)
-        self.action_unit_conversion.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+E", None))
+        self.action_unit_conversion.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+5", None))
 #endif // QT_CONFIG(shortcut)
         self.expressionLabel.setText("")
         self.inputTextEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"0", None))
