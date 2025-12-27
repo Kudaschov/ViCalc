@@ -132,9 +132,9 @@ class MainWindow(QMainWindow):
 
         self.font_long_names = QFont("Helvetica", 9)
         
-        self.ui.pushButtonSpace.setText("Time")
-        self.ui.pushButtonSpace.shift_text = "Comment"
-        self.ui.pushButtonSpace.ctrl_text = "Comment"
+        self.ui.pushButtonSpace.setText("DTS")
+        self.ui.pushButtonSpace.shift_text = "Cmt"
+        self.ui.pushButtonSpace.ctrl_text = "Cmt"
         self.ui.pushButtonSpace.base_operation = CalcOperations.date_time_stamp
         self.ui.pushButtonSpace.shift_operation = CalcOperations.comment
         self.ui.pushButtonSpace.ctrl_operation = CalcOperations.comment
@@ -716,7 +716,7 @@ class MainWindow(QMainWindow):
             self.ui.pushButtonEnter.column = 6
         self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
         self.ui.pushButtonEnter.shift_text = "Cmt"
-        self.ui.pushButtonEnter.ctrl_text = "Time"
+        self.ui.pushButtonEnter.ctrl_text = "DTS"
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnter.shift_operation = CalcOperations.comment
         self.ui.pushButtonEnter.ctrl_operation = CalcOperations.date_time_stamp
@@ -726,7 +726,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnterNumpad.column = 3
         self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonEnterNumpad.shift_text = "%"
-        self.ui.pushButtonEnterNumpad.ctrl_text = "Time"
+        self.ui.pushButtonEnterNumpad.ctrl_text = "DTS"
         self.ui.pushButtonEnterNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
