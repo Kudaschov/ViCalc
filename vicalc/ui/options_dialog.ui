@@ -91,7 +91,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Numlock as AC - All Clear Key</string>
+    <string>&amp;Numlock as AC/C - All Clear / Clear Key</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="convertAngleCheckBox">

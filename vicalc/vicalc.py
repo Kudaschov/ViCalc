@@ -132,10 +132,10 @@ class MainWindow(QMainWindow):
 
         self.font_long_names = QFont("Helvetica", 9)
         
-        self.ui.pushButtonSpace.setText("=")
+        self.ui.pushButtonSpace.setText("Time")
         self.ui.pushButtonSpace.shift_text = "Comment"
         self.ui.pushButtonSpace.ctrl_text = "Comment"
-        self.ui.pushButtonSpace.base_operation = CalcOperations.calculate
+        self.ui.pushButtonSpace.base_operation = CalcOperations.date_time_stamp
         self.ui.pushButtonSpace.shift_operation = CalcOperations.comment
         self.ui.pushButtonSpace.ctrl_operation = CalcOperations.comment
         self.leftside_button_list.append(self.ui.pushButtonSpace)
@@ -568,23 +568,21 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.column = 0
         self.ui.pushButton0numpad.norm_width = 2
         self.ui.pushButton0numpad.bg_color = self.number_key_color
-        self.ui.pushButton0numpad.shift_text = ")"
-        self.ui.pushButton0numpad.ctrl_text = "<>"
+        self.ui.pushButton0numpad.shift_text = "<>"
+        self.ui.pushButton0numpad.ctrl_text = "MS"
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
-        self.ui.pushButton0numpad.shift_operation = CalcOperations.closing_bracket
-        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.swap
+        self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
+        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.MS
         self.numpad_button_list.append(self.ui.pushButton0numpad)
 
         self.ui.pushButton1numpad.row = 3
         self.ui.pushButton1numpad.column = 0
         self.ui.pushButton1numpad.bg_color = self.number_key_color
         self.ui.pushButton1numpad.shift_text = "1/x"
-        self.ui.pushButton1numpad.ctrl_text = "π"
-        self.ui.pushButton1numpad.ctrl_font = QFont("Times New Roman", 13)
-        self.ui.pushButton1numpad.ctrl_highlight_font = QFont("Times New Roman", 13, QFont.Bold)
+        self.ui.pushButton1numpad.ctrl_text = "n!"
         self.ui.pushButton1numpad.base_operation = CalcOperations.number_1
         self.ui.pushButton1numpad.shift_operation = CalcOperations.reciprocal
-        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.pi
+        self.ui.pushButton1numpad.ctrl_operation = CalcOperations.factorial
         self.numpad_button_list.append(self.ui.pushButton1numpad)
 
         self.ui.pushButton2numpad.row = 3
@@ -651,20 +649,20 @@ class MainWindow(QMainWindow):
         self.ui.pushButton8numpad.column = 1
         self.ui.pushButton8numpad.bg_color = self.number_key_color
         self.ui.pushButton8numpad.shift_text = "Hist"
-        self.ui.pushButton8numpad.ctrl_text = "MS"
+        self.ui.pushButton8numpad.ctrl_text = "MR"
         self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
         self.ui.pushButton8numpad.shift_operation = CalcOperations.toggle_table
-        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
+        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MR
         self.numpad_button_list.append(self.ui.pushButton8numpad)
 
         self.ui.pushButton9numpad.row = 1
         self.ui.pushButton9numpad.column = 2
         self.ui.pushButton9numpad.bg_color = self.number_key_color
         self.ui.pushButton9numpad.shift_text = "("
-        self.ui.pushButton9numpad.ctrl_text = "MR"
+        self.ui.pushButton9numpad.ctrl_text = ")"
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
         self.ui.pushButton9numpad.shift_operation = CalcOperations.opening_bracket
-        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
+        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.closing_bracket
         self.numpad_button_list.append(self.ui.pushButton9numpad)
 
         self.ui.pushButtonAC.row = 0
@@ -717,9 +715,10 @@ class MainWindow(QMainWindow):
         else:
             self.ui.pushButtonEnter.column = 6
         self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonEnter.shift_text = "Time"
+        self.ui.pushButtonEnter.shift_text = "Cmt"
+        self.ui.pushButtonEnter.ctrl_text = "Time"
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.shift_operation = CalcOperations.date_time_stamp
+        self.ui.pushButtonEnter.shift_operation = CalcOperations.comment
         self.ui.pushButtonEnter.ctrl_operation = CalcOperations.date_time_stamp
         self.leftside_button_list.append(self.ui.pushButtonEnter)
 
@@ -748,10 +747,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonMultiplyNumpad.column = 2
         self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
-        self.ui.pushButtonMultiplyNumpad.ctrl_text = "n!"
+        self.ui.pushButtonMultiplyNumpad.ctrl_text = "π"
+        self.ui.pushButtonMultiplyNumpad.ctrl_font = QFont("Times New Roman", 13)
+        self.ui.pushButtonMultiplyNumpad.ctrl_highlight_font = QFont("Times New Roman", 13, QFont.Bold)
         self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
         self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
-        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.factorial
+        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.pi
         self.numpad_button_list.append(self.ui.pushButtonMultiplyNumpad)
 
         self.ui.pushButtonDivisionNumpad.row = 0

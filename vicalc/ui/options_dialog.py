@@ -60,7 +60,7 @@ class Ui_optionsDialog(object):
         self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace comma (,) with decimal point (.)", None))
         self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace decimal point (.) with comma (,)", None))
         self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert decimal point (.) to comma (,) on &input", None))
-        self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC - All Clear Key", None))
+        self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC/C - All Clear / Clear Key", None))
 #if QT_CONFIG(tooltip)
         self.convertAngleCheckBox.setToolTip(QCoreApplication.translate("optionsDialog", u"Convert angle automatically when changing units.", None))
 #endif // QT_CONFIG(tooltip)

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Comment for Log</string>
+   <string>Comment</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">

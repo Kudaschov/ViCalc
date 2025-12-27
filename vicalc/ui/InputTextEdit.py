@@ -897,9 +897,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Comma:
                     self.exec_del_operation()
                 case Qt.Key.Key_0:
-                    self.exec_swap()
+                    self.exec_MS()
                 case Qt.Key.Key_1: # Numpad 1
-                    self.exec_pi()
+                    self.exec_factorial()
                 case Qt.Key.Key_2: # Numpad 2
                     self.exec_square()
                 case Qt.Key.Key_3: # Numpad 3
@@ -913,15 +913,15 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_7: # Numpad 7
                     self.exec_ex()
                 case Qt.Key.Key_8: # Numpad 8
-                    self.exec_MS()
-                case Qt.Key.Key_9: # Numpad 9
                     self.exec_MR()
+                case Qt.Key.Key_9: # Numpad 9
+                    self.exec_closing_bracket()
                 case Qt.Key_Plus:
                     self.exec_M_plus()
                 case Qt.Key_Minus:
                     self.exec_M_minus()
                 case Qt.Key.Key_Asterisk:
-                    self.exec_factorial()
+                    self.exec_pi()
                 case Qt.Key.Key_Slash:
                     self.exec_ten_power_x()
                 case _:
@@ -936,7 +936,7 @@ class InputTextEdit(QLineEdit):
                         self.exec_ac()
                     super().keyPressEvent(event)
                 case Qt.Key.Key_Insert: # Numpad 0
-                    self.exec_closing_bracket()
+                    self.exec_swap()
                 case Qt.Key.Key_Delete: # Numpad comma
                     self.exec_backspace()
                 case Qt.Key.Key_End: # Numpad 1
@@ -1081,7 +1081,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Space:
                         self.exec_comment()
                     case Qt.Key_Enter | Qt.Key_Return:
-                        self.exec_date_time_stamp()
+                        self.exec_comment()
                     case _:
                         super().keyPressEvent(event) # keep normal behavior
                         print("Deafult operation")
@@ -1160,7 +1160,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Less:
                         self.exec_swap()
                     case Qt.Key.Key_Space:
-                        self.execute()    
+                        self.exec_date_time_stamp()
                     case _:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
