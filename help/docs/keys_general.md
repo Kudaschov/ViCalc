@@ -1,7 +1,5 @@
 # General keys and their functions
 
-Numlock must be on
-
 | Function                  | Label | Comment                                                           |
 |---------------------------|-------|-------------------------------------------------------------------|
 | All clear                 | AC    | Optional: press Numlock twice (must be enabled in Tools/Options) |
@@ -10,7 +8,7 @@ Numlock must be on
 |                           | *     | On main Keyboard and Numpad |
 |                           | /     | On main Keyboard and Numpad |
 |                           | =     | Enter key on main Keyboard and Numpad |
-| Backspace                 | <-    | Backspace key on main Keyboard, also label `<-` on Numpad |
+| Backspace                 | ⌫    | Backspace key on main Keyboard, also label `⌫` on Numpad |
 | Clear (operations retain) | C     | Optional: Shift + Numlock twice (must be enabled in Tools/Options) |
 | Decimal separator         | .     | On main Keyboard and Numpad. Depending on local settings, see also Tools/Options for replacing/converting |
 |                           | ,     | On main Keyboard and Numpad. Depending on local settings, see also Tools/Options for replacing/converting |

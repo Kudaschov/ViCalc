@@ -4,7 +4,9 @@ theme:
 
 nav:
   - Home: index.md
-  - Calculation History: history.md
-  - Percent Calculations: percents.md
+  - General: keys_general.md
+  - Special: special.md
+  - Memory: memory.md
+  - Scientific: scientific.md
 
 use_directory_urls: false

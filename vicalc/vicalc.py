@@ -568,7 +568,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.column = 0
         self.ui.pushButton0numpad.norm_width = 2
         self.ui.pushButton0numpad.bg_color = self.number_key_color
-        self.ui.pushButton0numpad.shift_text = "<>"
+        self.ui.pushButton0numpad.shift_text = "↔"
         self.ui.pushButton0numpad.ctrl_text = "MS"
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
         self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
@@ -681,6 +681,7 @@ class MainWindow(QMainWindow):
             self.ui.pushButtonBackspace.column = 12
         else:
             self.ui.pushButtonBackspace.column = 6
+        self.ui.pushButtonBackspace.setText("⌫")
         self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
         self.ui.pushButtonBackspace.shift_text = "DL"
         self.ui.pushButtonBackspace.ctrl_text = "DO"
@@ -692,7 +693,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonCommaNumpad.row = 4
         self.ui.pushButtonCommaNumpad.column = 2
         self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
-        self.ui.pushButtonCommaNumpad.shift_text = "<-"
+        self.ui.pushButtonCommaNumpad.shift_text = "⌫"
         self.ui.pushButtonCommaNumpad.ctrl_text = "DO"
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
         self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
@@ -784,7 +785,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton2.column = 1
         self.ui.pushButton2.bg_color = self.number_key_color
         self.ui.pushButton2.shift_text = "x²"
-        self.ui.pushButton2.ctrl_text = "->DEG"
+        self.ui.pushButton2.ctrl_text = "→DEG"
         self.ui.pushButton2.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButton2.ctrl_font = self.font_long_names
         self.ui.pushButton2.base_operation = CalcOperations.number_2
@@ -796,7 +797,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton3.column = 2
         self.ui.pushButton3.bg_color = self.number_key_color
         self.ui.pushButton3.shift_text = "x³"
-        self.ui.pushButton3.ctrl_text = "->RAD"
+        self.ui.pushButton3.ctrl_text = "→RAD"
         self.ui.pushButton3.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButton3.ctrl_font = self.font_long_names
         self.ui.pushButton3.base_operation = CalcOperations.number_3
@@ -808,7 +809,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton4.column = 3
         self.ui.pushButton4.bg_color = self.number_key_color
         self.ui.pushButton4.shift_text = "x⁴"
-        self.ui.pushButton4.ctrl_text = "->GRA"
+        self.ui.pushButton4.ctrl_text = "→GRA"
         self.ui.pushButton4.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButton4.ctrl_font = self.font_long_names
         self.ui.pushButton4.base_operation = CalcOperations.number_4
@@ -949,7 +950,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.column = 4
         self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
-        self.ui.pushButtonF.shift_text = "Dec->"
+        self.ui.pushButtonF.shift_text = "Dec→"
         self.ui.pushButtonF.shift_font = self.font_long_names
         self.ui.pushButtonF.base_operation = CalcOperations.MS
         self.ui.pushButtonF.shift_operation = CalcOperations.convert_to_bases
@@ -960,8 +961,8 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonG.column = 5
         self.ui.pushButtonG.setText("log")
         self.ui.pushButtonG.original_keyboard_text = "G"
-        self.ui.pushButtonG.shift_text = "10^x"
-        self.ui.pushButtonG.ctrl_text = "P->R"
+        self.ui.pushButtonG.shift_text = "10^X"
+        self.ui.pushButtonG.ctrl_text = "P→R"
         self.ui.pushButtonG.ctrl_font = self.font_long_names
         self.ui.pushButtonG.base_operation = CalcOperations.log
         self.ui.pushButtonG.shift_operation = CalcOperations.ten_power_x
@@ -971,9 +972,9 @@ class MainWindow(QMainWindow):
     def third_row_keyboard(self):
         self.ui.pushButtonLess.row = 3
         self.ui.pushButtonLess.column = 0.5
-        self.ui.pushButtonLess.setText("<>")
+        self.ui.pushButtonLess.setText("↔")
         self.ui.pushButtonLess.original_keyboard_text = "<"
-        self.ui.pushButtonLess.shift_text = "X<>M"
+        self.ui.pushButtonLess.shift_text = "X↔M"
         self.ui.pushButtonLess.ctrl_text = ""
         self.ui.pushButtonLess.base_operation = CalcOperations.swap
         self.ui.pushButtonLess.shift_operation = CalcOperations.memory_swap
@@ -997,7 +998,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.column = 2.5
         self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
-        self.ui.pushButtonX.shift_text = "Bin->"
+        self.ui.pushButtonX.shift_text = "Bin→"
         self.ui.pushButtonX.ctrl_text = ""
         self.ui.pushButtonX.ctrl_font = self.font_long_names
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
@@ -1009,7 +1010,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.column = 3.5
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonC.shift_text = "Oct->"
+        self.ui.pushButtonC.shift_text = "Oct→"
         self.ui.pushButtonC.shift_font = self.font_long_names
         self.ui.pushButtonC.ctrl_text = ""
         self.ui.pushButtonC.ctrl_font = self.font_long_names
@@ -1022,7 +1023,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.column = 4.5
         self.ui.pushButtonV.setText("MR")
         self.ui.pushButtonV.original_keyboard_text = "V"
-        self.ui.pushButtonV.shift_text = "Hex->"
+        self.ui.pushButtonV.shift_text = "Hex→"
 #        self.ui.pushButtonV.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonV.shift_font = self.font_long_names
         self.ui.pushButtonV.ctrl_text = ""
@@ -1038,7 +1039,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.setText("ln")
         self.ui.pushButtonB.original_keyboard_text = "B"
         self.ui.pushButtonB.shift_text = "e^x"
-        self.ui.pushButtonB.ctrl_text = "R->P"
+        self.ui.pushButtonB.ctrl_text = "R→P"
         self.ui.pushButtonB.ctrl_font = self.font_long_names
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.ln

@@ -1,13 +1,11 @@
 # Special functions
 
-Numlock must be on
-
 | Function                  | Label | Comment                                                    |
 |---------------------------|-------|------------------------------------------------------------|
 | Add comment to calculation history | Cmt ||
 | Control function          | Ctrl  | Ccontrol Key on Keyboard|
 | Date-timestamp in calculation history | DTS | On main Keyboard and Numpad |
-| Exchange values between input box and last term in expression | <>   | On main Keyboard and Numpad |
+| Exchange values between input box and last term in expression | ↔   | On main Keyboard and Numpad |
 | Go to calculation history | Hist  | On main Keyboard and Numpad |
 | Numeric format            | Format | Also in menu Mode/Numeric Format |
 | Parentheses               | `(`,`)` | On main Keyboard and Numpad |
