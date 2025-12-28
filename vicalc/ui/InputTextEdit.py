@@ -1010,6 +1010,12 @@ class InputTextEdit(QLineEdit):
                     self.exec_fourth_power()
                 case 7: # Key 6
                     self.exec_round()
+                case 21: # Key Y in QWERTY
+                    self.exec_m_division()
+                case 44: # Key Z in QWERTY
+                    self.exec_convert_to_dms()
+                case 86: # Key \ in QWERTY
+                    self.exec_memory_swap()
                 case _:
                     return False # False is case _:
             return True
@@ -1026,7 +1032,17 @@ class InputTextEdit(QLineEdit):
                     return False
             return True # False is case _:
         else:
-            return False
+            # no shift and no ctrl pressed
+            match self.scan_code:
+                case 21: # Key Y in QWERTY
+                    self.exec_m_multiply()
+                case 44: # Key Z in QWERTY
+                    self.exec_pi()
+                case 86: # Key \ in QWERTY
+                    self.exec_swap()
+                case _:
+                    return False
+            return True # False is case _:
 
     def handle_keys(self, event):
         if (event.modifiers() & Qt.KeypadModifier) and self.numlock_state(): # keypad keys
@@ -1052,8 +1068,6 @@ class InputTextEdit(QLineEdit):
                         self.exec_cube_root()
                     case Qt.Key.Key_T:
                         self.exec_arctan() 
-                    case Qt.Key.Key_Z:
-                        self.exec_m_division()
                     case Qt.Key.Key_A:
                         self.exec_numeric_format()
                     case Qt.Key.Key_S:
@@ -1064,8 +1078,8 @@ class InputTextEdit(QLineEdit):
                         self.exec_convert_to_bases()
                     case Qt.Key.Key_G:
                         self.exec_ten_power_x()
-                    case Qt.Key.Key_Y:
-                        self.exec_convert_to_dms()
+#                    case Qt.Key.Key_Y:
+#                        self.exec_convert_to_dms()
                     case Qt.Key.Key_X:
                         self.exec_from_binary()
                     case Qt.Key.Key_C:
@@ -1076,8 +1090,6 @@ class InputTextEdit(QLineEdit):
                         self.exec_ex()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_last_line()
-                    case Qt.Key.Key_Greater:
-                        self.exec_memory_swap()
                     case Qt.Key.Key_Space:
                         self.exec_date_time_stamp()
                     case Qt.Key_Enter | Qt.Key_Return:
@@ -1131,8 +1143,6 @@ class InputTextEdit(QLineEdit):
                         self.exec_sqrt()
                     case Qt.Key.Key_T:
                         self.exec_tan()    
-                    case Qt.Key.Key_Z:
-                        self.exec_m_multiply()
                     case Qt.Key.Key_A:
                         self.exec_ac()
                     case Qt.Key.Key_S:
@@ -1143,8 +1153,8 @@ class InputTextEdit(QLineEdit):
                         self.exec_MS()
                     case Qt.Key.Key_G:
                         self.exec_log()
-                    case Qt.Key.Key_Y:
-                        self.exec_pi()
+#                    case Qt.Key.Key_Y:
+#                        self.exec_pi()
                     case Qt.Key.Key_X:
                         self.exec_reciprocal()
                     case Qt.Key.Key_C:
@@ -1157,8 +1167,6 @@ class InputTextEdit(QLineEdit):
                         self.exec_ac()
                     case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:
                             self.execute()
-                    case Qt.Key.Key_Less:
-                        self.exec_swap()
                     case Qt.Key.Key_Space:
                         self.exec_comment()
                     case _:

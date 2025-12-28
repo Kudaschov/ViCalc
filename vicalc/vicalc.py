@@ -367,6 +367,12 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.check_key_states)
         self.timer.start(500)   # Check every 500 ms
 
+    def get_keyboard_layout_windows():
+        user32 = ctypes.WinDLL("user32", use_last_error=True)
+        hkl = user32.GetKeyboardLayout(0)
+        lang_id = hkl & 0xFFFF
+        return lang_id
+
     def check_key_states(self):
         caps = self.get_key_state(0x14)      # CapsLock
         num = self.get_key_state(0x90)       # NumLock
@@ -388,6 +394,24 @@ class MainWindow(QMainWindow):
             self.capslock_label.setText("Capslock: ON")
         else:
             self.capslock_label.setText("")
+
+        if (0x0407 == MainWindow.get_keyboard_layout_windows()) or (0x0807 == MainWindow.get_keyboard_layout_windows()
+                                                                    or (0x0C07 == MainWindow.get_keyboard_layout_windows())):
+            # German keyboard layout
+            if "Z" != self.ui.pushButtonZ.original_keyboard_text:
+                self.ui.pushButtonZ.original_keyboard_text = "Z"
+                self.ui.pushButtonZ.update()
+            if "Y" != self.ui.pushButtonY.original_keyboard_text:
+                self.ui.pushButtonY.original_keyboard_text = "Y"
+                self.ui.pushButtonY.update()
+        else:
+            # Other keyboard layout (assumed QWERTY)
+            if "Y" != self.ui.pushButtonZ.original_keyboard_text:
+                self.ui.pushButtonZ.original_keyboard_text = "Y"
+                self.ui.pushButtonZ.update()
+            if "Z" != self.ui.pushButtonY.original_keyboard_text:
+                self.ui.pushButtonY.original_keyboard_text = "Z"
+                self.ui.pushButtonY.update()
 
     def get_key_state(self, key_code):
         return bool(ctypes.windll.user32.GetKeyState(key_code) & 0x0001)
