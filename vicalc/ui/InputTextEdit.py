@@ -1079,7 +1079,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Greater:
                         self.exec_memory_swap()
                     case Qt.Key.Key_Space:
-                        self.exec_comment()
+                        self.exec_date_time_stamp()
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_comment()
                     case _:
@@ -1099,7 +1099,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_V:
                         self.handle_paste()
                     case Qt.Key.Key_Space:
-                        self.exec_comment()
+                        self.exec_date_time_stamp()
                     case Qt.Key.Key_Backspace:
                         self.exec_del_operation()
                     case Qt.Key_Enter | Qt.Key_Return:
@@ -1160,7 +1160,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Less:
                         self.exec_swap()
                     case Qt.Key.Key_Space:
-                        self.exec_date_time_stamp()
+                        self.exec_comment()
                     case _:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)

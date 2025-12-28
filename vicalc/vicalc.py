@@ -132,12 +132,12 @@ class MainWindow(QMainWindow):
 
         self.font_long_names = QFont("Helvetica", 9)
         
-        self.ui.pushButtonSpace.setText("DTS")
-        self.ui.pushButtonSpace.shift_text = "Cmt"
-        self.ui.pushButtonSpace.ctrl_text = "Cmt"
-        self.ui.pushButtonSpace.base_operation = CalcOperations.date_time_stamp
-        self.ui.pushButtonSpace.shift_operation = CalcOperations.comment
-        self.ui.pushButtonSpace.ctrl_operation = CalcOperations.comment
+        self.ui.pushButtonSpace.setText("Cmt")
+        self.ui.pushButtonSpace.shift_text = "DTS"
+        self.ui.pushButtonSpace.ctrl_text = "DTS"
+        self.ui.pushButtonSpace.base_operation = CalcOperations.comment
+        self.ui.pushButtonSpace.shift_operation = CalcOperations.date_time_stamp
+        self.ui.pushButtonSpace.ctrl_operation = CalcOperations.date_time_stamp
         self.leftside_button_list.append(self.ui.pushButtonSpace)
 
         self.numpad_keys()
