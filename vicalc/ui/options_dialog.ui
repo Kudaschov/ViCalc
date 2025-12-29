@@ -52,7 +52,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>On &amp;copy to clipboard: replace comma (,) with decimal point (.)</string>
+    <string>On &amp;copy to clipboard: replace decimal point (.) with comma (,)</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="pasteCheckBox">
@@ -65,7 +65,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>On &amp;paste from clipboard: replace decimal point (.) with comma (,)</string>
+    <string>On &amp;paste from clipboard: replace comma (,) with decimal point (.)</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="inputReplacePointcheckBox">
@@ -78,7 +78,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Convert decimal point (.) to comma (,) on &amp;input</string>
+    <string>Convert comma (,) to decimal point (.) on &amp;input</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="NumlockACcheckBox">

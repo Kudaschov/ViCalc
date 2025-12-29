@@ -9,7 +9,7 @@ class AppGlobals:
     timestamp_at_start = True
     copy_to_clipboard_replace = True
     paste_from_clipboard_replace = True
-    input_replace_point = False
+    input_replace_decimal_separator = False
     table = None # tableWidget in main window
     input_box = None # inputTextEdit in main window
     current_row = -1 # current row in table
@@ -47,7 +47,7 @@ class AppGlobals:
 
     @staticmethod
     def to_format_string(number):
-        locale = QLocale()
+        locale = QLocale(QLocale.C)
         locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
         # todo vk eng format
         match AppGlobals.numeric_format:
@@ -65,7 +65,7 @@ class AppGlobals:
     @staticmethod
     def to_normal_string(number: float):
         # max precision
-        locale = QLocale()
+        locale = QLocale(QLocale.C)
         locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
         return locale.toString(number, "g", 15)
     
@@ -78,7 +78,7 @@ class AppGlobals:
         scaled = value / 10 ** exponent
 
         # Format with locale without group separator
-        locale = QLocale()
+        locale = QLocale(QLocale.C)
         locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
 
         # Format with max_precision decimal places

@@ -178,6 +178,9 @@ class MainWindow(QMainWindow):
         self.mode_label = QLabel("Mode")
         self.ui.statusbar.addWidget(self.mode_label)
 
+        self.invalid_number_label = QLabel("Invalid Number")
+        self.ui.statusbar.addWidget(self.invalid_number_label)
+
         self.save_path = os.path.join(
         QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "vicalc_data.vic")
         self.load_table_data()         
@@ -334,7 +337,7 @@ class MainWindow(QMainWindow):
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
-            AppGlobals.input_replace_point = self.settings.value("input_replace_point", False, type=bool)
+            AppGlobals.input_replace_decimal_separator = self.settings.value("input_replace_point", False, type=bool)
             AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
             AppGlobals.convert_angle_on_unit_change = self.settings.value("convert_angle", True, type=bool)
             AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
@@ -394,6 +397,16 @@ class MainWindow(QMainWindow):
             self.capslock_label.setText("Capslock: ON")
         else:
             self.capslock_label.setText("")
+
+        # Validate number in input box, inform if invalid
+        s_temp: str = AppGlobals.input_box.text()
+        locale_temp = AppGlobals.input_box.locale   
+        number_temp, convert_ok = locale_temp.toDouble(s_temp)
+        if convert_ok:
+            self.invalid_number_label.setText("")
+        else:
+            self.invalid_number_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
+            self.invalid_number_label.setText("Invalid Number")
 
         if (0x0407 == MainWindow.get_keyboard_layout_windows()) or (0x0807 == MainWindow.get_keyboard_layout_windows()
                                                                     or (0x0C07 == MainWindow.get_keyboard_layout_windows())):
@@ -464,7 +477,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("timestamp_at_start", AppGlobals.timestamp_at_start)
         self.settings.setValue("copy_to_clipboard_replace", AppGlobals.copy_to_clipboard_replace)
         self.settings.setValue("paste_from_clipboard_replace", AppGlobals.paste_from_clipboard_replace)
-        self.settings.setValue("input_replace_point", AppGlobals.input_replace_point)
+        self.settings.setValue("input_replace_point", AppGlobals.input_replace_decimal_separator)
         self.settings.setValue("numlocK_ac", AppGlobals.numlock_ac)
         self.settings.setValue("convert_angle", AppGlobals.convert_angle_on_unit_change)
         self.settings.setValue("phy_const_index", AppGlobals.phy_const_index)
@@ -1179,7 +1192,7 @@ class MainWindow(QMainWindow):
         dialog.ui.timestampCheckBox.setChecked(AppGlobals.timestamp_at_start)
         dialog.ui.copyCheckBox.setChecked(AppGlobals.copy_to_clipboard_replace)
         dialog.ui.pasteCheckBox.setChecked(AppGlobals.paste_from_clipboard_replace)
-        dialog.ui.inputReplacePointcheckBox.setChecked(AppGlobals.input_replace_point)
+        dialog.ui.inputReplacePointcheckBox.setChecked(AppGlobals.input_replace_decimal_separator)
         dialog.ui.NumlockACcheckBox.setChecked(AppGlobals.numlock_ac)
         dialog.ui.convertAngleCheckBox.setChecked(AppGlobals.convert_angle_on_unit_change)
 
@@ -1187,7 +1200,7 @@ class MainWindow(QMainWindow):
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
             AppGlobals.copy_to_clipboard_replace = dialog.ui.copyCheckBox.isChecked()
             AppGlobals.paste_from_clipboard_replace = dialog.ui.pasteCheckBox.isChecked()
-            AppGlobals.input_replace_point = dialog.ui.inputReplacePointcheckBox.isChecked()
+            AppGlobals.input_replace_decimal_separator = dialog.ui.inputReplacePointcheckBox.isChecked()
             AppGlobals.numlock_ac = dialog.ui.NumlockACcheckBox.isChecked()
             AppGlobals.convert_angle_on_unit_change = dialog.ui.convertAngleCheckBox.isChecked()
 

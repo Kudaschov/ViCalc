@@ -10,8 +10,7 @@
 |                           | =     | Enter key on main Keyboard and Numpad |
 | Backspace                 | ⌫    | Backspace key on main Keyboard, also label `⌫` on Numpad |
 | Clear (operations retain) | C     | Optional: Shift + Numlock twice (must be enabled in Tools/Options) |
-| Decimal separator         | .     | On main Keyboard and Numpad. Depending on local settings, see also Tools/Options for replacing/converting |
-|                           | ,     | On main Keyboard and Numpad. Depending on local settings, see also Tools/Options for replacing/converting |
+| Decimal separator         | .     | On main Keyboard and Numpad |
 | Delete last line from history | DL | On main Keyboard and Numpad |
 | Delete last operation     | DO    | On main Keyboard and Numpad |
 | Exponent                  | EXP   |                             |

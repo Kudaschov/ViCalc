@@ -57,9 +57,9 @@ class Ui_optionsDialog(object):
     def retranslateUi(self, optionsDialog):
         optionsDialog.setWindowTitle(QCoreApplication.translate("optionsDialog", u"Dialog", None))
         self.timestampCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Automatically date and time stamp at start", None))
-        self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace comma (,) with decimal point (.)", None))
-        self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace decimal point (.) with comma (,)", None))
-        self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert decimal point (.) to comma (,) on &input", None))
+        self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace decimal point (.) with comma (,)", None))
+        self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace comma (,) with decimal point (.)", None))
+        self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert comma (,) to decimal point (.) on &input", None))
         self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC/C - All Clear / Clear Key", None))
 #if QT_CONFIG(tooltip)
         self.convertAngleCheckBox.setToolTip(QCoreApplication.translate("optionsDialog", u"Convert angle automatically when changing units.", None))
