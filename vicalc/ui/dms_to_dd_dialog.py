@@ -51,6 +51,8 @@ class Ui_DMStoDD_Dialog(object):
         self.label_2.setBuddy(self.minutesLineEdit)
         self.label_3.setBuddy(self.secondsLineEdit)
 #endif // QT_CONFIG(shortcut)
+        QWidget.setTabOrder(self.degreesLineEdit, self.minutesLineEdit)
+        QWidget.setTabOrder(self.minutesLineEdit, self.secondsLineEdit)
 
         self.retranslateUi(DMStoDD_Dialog)
         self.buttonBox.accepted.connect(DMStoDD_Dialog.accept)

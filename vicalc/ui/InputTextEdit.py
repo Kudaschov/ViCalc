@@ -958,6 +958,9 @@ class InputTextEdit(QLineEdit):
                     super().keyPressEvent(event)
 
     def handle_chars(self, event):
+        if self.current_ctrl_state:
+            return False # No char handling when ctrl is pressed
+        
         match self.char_pressed:
             case '0':
                 self.exec_number_0()
@@ -1036,7 +1039,6 @@ class InputTextEdit(QLineEdit):
                 self.exec_sign_change()
             case _:
                 return False
-            
         return True
     
     def handle_scan_codes(self):
@@ -1190,6 +1192,8 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_E:
                         self.exec_toggle_table()
                     # handle copy/paste with possible replacing            
+                    case Qt.Key.Key_X:
+                        self.handle_cut()
                     case Qt.Key.Key_C:
                         self.handle_copy()
                     case Qt.Key.Key_V:
@@ -1319,6 +1323,7 @@ class InputTextEdit(QLineEdit):
             dialog.ui.secondsLineEdit.setText(AppGlobals.to_normal_string(seconds))
             dialog.ui.degreesLineEdit.setFocus()
 
+        dialog.ui.degreesLineEdit.setFocus()
         if not dialog.exec():
             return
         
@@ -1525,6 +1530,20 @@ class InputTextEdit(QLineEdit):
             self.insert(modified_text)
         else:
             self.paste()
+
+    def handle_cut(self):
+        selected_text = self.selectedText()
+        if not selected_text:
+            return
+
+        if AppGlobals.copy_to_clipboard_replace:
+            modified = selected_text.replace('.', ',')
+            QGuiApplication.clipboard().setText(modified)
+
+            # markierten Text entfernen (Cut)
+            self.del_()
+        else:
+            self.cut()
 
     def handle_copy(self):
         if AppGlobals.copy_to_clipboard_replace:

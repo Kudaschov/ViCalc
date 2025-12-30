@@ -108,6 +108,11 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>degreesLineEdit</tabstop>
+  <tabstop>minutesLineEdit</tabstop>
+  <tabstop>secondsLineEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
