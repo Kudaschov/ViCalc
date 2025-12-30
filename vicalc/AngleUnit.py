@@ -10,7 +10,7 @@ from .FloatCellValue import FloatCellValue
 
 class AngleUnit(ABC):
     def __init__(self):
-        self.locale = QLocale()
+        self.locale = QLocale(QLocale.C)
         self.resultFont = QFont()
         self.resultFont.setBold(True)
         self.row = None

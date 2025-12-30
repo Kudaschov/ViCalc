@@ -39,5 +39,5 @@ class BaseExpression(UnaryExpression):
            self.i_number = int(string_number, self.base)
            return True
         except Exception as e:
-            QMessageBox.critical(None, "Error", f"{str(e)}")
+            # QMessageBox.critical(None, "Error", f"{str(e)}")
             return False

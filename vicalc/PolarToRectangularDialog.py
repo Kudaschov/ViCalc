@@ -21,8 +21,8 @@ class PolarToRectangularDialog(QDialog):
         self.validate_inputs()
 
     def validate_inputs(self):
-        r, radius_valid = QLocale().toDouble(self.ui.radiusLineEdit.text())
-        a, angle_valid = QLocale().toDouble(self.ui.angleLineEdit.text())
+        r, radius_valid = QLocale(QLocale.C).toDouble(self.ui.radiusLineEdit.text())
+        a, angle_valid = QLocale(QLocale.C).toDouble(self.ui.angleLineEdit.text())
 
         if radius_valid and angle_valid:
             x = r * math.cos(AppGlobals.angle_unit.to_rad(a))

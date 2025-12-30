@@ -9,7 +9,7 @@ class CalcExpression(ABC):
         self.operation_prio = CalcPrios.Min
         self.prev_expression = None
         self.next_expression = None
-        self.locale = QLocale()
+        self.locale = QLocale(QLocale.C)
         self.resultFont = QFont()
         self.resultFont.setBold(True)
         self.row = 0 # row in TableWidget

@@ -1,6 +1,6 @@
 [Setup]
 AppName=ViCalc
-AppVersion= 4.5.1
+AppVersion= 4.5.2
 DefaultDirName={commonpf}\ViCalc
 DefaultGroupName=ViCalc
 OutputDir=dist_installer

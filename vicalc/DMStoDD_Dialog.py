@@ -20,8 +20,8 @@ class DMStoDD_Dialog(QDialog):
         self.validate_inputs()
 
     def validate_inputs(self):
-        degrees, degrees_valid = QLocale().toInt(self.ui.degreesLineEdit.text())
-        minutes, minutes_valid = QLocale().toUInt(self.ui.minutesLineEdit.text())
-        seconds, seconds_valid = QLocale().toDouble(self.ui.secondsLineEdit.text())
+        degrees, degrees_valid = QLocale(QLocale.C).toInt(self.ui.degreesLineEdit.text())
+        minutes, minutes_valid = QLocale(QLocale.C).toUInt(self.ui.minutesLineEdit.text())
+        seconds, seconds_valid = QLocale(QLocale.C).toDouble(self.ui.secondsLineEdit.text())
 
         self.ok_button.setEnabled(degrees_valid and minutes_valid and seconds_valid)

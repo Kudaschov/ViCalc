@@ -87,6 +87,7 @@ class InputTextEdit(QLineEdit):
     focusOut = Signal()
     focusIn = Signal()
     statusbar_changed = Signal()
+    statusbar_message = Signal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -1105,6 +1106,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_convert_to_rad()
                 case 5: # Key 4
                     self.exec_convert_to_gra()
+                case 7: # Key 6
+                    self.exec_round()
                 case _:
                     return False
             return True # False is case _:
@@ -1183,8 +1186,12 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_comment()
                     case _:
-                        super().keyPressEvent(event) # keep normal behavior
-                        print("Deafult operation")
+                        if not self.char_pressed in "+-.0123456789eE":
+                            self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
+                        else:
+                            # Call base class to keep normal behavior
+                            super().keyPressEvent(event)
+                            print("Default operation")
 
             elif self.current_ctrl_state:
                 # ctrl pressed
@@ -1206,7 +1213,7 @@ class InputTextEdit(QLineEdit):
                         self.exec_date_time_stamp()
                     case _:
                         super().keyPressEvent(event)
-                        print("Deafult operation")
+                        print("Default operation")
             else:
                 # just keys, no shift, no ctrl
                 match self.key:
@@ -1229,10 +1236,16 @@ class InputTextEdit(QLineEdit):
                             self.execute()
                     case Qt.Key.Key_Space:
                         self.exec_comment()
-                    case _:
+                    case Qt.Key.Key_Backspace:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
-                        print("Deafult operation")
+                    case _:
+                        if not self.char_pressed in "+-.0123456789eE":
+                            self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
+                        else:
+                            # Call base class to keep normal behavior
+                            super().keyPressEvent(event)
+                            print("Default operation")
 
     def exec_cut_to_clipboard(self):
         self.cut()
@@ -1665,7 +1678,7 @@ class InputTextEdit(QLineEdit):
         AppGlobals.table.setItem(row, 0, item)
         
         item = QTableWidgetItem()
-        item.setText(QLocale().toString(QDate.currentDate(), QLocale.ShortFormat))
+        item.setText(QLocale(QLocale.C).toString(QDate.currentDate(), QLocale.ShortFormat))
         AppGlobals.table.setItem(row, 1, item)
 
         item = QTableWidgetItem()
@@ -1673,7 +1686,7 @@ class InputTextEdit(QLineEdit):
         AppGlobals.table.setItem(row, 2, item)
 
         item = QTableWidgetItem()
-        item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
+        item.setText(QLocale(QLocale.C).toString(QTime.currentTime(), QLocale.ShortFormat))
         AppGlobals.table.setItem(row, 3, item)
 
         item = QTableWidgetItem()

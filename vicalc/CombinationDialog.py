@@ -21,7 +21,7 @@ class CombinationDialog(QDialog):
         self.validate_inputs()
 
     def validate_inputs(self):
-        n, n_valid = QLocale().toInt(self.ui.nLineEdit.text())
-        r, r_valid = QLocale().toInt(self.ui.rLineEdit.text())
+        n, n_valid = QLocale(QLocale.C).toInt(self.ui.nLineEdit.text())
+        r, r_valid = QLocale(QLocale.C).toInt(self.ui.rLineEdit.text())
 
         self.ok_button.setEnabled(n_valid and r_valid)

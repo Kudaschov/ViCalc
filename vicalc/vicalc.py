@@ -181,6 +181,9 @@ class MainWindow(QMainWindow):
         self.invalid_number_label = QLabel("Invalid Number")
         self.ui.statusbar.addWidget(self.invalid_number_label)
 
+        self.free_message_label = QLabel("")
+        self.ui.statusbar.addWidget(self.free_message_label)
+
         self.save_path = os.path.join(
         QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "vicalc_data.vic")
         self.load_table_data()         
@@ -194,12 +197,22 @@ class MainWindow(QMainWindow):
         AppGlobals.input_box.focusOut.connect(self.change_mode)
         AppGlobals.input_box.memory_changed.connect(self.memory_changed)
         AppGlobals.input_box.statusbar_changed.connect(self.statusbar_changed)
+        AppGlobals.input_box.statusbar_message.connect(self.statusbar_free_message)
+
         # --- End custom signal connection ---       
 
         # Exit-Menüaktion verbinden
         self.ui.actionExit.triggered.connect(self.close)     
         self.ui.actionToggle_Protocol.triggered.connect(self.toggle_protocol)
         self.ui.action_delete_full_protocol.triggered.connect(self.delete_full_protocol)
+
+    def statusbar_free_message(self, message: str):
+        self.free_message_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
+        self.free_message_label.setText(message)
+        QTimer.singleShot(3000, self.clear_statusbar_free_message)
+
+    def clear_statusbar_free_message(self):
+        self.free_message_label.setText("")
 
     def poll_key_preselect(self):
         self.key_preselect.poll_keys()

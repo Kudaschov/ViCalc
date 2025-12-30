@@ -292,7 +292,7 @@ class ConversionDialog(QDialog):
                         break
 
         if self.initial_value is not None:
-            locale = QLocale()
+            locale = QLocale(QLocale.C)
             locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
             self.input_edit.setText(locale.toString(self.initial_value, "g", 15))
 
@@ -312,7 +312,7 @@ class ConversionDialog(QDialog):
 
     def _convert(self):
         try:
-            locale = QLocale()
+            locale = QLocale(QLocale.C)
             locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
             value, ok = locale.toDouble(self.input_edit.text())
             if not ok:

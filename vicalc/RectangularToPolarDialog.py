@@ -21,8 +21,8 @@ class RectangularToPolarDialog(QDialog):
         self.validate_inputs()
 
     def validate_inputs(self):
-        x, x_valid = QLocale().toDouble(self.ui.xLineEdit.text())
-        y, y_valid = QLocale().toDouble(self.ui.yLineEdit.text())
+        x, x_valid = QLocale(QLocale.C).toDouble(self.ui.xLineEdit.text())
+        y, y_valid = QLocale(QLocale.C).toDouble(self.ui.yLineEdit.text())
 
         if x_valid and y_valid:
             r = math.hypot(x, y)
