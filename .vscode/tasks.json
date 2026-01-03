@@ -103,11 +103,21 @@
     },    {
       "label": "Compile resource file",
       "type": "shell",
-      "command": "pyside6-rcc resource.qrc -o resource_rc.py",
+      "command": "pyside6-rcc vicalc/ui/resource.qrc -o vicalc/ui/resource_rc.py",
       "group": {
         "kind": "build",
         "isDefault": true
       },
+      "problemMatcher": []
+    },
+	{
+      "label": "uic: fix resource imports",
+      "type": "shell",
+      "command": "python",
+      "args": [
+        "${workspaceFolder}/fix_uic_imports.py"
+      ],
+      "group": "build",
       "problemMatcher": []
     }
 	]

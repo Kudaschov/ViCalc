@@ -23,7 +23,7 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHeaderView, QLabel,
 
 from .CalcButton import CalcButton
 from .CalcTableWidget import CalcTableWidget
-import resource_rc
+from . import resource_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

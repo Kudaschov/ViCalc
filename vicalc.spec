@@ -9,10 +9,10 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('icons/ViCalc.ico', 'icons'),
+        ('vicalc/ui/icons/ViCalc.ico', 'icons'),
         ('vicalc/ui/*.ui', 'vicalc/ui'),
         ('vicalc/images/*.*', 'vicalc/images'),
-        ('resource.qrc', '.'),
+        ('vicalc/ui/resource.qrc', '.'),
         ('help/site', 'help/site'),
     ],
     hiddenimports=collect_submodules('vicalc'),
@@ -39,7 +39,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,
-    icon='icons/ViCalc.ico'
+    icon='vicalc/ui/icons/ViCalc.ico'
 )
 
 coll = COLLECT(

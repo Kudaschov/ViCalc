@@ -53,6 +53,6 @@ You can install and run **ViCalc** using one of the following methods:
    python -m vicalc
 
 ## License
-Copyright (c) Dr. Vitali Kudaschov, 2003 - 2025.
+Copyright (c) Dr. Vitali Kudaschov, 2003 - 2026.
 
 Licensed under the [MIT License](./LICENSE).

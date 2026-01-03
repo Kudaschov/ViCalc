@@ -153,9 +153,9 @@ class InputTextEdit(QLineEdit):
         # 'nativeScanCode()' returns the hardware-dependent scan code.
         # This is specific to the keyboard hardware and operating system.
 
-        output = f"Key Pressed: '{self.char_pressed}' ---------------------\n" \
-                 f"Key Name (Qt.Key constant): {key_name}\n" \
-                 f"Virtual Key Code (int): {virtual_key_code}\n" \
+        output = f"Key Pressed: '{self.char_pressed}' | Qt.Key: " \
+                 f"{key_name} | " \
+                 f"Virtual Key Code (int): {virtual_key_code} | " \
                  f"Scan Code (Native): {self.scan_code}"
         
         print(output)
@@ -1012,6 +1012,8 @@ class InputTextEdit(QLineEdit):
                 self.exec_multiplication()
             case '/':
                 self.exec_division()
+            case '^':
+                self.exec_pow()
             case _:
                 return False
         return True

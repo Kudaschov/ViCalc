@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "vicalc"
+version = "4.5.2"
+description = "ViCalc - Scientific Calculator with PySide6 GUI"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+authors = [
+    { name = "Kudaschov" }
+]
+
+dependencies = [
+    "PySide6>=6.7",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0",
+    "pytest-qt>=4.4",
+]
+
+
+[tool.setuptools]
+packages = ["vicalc"]
+
+
+[tool.setuptools.package-data]
+vicalc = [
+    "ui/*.ui",
+    "ui/*.py",
+    "resources/*",
+]
+
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra -q"
+qt_api = "pyside6"

@@ -8,7 +8,7 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu
 from PySide6.QtGui import QActionGroup, QIcon
 from PySide6.QtCore import QSettings, QByteArray, QSize, QPoint
-from .ui.mainWindow import Ui_MainWindow # Make sure this path is correct
+from .ui.mainwindow import Ui_MainWindow # Make sure this path is correct
 from PySide6.QtCore import QTimer
 from PySide6.QtCore import QStandardPaths
 from PySide6.QtWidgets import QTableWidgetItem
