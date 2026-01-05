@@ -1061,7 +1061,7 @@ class InputTextEdit(QLineEdit):
                 case 7: # Key 6
                     self.exec_round()
                 case 16: # Key Q
-                    self.exec_M_minus()
+                    self.exec_convert_to_dms()
                 case 17: # Key W
                     self.exec_convert_to_dd()
                 case 18: # Key E
@@ -1083,7 +1083,7 @@ class InputTextEdit(QLineEdit):
                 case 34: # Key G
                     self.exec_ten_power_x()
                 case 44: # Key Z in QWERTY
-                    self.exec_convert_to_dms()
+                    self.exec_M_minus()
                 case 45: # Key X
                     self.exec_from_binary()
                 case 46: # Key C
@@ -1130,7 +1130,7 @@ class InputTextEdit(QLineEdit):
                 case 7: # Key 6
                     self.exec_number_6()
                 case 16: # Key Q
-                    self.exec_M_plus()
+                    self.exec_pi()
                 case 17: # Key W
                     self.exec_pow()
                 case 18: # Key E
@@ -1152,7 +1152,7 @@ class InputTextEdit(QLineEdit):
                 case 34: # Key G
                     self.exec_log()
                 case 44: # Key Z in QWERTY
-                    self.exec_pi()
+                    self.exec_M_plus()
                 case 45: # Key X
                     self.exec_reciprocal()
                 case 46: # Key C
@@ -1214,8 +1214,12 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_date_time_stamp()
                     case _:
-                        super().keyPressEvent(event)
-                        print("Default operation")
+                        if not self.char_pressed in "+-.0123456789eE":
+                            self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
+                        else:
+                            # Call base class to keep normal behavior
+                            super().keyPressEvent(event)
+                            print("Default operation")
             else:
                 # just keys, no shift, no ctrl
                 match self.key:
@@ -1680,7 +1684,7 @@ class InputTextEdit(QLineEdit):
         AppGlobals.table.setItem(row, 0, item)
         
         item = QTableWidgetItem()
-        item.setText(QLocale(QLocale.C).toString(QDate.currentDate(), QLocale.ShortFormat))
+        item.setText(QLocale().toString(QDate.currentDate(), QLocale.ShortFormat))
         AppGlobals.table.setItem(row, 1, item)
 
         item = QTableWidgetItem()
@@ -1688,7 +1692,7 @@ class InputTextEdit(QLineEdit):
         AppGlobals.table.setItem(row, 2, item)
 
         item = QTableWidgetItem()
-        item.setText(QLocale(QLocale.C).toString(QTime.currentTime(), QLocale.ShortFormat))
+        item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
         AppGlobals.table.setItem(row, 3, item)
 
         item = QTableWidgetItem()

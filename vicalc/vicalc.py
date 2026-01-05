@@ -252,6 +252,7 @@ class MainWindow(QMainWindow):
         elif index.isValid():
             menu = QMenu(self)
             action_add_comment = menu.addAction("Add Comment")
+            action_delete = menu.addAction("Delete row(s)")
             action = menu.exec(global_pos)
             if action == action_add_comment:
                 dialog = CommentDialog()
@@ -259,6 +260,8 @@ class MainWindow(QMainWindow):
                 if dialog.exec():
                     comment = dialog.get_comment()
                     CommentCellValue(comment, index.row(), index.column())
+            elif action == action_delete:
+                self.delete_rows_in_history()
 
     def clear_cell_in_table(self):
         # Create a warning message box
@@ -890,12 +893,14 @@ class MainWindow(QMainWindow):
     def first_row_keyboard(self):
         self.ui.pushButtonQ.row = 1
         self.ui.pushButtonQ.column = 0.5
-        self.ui.pushButtonQ.setText("M+")
+        self.ui.pushButtonQ.text_highlight_font = QFont("Times New Roman", 14, QFont.Bold)
+        self.ui.pushButtonQ.text_font = QFont("Times New Roman", 14)
+        self.ui.pushButtonQ.setText("π")
         self.ui.pushButtonQ.original_keyboard_text = "Q"
-        self.ui.pushButtonQ.shift_text = "M-"
+        self.ui.pushButtonQ.shift_text = "DMS"
         self.ui.pushButtonQ.ctrl_text = "nCr"
-        self.ui.pushButtonQ.base_operation = CalcOperations.M_plus
-        self.ui.pushButtonQ.shift_operation = CalcOperations.M_minus
+        self.ui.pushButtonQ.base_operation = CalcOperations.pi
+        self.ui.pushButtonQ.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonQ.ctrl_operation = CalcOperations.combination
         self.leftside_button_list.append(self.ui.pushButtonQ)
 
@@ -1033,15 +1038,13 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
-        self.ui.pushButtonY.text_highlight_font = QFont("Times New Roman", 14, QFont.Bold)
-        self.ui.pushButtonY.text_font = QFont("Times New Roman", 14)
-        self.ui.pushButtonY.setText("π")
+        self.ui.pushButtonY.setText("M+")
         self.ui.pushButtonY.original_keyboard_text = "Y"
-        self.ui.pushButtonY.shift_text = "DMS"
+        self.ui.pushButtonY.shift_text = "M-"
         self.ui.pushButtonY.ctrl_text = ""
-        self.ui.pushButtonY.base_operation = CalcOperations.pi
-        self.ui.pushButtonY.shift_operation = CalcOperations.convert_to_dms
-        self.ui.pushButtonY.ctrl_operation = CalcOperations.convert_to_dms
+        self.ui.pushButtonY.base_operation = CalcOperations.M_plus
+        self.ui.pushButtonY.shift_operation = CalcOperations.M_minus
+        self.ui.pushButtonY.ctrl_operation = CalcOperations.M_minus
         self.leftside_button_list.append(self.ui.pushButtonY)
 
         self.ui.pushButtonX.row = 3
