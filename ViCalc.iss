@@ -1,8 +1,8 @@
 [Setup]
 AppName=ViCalc
-AppVersion= 4.5.4
+AppVersion= 4.5.6
 DefaultDirName={commonpf}\ViCalc
-DefaultGroupName=ViCalc
+DefaultGroupName=Kudaschov
 OutputDir=dist_installer
 OutputBaseFilename=ViCalcSetup
 Compression=lzma

@@ -1187,6 +1187,9 @@ class InputTextEdit(QLineEdit):
                         self.exec_date_time_stamp()
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_comment()
+                    case Qt.Key_Delete:
+                        # Call base class to keep normal behavior
+                        super().keyPressEvent(event)
                     case _:
                         if not self.char_pressed in "+-.0123456789eE":
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
@@ -1213,6 +1216,9 @@ class InputTextEdit(QLineEdit):
                         self.exec_del_operation()
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_date_time_stamp()
+                    case Qt.Key_Delete:
+                        # Call base class to keep normal behavior
+                        super().keyPressEvent(event)
                     case _:
                         if not self.char_pressed in "+-.0123456789eE":
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
@@ -1243,6 +1249,9 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Space:
                         self.exec_comment()
                     case Qt.Key.Key_Backspace:
+                        # Call base class to keep normal behavior
+                        super().keyPressEvent(event)
+                    case Qt.Key_Delete:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
                     case _:

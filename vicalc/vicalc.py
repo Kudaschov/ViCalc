@@ -466,7 +466,7 @@ class MainWindow(QMainWindow):
             case NumericFormat.engineering:
                 self.numeric_format_label.setText("Engineerig format: " + str(AppGlobals.numeric_precision))
             case _:
-                self.numeric_format_label.setText("")
+                self.numeric_format_label.setText("Normal format")
 
     def resource_path(self, relative_path):
         if hasattr(sys, '_MEIPASS'):
@@ -550,10 +550,7 @@ class MainWindow(QMainWindow):
     # --- End New Slot Method ---        
 
     def memory_changed(self, sMemory: str):
-        if AppGlobals.input_box.memory == 0:
-            self.memory_label.setText("")
-        else:
-            self.memory_label.setText("Memory: " + sMemory)
+        self.memory_label.setText("Memory: " + sMemory)
 
     def statusbar_changed(self):            
         self.update_numeric_format_label()
