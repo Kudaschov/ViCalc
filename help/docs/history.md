@@ -5,8 +5,7 @@
 - Shift+Space = Add comment to history<br>
 - Shift+Back Space / Shift+DL* = Remove last line from history<br>
 - Ctrl+E / F5 = Toggle calculator / history<br>
-- TAB / Arrow Up / Shift+8* = Go to history<br>
-- 
+- TAB / Arrow Up / Shift+8* = Go to history<br>- 
 
 ## History Mode
 - Esc = Return to calculator<br>

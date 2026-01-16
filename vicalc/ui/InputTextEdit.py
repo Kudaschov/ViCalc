@@ -1219,6 +1219,12 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key_Delete:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
+                    case Qt.Key.Key_Z:
+                        self.exec_undo()
+                    case Qt.Key.Key_Y:
+                        self.exec_redo()
+                    case Qt.Key.Key_A:
+                        self.selectAll()
                     case _:
                         if not self.char_pressed in "+-.0123456789eE":
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
