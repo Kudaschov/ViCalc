@@ -14,7 +14,7 @@
    <string>ViCalc</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resource.qrc">
+   <iconset resource="resource.qrc">
     <normaloff>:/ViCalc/icons/ViCalc.ico</normaloff>:/ViCalc/icons/ViCalc.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -1395,9 +1395,6 @@
    <property name="text">
     <string>Insert &amp;Date and Time</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+I</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1623,7 +1620,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../resource.qrc"/>
+  <include location="resource.qrc"/>
  </resources>
  <connections/>
 </ui>

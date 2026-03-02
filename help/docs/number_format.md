@@ -7,4 +7,4 @@
 - **Negative sign:** `_` (underscore) or Shift + Numpad Minus `(-)`   
   *(Regular Minus performs subtraction)*<br>
 - **Decimal separator:** `.`<br>
-- **Exponent:** `e` or `E`<br>
+- **Exponent:** `e` or `E` (for example, 2e3 = 2000)<br>

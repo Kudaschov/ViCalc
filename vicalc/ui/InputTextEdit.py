@@ -1201,7 +1201,7 @@ class InputTextEdit(QLineEdit):
             elif self.current_ctrl_state:
                 # ctrl pressed
                 match self.key:
-                    case Qt.Key.Key_E:
+                    case Qt.Key.Key_E | Qt.Key.Key_I:
                         self.exec_toggle_table()
                     # handle copy/paste with possible replacing            
                     case Qt.Key.Key_X:

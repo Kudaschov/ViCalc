@@ -4,6 +4,7 @@
 [Number Input Format](number_format.md)<br>
 [Calculation History](history.md)<br>
 ## Operations
+[Basic Operations](basic_operations.md)<br>
 [Percent Calculations](percents.md)<br>
 ## Keys and their functions
 [General](keys_general.md)<br>
