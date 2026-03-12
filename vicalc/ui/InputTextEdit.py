@@ -78,6 +78,7 @@ from ..FloatCellValue import FloatCellValue
 from ..ResultCellValue import ResultCellValue
 from ..PhyConstDialog import PhyConstDialog
 from ..unit_conversion import ConversionDialog
+import re
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1557,13 +1558,14 @@ class InputTextEdit(QLineEdit):
         self.update_shift_ctrl_status()
 
     def handle_paste(self):
+        modified_text = QGuiApplication.clipboard().text()
+
         if AppGlobals.paste_from_clipboard_replace:
-            clipboard = QGuiApplication.clipboard()
-            text = clipboard.text()
-            modified_text = text.replace(',', '.')
-            self.insert(modified_text)
-        else:
-            self.paste()
+            modified_text = modified_text.replace(',', '.')
+
+        # Keep only allowed characters +-.,0123456789eE
+        modified_text = re.sub(r'[^+\-\.,0-9eE]', '', modified_text)
+        self.insert(modified_text)
 
     def handle_cut(self):
         selected_text = self.selectedText()
