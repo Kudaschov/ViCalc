@@ -26,9 +26,7 @@ The left hand is used for additional input functions:
 
 ### Mode 2
 
-If the user prefers the traditional touch-typing position (ASDF and JKL:), or if a full-size keyboard with a numeric keypad is not available (for example on notebooks), ViCalc provides Operation Mode 2.
-
-In this mode, the right side of the main keyboard area is used instead of the numeric keypad (see picture below).
+If the user prefers the traditional touch-typing position (ASDF and JKL:), or if a full-size keyboard with a numeric keypad is not available (for example on notebooks), ViCalc provides Operation Mode 2 (see picture below).
 
 Although this section of the keyboard is not displayed on the screen, it is fully supported. It is used for entering the symbols exactly as they appear on the keyboard, including:
 
