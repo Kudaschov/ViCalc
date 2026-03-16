@@ -1,8 +1,9 @@
 # ViCalc Help
 ## Overview
-[Using ViCalc](using.md)<br>
+[ViCalc](overview.md)<br>
 [Number Input Format](number_format.md)<br>
 [Calculation History](history.md)<br>
+[Calculation Example](calc_exsample.md)<br>
 ## Operations
 [Basic Operations](basic_operations.md)<br>
 [Percent Calculations](percents.md)<br>

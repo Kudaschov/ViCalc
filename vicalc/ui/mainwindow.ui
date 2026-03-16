@@ -1599,9 +1599,6 @@
    <property name="text">
     <string>&amp;Unit Conversion...</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+5</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>

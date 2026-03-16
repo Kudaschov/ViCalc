@@ -1109,6 +1109,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_convert_to_rad()
                 case 5: # Key 4
                     self.exec_convert_to_gra()
+                case 6: # Key 5
+                    self.exec_unit_conversion()
                 case 7: # Key 6
                     self.exec_round()
                 case _:
