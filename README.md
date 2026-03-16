@@ -4,7 +4,7 @@ ViCalc is an open-source touch-typing scientific calculator with a key-preselect
 
 The upper part of the ViCalc window displays the calculation history. The lower part shows the left section of the main keyboard area and the numeric keypad.
 
-<img src="images/vicalc_keyboard_area.png" alt = "ViCalc" width="550" />
+<img src="docs/images/vicalc_keyboard_area.png" alt = "ViCalc" width="760" />
 
 ## Keyboard Operation Modes
 
@@ -21,7 +21,7 @@ The left hand is used for additional input functions:
 - Ctrl – access the third function of a key (see picture below)
 - Additional scientific functions (for example polar coordinates) that are not available directly on the numeric keypad
 
-<img src="images/key.png" alt = "Key functions" /><br>
+<img src="docs/images/key.png" alt = "Key functions" /><br>
 
 ### Mode 2
 
@@ -39,7 +39,7 @@ Although this section of the keyboard is not displayed on the screen, it is full
 - Shift
 - Control<br>
 
-<img src="images/vicalc_mode_2.png" alt = "ViCalc Mode 2" /><br>
+<img src="docs/images/vicalc_mode_2.png" alt = "ViCalc Mode 2" /><br>
 
 ## Key-Preselection Function
 The Key-Preselection feature allows you to preview a key before its function is executed.
@@ -50,7 +50,7 @@ When a key is lightly pressed, the corresponding function is highlighted (presel
 If this is the desired function, you can press the key fully to execute it.
 
 If the highlighted function is not the intended one, you can simply release the key and correct your input without triggering the wrong function.
-<img src="images/preselect.png" alt = "ViCalc Key-Preselection Function" /><br>
+<img src="docs/images/preselect.png" alt = "ViCalc Key-Preselection Function" width="760" /><br>
 
 ## Calculation Example
 <img src="docs/images/ViCalcExample.png" alt = "ViCalc Calculation Example" width="760" />
