@@ -148,6 +148,7 @@ class MainWindow(QMainWindow):
         self.right_side_keyboard()
         self.arrange_keyboard()
         self.map_to_preselect()
+        self.ui.buttonsFrame.setFixedHeight(5 * AppGlobals.keyboard_grid_height)   
 
         AppGlobals.input_box.button_list = self.button_list
 
@@ -773,7 +774,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnter.ctrl_operation = CalcOperations.date_time_stamp
         self.leftside_button_list.append(self.ui.pushButtonEnter)
 
-        self.ui.pushButtonEnterNumpad.row = 2
+        self.ui.pushButtonEnterNumpad.row = 3
         self.ui.pushButtonEnterNumpad.column = 3
         self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonEnterNumpad.shift_text = "%"
@@ -1141,14 +1142,21 @@ class MainWindow(QMainWindow):
             self.button_list.append(button)
             if button.row != -1 and button.column != -1:
                 button.move(button.column * AppGlobals.keyboard_grid_width, button.y())
+                button.move(button.x(), button.row * AppGlobals.keyboard_grid_height)
                 button.setFixedWidth(button.norm_width * AppGlobals.pushbutton_width)
+                button.setFixedHeight(AppGlobals.pushbutton_height)
 
         for button in self.numpad_button_list:
             self.button_list.append(button)
             if button.row != -1 and button.column != -1:
                 offset = AppGlobals.numpad_start_column * AppGlobals.keyboard_grid_width
                 button.move(offset + button.column * AppGlobals.numpad_button_width, button.y())
+                button.move(button.x(), button.row * AppGlobals.keyboard_grid_height)
                 button.setFixedWidth(button.norm_width * AppGlobals.numpad_button_width)
+                button.setFixedHeight(AppGlobals.pushbutton_height)
+
+        self.ui.pushButtonPlusNumpad.setFixedHeight(AppGlobals.numpad_enter_height)
+        self.ui.pushButtonEnterNumpad.setFixedHeight(AppGlobals.numpad_enter_height)
 
         # for debug
         if False:

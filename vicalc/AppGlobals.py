@@ -17,6 +17,9 @@ class AppGlobals:
     keyboard_grid_width = 58
     pushbutton_width = 59
     numpad_button_width = 52
+    keyboard_grid_height = 48
+    pushbutton_height = 48
+    numpad_enter_height = 96
     right_side_keyboard_visible = False
     numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
     numlock_ac = False
