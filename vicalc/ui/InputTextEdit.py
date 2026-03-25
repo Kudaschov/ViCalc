@@ -1321,6 +1321,7 @@ class InputTextEdit(QLineEdit):
             temp_number = self.number
             self.setTextSelect(self.memory_to_string())
             self.memory = temp_number
+            MSExpression().calculate(self.memory)
 
     def exec_swap(self):
         if self.root_expression != None:

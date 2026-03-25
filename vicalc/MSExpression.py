@@ -7,4 +7,7 @@ class MSExpression(UnaryExpression):
         self.insert_scroll_table()
         self.protocol("Memory:", 0)
         self.protocol_result(number, 1)
+        if number == 0:
+            self.protocol("Cleared", 2)
+            
         return number
