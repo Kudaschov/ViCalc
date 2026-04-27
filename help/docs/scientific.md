@@ -12,9 +12,9 @@
 | Convert from octal to binary, decimal and hexadecimal | Oct→ ||
 | Convert from decimal to binary, octal and hexadecimal | Dec→ ||
 | Convert from hexadecimal to binary, octal and decimal | Hex→ ||
-| Convert to degrees | →DEG ||
-| Convert to grads | →GRA ||
-| Convert to radians | →RAD ||
+| Convert from the current angle unit to degrees | →DEG ||
+| Convert from the current angle unit to grads | →GRA ||
+| Convert from the current angle unit to radians | →RAD ||
 | Cosine | cos | On main Keyboard and Numpad |
 | Cube | x³ | On main Keyboard and Numpad |
 | Cure boot | ³√x | On main Keyboard and Numpad |
