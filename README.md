@@ -59,6 +59,8 @@ If the highlighted function is not the intended one, you can simply release the 
 
 - Touch-Typing Optimized: Keys are split for left-hand (left keyboard side) and right-hand (right side or numeric keypad) operation, enabling fast ten-finger typing.
 - Calculation History: Automatically records output, allowing you to review or reuse past calculations.
+- Unit Conversions
+- Scientific Constants
 - Mouse Support: Use the mouse for a traditional calculator experience.
 - Cross-Platform: Runs on any system with Python.
 - Open Source: Contributions are welcome to add new features!
