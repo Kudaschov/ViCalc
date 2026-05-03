@@ -59,11 +59,36 @@ If the highlighted function is not the intended one, you can simply release the 
 
 - Touch-Typing Optimized: Keys are split for left-hand (left keyboard side) and right-hand (right side or numeric keypad) operation, enabling fast ten-finger typing.
 - Calculation History: Automatically records output, allowing you to review or reuse past calculations.
-- Unit Conversions
-- Scientific Constants
 - Mouse Support: Use the mouse for a traditional calculator experience.
 - Cross-Platform: Runs on any system with Python.
 - Open Source: Contributions are welcome to add new features!
+
+## Functions
+
+- Arithmetic operations
+- Brackets
+- Memory
+- Ans (calculation history)
+- Protocol
+- Percent
+- Trigonometric and inverse trigonometric functions
+- Hyperbolic and inverse hyperbolic functions
+- Grad, degree and radian. Angle conversion
+- Constant Pi
+- Exponential functions
+- Reciprocal
+- Power and root
+- Logarithms
+- Factorial, Combinations and Permutations
+- Random number
+- Rounding Function
+- Coordinate conversion Rectangular <-> Polar
+- Conversion Sexagesimal <-> Decimal (DMS <-> DD)
+- Sci/Fix/Eng number format
+- Hexadecimal, decimal, octal and binary conversion
+- Input box / Memory swap
+- Scientific constants
+- Units conversion
 
 ## History
 
