@@ -70,7 +70,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Memory
 - Ans (calculation history)
 - Protocol
-- Percent
+- Percents incl. percentage change Δ%
 - Trigonometric and inverse trigonometric functions
 - Hyperbolic and inverse hyperbolic functions
 - Grad, degree and radian. Angle conversion

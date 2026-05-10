@@ -47,6 +47,7 @@ from ..CubeRootExpression import CubeRootExpression
 from ..MMultiplyExpression import MMultiplyExpression
 from ..MDisivionExpression import MDisivionExpression
 from ..PercentExpression import PercentExpression
+from ..PercentChangeExpression import PercentChangeExpression
 from ..ConvertToBasesExpression import ConvertToBasesExpression
 from ..BaseExpression import BaseExpression
 from ..AppGlobals import AppGlobals
@@ -380,14 +381,23 @@ class InputTextEdit(QLineEdit):
     def exec_percent(self):
         if self.store_number():
             if self.last_expression() != None:
-                percent = PercentExpression(AppGlobals.table, self.last_expression())
-                self.setTextSelect(self.toString(percent.calculate(self.number)))
-                # remove node, because it is calculated
-                if (self.last_expression().prev_expression != None):
-                    self.last_expression().prev_expression.next_expression = None
+                if isinstance(self.last_expression(), PercentChangeExpression):
+                    # it is already a percent change expression, calculate it
+                    self.execute()
                 else:
-                    self.root_expression = None
-                self.update_expression_label()
+                    percent = PercentExpression(AppGlobals.table, self.last_expression())
+                    result = percent.calculate(self.number)
+                    if result is not None:
+                        self.setTextSelect(self.toString(result))
+                    # remove the node, because it is processed
+                    if (self.last_expression().prev_expression != None):
+                        self.last_expression().prev_expression.next_expression = None
+                    else:
+                        self.root_expression = None
+                    self.update_expression_label()
+            else:
+                if self.store_number():
+                    self.create_expression_node(PercentChangeExpression(self.number))
 
     def exec_closing_bracket(self):
         if self.store_number():

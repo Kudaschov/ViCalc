@@ -1,4 +1,13 @@
 # ViCalc Help
+## Key usage
+<img src="images/key.png" alt = "Key functions" /><br>
+
+| Function               | Key combination |
+|------------------------|-----------------|
+| Sine                   | s               |
+| Arc sine               | Shift + s       |
+| Hyperbolic sine (sinh) | Ctrl + s        |
+
 ## Overview
 [ViCalc](overview.md)<br>
 [Number Input Format](number_format.md)<br>
@@ -13,11 +22,3 @@
 [Special](special.md)<br>
 [Memory](memory.md)<br>
 [Scientific](scientific.md)<br>
-## Key usage example
-<img src="images/key.png" alt = "Key functions" /><br>
-
-| Function               | Key combination |
-|------------------------|-----------------|
-| Sine                   | s               |
-| Arc sine               | Shift + s       |
-| Hyperbolic sine (sinh) | Ctrl + s        |
