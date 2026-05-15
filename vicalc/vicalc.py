@@ -873,6 +873,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton5.bg_color = self.number_key_color
         self.ui.pushButton5.shift_text = "%"
         self.ui.pushButton5.ctrl_text = "Conv"
+        self.ui.pushButton5.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
         self.ui.pushButton5.ctrl_operation = CalcOperations.unit_conversion
@@ -1004,7 +1005,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.setText("MS")
         self.ui.pushButtonF.original_keyboard_text = "F"
         self.ui.pushButtonF.shift_text = "Dec→"
-        self.ui.pushButtonF.shift_font = self.font_long_names
         self.ui.pushButtonF.base_operation = CalcOperations.MS
         self.ui.pushButtonF.shift_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonF.ctrl_operation = CalcOperations.convert_to_bases
@@ -1016,7 +1016,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonG.original_keyboard_text = "G"
         self.ui.pushButtonG.shift_text = "10^X"
         self.ui.pushButtonG.ctrl_text = "P→R"
+        self.ui.pushButtonG.shift_font = self.font_long_names
+        self.ui.pushButtonG.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButtonG.ctrl_font = self.font_long_names
+        self.ui.pushButtonG.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonG.base_operation = CalcOperations.log
         self.ui.pushButtonG.shift_operation = CalcOperations.ten_power_x
         self.ui.pushButtonG.ctrl_operation = CalcOperations.polar_to_rectangular
@@ -1051,7 +1054,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.original_keyboard_text = "X"
         self.ui.pushButtonX.shift_text = "Bin→"
         self.ui.pushButtonX.ctrl_text = ""
-        self.ui.pushButtonX.ctrl_font = self.font_long_names
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
         self.ui.pushButtonX.shift_operation = CalcOperations.convert_from_binary
         self.ui.pushButtonX.ctrl_operation = CalcOperations.convert_from_binary
@@ -1062,9 +1064,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
         self.ui.pushButtonC.shift_text = "Oct→"
-        self.ui.pushButtonC.shift_font = self.font_long_names
         self.ui.pushButtonC.ctrl_text = ""
-        self.ui.pushButtonC.ctrl_font = self.font_long_names
         self.ui.pushButtonC.base_operation = CalcOperations.C
         self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_octal
         self.ui.pushButtonC.ctrl_operation = CalcOperations.convert_from_octal
@@ -1075,10 +1075,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.setText("MR")
         self.ui.pushButtonV.original_keyboard_text = "V"
         self.ui.pushButtonV.shift_text = "Hex→"
-#        self.ui.pushButtonV.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButtonV.shift_font = self.font_long_names
         self.ui.pushButtonV.ctrl_text = ""
-#        self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.convert_from_hexadecimal

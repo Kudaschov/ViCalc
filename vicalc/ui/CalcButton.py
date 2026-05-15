@@ -36,6 +36,7 @@ class CalcButton(QPushButton):
         self.shift_text_alignment = self.shift_text_default_alignment
         self.ctrl_text_alignment = self.ctrl_text_default_alignment
         self.original_keyboard_text = "" # hint on top bottom
+        self.shift_ctrl_def_vertical_alignment = Qt.AlignVCenter # default vertical alignment for shift and ctrl text
 
         # Apply stylesheet for hover/pressed states and to remove default borders/outlines
         self.setStyleSheet("""
@@ -144,12 +145,13 @@ class CalcButton(QPushButton):
                 if self.shift_text_alignment == self.shift_text_default_alignment:
                     if len(self.ctrl_text) > 0:
                         # text is standard aligned
-                        painter.drawText(self.shift_rect(), Qt.AlignHCenter | Qt.AlignTop, self.shift_text)
+                        painter.drawText(self.shift_rect(), Qt.AlignHCenter | self.shift_ctrl_def_vertical_alignment,
+                            self.shift_text)
                     else: # no ctrl text, use the whole rect
-                        painter.drawText(self.shift_and_ctrl_rect(), Qt.AlignHCenter | Qt.AlignTop, self.shift_text)
+                        painter.drawText(self.shift_and_ctrl_rect(), Qt.AlignHCenter | self.shift_ctrl_def_vertical_alignment, self.shift_text)
                 else:
                     # text is big, try it to align in shift_and_ctrl_rect
-                    painter.drawText(self.shift_and_ctrl_rect(), self.shift_text_alignment | Qt.AlignTop, self.shift_text)
+                    painter.drawText(self.shift_and_ctrl_rect(), self.shift_text_alignment | self.shift_ctrl_def_vertical_alignment, self.shift_text)
 
             # Draw the ctrl text
             if self._ctrl:
@@ -169,12 +171,12 @@ class CalcButton(QPushButton):
                 if self.ctrl_text_alignment == self.ctrl_text_default_alignment:
                     if len(self.shift_text) > 0:
                         # text is standard aligned
-                        painter.drawText(self.ctrl_rect(), self.ctrl_text_alignment | Qt.AlignTop, self.ctrl_text)
+                        painter.drawText(self.ctrl_rect(), self.ctrl_text_alignment | self.shift_ctrl_def_vertical_alignment, self.ctrl_text)
                     else: # no shift text, use the whole rect
-                        painter.drawText(self.shift_and_ctrl_rect(), self.ctrl_text_alignment | Qt.AlignTop, self.ctrl_text)
+                        painter.drawText(self.shift_and_ctrl_rect(), self.ctrl_text_alignment | self.shift_ctrl_def_vertical_alignment, self.ctrl_text)
                 else:
                     # text is big, try it to align in shift_and_ctrl_rect
-                    painter.drawText(self.shift_and_ctrl_rect(), self.ctrl_text_alignment | Qt.AlignTop, self.ctrl_text)
+                    painter.drawText(self.shift_and_ctrl_rect(), self.ctrl_text_alignment | self.shift_ctrl_def_vertical_alignment, self.ctrl_text)
         else:
             # shift and ctrl text is the same
             # Draw the shift text on top middle
@@ -196,7 +198,8 @@ class CalcButton(QPushButton):
                 
             # draw text only, if it is different to button text
             if (self.text() != self.shift_text):
-                painter.drawText(QRect(3, self.y_shift_area, self.width() - 6, 20), Qt.AlignTop | Qt.AlignHCenter, self.shift_text)
+                painter.drawText(self.shift_and_ctrl_rect(), self.shift_ctrl_def_vertical_alignment | Qt.AlignHCenter,
+                    self.shift_text)
 
 
         # --- Draw the rectangle using drawRect() ---
