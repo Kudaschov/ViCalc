@@ -15,6 +15,7 @@
 [Calculation Example](calc_exsample.md)<br>
 ## Functions and Operations
 [Basic Operations](basic_operations.md)<br>
+[Reciprocal](reciprocal.md)<br>
 [Trigonometric and Inverse Trigonometric Functions](trigonometry.md)<br>
 [Percent Calculations](percents.md)<br>
 ## Keys and their functions

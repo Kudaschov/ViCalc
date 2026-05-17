@@ -1,5 +1,4 @@
 # Basic Operations
-Keyboard and mouse input are supported.
 You can enter decimal numbers using either a dot (.) or a comma (,).
 In the input box, the decimal separator is always displayed as a dot (.).<br>
 

@@ -20,6 +20,22 @@ Choose the angle unit used for calculations.
 **Options**  
 Automatic angle unit conversion when switching units can be enabled or disabled in: `Tools → Options`
 
+## Keyboard Usage
+
+| Function | Keyboard Shortcut |
+|---|---|
+| π (Pi) | `q` |
+| Cosine `cos()` | `d` |
+| Arccosine `acos()` | `Shift + d` |
+
+### Alternative Numeric Keypad Shortcuts
+
+| Function | Numpad Shortcut |
+|---|---|
+| π (Pi) | `Ctrl + Numpad *` |
+| Cosine `cos()` | `Shift + Numpad 5` |
+| Arccosine `acos()` | `Ctrl + Numpad 5` |
+
 ## Example 1
 <img src="images/cos.png"/><br>
 Press F3 to switch to radians.<br>
