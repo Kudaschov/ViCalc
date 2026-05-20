@@ -1,8 +1,8 @@
 # Basic Operations
-You can enter decimal numbers using either a dot (.) or a comma (,).
-In the input box, the decimal separator is always displayed as a dot (.).<br>
 
-To perform the operation, type the equals (=) or press Enter.
+To enter decimal numbers, refer to [Number Input Format](number_format.md).<br>
+
+To perform the operation, type the equals `=` or press Enter.
 
 ## Example 1
 12 + 3.4 - 56<br>
