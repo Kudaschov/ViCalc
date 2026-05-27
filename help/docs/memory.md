@@ -1,6 +1,6 @@
 # Memory keys and their functions
 
-| Function                  | Label | Comment                                                    |
+| Function                  | Key | Comment                                                    |
 |---------------------------|-------|------------------------------------------------------------|
 | Memory division           | M/    | On main keyboard only                                      |
 | Memory exchange           | X↔M   | On main keyboard only                                      |

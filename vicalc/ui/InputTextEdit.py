@@ -1736,7 +1736,7 @@ class InputTextEdit(QLineEdit):
         if dlg.exec() == QDialog.Accepted:
             const, AppGlobals.phy_const_index = dlg.get_selection_by_index()
             self.setTextSelect(AppGlobals.to_normal_string(const['value']))
-            self.update_shift_ctrl_status()
+        self.update_shift_ctrl_status()
 
     def exec_unit_conversion(self):
         self.number, ok = self.locale.toDouble(self.text())
@@ -1754,7 +1754,7 @@ class InputTextEdit(QLineEdit):
             StringCellValue(f"{AppGlobals.unit_conversion_from} =", row, 1)
             ResultCellValue(v_to, row, 2)
             StringCellValue(AppGlobals.unit_conversion_to, row, 3)
-            self.update_shift_ctrl_status()
+        self.update_shift_ctrl_status()
 
     def exec_del_operation(self):
         if self.last_expression():

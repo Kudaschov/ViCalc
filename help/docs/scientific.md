@@ -1,6 +1,6 @@
-# Scientific functions
+# Scientific keys and their functions
 
-| Function                  | Label | Comment                                                           |
+| Function                  | Key | Comment                                                           |
 |---------------------------|-------|-------------------------------------------------------------------|
 | Arccosine    | cos⁻¹ | On main Keyboard and Numpad |
 | Arcsine      | sin⁻¹ | On main Keyboard and Numpad |

@@ -12,7 +12,7 @@
 [ViCalc](overview.md)<br>
 [Number Input Format](number_format.md)<br>
 [Calculation History](history.md)<br>
-[Calculation Example](calc_exsample.md)<br>
+[Calculation Example](calc_example.md)<br>
 ## Functions and Operations
 [Basic Operations](basic_operations.md)<br>
 [Reciprocal](reciprocal.md)<br>

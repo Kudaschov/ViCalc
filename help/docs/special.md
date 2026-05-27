@@ -1,6 +1,6 @@
-# Special functions
+# Special keys and their functions
 
-| Function                  | Label | Comment                                                    |
+| Function                  | Key | Comment                                                    |
 |---------------------------|-------|------------------------------------------------------------|
 | Add comment to calculation history | Cmt ||
 | Control function          | Ctrl  | Ccontrol Key on Keyboard|

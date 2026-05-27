@@ -4,9 +4,18 @@ theme:
 
 nav:
   - Home: index.md
-  - General: keys_general.md
-  - Special: special.md
-  - Memory: memory.md
-  - Scientific: scientific.md
+  - Overview: overview.md
+  - Number Input Format: number_format.md
+  - Calculation History: history.md
+  - Example: calc_example.md
+  - Basic Operations: basic_operations.md
+  - Reciprocal: reciprocal.md
+  - Trigonometry: trigonometry.md
+  - Percents: percents.md
+  
+  - General keys: keys_general.md
+  - Special keys: special.md
+  - Memory keys: memory.md
+  - Scientific keys: scientific.md
 
 use_directory_urls: false
