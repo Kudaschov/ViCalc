@@ -48,6 +48,15 @@ class AppGlobals:
     # candidate for optrions
     column_number_next_line_comment = 4
 
+    # persistent values for ratio calculation dialog
+    ratio_c_a = 1.0
+    ratio_c_b = 2.0
+    ratio_c_d = 4.0
+
+    ratio_d_a = 5.0
+    ratio_d_b = 6.0
+    ratio_d_c = 7.0
+
     @staticmethod
     def to_format_string(number):
         locale = QLocale(QLocale.C)

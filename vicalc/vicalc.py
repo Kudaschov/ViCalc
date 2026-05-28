@@ -85,12 +85,6 @@ class MainWindow(QMainWindow):
 
         self.ui.actionInsertDateTime.triggered.connect(self.date_time_stamp)
 
-        self.ui.action_square.triggered.connect(self.square)
-        self.ui.action_cube.triggered.connect(self.cube)
-        self.ui.action_fourth_power.triggered.connect(self.fourth_power)
-        self.ui.action_sinh.triggered.connect(self.sinh)
-        self.ui.action_cosh.triggered.connect(self.cosh)
-        self.ui.action_tanh.triggered.connect(self.tanh)
         self.ui.action_arsinh.triggered.connect(self.arsinh)
         self.ui.action_arcosh.triggered.connect(self.arcosh)
         self.ui.action_artanh.triggered.connect(self.artanh)
@@ -100,6 +94,8 @@ class MainWindow(QMainWindow):
         self.ui.action_combination.triggered.connect(self.combination)
         self.ui.action_permutaton.triggered.connect(self.permutation)
         self.ui.action_generate_random_number.triggered.connect(AppGlobals.input_box.exec_random)
+        self.ui.action_ratio_c.triggered.connect(self.ratio_c)
+        self.ui.action_ratio_d.triggered.connect(self.ratio_d)
 
         self.ui.action_phy_const.triggered.connect(AppGlobals.input_box.exec_phy_const)
         self.ui.action_options.triggered.connect(self.options)
@@ -302,6 +298,8 @@ class MainWindow(QMainWindow):
             for row in sorted(rows_to_delete, reverse=True):
                 AppGlobals.table.removeRow(row)
 
+            self.goto_calculator_mode()
+
     def delete_full_protocol(self):                        
         # Create a warning message box
         msg_box = QMessageBox()
@@ -326,8 +324,11 @@ class MainWindow(QMainWindow):
     def cell_esc_pressed(self):
         if (self.is_tableWidget_editing() == False):
             # tableWidget is not editing, go in calculator mode
-            AppGlobals.input_box.setFocus()
-            AppGlobals.input_box.selectAll()
+            self.goto_calculator_mode()
+
+    def goto_calculator_mode(self):
+        AppGlobals.input_box.setFocus()
+        AppGlobals.input_box.selectAll()
 
     def cell_enter_pressed(self, row, col):
         if (self.is_tableWidget_editing() == False):
@@ -360,6 +361,13 @@ class MainWindow(QMainWindow):
             AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
             AppGlobals.unit_conversion_from = self.settings.value("unit_conversion_from", "in", type=str)
             AppGlobals.unit_conversion_to = self.settings.value("unit_conversion_to", "mm", type=str)
+
+            AppGlobals.ratio_c_a = self.settings.value("ratio_c_a", 1.0, type=float)
+            AppGlobals.ratio_c_b = self.settings.value("ratio_c_b", 2.0, type=float)
+            AppGlobals.ratio_c_d = self.settings.value("ratio_c_d", 4.0, type=float)
+            AppGlobals.ratio_d_a = self.settings.value("ratio_d_a", 5.0, type=float)
+            AppGlobals.ratio_d_b = self.settings.value("ratio_d_b", 6.0, type=float)
+            AppGlobals.ratio_d_c = self.settings.value("ratio_d_c", 7.0, type=float)
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -505,6 +513,13 @@ class MainWindow(QMainWindow):
 
         self.settings.setValue("MainWindow/geometry", self.saveGeometry())
         self.settings.setValue("MainWindow/windowState", self.saveState())
+
+        self.settings.setValue("ratio_c_a", AppGlobals.ratio_c_a)
+        self.settings.setValue("ratio_c_b", AppGlobals.ratio_c_b)
+        self.settings.setValue("ratio_c_d", AppGlobals.ratio_c_d)
+        self.settings.setValue("ratio_d_a", AppGlobals.ratio_d_a)
+        self.settings.setValue("ratio_d_b", AppGlobals.ratio_d_b)
+        self.settings.setValue("ratio_d_c", AppGlobals.ratio_d_c)
 
         super().closeEvent(event)
 
@@ -1198,9 +1213,15 @@ class MainWindow(QMainWindow):
 
     def polar_to_rectangular(self):
         AppGlobals.input_box.exec_polar_to_rectangular()
-
+    
     def combination(self):
         AppGlobals.input_box.exec_combination()
+
+    def ratio_c(self):
+        AppGlobals.input_box.exec_ratio_c()
+
+    def ratio_d(self):
+        AppGlobals.input_box.exec_ratio_d()
 
     def permutation(self):
         AppGlobals.input_box.exec_permutation()

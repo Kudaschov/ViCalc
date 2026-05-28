@@ -79,6 +79,10 @@ from ..FloatCellValue import FloatCellValue
 from ..ResultCellValue import ResultCellValue
 from ..PhyConstDialog import PhyConstDialog
 from ..unit_conversion import ConversionDialog
+from ..RatioCDialog import RatioCDialog
+from ..RatioDDialog import RatioDDialog
+from ..RatioCExpression import RatioCExpression
+from ..RatioDExpression import RatioDExpression
 import re
 
 class InputTextEdit(QLineEdit):
@@ -1214,8 +1218,24 @@ class InputTextEdit(QLineEdit):
             elif self.current_ctrl_state:
                 # ctrl pressed
                 match self.key:
+                    case Qt.Key.Key_Q:
+                        self.exec_combination()
+                    case Qt.Key.Key_W:
+                        self.exec_permutation()
                     case Qt.Key.Key_E | Qt.Key.Key_I:
                         self.exec_toggle_table()
+                    case Qt.Key.Key_R:
+                        self.exec_phy_const()
+                    case Qt.Key.Key_T:
+                        self.exec_tanh()
+                    case Qt.Key.Key_A:
+                        self.selectAll()
+                    case Qt.Key.Key_S:
+                        self.exec_sinh()
+                    case Qt.Key.Key_D:
+                        self.exec_cosh()
+                    case Qt.Key.Key_G:
+                        self.exec_polar_to_rectangular()
                     # handle copy/paste with possible replacing            
                     case Qt.Key.Key_X:
                         self.handle_cut()
@@ -1223,6 +1243,8 @@ class InputTextEdit(QLineEdit):
                         self.handle_copy()
                     case Qt.Key.Key_V:
                         self.handle_paste()
+                    case Qt.Key.Key_B:
+                        self.exec_rectangular_to_polar()
                     case Qt.Key.Key_Space:
                         self.exec_date_time_stamp()
                     case Qt.Key.Key_Backspace:
@@ -1236,8 +1258,6 @@ class InputTextEdit(QLineEdit):
                         self.exec_undo()
                     case Qt.Key.Key_Y:
                         self.exec_redo()
-                    case Qt.Key.Key_A:
-                        self.selectAll()
                     case _:
                         if not self.char_pressed in "+-.0123456789eE":
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
@@ -1570,6 +1590,42 @@ class InputTextEdit(QLineEdit):
 
         self.update_shift_ctrl_status()
 
+    def exec_ratio_c(self):
+        dialog = RatioCDialog()
+        dialog.ui.aLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.ratio_c_a))
+        dialog.ui.bLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.ratio_c_b))
+        dialog.ui.dLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.ratio_c_d))
+
+        dialog.ui.aLineEdit.setFocus()
+
+        if dialog.exec():
+            AppGlobals.ratio_c_a, ok = self.locale.toDouble(dialog.ui.aLineEdit.text())
+            AppGlobals.ratio_c_b, ok = self.locale.toDouble(dialog.ui.bLineEdit.text())
+            AppGlobals.ratio_c_d, ok = self.locale.toDouble(dialog.ui.dLineEdit.text())
+            expr = RatioCExpression()
+            result = float(expr.calculate())
+            self.setTextSelect(AppGlobals.to_normal_string(result))
+
+        self.update_shift_ctrl_status()
+
+    def exec_ratio_d(self):
+        dialog = RatioDDialog()
+        dialog.ui.aLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.ratio_d_a))
+        dialog.ui.bLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.ratio_d_b))
+        dialog.ui.cLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.ratio_d_c))
+
+        dialog.ui.aLineEdit.setFocus()
+
+        if dialog.exec():
+            AppGlobals.ratio_d_a, ok = self.locale.toDouble(dialog.ui.aLineEdit.text())
+            AppGlobals.ratio_d_b, ok = self.locale.toDouble(dialog.ui.bLineEdit.text())
+            AppGlobals.ratio_d_c, ok = self.locale.toDouble(dialog.ui.cLineEdit.text())
+            expr = RatioDExpression()
+            result = float(expr.calculate())
+            self.setTextSelect(AppGlobals.to_normal_string(result))
+
+        self.update_shift_ctrl_status()
+
     def handle_paste(self):
         modified_text = QGuiApplication.clipboard().text()
 
@@ -1620,6 +1676,7 @@ class InputTextEdit(QLineEdit):
         dialog.ui.precisionSpinBox.setValue(AppGlobals.numeric_precision)
 
         if dialog.exec() != True:
+            self.update_shift_ctrl_status()
             return
         
         AppGlobals.numeric_precision = dialog.ui.precisionSpinBox.value()
@@ -1647,6 +1704,7 @@ class InputTextEdit(QLineEdit):
                         if isinstance(cell_value, CellValue):
                             item.setText(cell_value.to_string())
         self.statusbar_changed.emit()
+        self.update_shift_ctrl_status()
 
     def exec_toggle_table(self):
         if self.hasFocus():

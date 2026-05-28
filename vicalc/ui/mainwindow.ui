@@ -1206,10 +1206,6 @@
     <property name="title">
      <string>&amp;Math</string>
     </property>
-    <addaction name="action_sinh"/>
-    <addaction name="action_cosh"/>
-    <addaction name="action_tanh"/>
-    <addaction name="separator"/>
     <addaction name="action_arsinh"/>
     <addaction name="action_arcosh"/>
     <addaction name="action_artanh"/>
@@ -1217,6 +1213,8 @@
     <addaction name="action_combination"/>
     <addaction name="action_permutaton"/>
     <addaction name="separator"/>
+    <addaction name="action_ratio_c"/>
+    <addaction name="action_ratio_d"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -1227,8 +1225,8 @@
     <addaction name="action_options"/>
    </widget>
    <addaction name="menu_File"/>
-   <addaction name="menu_Math"/>
    <addaction name="menuMode"/>
+   <addaction name="menu_Math"/>
    <addaction name="menu_Convert"/>
    <addaction name="menu_History"/>
    <addaction name="menu_Tools"/>
@@ -1411,16 +1409,10 @@
    <property name="text">
     <string>&amp;sinh</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
   </action>
   <action name="action_cosh">
    <property name="text">
     <string>&amp;cosh</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1430,16 +1422,13 @@
    <property name="text">
     <string>&amp;tanh</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+T</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
   <action name="action_arsinh">
    <property name="text">
-    <string>&amp;arsinh</string>
+    <string>ar&amp;sinh</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -1461,7 +1450,7 @@
   </action>
   <action name="action_artanh">
    <property name="text">
-    <string>arta&amp;nh</string>
+    <string>ar&amp;tanh</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+T</string>
@@ -1474,9 +1463,6 @@
    <property name="text">
     <string>&amp;Rectangular to Polar...</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+B</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1484,9 +1470,6 @@
   <action name="action_polar_to_rectangular">
    <property name="text">
     <string>&amp;Polar to Rectangular...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+G</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1496,9 +1479,6 @@
    <property name="text">
     <string>Co&amp;mbination nCr...</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1506,9 +1486,6 @@
   <action name="action_permutaton">
    <property name="text">
     <string>&amp;Permutaton nPr...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1588,9 +1565,6 @@
    <property name="text">
     <string>&amp;Physical Constants...</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1601,6 +1575,16 @@
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="action_ratio_c">
+   <property name="text">
+    <string>Ratio Calculation Unknown &amp;C...</string>
+   </property>
+  </action>
+  <action name="action_ratio_d">
+   <property name="text">
+    <string>Ratio Calculation Unknown &amp;D...</string>
    </property>
   </action>
  </widget>
