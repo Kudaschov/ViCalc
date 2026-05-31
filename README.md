@@ -91,6 +91,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Scientific constants
 - Units conversion
 - Ratio calculation
+- Linear function
 
 ## History
 
