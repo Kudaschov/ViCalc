@@ -1218,6 +1218,8 @@
     <addaction name="separator"/>
     <addaction name="action_calculate_y_from_linear"/>
     <addaction name="action_linear_from_two_points"/>
+    <addaction name="separator"/>
+    <addaction name="action_quadratic_equation"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -1598,6 +1600,11 @@
   <action name="action_calculate_y_from_linear">
    <property name="text">
     <string>Calculate &amp;Y from Linear Function...</string>
+   </property>
+  </action>
+  <action name="action_quadratic_equation">
+   <property name="text">
+    <string>&amp;Qadratic Equation...</string>
    </property>
   </action>
  </widget>

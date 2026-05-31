@@ -92,6 +92,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Units conversion
 - Ratio calculation
 - Linear function
+- Quadratic equation
 
 ## History
 

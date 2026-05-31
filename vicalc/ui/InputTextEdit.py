@@ -7,6 +7,10 @@ from PySide6.QtGui import QFont, QGuiApplication
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
 from PySide6.QtCore import QTimer
+
+from ..QuadraticEquationExpression import QuadraticEquationExpression
+from ..QuadraticEquationDialog import QuadraticEquationDialog
+from ..QuadraticEquationExpression import QuadraticEquationExpression
 from ..CalcOperations import CalcOperations
 import math
 import locale
@@ -1857,3 +1861,14 @@ class InputTextEdit(QLineEdit):
             self.setTextSelect(AppGlobals.to_normal_string(result))
 
         self.update_shift_ctrl_status()
+
+    def exec_quadratic_equation(self):
+        dialog = QuadraticEquationDialog()
+
+        if dialog.exec():
+            AppGlobals.quadratic_a, ok = AppGlobals.toDouble(dialog.ui.aLineEdit.text())
+            AppGlobals.quadratic_b, ok = AppGlobals.toDouble(dialog.ui.bLineEdit.text())
+            AppGlobals.quadratic_c, ok = AppGlobals.toDouble(dialog.ui.cLineEdit.text())
+
+            expr = QuadraticEquationExpression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate()))

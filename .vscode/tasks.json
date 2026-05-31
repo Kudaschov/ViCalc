@@ -160,6 +160,16 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile quadratic_equation_dialog.ui",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/quadratic_equation_dialog.ui -o vicalc/ui/quadratic_equation_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }

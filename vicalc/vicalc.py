@@ -100,6 +100,7 @@ class MainWindow(QMainWindow):
         self.ui.action_calculate_y_from_linear.triggered.connect(self.calculate_y_from_linear)
         self.ui.action_phy_const.triggered.connect(AppGlobals.input_box.exec_phy_const)
         self.ui.action_options.triggered.connect(self.options)
+        self.ui.action_quadratic_equation.triggered.connect(self.quadratic_equation)
 
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
@@ -377,6 +378,10 @@ class MainWindow(QMainWindow):
             AppGlobals.linear_a = float(self.settings.value("linear_a", 5.0))
             AppGlobals.linear_b = float(self.settings.value("linear_b", 6.0))
 
+            AppGlobals.quadratic_a = float(self.settings.value("quadratic_a", 1.0))
+            AppGlobals.quadratic_b = float(self.settings.value("quadratic_b", -3.0))
+            AppGlobals.quadratic_c = float(self.settings.value("quadratic_c", 2.0))
+
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
                     self.ui.action_RAD.setChecked(True)
@@ -535,6 +540,10 @@ class MainWindow(QMainWindow):
         self.settings.setValue("linear_y1", AppGlobals.linear_y1)
         self.settings.setValue("linear_a", AppGlobals.linear_a)
         self.settings.setValue("linear_b", AppGlobals.linear_b)
+
+        self.settings.setValue("quadratic_a", AppGlobals.quadratic_a)
+        self.settings.setValue("quadratic_b", AppGlobals.quadratic_b)
+        self.settings.setValue("quadratic_c", AppGlobals.quadratic_c)
 
         super().closeEvent(event)
 
@@ -1471,6 +1480,9 @@ class MainWindow(QMainWindow):
 
     def calculate_y_from_linear(self):
         AppGlobals.input_box.exec_calculate_y_from_linear_func()
+
+    def quadratic_equation(self):
+        AppGlobals.input_box.exec_quadratic_equation()
 
 # main
 def main():

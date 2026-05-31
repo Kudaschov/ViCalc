@@ -64,6 +64,10 @@ class AppGlobals:
     linear_a: float = 5.0
     linear_b: float = 6.0
 
+    quadratic_a: float = 1.0
+    quadratic_b: float = -3.0
+    quadratic_c: float = 2.0
+
     @staticmethod
     def to_format_string(number):
         locale = QLocale(QLocale.C)
@@ -132,3 +136,7 @@ class AppGlobals:
     #staticmethod
     def toDouble(text: str):
         return QLocale(QLocale.Language.C).toDouble(text)
+
+    @staticmethod
+    def discriminant(a: float, b: float, c: float):
+        return b ** 2 - 4 * a * c
