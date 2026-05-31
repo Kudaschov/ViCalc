@@ -84,9 +84,8 @@ class Ui_ratio_d_dialog(object):
 #if QT_CONFIG(shortcut)
         self.label_2.setBuddy(self.bLineEdit)
         self.label.setBuddy(self.aLineEdit)
-        self.label_4.setBuddy(self.bLineEdit)
-        self.label_5.setBuddy(self.aLineEdit)
-        self.label_6.setBuddy(self.aLineEdit)
+        self.label_5.setBuddy(self.cLineEdit)
+        self.label_6.setBuddy(self.xLineEdit)
 #endif // QT_CONFIG(shortcut)
         QWidget.setTabOrder(self.aLineEdit, self.bLineEdit)
         QWidget.setTabOrder(self.bLineEdit, self.cLineEdit)
@@ -101,11 +100,11 @@ class Ui_ratio_d_dialog(object):
 
     def retranslateUi(self, ratio_d_dialog):
         ratio_d_dialog.setWindowTitle(QCoreApplication.translate("ratio_d_dialog", u"Ratio Calculation: Unknown D", None))
-        self.label_2.setText(QCoreApplication.translate("ratio_d_dialog", u"b", None))
-        self.label.setText(QCoreApplication.translate("ratio_d_dialog", u"a", None))
+        self.label_2.setText(QCoreApplication.translate("ratio_d_dialog", u"&b", None))
+        self.label.setText(QCoreApplication.translate("ratio_d_dialog", u"&a", None))
         self.label_3.setText(QCoreApplication.translate("ratio_d_dialog", u"=", None))
         self.label_4.setText(QCoreApplication.translate("ratio_d_dialog", u"d", None))
-        self.label_5.setText(QCoreApplication.translate("ratio_d_dialog", u"c", None))
-        self.label_6.setText(QCoreApplication.translate("ratio_d_dialog", u"d", None))
+        self.label_5.setText(QCoreApplication.translate("ratio_d_dialog", u"&c", None))
+        self.label_6.setText(QCoreApplication.translate("ratio_d_dialog", u"&d", None))
     # retranslateUi
 

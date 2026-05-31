@@ -83,6 +83,10 @@ from ..RatioCDialog import RatioCDialog
 from ..RatioDDialog import RatioDDialog
 from ..RatioCExpression import RatioCExpression
 from ..RatioDExpression import RatioDExpression
+from ..LinearTwoPointsDialog import LinearTwoPointsDialog
+from ..LinearTwoPointsExpression import LinearTwoPointsExpression
+from ..LinearYfromXDialog import LinearYfromXDialog
+from ..LinearYfromXExpression import LinearYfromXExpression
 import re
 
 class InputTextEdit(QLineEdit):
@@ -1821,3 +1825,35 @@ class InputTextEdit(QLineEdit):
             else:
                 self.root_expression = None
             self.update_expression_label()
+
+    def exec_linear_func_two_points(self):
+        dialog = LinearTwoPointsDialog()
+
+        if dialog.exec():
+            AppGlobals.linear_x0, ok = self.locale.toDouble(dialog.ui.x0LineEdit.text())
+            AppGlobals.linear_y0, ok = self.locale.toDouble(dialog.ui.y0LineEdit.text())
+            AppGlobals.linear_x1, ok = self.locale.toDouble(dialog.ui.x1LineEdit.text())
+            AppGlobals.linear_y1, ok = self.locale.toDouble(dialog.ui.y1LineEdit.text())
+
+            expr = LinearTwoPointsExpression()
+            result = float(expr.calculate())
+            self.setTextSelect(AppGlobals.to_normal_string(result))
+
+        self.update_shift_ctrl_status()
+
+    def exec_calculate_y_from_linear_func(self):
+        dialog = LinearYfromXDialog()
+        number, ok = AppGlobals.toDouble(self.text())
+        if ok:
+            dialog.ui.xLineEdit.setText(self.text())
+
+        if dialog.exec():
+            AppGlobals.linear_a, ok = self.locale.toDouble(dialog.ui.aLineEdit.text())
+            AppGlobals.linear_b, ok = self.locale.toDouble(dialog.ui.bLineEdit.text())
+            x, ok = self.locale.toDouble(dialog.ui.xLineEdit.text())
+
+            expr = LinearYfromXExpression()
+            result = float(expr.calculate(x))
+            self.setTextSelect(AppGlobals.to_normal_string(result))
+
+        self.update_shift_ctrl_status()

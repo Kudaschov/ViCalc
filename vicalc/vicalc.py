@@ -96,7 +96,8 @@ class MainWindow(QMainWindow):
         self.ui.action_generate_random_number.triggered.connect(AppGlobals.input_box.exec_random)
         self.ui.action_ratio_c.triggered.connect(self.ratio_c)
         self.ui.action_ratio_d.triggered.connect(self.ratio_d)
-
+        self.ui.action_linear_from_two_points.triggered.connect(self.linear_from_two_points)
+        self.ui.action_calculate_y_from_linear.triggered.connect(self.calculate_y_from_linear)
         self.ui.action_phy_const.triggered.connect(AppGlobals.input_box.exec_phy_const)
         self.ui.action_options.triggered.connect(self.options)
 
@@ -348,7 +349,7 @@ class MainWindow(QMainWindow):
         try:
             AppGlobals.input_box.setText(saved_text)
             AppGlobals.input_box.trig_mode_init(self.settings.value("trig_mode"))
-            AppGlobals.input_box.memory = self.settings.value("memory", type=float)
+            AppGlobals.input_box.memory = float(self.settings.value("memory", 0.0))
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
             AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
@@ -362,12 +363,19 @@ class MainWindow(QMainWindow):
             AppGlobals.unit_conversion_from = self.settings.value("unit_conversion_from", "in", type=str)
             AppGlobals.unit_conversion_to = self.settings.value("unit_conversion_to", "mm", type=str)
 
-            AppGlobals.ratio_c_a = self.settings.value("ratio_c_a", 1.0, type=float)
-            AppGlobals.ratio_c_b = self.settings.value("ratio_c_b", 2.0, type=float)
-            AppGlobals.ratio_c_d = self.settings.value("ratio_c_d", 4.0, type=float)
-            AppGlobals.ratio_d_a = self.settings.value("ratio_d_a", 5.0, type=float)
-            AppGlobals.ratio_d_b = self.settings.value("ratio_d_b", 6.0, type=float)
-            AppGlobals.ratio_d_c = self.settings.value("ratio_d_c", 7.0, type=float)
+            AppGlobals.ratio_c_a = float(self.settings.value("ratio_c_a", 1.0))
+            AppGlobals.ratio_c_b = float(self.settings.value("ratio_c_b", 2.0))
+            AppGlobals.ratio_c_d = float(self.settings.value("ratio_c_d", 4.0))
+            AppGlobals.ratio_d_a = float(self.settings.value("ratio_d_a", 5.0))
+            AppGlobals.ratio_d_b = float(self.settings.value("ratio_d_b", 6.0))
+            AppGlobals.ratio_d_c = float(self.settings.value("ratio_d_c", 7.0))
+
+            AppGlobals.linear_x0 = float(self.settings.value("linear_x0", 1.0))
+            AppGlobals.linear_y0 = float(self.settings.value("linear_y0", 2.0))
+            AppGlobals.linear_x1 = float(self.settings.value("linear_x1", 3.0))
+            AppGlobals.linear_y1 = float(self.settings.value("linear_y1", 4.0))
+            AppGlobals.linear_a = float(self.settings.value("linear_a", 5.0))
+            AppGlobals.linear_b = float(self.settings.value("linear_b", 6.0))
 
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
@@ -520,6 +528,13 @@ class MainWindow(QMainWindow):
         self.settings.setValue("ratio_d_a", AppGlobals.ratio_d_a)
         self.settings.setValue("ratio_d_b", AppGlobals.ratio_d_b)
         self.settings.setValue("ratio_d_c", AppGlobals.ratio_d_c)
+
+        self.settings.setValue("linear_x0", AppGlobals.linear_x0)
+        self.settings.setValue("linear_y0", AppGlobals.linear_y0)
+        self.settings.setValue("linear_x1", AppGlobals.linear_x1)
+        self.settings.setValue("linear_y1", AppGlobals.linear_y1)
+        self.settings.setValue("linear_a", AppGlobals.linear_a)
+        self.settings.setValue("linear_b", AppGlobals.linear_b)
 
         super().closeEvent(event)
 
@@ -1450,6 +1465,12 @@ class MainWindow(QMainWindow):
                 print(f"Duplication found in ctrl operations: {button.text()}, {button.ctrl_operation}")
             else:
                 operations.append(button.ctrl_operation)
+
+    def linear_from_two_points(self):
+        AppGlobals.input_box.exec_linear_func_two_points()
+
+    def calculate_y_from_linear(self):
+        AppGlobals.input_box.exec_calculate_y_from_linear_func()
 
 # main
 def main():

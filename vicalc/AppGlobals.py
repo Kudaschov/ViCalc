@@ -57,6 +57,13 @@ class AppGlobals:
     ratio_d_b = 6.0
     ratio_d_c = 7.0
 
+    linear_x0: float = 1.0
+    linear_y0: float = 2.0
+    linear_x1: float = 3.0
+    linear_y1: float = 4.0
+    linear_a: float = 5.0
+    linear_b: float = 6.0
+
     @staticmethod
     def to_format_string(number):
         locale = QLocale(QLocale.C)
@@ -121,3 +128,7 @@ class AppGlobals:
                 break
 
         return last_non_empty_col
+    
+    #staticmethod
+    def toDouble(text: str):
+        return QLocale(QLocale.Language.C).toDouble(text)

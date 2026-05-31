@@ -140,6 +140,26 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile linear_two_points_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/linear_two_points_dialog.ui -o vicalc/ui/linear_two_points_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile linear_y_from_x_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/linear_y_from_x_dialog.ui -o vicalc/ui/linear_y_from_x_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }

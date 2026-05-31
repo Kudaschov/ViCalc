@@ -1204,7 +1204,7 @@
    </widget>
    <widget class="QMenu" name="menu_Math">
     <property name="title">
-     <string>&amp;Math</string>
+     <string>M&amp;ath</string>
     </property>
     <addaction name="action_arsinh"/>
     <addaction name="action_arcosh"/>
@@ -1215,6 +1215,9 @@
     <addaction name="separator"/>
     <addaction name="action_ratio_c"/>
     <addaction name="action_ratio_d"/>
+    <addaction name="separator"/>
+    <addaction name="action_calculate_y_from_linear"/>
+    <addaction name="action_linear_from_two_points"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -1225,8 +1228,8 @@
     <addaction name="action_options"/>
    </widget>
    <addaction name="menu_File"/>
-   <addaction name="menuMode"/>
    <addaction name="menu_Math"/>
+   <addaction name="menuMode"/>
    <addaction name="menu_Convert"/>
    <addaction name="menu_History"/>
    <addaction name="menu_Tools"/>
@@ -1585,6 +1588,16 @@
   <action name="action_ratio_d">
    <property name="text">
     <string>Ratio Calculation Unknown &amp;D...</string>
+   </property>
+  </action>
+  <action name="action_linear_from_two_points">
+   <property name="text">
+    <string>&amp;Linear Function from Two Points...</string>
+   </property>
+  </action>
+  <action name="action_calculate_y_from_linear">
+   <property name="text">
+    <string>Calculate &amp;Y from Linear Function...</string>
    </property>
   </action>
  </widget>

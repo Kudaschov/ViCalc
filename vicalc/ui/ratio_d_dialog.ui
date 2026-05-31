@@ -64,7 +64,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>b</string>
+     <string>&amp;b</string>
     </property>
     <property name="buddy">
      <cstring>bLineEdit</cstring>
@@ -80,7 +80,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>a</string>
+     <string>&amp;a</string>
     </property>
     <property name="buddy">
      <cstring>aLineEdit</cstring>
@@ -154,9 +154,6 @@
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
-    <property name="buddy">
-     <cstring>bLineEdit</cstring>
-    </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
@@ -168,13 +165,13 @@
      </rect>
     </property>
     <property name="text">
-     <string>c</string>
+     <string>&amp;c</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
     <property name="buddy">
-     <cstring>aLineEdit</cstring>
+     <cstring>cLineEdit</cstring>
     </property>
    </widget>
   </widget>
@@ -198,10 +195,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>d</string>
+    <string>&amp;d</string>
    </property>
    <property name="buddy">
-    <cstring>aLineEdit</cstring>
+    <cstring>xLineEdit</cstring>
    </property>
   </widget>
   <zorder>frame</zorder>

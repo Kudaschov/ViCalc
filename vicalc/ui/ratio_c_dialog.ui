@@ -64,7 +64,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>b</string>
+     <string>&amp;b</string>
     </property>
     <property name="buddy">
      <cstring>bLineEdit</cstring>
@@ -80,7 +80,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>a</string>
+     <string>&amp;a</string>
     </property>
     <property name="buddy">
      <cstring>aLineEdit</cstring>
@@ -149,10 +149,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>d</string>
+     <string>&amp;d</string>
     </property>
     <property name="buddy">
-     <cstring>bLineEdit</cstring>
+     <cstring>dLineEdit</cstring>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -169,9 +169,6 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignmentFlag::AlignCenter</set>
-    </property>
-    <property name="buddy">
-     <cstring>aLineEdit</cstring>
     </property>
    </widget>
   </widget>
@@ -195,10 +192,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>c</string>
+    <string>&amp;c</string>
    </property>
    <property name="buddy">
-    <cstring>aLineEdit</cstring>
+    <cstring>xLineEdit</cstring>
    </property>
   </widget>
   <zorder>frame</zorder>
