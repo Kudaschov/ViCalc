@@ -7,8 +7,8 @@ class QuadraticEquationExpression(UnaryExpression):
     
     def calculate(self)-> float:
         self.insert_scroll_table()
-        self.protocol("Quadratic", 0)
-        self.protocol("Equation", 1)
+        self.protocol_result("Quadratic", 0)
+        self.protocol_result("Equation", 1)
         self.insert_scroll_table()
         self.protocol("a", 0)
         self.protocol(AppGlobals.quadratic_a, 1)

@@ -68,6 +68,14 @@ class AppGlobals:
     quadratic_b: float = -3.0
     quadratic_c: float = 2.0
 
+    # Linear System of Equations with 2 equations and 2 unknowns
+    lse_a1: float = 1.0
+    lse_b1: float = 2.0
+    lse_a2: float = 3.0
+    lse_b2: float = 4.0
+    lse_c1: float = 5.0
+    lse_c2: float = 6.0
+
     @staticmethod
     def to_format_string(number):
         locale = QLocale(QLocale.C)
@@ -133,10 +141,16 @@ class AppGlobals:
 
         return last_non_empty_col
     
-    #staticmethod
+    @staticmethod
     def toDouble(text: str):
         return QLocale(QLocale.Language.C).toDouble(text)
 
+    #Discriminant for quadratic equation ax^2 + bx + c = 0
     @staticmethod
     def discriminant(a: float, b: float, c: float):
         return b ** 2 - 4 * a * c
+    
+    # Discriminant for linear system of equations a1*x + b1*y = c1 and a2*x + b2*y = c2
+    @staticmethod
+    def lse_discriminant(a1: float, b1: float, a2: float, b2: float):
+        return a1 * b2 - b1 * a2

@@ -10,9 +10,9 @@ class LinearTwoPointsExpression(UnaryExpression):
         b: float = AppGlobals.linear_y0 - a * AppGlobals.linear_x0
 
         self.insert_scroll_table()
-        self.protocol("Linear Function", 0)
-        self.protocol("from", 1)
-        self.protocol("Two Points", 2)
+        self.protocol_result("Linear Function", 0)
+        self.protocol_result("from", 1)
+        self.protocol_result("Two Points", 2)
         self.insert_scroll_table()
         self.protocol("x0", 0)
         self.protocol(AppGlobals.linear_x0, 1)

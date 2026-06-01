@@ -91,6 +91,8 @@ from ..LinearTwoPointsDialog import LinearTwoPointsDialog
 from ..LinearTwoPointsExpression import LinearTwoPointsExpression
 from ..LinearYfromXDialog import LinearYfromXDialog
 from ..LinearYfromXExpression import LinearYfromXExpression
+from ..LinearSystemDialog import LinearSystemDialog
+from ..LinearSystemExpression import LinearSystemExpression
 import re
 
 class InputTextEdit(QLineEdit):
@@ -1872,3 +1874,21 @@ class InputTextEdit(QLineEdit):
 
             expr = QuadraticEquationExpression()
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate()))
+
+        self.update_shift_ctrl_status()
+
+    def exec_linear_system_two_equations(self):
+        dialog = LinearSystemDialog()
+
+        if dialog.exec():
+            AppGlobals.lse_a1, ok = AppGlobals.toDouble(dialog.ui.a1LineEdit.text())
+            AppGlobals.lse_b1, ok = AppGlobals.toDouble(dialog.ui.b1LineEdit.text())
+            AppGlobals.lse_c1, ok = AppGlobals.toDouble(dialog.ui.c1LineEdit.text())
+            AppGlobals.lse_a2, ok = AppGlobals.toDouble(dialog.ui.a2LineEdit.text())
+            AppGlobals.lse_b2, ok = AppGlobals.toDouble(dialog.ui.b2LineEdit.text())
+            AppGlobals.lse_c2, ok = AppGlobals.toDouble(dialog.ui.c2LineEdit.text())
+
+            expr = LinearSystemExpression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate()))
+
+        self.update_shift_ctrl_status()

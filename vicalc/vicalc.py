@@ -101,6 +101,7 @@ class MainWindow(QMainWindow):
         self.ui.action_phy_const.triggered.connect(AppGlobals.input_box.exec_phy_const)
         self.ui.action_options.triggered.connect(self.options)
         self.ui.action_quadratic_equation.triggered.connect(self.quadratic_equation)
+        self.ui.action_linear_system_two_equations.triggered.connect(self.linear_system_two_equations)
 
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
@@ -382,6 +383,13 @@ class MainWindow(QMainWindow):
             AppGlobals.quadratic_b = float(self.settings.value("quadratic_b", -3.0))
             AppGlobals.quadratic_c = float(self.settings.value("quadratic_c", 2.0))
 
+            AppGlobals.lse_a1 = float(self.settings.value("lse_a1", 1.0))
+            AppGlobals.lse_b1 = float(self.settings.value("lse_b1", 2.0))
+            AppGlobals.lse_a2 = float(self.settings.value("lse_a2", 3.0))
+            AppGlobals.lse_b2 = float(self.settings.value("lse_b2", 4.0))
+            AppGlobals.lse_c1 = float(self.settings.value("lse_c1", 5.0))
+            AppGlobals.lse_c2 = float(self.settings.value("lse_c2", 6.0))
+
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
                     self.ui.action_RAD.setChecked(True)
@@ -544,6 +552,13 @@ class MainWindow(QMainWindow):
         self.settings.setValue("quadratic_a", AppGlobals.quadratic_a)
         self.settings.setValue("quadratic_b", AppGlobals.quadratic_b)
         self.settings.setValue("quadratic_c", AppGlobals.quadratic_c)
+
+        self.settings.setValue("lse_a1", AppGlobals.lse_a1)
+        self.settings.setValue("lse_b1", AppGlobals.lse_b1)
+        self.settings.setValue("lse_a2", AppGlobals.lse_a2)
+        self.settings.setValue("lse_b2", AppGlobals.lse_b2)
+        self.settings.setValue("lse_c1", AppGlobals.lse_c1)
+        self.settings.setValue("lse_c2", AppGlobals.lse_c2)
 
         super().closeEvent(event)
 
@@ -1483,6 +1498,9 @@ class MainWindow(QMainWindow):
 
     def quadratic_equation(self):
         AppGlobals.input_box.exec_quadratic_equation()
+
+    def linear_system_two_equations(self):
+        AppGlobals.input_box.exec_linear_system_two_equations()
 
 # main
 def main():

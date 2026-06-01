@@ -13,9 +13,9 @@ class StringCellValue(CellValue):
         if -1 != col and -1 != row:
             item = AppGlobals.table.item(row, col)
             if item:
-                item.setText(self.to_string())
+                item.setText(self.to_string(row, col))
 
-    def to_string(self, row = -1, col = -1) -> str:
+    def to_string(self, row = -1, col = -1):
         return self.text
     
     def value(self, row = -1, col = -1):

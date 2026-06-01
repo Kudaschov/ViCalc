@@ -9,8 +9,9 @@ class RatioDExpression(UnaryExpression):
         result: float = AppGlobals.ratio_d_b * AppGlobals.ratio_d_c / AppGlobals.ratio_d_a
 
         self.insert_scroll_table()
-        self.protocol("Ratio Calculation", 0)
-        self.protocol("Unknown D", 1)
+        self.protocol_result("Ratio", 0)
+        self.protocol_result("Calculation", 1)
+        self.protocol_result("Unknown D", 2)
         self.insert_scroll_table()
         self.protocol("a", 0)
         self.protocol(AppGlobals.ratio_d_a, 1)

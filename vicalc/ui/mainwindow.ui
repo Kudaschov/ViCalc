@@ -1220,6 +1220,8 @@
     <addaction name="action_linear_from_two_points"/>
     <addaction name="separator"/>
     <addaction name="action_quadratic_equation"/>
+    <addaction name="separator"/>
+    <addaction name="action_linear_system_two_equations"/>
    </widget>
    <widget class="QMenu" name="menu_Tools">
     <property name="title">
@@ -1605,6 +1607,11 @@
   <action name="action_quadratic_equation">
    <property name="text">
     <string>&amp;Qadratic Equation...</string>
+   </property>
+  </action>
+  <action name="action_linear_system_two_equations">
+   <property name="text">
+    <string>Lin&amp;ear System of Two Equations...</string>
    </property>
   </action>
  </widget>

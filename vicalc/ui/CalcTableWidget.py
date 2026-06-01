@@ -8,6 +8,7 @@ from ..CellValue import CellValue
 from ..AppGlobals import AppGlobals
 from ..FloatCellValue import FloatCellValue
 from ..ResultCellValue import ResultCellValue
+from ..ResultStringCellValue import ResultStringCellValue
 from ..StringCellValue import StringCellValue
 from ..CommentCellValue import CommentCellValue
 
@@ -98,6 +99,7 @@ class CalcTableWidget(QTableWidget):
     def load_serialized_data(self, matrix):
         float_cell = FloatCellValue(0)
         result_cell = ResultCellValue(0)
+        result_string_cell = ResultStringCellValue("")
         string_cell = StringCellValue("")
         comment_cell = CommentCellValue("")
 
@@ -116,6 +118,8 @@ class CalcTableWidget(QTableWidget):
                         row_objs.append(StringCellValue(entry["value"], row_idx, col_idx))
                     elif entry["type"] == result_cell.serialize_type:
                         row_objs.append(ResultCellValue(entry["value"], row_idx, col_idx))
+                    elif entry["type"] == result_string_cell.serialize_type:
+                        row_objs.append(ResultStringCellValue(entry["value"], row_idx, col_idx))
                     elif entry["type"] == comment_cell.serialize_type:
                         row_objs.append(CommentCellValue(entry["value"], row_idx, col_idx))
                     else:

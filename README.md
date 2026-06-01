@@ -93,6 +93,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Ratio calculation
 - Linear function
 - Quadratic equation
+- Linear System of Two Equations
 
 ## History
 

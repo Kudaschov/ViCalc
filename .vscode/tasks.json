@@ -162,9 +162,19 @@
       "problemMatcher": []
     },
     {
-      "label": "Compile quadratic_equation_dialog.ui",
+      "label": "Compile quadratic_equation_dialog",
       "type": "shell",
       "command": "pyside6-uic.exe vicalc/ui/quadratic_equation_dialog.ui -o vicalc/ui/quadratic_equation_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile linear_system_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/linear_system_dialog.ui -o vicalc/ui/linear_system_dialog.py",
       "group": {
         "kind": "build",
         "isDefault": true
