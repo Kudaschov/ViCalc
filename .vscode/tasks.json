@@ -180,6 +180,16 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile log_base_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/log_base_dialog.ui -o vicalc/ui/log_base_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }

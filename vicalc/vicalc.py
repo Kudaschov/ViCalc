@@ -102,6 +102,7 @@ class MainWindow(QMainWindow):
         self.ui.action_options.triggered.connect(self.options)
         self.ui.action_quadratic_equation.triggered.connect(self.quadratic_equation)
         self.ui.action_linear_system_two_equations.triggered.connect(self.linear_system_two_equations)
+        self.ui.action_log_base.triggered.connect(self.log_base)
 
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
@@ -390,6 +391,8 @@ class MainWindow(QMainWindow):
             AppGlobals.lse_c1 = float(self.settings.value("lse_c1", 5.0))
             AppGlobals.lse_c2 = float(self.settings.value("lse_c2", 6.0))
 
+            AppGlobals.log_base = float(self.settings.value("log_base", 10.0))
+
             match AppGlobals.input_box.trig_mode:
                 case TrigMode.RAD:
                     self.ui.action_RAD.setChecked(True)
@@ -559,6 +562,8 @@ class MainWindow(QMainWindow):
         self.settings.setValue("lse_b2", AppGlobals.lse_b2)
         self.settings.setValue("lse_c1", AppGlobals.lse_c1)
         self.settings.setValue("lse_c2", AppGlobals.lse_c2)
+
+        self.settings.setValue("log_base", AppGlobals.log_base)
 
         super().closeEvent(event)
 
@@ -1501,6 +1506,9 @@ class MainWindow(QMainWindow):
 
     def linear_system_two_equations(self):
         AppGlobals.input_box.exec_linear_system_two_equations()
+
+    def log_base(self):
+        AppGlobals.input_box.exec_log_base()
 
 # main
 def main():

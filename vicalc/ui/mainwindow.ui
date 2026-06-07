@@ -1206,6 +1206,8 @@
     <property name="title">
      <string>M&amp;ath</string>
     </property>
+    <addaction name="action_log_base"/>
+    <addaction name="separator"/>
     <addaction name="action_arsinh"/>
     <addaction name="action_arcosh"/>
     <addaction name="action_artanh"/>
@@ -1612,6 +1614,11 @@
   <action name="action_linear_system_two_equations">
    <property name="text">
     <string>Lin&amp;ear System of Two Equations...</string>
+   </property>
+  </action>
+  <action name="action_log_base">
+   <property name="text">
+    <string>Lo&amp;g to arbitrary Base...</string>
    </property>
   </action>
  </widget>

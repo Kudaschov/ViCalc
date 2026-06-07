@@ -79,7 +79,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Exponential functions
 - Reciprocal
 - Power and root
-- Logarithms
+- Logarithms (base 10, natural, and arbitrary base) 
 - Factorial, Combinations and Permutations
 - Random number
 - Rounding Function

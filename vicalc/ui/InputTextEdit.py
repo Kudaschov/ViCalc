@@ -94,6 +94,8 @@ from ..LinearYfromXExpression import LinearYfromXExpression
 from ..LinearSystemDialog import LinearSystemDialog
 from ..LinearSystemExpression import LinearSystemExpression
 import re
+from ..LogBaseDialog import LogBaseDialog
+from ..LogBaseExpression import LogBaseExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1890,5 +1892,22 @@ class InputTextEdit(QLineEdit):
 
             expr = LinearSystemExpression()
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate()))
+
+        self.update_shift_ctrl_status()
+
+    def exec_log_base(self):
+        dialog = LogBaseDialog()
+
+        number, ok = AppGlobals.toDouble(self.text())
+        if ok:
+            dialog.ui.numberLineEdit.setText(self.text())
+
+        if dialog.exec():
+            base, ok = AppGlobals.toDouble(dialog.ui.baseLineEdit.text())
+            number, ok = AppGlobals.toDouble(dialog.ui.numberLineEdit.text())
+            AppGlobals.log_base = base
+
+            expr = LogBaseExpression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(number)))
 
         self.update_shift_ctrl_status()

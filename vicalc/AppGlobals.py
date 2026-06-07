@@ -76,6 +76,9 @@ class AppGlobals:
     lse_c1: float = 5.0
     lse_c2: float = 6.0
 
+    # arbitrary log base for log calculations
+    log_base: float = 10.0
+
     @staticmethod
     def to_format_string(number):
         locale = QLocale(QLocale.C)
@@ -154,3 +157,11 @@ class AppGlobals:
     @staticmethod
     def lse_discriminant(a1: float, b1: float, a2: float, b2: float):
         return a1 * b2 - b1 * a2
+    
+    @staticmethod
+    def log_base_calculation(number: float, base: float) -> float:
+        if base <= 0.0 or base == 1.0:
+            raise ValueError("Log base must be positive and not equal to 1.")
+        if number <= 0.0:
+            raise ValueError("Number must be positive for logarithm.")
+        return math.log(number) / math.log(base)
