@@ -96,6 +96,10 @@ from ..LinearSystemExpression import LinearSystemExpression
 import re
 from ..LogBaseDialog import LogBaseDialog
 from ..LogBaseExpression import LogBaseExpression
+from ..AwgToMm2Dialog import AwgToMm2Dialog
+from ..AwgToMm2Expression import AwgToMm2Expression
+from ..Mm2ToAwgDialog import Mm2ToAwgDialog
+from ..Mm2ToAwgExpression import Mm2ToAwgExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1909,5 +1913,35 @@ class InputTextEdit(QLineEdit):
 
             expr = LogBaseExpression()
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(number)))
+
+        self.update_shift_ctrl_status()
+
+    def exec_awg_to_mm2(self):
+        dialog = AwgToMm2Dialog()
+
+        number, ok = AppGlobals.toDouble(self.text())
+        if ok:
+            dialog.ui.awgLineEdit.setText(self.text())
+
+        if dialog.exec():
+            awg, ok = AppGlobals.toDouble(dialog.ui.awgLineEdit.text())
+
+            expr = AwgToMm2Expression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(awg)))
+
+        self.update_shift_ctrl_status()
+
+    def exec_mm2_to_awg(self):
+        dialog = Mm2ToAwgDialog()
+
+        number, ok = AppGlobals.toDouble(self.text())
+        if ok:
+            dialog.ui.areaMm2LineEdit.setText(self.text())
+
+        if dialog.exec():
+            mm2, ok = AppGlobals.toDouble(dialog.ui.areaMm2LineEdit.text())
+
+            expr = Mm2ToAwgExpression()
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(mm2)))
 
         self.update_shift_ctrl_status()

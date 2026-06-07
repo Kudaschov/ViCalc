@@ -104,6 +104,9 @@ class MainWindow(QMainWindow):
         self.ui.action_linear_system_two_equations.triggered.connect(self.linear_system_two_equations)
         self.ui.action_log_base.triggered.connect(self.log_base)
 
+        self.ui.action_AWG_to_mm2.triggered.connect(self.awg_to_mm2)
+        self.ui.action_mm2_to_AWG.triggered.connect(self.mm2_to_awg)
+
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
         AppGlobals.input_box.setFocus()
@@ -1509,6 +1512,12 @@ class MainWindow(QMainWindow):
 
     def log_base(self):
         AppGlobals.input_box.exec_log_base()
+
+    def awg_to_mm2(self):
+        AppGlobals.input_box.exec_awg_to_mm2()
+
+    def mm2_to_awg(self):
+        AppGlobals.input_box.exec_mm2_to_awg()
 
 # main
 def main():

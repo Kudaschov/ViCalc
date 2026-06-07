@@ -47,6 +47,9 @@ class Ui_log_base_dialog(object):
         self.resultLineEdit.setObjectName(u"resultLineEdit")
         self.resultLineEdit.setGeometry(QRect(210, 20, 120, 21))
         self.resultLineEdit.setReadOnly(True)
+#if QT_CONFIG(shortcut)
+        self.label.setBuddy(self.numberLineEdit)
+#endif // QT_CONFIG(shortcut)
 
         self.retranslateUi(log_base_dialog)
         self.buttonBox.accepted.connect(log_base_dialog.accept)
@@ -59,7 +62,7 @@ class Ui_log_base_dialog(object):
         log_base_dialog.setWindowTitle(QCoreApplication.translate("log_base_dialog", u"Logarithm to Base", None))
         self.numberLineEdit.setText(QCoreApplication.translate("log_base_dialog", u"888", None))
         self.baseLineEdit.setText(QCoreApplication.translate("log_base_dialog", u"888", None))
-        self.label.setText(QCoreApplication.translate("log_base_dialog", u"log", None))
+        self.label.setText(QCoreApplication.translate("log_base_dialog", u"lo&g", None))
         self.label_2.setText(QCoreApplication.translate("log_base_dialog", u"=", None))
     # retranslateUi
 

@@ -165,3 +165,57 @@ class AppGlobals:
         if number <= 0.0:
             raise ValueError("Number must be positive for logarithm.")
         return math.log(number) / math.log(base)
+    
+    @staticmethod
+    def awg_to_diameter_inch_calculation(awg: float) -> float:
+        # AWG to diameter in inches conversion using the formula: d = 0.005 * 92^((36 - AWG) / 39)
+        diameter_inch = 0.005 * (92 ** ((36 - awg) / 39))
+        return diameter_inch
+    
+    @staticmethod
+    def awg_to_diameter_mm_calculation(awg: float) -> float:
+        # AWG to diameter in mm conversion using the formula: d = 0.127 * 92^((36 - AWG) / 39)
+        diameter_mm = 0.127 * (92 ** ((36 - awg) / 39))
+        return diameter_mm
+    
+    @staticmethod
+    def awg_to_kcmil_calculation(awg: float) -> float:
+        # AWG to kcmil conversion using the formula: A = (π/4) * (d^2), where d is the diameter in inches
+        diameter_inch = AppGlobals.awg_to_diameter_inch_calculation(awg)
+        area_kcmil = (diameter_inch ** 2) * 1000
+        return area_kcmil
+
+    @staticmethod
+    def awg_to_mm2_calculation(awg: float) -> float:
+        # AWG to mm^2 conversion using the formula: A = (π/4) * (d^2), where d is the diameter in mm
+        diameter_mm = AppGlobals.awg_to_diameter_mm_calculation(awg)
+        area_mm2 = (math.pi / 4) * (diameter_mm ** 2)
+        return area_mm2
+    
+    @staticmethod
+    def mm2_to_awg_calculation(mm2: float) -> float:
+        # mm^2 to AWG conversion using the formula: AWG = 36 - 39 * log10(d / 0.127), where d is the diameter in mm
+        diameter_mm = AppGlobals.mm2_to_diameter_mm_calculation(mm2)
+        awg = 36 - 39 * AppGlobals.log_base_calculation(diameter_mm / 0.127, 92)
+        return awg
+    
+    @staticmethod
+    def mm2_to_diameter_inch_calculation(mm2: float) -> float:
+        # mm^2 to diameter in inches conversion using the formula: d = 0.127 * 92^((36 - AWG) / 39)
+        diameter_mm = AppGlobals.mm2_to_diameter_mm_calculation(mm2)
+        diameter_inch = diameter_mm / 25.4
+        return diameter_inch
+    
+    @staticmethod
+    def mm2_to_diameter_mm_calculation(mm2: float) -> float:
+        # mm^2 to diameter in mm conversion using the formula: d = 0.127 * 92^((36 - AWG) / 39)
+        diameter_mm = math.sqrt((4 * mm2) / math.pi)
+        return diameter_mm
+    
+    @staticmethod
+    def mm2_to_kcmil_calculation(mm2: float) -> float:
+        # mm^2 to kcmil conversion using the formula: A = (π/4) * (d^2), where d is the diameter in inches
+        diameter_mm = math.sqrt((4 * mm2) / math.pi)
+        diameter_inch = diameter_mm / 25.4
+        area_kcmil = (diameter_inch ** 2) * 1000
+        return area_kcmil

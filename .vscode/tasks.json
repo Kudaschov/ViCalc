@@ -190,6 +190,26 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile awg_to_mm2_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/awg_to_mm2_dialog.ui -o vicalc/ui/awg_to_mm2_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile mm2_to_awg_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/mm2_to_awg_dialog.ui -o vicalc/ui/mm2_to_awg_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }

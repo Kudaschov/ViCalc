@@ -1201,6 +1201,9 @@
     <addaction name="action_polar_to_rectangular"/>
     <addaction name="separator"/>
     <addaction name="action_unit_conversion"/>
+    <addaction name="separator"/>
+    <addaction name="action_AWG_to_mm2"/>
+    <addaction name="action_mm2_to_AWG"/>
    </widget>
    <widget class="QMenu" name="menu_Math">
     <property name="title">
@@ -1619,6 +1622,16 @@
   <action name="action_log_base">
    <property name="text">
     <string>Lo&amp;g to arbitrary Base...</string>
+   </property>
+  </action>
+  <action name="action_AWG_to_mm2">
+   <property name="text">
+    <string>&amp;American Wire Gauge (AWG) to mm2...</string>
+   </property>
+  </action>
+  <action name="action_mm2_to_AWG">
+   <property name="text">
+    <string>Mm2 to Am&amp;erical Wire Gauge (AWG)...</string>
    </property>
   </action>
  </widget>

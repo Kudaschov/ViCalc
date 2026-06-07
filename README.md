@@ -90,6 +90,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Input box / Memory swap
 - Scientific constants
 - Units conversion
+- American wire gauge (AWG) conversion
 - Ratio calculation
 - Linear function
 - Quadratic equation
