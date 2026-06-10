@@ -682,10 +682,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.norm_width = 2
         self.ui.pushButton0numpad.bg_color = self.number_key_color
         self.ui.pushButton0numpad.shift_text = "↔"
-        self.ui.pushButton0numpad.ctrl_text = "MS"
+        self.ui.pushButton0numpad.ctrl_text = "X↔M"
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
         self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
-        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.MS
+        self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
         self.numpad_button_list.append(self.ui.pushButton0numpad)
 
         self.ui.pushButton1numpad.row = 3
@@ -761,21 +761,21 @@ class MainWindow(QMainWindow):
         self.ui.pushButton8numpad.row = 1
         self.ui.pushButton8numpad.column = 1
         self.ui.pushButton8numpad.bg_color = self.number_key_color
-        self.ui.pushButton8numpad.shift_text = "Hist"
-        self.ui.pushButton8numpad.ctrl_text = "MR"
+        self.ui.pushButton8numpad.shift_text = "("
+        self.ui.pushButton8numpad.ctrl_text = "MS"
         self.ui.pushButton8numpad.base_operation = CalcOperations.number_8
-        self.ui.pushButton8numpad.shift_operation = CalcOperations.toggle_table
-        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MR
+        self.ui.pushButton8numpad.shift_operation = CalcOperations.opening_bracket
+        self.ui.pushButton8numpad.ctrl_operation = CalcOperations.MS
         self.numpad_button_list.append(self.ui.pushButton8numpad)
 
         self.ui.pushButton9numpad.row = 1
         self.ui.pushButton9numpad.column = 2
         self.ui.pushButton9numpad.bg_color = self.number_key_color
-        self.ui.pushButton9numpad.shift_text = "("
-        self.ui.pushButton9numpad.ctrl_text = ")"
+        self.ui.pushButton9numpad.shift_text = ")"
+        self.ui.pushButton9numpad.ctrl_text = "MR"
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
-        self.ui.pushButton9numpad.shift_operation = CalcOperations.opening_bracket
-        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.closing_bracket
+        self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
+        self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR
         self.numpad_button_list.append(self.ui.pushButton9numpad)
 
         self.ui.pushButtonAC.row = 0
@@ -807,10 +807,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonCommaNumpad.column = 2
         self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
         self.ui.pushButtonCommaNumpad.shift_text = "⌫"
-        self.ui.pushButtonCommaNumpad.ctrl_text = "DO"
+        self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
         self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
-        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_operation
+        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
         self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
 
         self.ui.pushButtonMinusNumpad.row = 0
@@ -850,10 +850,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonPlusNumpad.row = 1
         self.ui.pushButtonPlusNumpad.column = 3
         self.ui.pushButtonPlusNumpad.bg_color = self.arithmetic_operation_color
-        self.ui.pushButtonPlusNumpad.shift_text = "DL"
+        self.ui.pushButtonPlusNumpad.shift_text = "DO"
         self.ui.pushButtonPlusNumpad.ctrl_text = "M+"
         self.ui.pushButtonPlusNumpad.base_operation = CalcOperations.Plus
-        self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.del_last_line
+        self.ui.pushButtonPlusNumpad.shift_operation = CalcOperations.del_operation
         self.ui.pushButtonPlusNumpad.ctrl_operation = CalcOperations.M_plus
         self.numpad_button_list.append(self.ui.pushButtonPlusNumpad)
 

@@ -7,8 +7,11 @@ class MDisivionExpression(MemoryExpression):
         result: float = self.first_number / number
 
         self.insert_scroll_table()
-        self.protocol("M/", 0)
-        self.protocol(number, 1)
-        self.show_in_history(self.first_number, result)
+        self.protocol(self.first_number, 0)
+        self.protocol("/", 1)
+        self.protocol(number, 2)
+        self.protocol("=", 3)
+        self.protocol_result(result, 4)
+        self.protocol("Memory", 5)
 
         return result

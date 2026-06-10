@@ -723,7 +723,7 @@ class Ui_MainWindow(object):
         self.menu_File.setTitle(QCoreApplication.translate("MainWindow", u"&File", None))
         self.menu_Help.setTitle(QCoreApplication.translate("MainWindow", u"&Help", None))
         self.menuMode.setTitle(QCoreApplication.translate("MainWindow", u"Mo&de", None))
-        self.menu_History.setTitle(QCoreApplication.translate("MainWindow", u"H&istory", None))
+        self.menu_History.setTitle(QCoreApplication.translate("MainWindow", u"Hi&story", None))
         self.menu_Convert.setTitle(QCoreApplication.translate("MainWindow", u"&Convert", None))
         self.menu_Math.setTitle(QCoreApplication.translate("MainWindow", u"M&ath", None))
         self.menu_Tools.setTitle(QCoreApplication.translate("MainWindow", u"&Tools", None))

@@ -7,6 +7,7 @@ from PySide6.QtGui import QFont, QGuiApplication
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
 from PySide6.QtCore import QTimer
+from PySide6.QtCore import QEvent
 
 from ..QuadraticEquationExpression import QuadraticEquationExpression
 from ..QuadraticEquationDialog import QuadraticEquationDialog
@@ -897,7 +898,7 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_percent()
                 case Qt.Key.Key_Plus:
-                    self.exec_del_last_line()
+                    self.exec_del_operation()
                 case Qt.Key.Key_Slash:
                     self.exec_log()
                 case Qt.Key.Key_Asterisk:
@@ -911,9 +912,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
                     self.exec_date_time_stamp()
                 case Qt.Key.Key_Comma:
-                    self.exec_del_operation()
+                    self.exec_del_last_line()
                 case Qt.Key.Key_0:
-                    self.exec_MS()
+                    self.exec_memory_swap()
                 case Qt.Key.Key_1: # Numpad 1
                     self.exec_factorial()
                 case Qt.Key.Key_2: # Numpad 2
@@ -929,9 +930,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_7: # Numpad 7
                     self.exec_ex()
                 case Qt.Key.Key_8: # Numpad 8
-                    self.exec_MR()
+                    self.exec_MS()
                 case Qt.Key.Key_9: # Numpad 9
-                    self.exec_closing_bracket()
+                    self.exec_MR()
                 case Qt.Key_Plus:
                     self.exec_M_plus()
                 case Qt.Key_Minus:
@@ -972,9 +973,9 @@ class InputTextEdit(QLineEdit):
                 case Qt.Key.Key_Home: # Numpad 7
                     self.exec_ln()
                 case Qt.Key.Key_Up: # Numpad 8
-                    self.exec_toggle_table()
+                    self.exec_opening_bracket()
                 case Qt.Key.Key_PageUp: # Numpad 9
-                    self.exec_opening_bracket();
+                    self.exec_closing_bracket()
                 case Qt.Key.Key_Plus:
                     self.exec_addition()
                 case Qt.Key.Key_Minus:
@@ -1945,3 +1946,11 @@ class InputTextEdit(QLineEdit):
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(mm2)))
 
         self.update_shift_ctrl_status()
+
+    def event(self, event):
+        if event.type() == QEvent.KeyPress and event.key() == Qt.Key_Tab:
+            print("TAB key intercepted")
+            self.exec_toggle_table()
+            return True  # Event handled
+
+        return super().event(event)

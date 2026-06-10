@@ -1181,7 +1181,7 @@
    </widget>
    <widget class="QMenu" name="menu_History">
     <property name="title">
-     <string>H&amp;istory</string>
+     <string>Hi&amp;story</string>
     </property>
     <addaction name="actionInsertDateTime"/>
     <addaction name="actionToggle_Protocol"/>
