@@ -88,3 +88,4 @@ class CalcOperations(Enum):
     phy_const = auto()
     unit_conversion = auto()
     del_operation = auto() # del last operation
+    abs = auto()

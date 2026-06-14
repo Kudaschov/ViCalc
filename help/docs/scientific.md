@@ -2,6 +2,7 @@
 
 | Function                  | Key | Comment                                                           |
 |---------------------------|-------|-------------------------------------------------------------------|
+| Absolute value | Abs ||
 | Arccosine    | cos⁻¹ | On main Keyboard and Numpad |
 | Arcsine      | sin⁻¹ | On main Keyboard and Numpad |
 | Arctangent    | tan⁻¹ | On main Keyboard and Numpad |

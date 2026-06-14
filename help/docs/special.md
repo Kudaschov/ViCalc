@@ -11,7 +11,7 @@
 | Parentheses               | `(`,`)` | On main Keyboard and Numpad |
 | Physical constants        | Phy   |
 | Pi (3.14159265358979)     | π     | On main Keyboard and Numpad |
-| Rounding according to numeric format | Round | Numeric format is configured in **Format** function or in menu Mode/Numeric Format |
+| Rounding according to numeric format | Rnd | Numeric format is configured in **Format** function or in menu Mode/Numeric Format |
 | Set angle units to degrees | DEG  | Hotkey: F2. Enable or disable automatic angle unit conversion in Tools/Options |
 | Set angle units to radians | RAD  | Hotkey: F3. Enable or disable automatic angle unit conversion in Tools/Options |
 | Set angle units to grads  | GRA  | Hotkey: F4. Enable or disable automatic angle unit conversion in Tools/Options |

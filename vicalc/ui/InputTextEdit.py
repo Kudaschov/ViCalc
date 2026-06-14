@@ -41,6 +41,7 @@ from ..MSExpression import MSExpression
 from ..MPlusExpression import MPlusExpression
 from ..MMinusExpression import MMinusExpression
 from ..ReciprocalExpression import ReciprocalExpression
+from ..AbsExpression import AbsExpression
 from ..CommentDialog import CommentDialog
 from ..ConvertFromBaseDialog import ConvertFromBaseDialog
 from ..FactorialExpression import FactorialExpression
@@ -56,6 +57,7 @@ from ..PercentChangeExpression import PercentChangeExpression
 from ..ConvertToBasesExpression import ConvertToBasesExpression
 from ..BaseExpression import BaseExpression
 from ..AppGlobals import AppGlobals
+from ..UiGlobals import UiGlobals
 from ..DMSExpression import DMSExpression
 from ..DMStoDD_Dialog import DMStoDD_Dialog
 from ..DDExpression import DDExpression
@@ -549,6 +551,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_division()
                 case CalcOperations.reciprocal:
                     self.exec_reciprocal()
+                case CalcOperations.abs:
+                    self.exec_abs()
                 case CalcOperations.SignChange:
                     self.exec_sign_change()
                 case CalcOperations.exponent:
@@ -837,6 +841,11 @@ class InputTextEdit(QLineEdit):
             expr = ReciprocalExpression(AppGlobals.table)
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
+    def exec_abs(self):
+        if (self.store_number()):
+            expr = AbsExpression(AppGlobals.table)
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
     def exec_sign_change(self):
         self.insert("-")
 
@@ -893,16 +902,16 @@ class InputTextEdit(QLineEdit):
             match self.key:
                 case Qt.Key.Key_NumLock:
                     if AppGlobals.numlock_ac:
-                        self.exec_c()
+                        self.button_clicked(UiGlobals.pushButtonAC.shift_operation)
                     super().keyPressEvent(event)
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
-                    self.exec_percent()
+                    self.button_clicked(UiGlobals.pushButtonEnterNumpad.shift_operation)
                 case Qt.Key.Key_Plus:
-                    self.exec_del_operation()
+                    self.button_clicked(UiGlobals.pushButtonPlusNumpad.shift_operation)
                 case Qt.Key.Key_Slash:
-                    self.exec_log()
+                    self.button_clicked(UiGlobals.pushButtonDivideNumpad.shift_operation)
                 case Qt.Key.Key_Asterisk:
-                    self.exec_pow()
+                    self.button_clicked(UiGlobals.pushButtonMultiplyNumpad.shift_operation)
                 case _:
                     # Call base class to keep normal behavior
                     super().keyPressEvent(event)
@@ -910,37 +919,37 @@ class InputTextEdit(QLineEdit):
             # ctrl is pressed
             match self.key:
                 case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:         
-                    self.exec_date_time_stamp()
+                    self.button_clicked(UiGlobals.pushButtonEnterNumpad.ctrl_operation)
                 case Qt.Key.Key_Comma:
-                    self.exec_del_last_line()
-                case Qt.Key.Key_0:
-                    self.exec_memory_swap()
+                    self.button_clicked(UiGlobals.pushButtonCommaNumpad.ctrl_operation)
+                case Qt.Key.Key_0: # Numpad 0
+                    self.button_clicked(UiGlobals.pushButton0numpad.ctrl_operation)
                 case Qt.Key.Key_1: # Numpad 1
-                    self.exec_factorial()
+                    self.button_clicked(UiGlobals.pushButton1numpad.ctrl_operation)
                 case Qt.Key.Key_2: # Numpad 2
-                    self.exec_square()
+                    self.button_clicked(UiGlobals.pushButton2numpad.ctrl_operation)
                 case Qt.Key.Key_3: # Numpad 3
-                    self.exec_cube()    
+                    self.button_clicked(UiGlobals.pushButton3numpad.ctrl_operation)
                 case Qt.Key.Key_4: # Numpad 4
-                    self.exec_arcsin()
+                    self.button_clicked(UiGlobals.pushButton4numpad.ctrl_operation)
                 case Qt.Key.Key_5: # Numpad 5
-                    self.exec_arccos()
+                    self.button_clicked(UiGlobals.pushButton5numpad.ctrl_operation)
                 case Qt.Key.Key_6: # Numpad 6
-                    self.exec_arctan()
+                    self.button_clicked(UiGlobals.pushButton6numpad.ctrl_operation)
                 case Qt.Key.Key_7: # Numpad 7
-                    self.exec_ex()
+                    self.button_clicked(UiGlobals.pushButton7numpad.ctrl_operation)
                 case Qt.Key.Key_8: # Numpad 8
-                    self.exec_MS()
+                    self.button_clicked(UiGlobals.pushButton8numpad.ctrl_operation)
                 case Qt.Key.Key_9: # Numpad 9
-                    self.exec_MR()
+                    self.button_clicked(UiGlobals.pushButton9numpad.ctrl_operation)
                 case Qt.Key_Plus:
-                    self.exec_M_plus()
+                    self.button_clicked(UiGlobals.pushButtonPlusNumpad.ctrl_operation)
                 case Qt.Key_Minus:
-                    self.exec_M_minus()
+                    self.button_clicked(UiGlobals.pushButtonMinusNumpad.ctrl_operation)
                 case Qt.Key.Key_Asterisk:
-                    self.exec_pi()
+                    self.button_clicked(UiGlobals.pushButtonMultiplyNumpad.ctrl_operation)
                 case Qt.Key.Key_Slash:
-                    self.exec_ten_power_x()
+                    self.button_clicked(UiGlobals.pushButtonDivideNumpad.ctrl_operation)
                 case _:
                     # Call base class to keep normal behavior
                     super().keyPressEvent(event)
@@ -950,42 +959,42 @@ class InputTextEdit(QLineEdit):
             match self.key:
                 case Qt.Key.Key_NumLock:
                     if AppGlobals.numlock_ac:
-                        self.exec_ac()
+                        self.button_clicked(UiGlobals.pushButtonAC.base_operation)
                     super().keyPressEvent(event)
                 case Qt.Key.Key_Insert: # Numpad 0
-                    self.exec_swap()
+                    self.button_clicked(UiGlobals.pushButton0numpad.shift_operation)
                 case Qt.Key.Key_Comma: # Numpad decimal separator
-                    self.exec_decimal_separator()
+                    self.button_clicked(UiGlobals.pushButtonCommaNumpad.base_operation)
                 case Qt.Key.Key_Delete: # Numpad comma
-                    self.exec_backspace()
+                    self.button_clicked(UiGlobals.pushButtonCommaNumpad.shift_operation)
                 case Qt.Key.Key_End: # Numpad 1
-                    self.exec_reciprocal()
+                    self.button_clicked(UiGlobals.pushButton1numpad.shift_operation)
                 case Qt.Key.Key_Down: # Numpad 2
-                    self.exec_sqrt()
+                    self.button_clicked(UiGlobals.pushButton2numpad.shift_operation)
                 case Qt.Key.Key_PageDown: # Numpad 3
-                    self.exec_cube_root()
+                    self.button_clicked(UiGlobals.pushButton3numpad.shift_operation)
                 case Qt.Key.Key_Left: # Numpad 4
-                    self.exec_sin()
+                    self.button_clicked(UiGlobals.pushButton4numpad.shift_operation)
                 case Qt.Key.Key_Clear: #Numpad 5
-                    self.exec_cos()
+                    self.button_clicked(UiGlobals.pushButton5numpad.shift_operation)
                 case Qt.Key.Key_Right: # Numpad 6
-                    self.exec_tan()
+                    self.button_clicked(UiGlobals.pushButton6numpad.shift_operation)
                 case Qt.Key.Key_Home: # Numpad 7
-                    self.exec_ln()
+                    self.button_clicked(UiGlobals.pushButton7numpad.shift_operation)
                 case Qt.Key.Key_Up: # Numpad 8
-                    self.exec_opening_bracket()
+                    self.button_clicked(UiGlobals.pushButton8numpad.shift_operation)
                 case Qt.Key.Key_PageUp: # Numpad 9
-                    self.exec_closing_bracket()
+                    self.button_clicked(UiGlobals.pushButton9numpad.shift_operation)
                 case Qt.Key.Key_Plus:
-                    self.exec_addition()
+                    self.button_clicked(UiGlobals.pushButtonPlusNumpad.base_operation)
                 case Qt.Key.Key_Minus:
-                    self.exec_subtraction()
+                    self.button_clicked(UiGlobals.pushButtonMinusNumpad.base_operation)
                 case Qt.Key.Key_multiply | Qt.Key.Key_Asterisk:
-                    self.exec_multiplication()
+                    self.button_clicked(UiGlobals.pushButtonMultiplyNumpad.base_operation)
                 case Qt.Key.Key_Slash | Qt.Key.Key_division:
-                    self.exec_division()
+                    self.button_clicked(UiGlobals.pushButtonDivideNumpad.base_operation)
                 case Qt.Key.Key_Enter | Qt.Key.Key_Return | Qt.Key.Key_Equal:         
-                    self.execute()
+                    self.button_clicked(UiGlobals.pushButtonEnterNumpad.base_operation)
                 case _:
                     # Call base class to keep normal behavior
                     super().keyPressEvent(event)
@@ -1081,51 +1090,51 @@ class InputTextEdit(QLineEdit):
             # shift pressed
             match self.scan_code:
                 case 2: # Key 1
-                    self.exec_factorial()
+                    self.button_clicked(UiGlobals.pushButton1.shift_operation)
                 case 3: # Key 2
-                    self.exec_square()
+                    self.button_clicked(UiGlobals.pushButton2.shift_operation)
                 case 4: # Key 3
-                    self.exec_cube()
+                    self.button_clicked(UiGlobals.pushButton3.shift_operation)
                 case 5: # Key 4
-                    self.exec_fourth_power()
+                    self.button_clicked(UiGlobals.pushButton4.shift_operation)
                 case 6: # Key 5
-                    self.exec_percent()
+                    self.button_clicked(UiGlobals.pushButton5.shift_operation)
                 case 7: # Key 6
-                    self.exec_round()
+                    self.button_clicked(UiGlobals.pushButton6.shift_operation)
                 case 16: # Key Q
-                    self.exec_convert_to_dms()
+                    self.button_clicked(UiGlobals.pushButtonQ.shift_operation)
                 case 17: # Key W
-                    self.exec_convert_to_dd()
+                    self.button_clicked(UiGlobals.pushButtonW.shift_operation)
                 case 18: # Key E
-                    self.exec_exponent()
+                    self.button_clicked(UiGlobals.pushButtonE.shift_operation)
                 case 19: # Key R
-                    self.exec_cube_root()
+                    self.button_clicked(UiGlobals.pushButtonR.shift_operation)
                 case 20: # Key T
-                    self.exec_arctan()
+                    self.button_clicked(UiGlobals.pushButtonT.shift_operation)
                 case 21: # Key Y in QWERTY
-                    self.exec_m_division()
+                    self.button_clicked(UiGlobals.pushButtonZ.shift_operation)
                 case 30: # Key A
-                    self.exec_numeric_format()
+                    self.button_clicked(UiGlobals.pushButtonA.shift_operation)
                 case 31: # Key S
-                    self.exec_arcsin()
+                    self.button_clicked(UiGlobals.pushButtonS.shift_operation)
                 case 32: # Key D
-                    self.exec_arccos()
+                    self.button_clicked(UiGlobals.pushButtonD.shift_operation)
                 case 33: # Key F
-                    self.exec_convert_to_bases()
+                    self.button_clicked(UiGlobals.pushButtonF.shift_operation)
                 case 34: # Key G
-                    self.exec_ten_power_x()
+                    self.button_clicked(UiGlobals.pushButtonG.shift_operation)
                 case 44: # Key Z in QWERTY
-                    self.exec_M_minus()
+                    self.button_clicked(UiGlobals.pushButtonY.shift_operation)
                 case 45: # Key X
-                    self.exec_from_binary()
+                    self.button_clicked(UiGlobals.pushButtonX.shift_operation)
                 case 46: # Key C
-                    self.exec_from_octal()
+                    self.button_clicked(UiGlobals.pushButtonC.shift_operation)
                 case 47: # Key V
-                    self.exec_from_hexadecimal()
+                    self.button_clicked(UiGlobals.pushButtonV.shift_operation)
                 case 48: # Key B
-                    self.exec_ex()
+                    self.button_clicked(UiGlobals.pushButtonB.shift_operation)
                 case 86: # Key \ in QWERTY
-                    self.exec_memory_swap()
+                    self.button_clicked(UiGlobals.pushButtonLess.shift_operation)
                 case _:
                     return False # False is case _:
             return True
@@ -1133,17 +1142,17 @@ class InputTextEdit(QLineEdit):
             # ctrl_pressed
             match self.scan_code:
                 case 2: # Key 1
-                    self.exec_random()
+                    self.button_clicked(UiGlobals.pushButton1.ctrl_operation)
                 case 3: # Key 2
-                    self.exec_convert_to_deg()
+                    self.button_clicked(UiGlobals.pushButton2.ctrl_operation)
                 case 4: # Key 3
-                    self.exec_convert_to_rad()
+                    self.button_clicked(UiGlobals.pushButton3.ctrl_operation)
                 case 5: # Key 4
-                    self.exec_convert_to_gra()
+                    self.button_clicked(UiGlobals.pushButton4.ctrl_operation)
                 case 6: # Key 5
-                    self.exec_unit_conversion()
+                    self.button_clicked(UiGlobals.pushButton5.ctrl_operation)
                 case 7: # Key 6
-                    self.exec_round()
+                    self.button_clicked(UiGlobals.pushButton6.ctrl_operation)
                 case _:
                     return False
             return True # False is case _:
@@ -1152,51 +1161,51 @@ class InputTextEdit(QLineEdit):
             # only for the showed keys on left side of keyboard
             match self.scan_code:
                 case 2: # Key 1
-                    self.exec_number_1()
+                    self.button_clicked(UiGlobals.pushButton1.base_operation)
                 case 3: # Key 2
-                    self.exec_number_2()
+                    self.button_clicked(UiGlobals.pushButton2.base_operation)
                 case 4: # Key 3
-                    self.exec_number_3()
+                    self.button_clicked(UiGlobals.pushButton3.base_operation)
                 case 5: # Key 4
-                    self.exec_number_4()
+                    self.button_clicked(UiGlobals.pushButton4.base_operation)
                 case 6: # Key 5
-                    self.exec_number_5()
+                    self.button_clicked(UiGlobals.pushButton5.base_operation)
                 case 7: # Key 6
-                    self.exec_number_6()
+                    self.button_clicked(UiGlobals.pushButton6.base_operation)
                 case 16: # Key Q
-                    self.exec_pi()
+                    self.button_clicked(UiGlobals.pushButtonQ.base_operation)
                 case 17: # Key W
-                    self.exec_pow()
+                    self.button_clicked(UiGlobals.pushButtonW.base_operation)
                 case 18: # Key E
-                    self.exec_exponent()
+                    self.button_clicked(UiGlobals.pushButtonE.base_operation)
                 case 19: # Key R
-                    self.exec_sqrt()
+                    self.button_clicked(UiGlobals.pushButtonR.base_operation)
                 case 20: # Key T
-                    self.exec_tan()
+                    self.button_clicked(UiGlobals.pushButtonT.base_operation)
                 case 21: # Key Y in QWERTY
-                    self.exec_m_multiply()
+                    self.button_clicked(UiGlobals.pushButtonZ.base_operation)
                 case 30: # Key A
-                    self.exec_ac()
+                    self.button_clicked(UiGlobals.pushButtonA.base_operation)
                 case 31: # Key S
-                    self.exec_sin()
+                    self.button_clicked(UiGlobals.pushButtonS.base_operation)
                 case 32: # Key D
-                    self.exec_cos()
+                    self.button_clicked(UiGlobals.pushButtonD.base_operation)
                 case 33: # Key F
-                    self.exec_MS()
+                    self.button_clicked(UiGlobals.pushButtonF.base_operation)
                 case 34: # Key G
-                    self.exec_log()
+                    self.button_clicked(UiGlobals.pushButtonG.base_operation)
                 case 44: # Key Z in QWERTY
-                    self.exec_M_plus()
+                    self.button_clicked(UiGlobals.pushButtonY.base_operation)
                 case 45: # Key X
-                    self.exec_reciprocal()
+                    self.button_clicked(UiGlobals.pushButtonX.base_operation)
                 case 46: # Key C
-                    self.exec_c()
+                    self.button_clicked(UiGlobals.pushButtonC.base_operation)
                 case 47: # Key V
-                    self.exec_MR()
+                    self.button_clicked(UiGlobals.pushButtonV.base_operation)
                 case 48: # Key B
-                    self.exec_ln()
+                    self.button_clicked(UiGlobals.pushButtonB.base_operation)
                 case 86: # Key \ in QWERTY
-                    self.exec_swap()
+                    self.button_clicked(UiGlobals.pushButtonLess.base_operation)
                 case _:
                     return False
             return True # False is case _:
@@ -1216,7 +1225,7 @@ class InputTextEdit(QLineEdit):
                 # Shift pressed
                 match self.key:
                     case Qt.Key.Key_Backspace:
-                        self.exec_del_last_line()
+                        self.button_clicked(UiGlobals.pushButtonBackspace.shift_operation)
                     case Qt.Key.Key_Space:
                         self.exec_date_time_stamp()
                     case Qt.Key_Enter | Qt.Key_Return:
@@ -1236,15 +1245,15 @@ class InputTextEdit(QLineEdit):
                 # ctrl pressed
                 match self.key:
                     case Qt.Key.Key_Q:
-                        self.exec_combination()
+                        self.button_clicked(UiGlobals.pushButtonQ.ctrl_operation)
                     case Qt.Key.Key_W:
-                        self.exec_permutation()
+                        self.button_clicked(UiGlobals.pushButtonW.ctrl_operation)
                     case Qt.Key.Key_E | Qt.Key.Key_I:
-                        self.exec_toggle_table()
+                        self.button_clicked(UiGlobals.pushButtonE.ctrl_operation)
                     case Qt.Key.Key_R:
-                        self.exec_phy_const()
+                        self.button_clicked(UiGlobals.pushButtonR.ctrl_operation)
                     case Qt.Key.Key_T:
-                        self.exec_tanh()
+                        self.button_clicked(UiGlobals.pushButtonT.ctrl_operation)
                     case Qt.Key.Key_A:
                         self.selectAll()
                     case Qt.Key.Key_S:
@@ -1265,7 +1274,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Space:
                         self.exec_date_time_stamp()
                     case Qt.Key.Key_Backspace:
-                        self.exec_del_operation()
+                        self.button_clicked(UiGlobals.pushButtonBackspace.ctrl_operation)
                     case Qt.Key_Enter | Qt.Key_Return:
                         self.exec_date_time_stamp()
                     case Qt.Key_Delete:
