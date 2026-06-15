@@ -21,9 +21,11 @@
 | Cure boot | ³√x | On main Keyboard and Numpad |
 | Factorial | n! | On main Keyboard and Numpad |
 | Fourth power | x⁴ ||
+| Fractional part | Fpart ||
 | Hyperbolic cosine | cosh ||
 | Hyperbolic sine | sinh ||
 | Hyperbolic tangent | tanh ||
+| Integer part | Int ||
 | Inverse hyperbolic cosine || Menu Math/arcosh or hotkey: Ctrl + Shift + D |
 | Inverse hyperbolic sine || Menu Math/arsinh or hotkey: Ctrl + Shift + S |
 | Inverse hyperbolic tangent || Menu Math/artanh or hotkey: Ctrl + Shift + T |

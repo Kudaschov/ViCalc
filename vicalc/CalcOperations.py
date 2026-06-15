@@ -89,3 +89,5 @@ class CalcOperations(Enum):
     unit_conversion = auto()
     del_operation = auto() # del last operation
     abs = auto()
+    frac_part = auto()
+    int_part = auto()

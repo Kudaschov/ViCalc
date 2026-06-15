@@ -957,11 +957,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButton5.column = 4
         self.ui.pushButton5.bg_color = self.number_key_color
         self.ui.pushButton5.shift_text = "%"
-        self.ui.pushButton5.ctrl_text = "Conv"
-        self.ui.pushButton5.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton5.ctrl_text = "Int"
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
-        self.ui.pushButton5.ctrl_operation = CalcOperations.unit_conversion
+        self.ui.pushButton5.ctrl_operation = CalcOperations.int_part
         UiGlobals.pushButton5 = self.ui.pushButton5
         self.leftside_button_list.append(self.ui.pushButton5)
 
@@ -1022,10 +1021,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonR.setText("√")
         self.ui.pushButtonR.original_keyboard_text = "R"
         self.ui.pushButtonR.shift_text = "³√x"
-        self.ui.pushButtonR.ctrl_text = "Phy"
+        self.ui.pushButtonR.ctrl_text = "Fpart"
         self.ui.pushButtonR.base_operation = CalcOperations.sqrt
         self.ui.pushButtonR.shift_operation = CalcOperations.cube_root
-        self.ui.pushButtonR.ctrl_operation = CalcOperations.phy_const
+        self.ui.pushButtonR.ctrl_operation = CalcOperations.frac_part
         UiGlobals.pushButtonR = self.ui.pushButtonR
         self.leftside_button_list.append(self.ui.pushButtonR)
 

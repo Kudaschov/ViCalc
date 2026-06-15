@@ -103,6 +103,8 @@ from ..AwgToMm2Dialog import AwgToMm2Dialog
 from ..AwgToMm2Expression import AwgToMm2Expression
 from ..Mm2ToAwgDialog import Mm2ToAwgDialog
 from ..Mm2ToAwgExpression import Mm2ToAwgExpression
+from ..FracPartExpression import FracPartExpression
+from ..IntPartExpression import IntPartExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -635,6 +637,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_unit_conversion()
                 case CalcOperations.del_operation:
                     self.exec_del_operation()
+                case CalcOperations.int_part:
+                    self.exec_int_part()
+                case CalcOperations.frac_part:
+                    self.exec_frac_part()
                 case _:
                     QMessageBox.information(self, "Information", "No operation configured")
         except Exception as e:
@@ -1802,7 +1808,7 @@ class InputTextEdit(QLineEdit):
         AppGlobals.table.setItem(row, 1, item)
 
         item = QTableWidgetItem()
-        item.setText(separator)
+        item.setText(QLocale().toString(QDate.currentDate(), "dddd"))
         AppGlobals.table.setItem(row, 2, item)
 
         item = QTableWidgetItem()
@@ -1963,3 +1969,13 @@ class InputTextEdit(QLineEdit):
             return True  # Event handled
 
         return super().event(event)
+    
+    def exec_frac_part(self):
+        if self.store_number():
+            expr = FracPartExpression(AppGlobals.table)
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
+
+    def exec_int_part(self):
+        if self.store_number():
+            expr = IntPartExpression(AppGlobals.table)
+            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))

@@ -1315,7 +1315,7 @@
   </action>
   <action name="actionToggle_Protocol">
    <property name="text">
-    <string>Toggle  &amp;History / Calculator</string>
+    <string>&amp;Toggle  History / Calculator</string>
    </property>
    <property name="toolTip">
     <string>Toggle  History / Calculator</string>
@@ -1370,7 +1370,7 @@
   </action>
   <action name="action_convert_from_octal">
    <property name="text">
-    <string>From &amp;Octal...</string>
+    <string>&amp;From Octal...</string>
    </property>
    <property name="shortcut">
     <string>F7</string>
@@ -1481,7 +1481,7 @@
   </action>
   <action name="action_polar_to_rectangular">
    <property name="text">
-    <string>&amp;Polar to Rectangular...</string>
+    <string>Polar &amp;to Rectangular...</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1505,7 +1505,7 @@
   </action>
   <action name="action_options">
    <property name="text">
-    <string>&amp;Options...</string>
+    <string>Op&amp;tions...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+O</string>
@@ -1575,7 +1575,7 @@
   </action>
   <action name="action_phy_const">
    <property name="text">
-    <string>&amp;Physical Constants...</string>
+    <string>Phy&amp;sical Constants...</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1583,7 +1583,7 @@
   </action>
   <action name="action_unit_conversion">
    <property name="text">
-    <string>&amp;Unit Conversion...</string>
+    <string>Unit &amp;Conversion...</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

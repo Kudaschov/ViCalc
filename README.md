@@ -80,6 +80,9 @@ If the highlighted function is not the intended one, you can simply release the 
 - Constant Pi
 - Exponential functions
 - Reciprocal
+- Absolute value
+- Integer part
+- Fractional part
 - Power and root
 - Logarithms (base 10, natural, and arbitrary base) 
 - Factorial, Combinations and Permutations
