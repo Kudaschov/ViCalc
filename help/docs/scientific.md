@@ -29,6 +29,7 @@
 | Inverse hyperbolic cosine || Menu Math/arcosh or hotkey: Ctrl + Shift + D |
 | Inverse hyperbolic sine || Menu Math/arsinh or hotkey: Ctrl + Shift + S |
 | Inverse hyperbolic tangent || Menu Math/artanh or hotkey: Ctrl + Shift + T |
+| Modulo operation (remainder) | Mod ||
 | Natural antilogarithm | e^x | On main Keyboard and Numpad |
 | Natural logarithm | ln | On main Keyboard and Numpad |
 | Percent | % | On main Keyboard and Numpad |

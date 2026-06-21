@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from PySide6.QtCore import Signal
 from functools import singledispatchmethod
 from PySide6.QtCore import QLocale
 from PySide6.QtGui import QFont
@@ -9,11 +10,14 @@ from .StringCellValue import StringCellValue
 from .FloatCellValue import FloatCellValue
 
 class AngleUnit(ABC):
-    def __init__(self):
+    statusbar_message = Signal(str)
+
+    def __init__(self, statusbar_message = None):
         self.locale = QLocale(QLocale.C)
         self.resultFont = QFont()
         self.resultFont.setBold(True)
         self.row = None
+        self.statusbar_message = statusbar_message
 
     def toString(self, number:float):
         return AppGlobals.to_format_string(number)

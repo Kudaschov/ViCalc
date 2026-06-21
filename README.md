@@ -69,6 +69,7 @@ If the highlighted function is not the intended one, you can simply release the 
 ## Functions
 
 - Arithmetic operations
+- Modulo operation (remainder)
 - Brackets
 - Memory
 - Ans (calculation history)

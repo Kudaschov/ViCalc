@@ -7,6 +7,8 @@ from .AppGlobals import AppGlobals
 
 class DegUnitProtocol(DegUnit):
     def to_deg_with_protocol(self, a:float):
+        if self.statusbar_message:
+            self.statusbar_message.emit("Angle units already DEG")
         return self.to_deg(a)
 
     def to_rad_with_protocol(self, a:float):

@@ -4,7 +4,6 @@
 - Enter = Add current number to history<br>
 - Shift+Space = Add comment to history<br>
 - Shift+Back Space / Ctrl+DL* = Remove last line from history<br>
-- Ctrl+E / Ctrl+I / F5 = Toggle calculator / history<br>
 - TAB / Arrow Up = Go to history<br> 
 
 ## History Mode

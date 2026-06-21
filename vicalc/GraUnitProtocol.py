@@ -29,4 +29,6 @@ class GraUnitProtocol(GraUnit):
         return result
     
     def to_gra_with_protocol(self, a:float):
+        if self.statusbar_message:
+            self.statusbar_message.emit("Angle units already GRA")
         return self.to_gra(a)

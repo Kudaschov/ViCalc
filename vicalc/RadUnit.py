@@ -3,7 +3,6 @@ from PySide6.QtWidgets import QTableWidgetItem
 from .AngleUnit import AngleUnit
 
 class RadUnit(AngleUnit):
-
     def to_deg(self, a:float):
          return 180.0 * a / math.pi
     

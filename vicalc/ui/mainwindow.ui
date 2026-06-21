@@ -1280,7 +1280,7 @@
     <string>&amp;DEG</string>
    </property>
    <property name="shortcut">
-    <string>F2</string>
+    <string>F6</string>
    </property>
   </action>
   <action name="action_RAD">
@@ -1291,7 +1291,7 @@
     <string>&amp;RAD</string>
    </property>
    <property name="shortcut">
-    <string>F3</string>
+    <string>F7</string>
    </property>
   </action>
   <action name="action_GRA">
@@ -1302,7 +1302,7 @@
     <string>&amp;GRA</string>
    </property>
    <property name="shortcut">
-    <string>F4</string>
+    <string>F8</string>
    </property>
   </action>
   <action name="actionExit">
@@ -1321,7 +1321,7 @@
     <string>Toggle  History / Calculator</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>F9</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1350,9 +1350,6 @@
    <property name="toolTip">
     <string>Convert from Hexadecimal</string>
    </property>
-   <property name="shortcut">
-    <string>F9</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1360,9 +1357,6 @@
   <action name="action_convert_from_binary">
    <property name="text">
     <string>From &amp;Binary...</string>
-   </property>
-   <property name="shortcut">
-    <string>F6</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1372,9 +1366,6 @@
    <property name="text">
     <string>&amp;From Octal...</string>
    </property>
-   <property name="shortcut">
-    <string>F7</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1382,9 +1373,6 @@
   <action name="action_convert_from_decimal">
    <property name="text">
     <string>From &amp;Decimal...</string>
-   </property>
-   <property name="shortcut">
-    <string>F8</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1395,7 +1383,7 @@
     <string>Numeric &amp;Format...</string>
    </property>
    <property name="shortcut">
-    <string>F10</string>
+    <string>F4</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1442,9 +1430,6 @@
    <property name="text">
     <string>ar&amp;sinh</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1453,9 +1438,6 @@
    <property name="text">
     <string>a&amp;rcosh</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+D</string>
-   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1463,9 +1445,6 @@
   <action name="action_artanh">
    <property name="text">
     <string>ar&amp;tanh</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+T</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1506,9 +1485,6 @@
   <action name="action_options">
    <property name="text">
     <string>Op&amp;tions...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+O</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1557,17 +1533,6 @@
   <action name="action_convert_to_gra">
    <property name="text">
     <string>To &amp;Grads</string>
-   </property>
-   <property name="menuRole">
-    <enum>QAction::MenuRole::NoRole</enum>
-   </property>
-  </action>
-  <action name="action_generate_random_number">
-   <property name="text">
-    <string>&amp;Generate Random Number</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+1</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

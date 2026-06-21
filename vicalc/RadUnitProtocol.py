@@ -18,6 +18,8 @@ class RadUnitProtocol(RadUnit):
         return result
     
     def to_rad_with_protocol(self, a:float):
+        if self.statusbar_message:
+            self.statusbar_message.emit("Angle units already RAD")
         return self.to_rad(a)
     
     def to_gra_with_protocol(self, a:float):

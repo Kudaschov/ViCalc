@@ -24,6 +24,8 @@ class UiGlobals:
     pushButton5 = None # pushButton5 in main window
     pushButton6 = None # pushButton6 in main window
 
+    pushButtonEnter = None
+    pushButtonSpace = None
     pushButtonBackspace = None
 
     pushButtonQ = None

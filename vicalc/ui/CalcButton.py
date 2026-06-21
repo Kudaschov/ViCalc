@@ -15,6 +15,8 @@ class CalcButton(QPushButton):
         self._shift = False # shift key not pressed
         self.ctrl_text = ""
         self._ctrl = False # ctrl key is not pressed
+        self.ctrl_shift_text = "" # text when both shift and ctrl are pressed
+        self._physical_shift = False # physical shift key is not pressed
 
         self.y_shift_area = 2 # from here starts the shift text
         self.height_shift_area = 18
@@ -55,34 +57,48 @@ class CalcButton(QPushButton):
         self.text_font = QFont("Helvetica", 10)
         self.text_highlight_font = QFont("Helvetica", 10, QFont.Bold)
         self.text_color = QColor("black")
+
         self.shift_font = QFont("Helvetica", 10)
         self.shift_highlight_font = QFont("Helvetica", 10, QFont.Bold)
         self.shift_color = QColor("#0000FF")
         self.shift_highlight_color = QColor("#0000FF")
+
         self.ctrl_font = QFont("Helvetica", 10)
         self.ctrl_highlight_font = QFont("Helvetica", 10, QFont.Bold)
         self.ctrl_color = QColor("#000000")
         self.ctrl_highlight_color = QColor("#000000")
+
+        self.ctrl_shift_font = QFont("Helvetica", 10)
+        self.ctrl_shift_highlight_font = QFont("Helvetica", 10, QFont.Bold)
+        self.ctrl_shift_color = QColor("#000000")
+        self.ctrl_shift_highlight_color = QColor("#000000")
+
         self.original_keyboard_text_color = QColor("#606060")
         self.original_keyboard_text_font = QFont("Helvetica", 9)
 
         self.base_operation = CalcOperations.nop
         self.shift_operation = CalcOperations.nop
         self.ctrl_operation = CalcOperations.nop
+        self.ctrl_shift_operation = CalcOperations.nop
 
         # self.setCursor(Qt.PointingHandCursor)
         self.clicked.connect(self._on_button_clicked)
 
     def _on_button_clicked(self):
-        if AppGlobals.input_box != None:
-            if (self.mouse_pos != None and self.shift_rect().contains(self.mouse_pos)):
-                AppGlobals.input_box.button_clicked(self.shift_operation)
-            elif (self.mouse_pos != None and self.ctrl_rect().contains(self.mouse_pos)):
-                AppGlobals.input_box.button_clicked(self.ctrl_operation)
-            else:
-                AppGlobals.input_box.button_clicked(self.base_operation)
+        if AppGlobals.input_box == None:
+            return
+        
+        if self.mouse_pos == None:
+            return
+
+        if self._shift and self._ctrl and self.shift_and_ctrl_rect().contains(self.mouse_pos):
+            AppGlobals.input_box.button_clicked(self.ctrl_shift_operation)
+        elif self.shift_rect().contains(self.mouse_pos):
+            AppGlobals.input_box.button_clicked(self.shift_operation)
+        elif self.ctrl_rect().contains(self.mouse_pos):
+            AppGlobals.input_box.button_clicked(self.ctrl_operation)
         else:
-            QMessageBox.information(self, "Information", "No operation configured")
+            AppGlobals.input_box.button_clicked(self.base_operation)
 
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self)
@@ -96,6 +112,122 @@ class CalcButton(QPushButton):
         current_bg_color = QColor("#F9F9F9") # Default background color
         bg_rect = self.rect().adjusted(0, self.height_shift_area, -1, -1)
 
+        if self._physical_shift and self._ctrl:
+            self.paintCtrlShiftMode(painter, current_bg_color, bg_rect)
+        else:
+            self.paintNormalMode(painter, current_bg_color, bg_rect)
+
+        # --- Draw the rectangle using drawRect() ---
+        rect_y = self.height_shift_area 
+        
+        # Define the rectangle to draw
+        rectangle_to_draw = QRect(1, rect_y, self.width() - 3, self.height() - rect_y - 1)
+
+        if self.underMouse():
+            # draw background
+            painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
+            if (self.bg_color == None):
+                painter.setBrush(Qt.NoBrush) # Ensures only the outline is drawn
+            else:
+                # mouse over shift and ctrl, set base background
+                if (self.mouse_pos != None and self.shift_and_ctrl_rect().contains(self.mouse_pos)):
+                    painter.setBrush(QColor(self.bg_color))
+            painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
+        else:
+            # draw background
+            painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
+
+            if self.preselect and (self._shift == False) and (self._ctrl == False):
+                painter.setPen(Qt.NoPen)
+                painter.setBrush(self.preselect_color)
+            else:
+                if (self.bg_color == None):
+                    painter.setBrush(Qt.NoBrush) # Ensures only the outline is drawn
+                else:
+                    painter.setBrush(QColor(self.bg_color))
+            painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
+
+        # Draw the main centered text
+        if (self._shift == False and self._ctrl == False):
+            painter.setFont(self.text_highlight_font)
+        else:
+            painter.setFont(self.text_font)
+
+        painter.setPen(self.text_color)
+        painter.drawText(rectangle_to_draw, Qt.AlignCenter, self.text())
+
+        # Draw original keyboard text
+        if self.original_keyboard_text != self.text():
+            painter.setFont(self.original_keyboard_text_font)
+            painter.setPen(self.original_keyboard_text_color)
+            painter.drawText(rectangle_to_draw.marginsRemoved(QMargins(0, 0, 2, 0)),
+                Qt.AlignRight | Qt.AlignBottom, self.original_keyboard_text)
+
+        painter.restore()
+
+    @property
+    def shift(self) -> bool:
+        """Returns the current shift state of the button."""
+        return self._shift
+    
+    @shift.setter
+    def shift(self, state: bool):
+        """
+        Sets the shift state of the button and requests a repaint.
+        """
+        if self._shift != state:
+            self._shift = state
+            # Request an update to trigger paintEvent
+            self.update() # <--- Key change here!
+
+    @property
+    def physical_shift(self) -> bool:
+        """Returns the current physical shift key state."""
+        return self._physical_shift
+    @physical_shift.setter
+    def physical_shift(self, state: bool):
+        """
+        Sets the physical shift key state and requests a repaint.
+        """
+        if self._physical_shift != state:
+            self._physical_shift = state
+            # Request an update to trigger paintEvent
+            self.update() # <--- Key change here!
+
+    @property
+    def ctrl(self) -> bool:
+        """Returns the current shift state of the button."""
+        return self._ctrl
+    
+    @ctrl.setter
+    def ctrl(self, state: bool):
+        """
+        Sets the shift state of the button and requests a repaint.
+        """
+        if self._ctrl != state:
+            self._ctrl = state
+            # Request an update to trigger paintEvent
+            self.update() # <--- Key change here!
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        self.mouse_pos = event.position().toPoint()  # store local position
+        self.update()  # trigger paintEvent
+        super().mouseMoveEvent(event)
+
+    def shift_rect(self):
+        return QRect(0, 1, self.rect().width() / 2, self.height_shift_area)
+    
+    def ctrl_rect(self) -> QRect:
+        rect = QRect(self.rect().width() / 2, 1, self.rect().width() / 2, self.height_shift_area)
+        #rect = rect.adjusted(0, 0, -20, 0)
+        return rect
+    
+    def shift_and_ctrl_rect(self) -> QRect:
+        rect = QRect(0, 1, self.rect().width(), self.height_shift_area)
+        rect = rect.adjusted(0, 0, -1, 0)
+        return rect
+    
+    def paintNormalMode(self, painter: QPainter, current_bg_color: QColor, bg_rect: QRect):
         if self.isDown(): # Button is currently pressed
             current_bg_color = QColor("#BBBBBB")
         elif self.underMouse(): # Mouse is hovering over the button
@@ -115,7 +247,6 @@ class CalcButton(QPushButton):
                 elif (self.mouse_pos != None and self.ctrl_rect().contains(self.mouse_pos)):
                     painter.drawRoundedRect(self.ctrl_rect(), self.corner_radius, self.corner_radius)
                 else:
-#                    painter.fillRect(bg_rect, current_bg_color)
                     painter.drawRoundedRect(bg_rect, self.corner_radius, self.corner_radius)
             else:
                 # shift and ctrl text is equal
@@ -201,100 +332,26 @@ class CalcButton(QPushButton):
                 painter.drawText(self.shift_and_ctrl_rect(), self.shift_ctrl_def_vertical_alignment | Qt.AlignHCenter,
                     self.shift_text)
 
+    def paintCtrlShiftMode(self, painter: QPainter, current_bg_color: QColor, bg_rect: QRect):
+        if self.isDown(): # Button is currently pressed
+            current_bg_color = QColor("#BBBBBB")
+        elif self.underMouse(): # Mouse is hovering over the button
+            current_bg_color = QColor("#BEE6FD")
+            painter.setBrush(current_bg_color)
+            painter.setPen(Qt.NoPen)
 
-        # --- Draw the rectangle using drawRect() ---
-        rect_y = self.height_shift_area 
-        
-        # Define the rectangle to draw
-        rectangle_to_draw = QRect(1, rect_y, self.width() - 3, self.height() - rect_y - 1)
+            # shift and ctrl text are not equal
+            if (self.mouse_pos != None and self.shift_and_ctrl_rect().contains(self.mouse_pos)):
+                painter.drawRoundedRect(self.shift_and_ctrl_rect(), self.corner_radius, self.corner_radius)
 
-        if self.underMouse():
-            # draw background
-            painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
-            if (self.bg_color == None):
-                painter.setBrush(Qt.NoBrush) # Ensures only the outline is drawn
-            else:
-                # mouse over shift and ctrl, set base background
-                if (self.mouse_pos != None and self.shift_and_ctrl_rect().contains(self.mouse_pos)):
-                    painter.setBrush(QColor(self.bg_color))
-            painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
-        else:
-            # draw background
-#            painter.setPen(QPen(QColor("#707070"), 0, Qt.SolidLine))
-            painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
+        # Draw the ctrl shift text on top middle
+        if self.preselect:
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(self.preselect_color)
+            painter.drawRoundedRect(self.shift_and_ctrl_rect(), self.corner_radius, self.corner_radius)
 
-            if self.preselect and (self._shift == False) and (self._ctrl == False):
-                painter.setPen(Qt.NoPen)
-                painter.setBrush(self.preselect_color)
-            else:
-                if (self.bg_color == None):
-                    painter.setBrush(Qt.NoBrush) # Ensures only the outline is drawn
-                else:
-                    painter.setBrush(QColor(self.bg_color))
-            painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
+        painter.setFont(self.ctrl_shift_highlight_font)
+        painter.setPen(self.ctrl_shift_highlight_color)
 
-        # Draw the main centered text
-        if (self._shift == False and self._ctrl == False):
-            painter.setFont(self.text_highlight_font)
-        else:
-            painter.setFont(self.text_font)
-
-        painter.setPen(self.text_color)
-        painter.drawText(rectangle_to_draw, Qt.AlignCenter, self.text())
-
-        # Draw original keyboard text
-        if self.original_keyboard_text != self.text():
-            painter.setFont(self.original_keyboard_text_font)
-            painter.setPen(self.original_keyboard_text_color)
-            painter.drawText(rectangle_to_draw.marginsRemoved(QMargins(0, 0, 2, 0)),
-                Qt.AlignRight | Qt.AlignBottom, self.original_keyboard_text)
-
-        painter.restore()
-
-    @property
-    def shift(self) -> bool:
-        """Returns the current shift state of the button."""
-        return self._shift
-    
-    @shift.setter
-    def shift(self, state: bool):
-        """
-        Sets the shift state of the button and requests a repaint.
-        """
-        if self._shift != state:
-            self._shift = state
-            # Request an update to trigger paintEvent
-            self.update() # <--- Key change here!
-
-    @property
-    def ctrl(self) -> bool:
-        """Returns the current shift state of the button."""
-        return self._ctrl
-    
-    @ctrl.setter
-    def ctrl(self, state: bool):
-        """
-        Sets the shift state of the button and requests a repaint.
-        """
-        if self._ctrl != state:
-            self._ctrl = state
-            # Request an update to trigger paintEvent
-            self.update() # <--- Key change here!
-
-    def mouseMoveEvent(self, event: QMouseEvent):
-        self.mouse_pos = event.position().toPoint()  # store local position
-        self.update()  # trigger paintEvent
-        super().mouseMoveEvent(event)
-
-    def shift_rect(self):
-        return QRect(0, 1, self.rect().width() / 2, self.height_shift_area)
-    
-    def ctrl_rect(self) -> QRect:
-        rect = QRect(self.rect().width() / 2, 1, self.rect().width() / 2, self.height_shift_area)
-        #rect = rect.adjusted(0, 0, -20, 0)
-        return rect
-    
-    def shift_and_ctrl_rect(self) -> QRect:
-        rect = QRect(0, 1, self.rect().width(), self.height_shift_area)
-        rect = rect.adjusted(0, 0, -1, 0)
-        return rect
+        painter.drawText(self.shift_and_ctrl_rect(), self.shift_ctrl_def_vertical_alignment | Qt.AlignHCenter,
+            self.ctrl_shift_text)
