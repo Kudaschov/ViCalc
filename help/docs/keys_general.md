@@ -16,4 +16,5 @@
 | Exponent                  | EXP   | On main keyboard only |
 | Number input              | 0 - 9 | On main Keyboard and Numpad |
 | Sign insert               | (-)   | `_` (underscore) on main Keyboard or Shift + `Numpad Minus` *(Regular Minus sign performs subtraction)* |
+| Sign change | +/- | `Ctrl+Shift+_` (underscore) on main Keyboard or Ctrl+Shift+`Numpad Minus`<br>Multiplies the current number by -1, changing its sign (positive ↔ negative) |
 

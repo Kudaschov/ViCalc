@@ -1,17 +1,18 @@
 # Calculation History
 
 ## Calculator Mode
-- Enter = Add current number to history<br>
-- Shift+Space = Add comment to history<br>
+- Enter = Add current number to history (when no operation is active)<br>
+- Space = Add comment to history<br>
 - Shift+Back Space / Ctrl+DL* = Remove last line from history<br>
 - TAB / Arrow Up = Go to history<br> 
-
+- F9 = Toggle calculator / history<br>
+c
 ## History Mode
 - Esc = Return to calculator<br>
-- Ctrl+E / Ctrl+I / F5 = Toggle calculator / history<br>
-- Arrows / ESDF / IJKL = Select entry<br>
-- Enter / Mouse Double-click = Insert<br>
-- Down = Return from last line<br>
+- F9 = Toggle calculator / history<br>
+- Arrows / ESDF = Select entry<br>
+- Enter / Mouse Double-click = Insert value into input box<br>
+- Down = Return to calculator from last line<br>
 - Delete = Clear cells<br>
 - Shift+Delete = Remove lines from history<br>
 

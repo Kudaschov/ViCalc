@@ -107,11 +107,6 @@ class MainWindow(QMainWindow):
         self.ui.action_AWG_to_mm2.triggered.connect(self.awg_to_mm2)
         self.ui.action_mm2_to_AWG.triggered.connect(self.mm2_to_awg)
 
-        self.settings = QSettings("Kudaschov", "ViCalc")
-        self.read_settings()
-        AppGlobals.input_box.setFocus()
-        AppGlobals.input_box.selectAll()
-
         # connect mouse double click on table
         AppGlobals.table.cellDoubleClicked.connect(self.table_cell_double_clicked)
 
@@ -167,6 +162,10 @@ class MainWindow(QMainWindow):
         AppGlobals.table.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F", "G"])
         self.connect_table_signals()
 
+        self.trig_mode_label = ClickableLabel("TrigMode")
+        self.trig_mode_label.clicked.connect(self.trig_mode_label_clicked)
+        self.ui.statusbar.addWidget(self.trig_mode_label)
+
         self.memory_label = ClickableLabel("Memory:")
         self.memory_label.clicked.connect(self.memory_label_clicked)
         self.ui.statusbar.addWidget(self.memory_label)
@@ -188,6 +187,9 @@ class MainWindow(QMainWindow):
 
         self.free_message_label = QLabel("")
         self.ui.statusbar.addWidget(self.free_message_label)
+
+        self.settings = QSettings("Kudaschov", "ViCalc")
+        self.read_settings()
 
         self.save_path = os.path.join(
         QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "vicalc_data.vic")
@@ -212,6 +214,9 @@ class MainWindow(QMainWindow):
         self.ui.actionExit.triggered.connect(self.close)     
         self.ui.actionToggle_Protocol.triggered.connect(self.toggle_protocol)
         self.ui.action_delete_full_protocol.triggered.connect(self.delete_full_protocol)
+
+        AppGlobals.input_box.setFocus()
+        AppGlobals.input_box.selectAll()
 
     def statusbar_free_message(self, message: str):
         self.free_message_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
@@ -324,6 +329,7 @@ class MainWindow(QMainWindow):
 
         if result == QMessageBox.Yes:
             AppGlobals.table.setRowCount(0)
+            self.goto_calculator_mode()
 
     def connect_table_signals(self):
         AppGlobals.table.enterPressed.connect(self.cell_enter_pressed)
@@ -418,13 +424,16 @@ class MainWindow(QMainWindow):
         self.UpdateUiTrigMode()
 
     def UpdateUiTrigMode(self):
-            match AppGlobals.input_box.trig_mode:
-                case TrigMode.RAD:
-                    self.ui.action_RAD.setChecked(True)
-                case TrigMode.GRA:
-                    self.ui.action_GRA.setChecked(True)
-                case _:
-                    self.ui.action_DEG.setChecked(True)
+        match AppGlobals.input_box.trig_mode:
+            case TrigMode.RAD:
+                self.ui.action_RAD.setChecked(True)
+                self.trig_mode_label.setText("RAD")
+            case TrigMode.GRA:
+                self.ui.action_GRA.setChecked(True)
+                self.trig_mode_label.setText("GRA")
+            case _:
+                self.ui.action_DEG.setChecked(True)
+                self.trig_mode_label.setText("DEG")
 
     def start_key_state_monitor(self):
         self.timer = QTimer(self)
@@ -664,12 +673,15 @@ class MainWindow(QMainWindow):
 
     def mode_deg(self):
         AppGlobals.input_box.trig_mode = TrigMode.DEG
+        self.UpdateUiTrigMode()
 
     def mode_rad(self):
         AppGlobals.input_box.trig_mode = TrigMode.RAD
+        self.UpdateUiTrigMode()
 
     def mode_gra(self):
         AppGlobals.input_box.trig_mode = TrigMode.GRA
+        self.UpdateUiTrigMode()
 
     def convert_to_deg(self):
         AppGlobals.input_box.exec_convert_to_deg()
@@ -692,6 +704,17 @@ class MainWindow(QMainWindow):
 
     def date_time_stamp(self):
         AppGlobals.input_box.exec_date_time_stamp()
+
+    def trig_mode_label_clicked(self):
+        match AppGlobals.input_box.trig_mode:
+            case TrigMode.DEG:
+                AppGlobals.input_box.trig_mode = TrigMode.RAD
+            case TrigMode.RAD:
+                AppGlobals.input_box.trig_mode = TrigMode.GRA
+            case _:
+                AppGlobals.input_box.trig_mode = TrigMode.DEG
+
+        self.UpdateUiTrigMode()
 
     def memory_label_clicked(self):
         AppGlobals.input_box.exec_MR()

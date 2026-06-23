@@ -18,8 +18,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHeaderView, QLabel,
     QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QStatusBar, QTableWidgetItem, QTextEdit, QToolBar,
-    QVBoxLayout, QWidget)
+    QStatusBar, QTableWidgetItem, QTextEdit, QVBoxLayout,
+    QWidget)
 
 from .CalcButton import CalcButton
 from .CalcTableWidget import CalcTableWidget
@@ -484,9 +484,6 @@ class Ui_MainWindow(object):
         font2.setPointSize(11)
         self.statusbar.setFont(font2)
         MainWindow.setStatusBar(self.statusbar)
-        self.toolBar = QToolBar(MainWindow)
-        self.toolBar.setObjectName(u"toolBar")
-        MainWindow.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.toolBar)
 
         self.menubar.addAction(self.menu_File.menuAction())
         self.menubar.addAction(self.menu_Math.menuAction())
@@ -541,11 +538,6 @@ class Ui_MainWindow(object):
         self.menu_Tools.addAction(self.action_phy_const)
         self.menu_Tools.addSeparator()
         self.menu_Tools.addAction(self.action_options)
-        self.toolBar.addSeparator()
-        self.toolBar.addAction(self.action_DEG)
-        self.toolBar.addAction(self.action_RAD)
-        self.toolBar.addAction(self.action_GRA)
-        self.toolBar.addSeparator()
 
         self.retranslateUi(MainWindow)
 
@@ -696,6 +688,5 @@ class Ui_MainWindow(object):
         self.menu_Convert.setTitle(QCoreApplication.translate("MainWindow", u"&Convert", None))
         self.menu_Math.setTitle(QCoreApplication.translate("MainWindow", u"M&ath", None))
         self.menu_Tools.setTitle(QCoreApplication.translate("MainWindow", u"&Tools", None))
-        self.toolBar.setWindowTitle(QCoreApplication.translate("MainWindow", u"toolBar", None))
     # retranslateUi
 

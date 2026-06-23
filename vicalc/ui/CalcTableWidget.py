@@ -26,10 +26,6 @@ class CalcTableWidget(QTableWidget):
             Qt.Key_S: Qt.Key_Left,
             Qt.Key.Key_D: Qt.Key.Key_Down,
             Qt.Key_F: Qt.Key_Right,
-            Qt.Key_I: Qt.Key_Up,
-            Qt.Key_J: Qt.Key_Left,
-            Qt.Key_K: Qt.Key_Down,
-            Qt.Key_L: Qt.Key_Right
         }        
         if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             row = self.currentRow()
@@ -38,12 +34,6 @@ class CalcTableWidget(QTableWidget):
             if item:
                 self.enterPressed.emit(row, col)
         elif event.key() == Qt.Key.Key_Escape:
-            self.escPressed.emit()
-        # Ctrl+E is the same as Esc
-        elif event.key() == Qt.Key_E and event.modifiers() & Qt.ControlModifier:
-            self.escPressed.emit()
-        # Ctrl+I is also the same as Esc
-        elif event.key() == Qt.Key_I and event.modifiers() & Qt.ControlModifier:
             self.escPressed.emit()
         elif event.key() == Qt.Key.Key_Delete and (event.modifiers() & Qt.ShiftModifier):
             self.shift_delete_pressed.emit()
