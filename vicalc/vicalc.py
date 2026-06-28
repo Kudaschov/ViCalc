@@ -34,6 +34,7 @@ from .key_preselect import KeyPreselect
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.initialized = False # Flag for only one time operations in showevent, e. g. date_time_stamp
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -694,7 +695,10 @@ class MainWindow(QMainWindow):
 
     def showEvent(self, event):
         super().showEvent(event)
-        QTimer.singleShot(0, self.after_mainwindow_show)
+
+        if not self.initialized:
+            self.initialized = True
+            QTimer.singleShot(0, self.after_mainwindow_show)
 
     def after_mainwindow_show(self):
         self.memory_changed(AppGlobals.input_box.memory_to_format_string())

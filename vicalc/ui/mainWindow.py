@@ -583,7 +583,7 @@ class Ui_MainWindow(object):
 #if QT_CONFIG(shortcut)
         self.action_numeric_format.setShortcut(QCoreApplication.translate("MainWindow", u"F4", None))
 #endif // QT_CONFIG(shortcut)
-        self.actionInsertDateTime.setText(QCoreApplication.translate("MainWindow", u"Insert &Date and Time", None))
+        self.actionInsertDateTime.setText(QCoreApplication.translate("MainWindow", u"In&sert Date and Time", None))
         self.action_dms_to_dd.setText(QCoreApplication.translate("MainWindow", u"&DMS to DD...", None))
         self.action_sinh.setText(QCoreApplication.translate("MainWindow", u"&sinh", None))
         self.action_cosh.setText(QCoreApplication.translate("MainWindow", u"&cosh", None))
