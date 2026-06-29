@@ -1810,7 +1810,7 @@ class InputTextEdit(QLineEdit):
         modified_text = QGuiApplication.clipboard().text()
 
         if AppGlobals.paste_from_clipboard_replace:
-            modified_text = modified_text.replace(',', '.')
+            modified_text = modified_text.translate(str.maketrans(".,", ",."))
 
         # Keep only allowed characters +-.,0123456789eE
         modified_text = re.sub(r'[^+\-\.,0-9eE]', '', modified_text)
