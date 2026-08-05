@@ -1963,9 +1963,14 @@ class InputTextEdit(QLineEdit):
         item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
         AppGlobals.table.setItem(row, 3, item)
 
+        cw, year = QDate.currentDate().weekNumber()
+        item = QTableWidgetItem()
+        item.setText(f"CW {cw}")
+        AppGlobals.table.setItem(row, 4, item)
+
         item = QTableWidgetItem()
         item.setText(separator)
-        AppGlobals.table.setItem(row, 4, item)
+        AppGlobals.table.setItem(row, 5, item)
 
         AppGlobals.table.scrollToBottom()
 

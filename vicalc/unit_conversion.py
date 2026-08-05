@@ -150,7 +150,7 @@ class UnitRegistry:
         self.add(Unit(P, "millibar", "mbar", lambda x: x * 100.0, lambda x: x / 100.0))
         self.add(Unit(P, "millimeter of mercury", "mmHg", lambda x: x * 1.333224e2, lambda x: x / 1.333224e2))
         self.add(Unit(P, "pascal", "Pa", lambda x: x, lambda x: x))
-        self.add(Unit(P, "pound-force per square inch", "lbf/in²", lambda x: x * 6894.757, lambda x: x / 6894.757))
+        self.add(Unit(P, "pound-force per square inch (lbf/in²)", "psi", lambda x: x * 6894.757, lambda x: x / 6894.757))
 
         T = "Temperature"
         self.add(Unit(T, "Celsius", "°C", lambda x: x + 273.15, lambda x: x - 273.15))
@@ -192,9 +192,19 @@ class ConversionDialog(QDialog):
         self.result_unit_out = None
         self._build_ui()
 
+        # --- Hier das neue Signal für die Komma-Ersetzung ---
+        self.input_edit.textEdited.connect(self._replace_comma)        
+
+    def _replace_comma(self, text: str):
+        # replace comma with dot for decimal input
+        if "," in text:
+            pos = self.input_edit.cursorPosition()
+            self.input_edit.setText(text.replace(",", "."))
+            self.input_edit.setCursorPosition(pos)
+
     def _build_ui(self):
         self.setWindowTitle("Unit Converter NIST SP 811 / 2008")
-        self.resize(600, 480)
+        self.resize(850, 480)
         layout = QVBoxLayout()
 
         # Horizontal layout for listboxes with labels on top
@@ -329,7 +339,7 @@ class ConversionDialog(QDialog):
             from_u = self.registry.find(from_symbol)
             to_u = self.registry.find(to_symbol)
             if not from_u or not to_u:
-                return
+                raise ValueError("Selected units not found in registry")
             base = from_u.to_base(value)
             result = to_u.from_base(base)
             s_in = f"{from_symbol}"
@@ -337,6 +347,7 @@ class ConversionDialog(QDialog):
             self.result_label.setText(f"{s_in} = {s_out}")
             self.value, self.unit, self.result, self.result_unit_out = value, from_symbol, result, to_symbol
         except Exception:
+            self.result_label.setText("- - -")
             self.ok_btn.setEnabled(False)
 
     def _swap_units(self):
