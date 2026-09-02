@@ -1413,16 +1413,16 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_S:
                         self.button_clicked(UiGlobals.pushButtonS.ctrl_operation)
                     case Qt.Key.Key_D:
-                        self.exec_cosh()
+                        self.button_clicked(UiGlobals.pushButtonD.ctrl_operation)
                     case Qt.Key.Key_G:
-                        self.exec_polar_to_rectangular()
+                        self.button_clicked(UiGlobals.pushButtonG.ctrl_operation)
                     # handle copy/paste with possible replacing            
                     case Qt.Key.Key_X:
-                        self.handle_cut()
+                        self.button_clicked(UiGlobals.pushButtonX.ctrl_operation)
                     case Qt.Key.Key_C:
-                        self.handle_copy()
+                        self.button_clicked(UiGlobals.pushButtonC.ctrl_operation)
                     case Qt.Key.Key_V:
-                        self.handle_paste()
+                        self.button_clicked(UiGlobals.pushButtonV.ctrl_operation)
                     case Qt.Key.Key_B:
                         self.exec_rectangular_to_polar()
                     case Qt.Key.Key_Space:
