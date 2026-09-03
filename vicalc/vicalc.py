@@ -175,6 +175,13 @@ class MainWindow(QMainWindow):
         self.numeric_format_label.clicked.connect(self.numeric_format_clicked)
         self.ui.statusbar.addWidget(self.numeric_format_label)
 
+        self.bin_label = ClickableLabel("")
+        self.ui.statusbar.addWidget(self.bin_label)
+        self.oct_label = ClickableLabel("")
+        self.ui.statusbar.addWidget(self.oct_label)
+        self.hex_label = ClickableLabel("")
+        self.ui.statusbar.addWidget(self.hex_label)
+
         self.capslock_label = QLabel("CapsLock")
         self.ui.statusbar.addWidget(self.capslock_label)
         self.numlock_label = QLabel("Numlock")
@@ -361,14 +368,13 @@ class MainWindow(QMainWindow):
         return False         
 
     def read_settings(self):
-        saved_text = self.settings.value("inputText", "")
+        saved_text = self.settings.value("inputText", "0")
         try:
             AppGlobals.input_box.setText(saved_text)
             AppGlobals.input_box.trig_mode_init(self.settings.value("trig_mode"))
             AppGlobals.input_box.memory = float(self.settings.value("memory", 0.0))
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
-            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
@@ -412,13 +418,16 @@ class MainWindow(QMainWindow):
             if not geometry.isEmpty():
                 self.restoreGeometry(geometry)
             else:
-                self.resize(800, 600)
+                self.resize(631, 600)
                 self.move(100, 100)
 
             state = self.settings.value("MainWindow/windowState", QByteArray())
             if not state.isEmpty():
-                self.restoreState(state)       
+                self.restoreState(state)      
+
+            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
         except Exception as err:
+            AppGlobals.numeric_format = NumericFormat.normal
             print(f"Unexpected {err=}, {type(err)=}")
 
     def trig_mode_changed_over_keys(self):
@@ -447,6 +456,12 @@ class MainWindow(QMainWindow):
         lang_id = hkl & 0xFFFF
         return lang_id
 
+    def is_integer(self, val: str) -> bool:
+        try:
+            return float(val).is_integer()
+        except ValueError:
+            return False
+      
     def check_key_states(self):
         caps = self.get_key_state(0x14)      # CapsLock
         num = self.get_key_state(0x90)       # NumLock
@@ -475,9 +490,30 @@ class MainWindow(QMainWindow):
         number_temp, convert_ok = locale_temp.toDouble(s_temp)
         if convert_ok:
             self.invalid_number_label.setText("")
+
+            if self.is_integer(s_temp):
+                if AppGlobals.show_bin:
+                    self.bin_label.setText(bin(int(float(s_temp))))
+                if AppGlobals.show_oct:
+                    self.oct_label.setText(oct(int(float(s_temp))))
+                if AppGlobals.show_hex:
+                    self.hex_label.setText(f"0x{int(float(s_temp)):X}")
+            else:
+                if AppGlobals.show_bin:
+                    self.bin_label.setText("0b---")
+                if AppGlobals.show_oct:
+                    self.oct_label.setText("0o---")
+                if AppGlobals.show_hex:
+                    self.hex_label.setText("0x---")
         else:
             self.invalid_number_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.invalid_number_label.setText("Invalid Number")
+            if AppGlobals.show_bin:
+                self.bin_label.setText("0b---")
+            if AppGlobals.show_oct:
+                self.oct_label.setText("0o---")
+            if AppGlobals.show_hex:
+                self.hex_label.setText("0x---")
 
         if (0x0407 == MainWindow.get_keyboard_layout_windows()) or (0x0807 == MainWindow.get_keyboard_layout_windows()
                                                                     or (0x0C07 == MainWindow.get_keyboard_layout_windows())):
@@ -1243,10 +1279,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.column = 2.5
         self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
-        self.ui.pushButtonX.shift_text = "Bin"
+        self.ui.pushButtonX.shift_text = "Hex"
         self.ui.pushButtonX.ctrl_text = "Cut"
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
-        self.ui.pushButtonX.shift_operation = CalcOperations.convert_from_binary
+        self.ui.pushButtonX.shift_operation = CalcOperations.convert_from_hexadecimal
         self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
         UiGlobals.pushButtonX = self.ui.pushButtonX
         self.leftside_button_list.append(self.ui.pushButtonX)
@@ -1255,11 +1291,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.column = 3.5
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonC.shift_text = "Oct"
+        self.ui.pushButtonC.shift_text = "Dec"
         self.ui.pushButtonC.ctrl_text = "Copy"
         self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonC.base_operation = CalcOperations.C
-        self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_octal
+        self.ui.pushButtonC.shift_operation = CalcOperations.convert_to_bases
         self.ui.pushButtonC.ctrl_operation = CalcOperations.copy_to_clipboard
         UiGlobals.pushButtonC = self.ui.pushButtonC
         self.leftside_button_list.append(self.ui.pushButtonC)
@@ -1268,12 +1304,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.column = 4.5
         self.ui.pushButtonV.setText("MR")
         self.ui.pushButtonV.original_keyboard_text = "V"
-        self.ui.pushButtonV.shift_text = "Dec"
+        self.ui.pushButtonV.shift_text = "Oct"
         self.ui.pushButtonV.ctrl_text = "Paste"
         self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
-        self.ui.pushButtonV.shift_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonV.shift_operation = CalcOperations.convert_from_octal
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
         UiGlobals.pushButtonV = self.ui.pushButtonV
         self.leftside_button_list.append(self.ui.pushButtonV)
@@ -1284,12 +1320,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.text_font = QFont("Times New Roman", 14)
         self.ui.pushButtonB.setText("π")
         self.ui.pushButtonB.original_keyboard_text = "B"
-        self.ui.pushButtonB.shift_text = "Hex"
+        self.ui.pushButtonB.shift_text = "Bin"
         self.ui.pushButtonB.ctrl_text = "R→P"
         self.ui.pushButtonB.ctrl_font = self.font_long_names
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.pi
-        self.ui.pushButtonB.shift_operation = CalcOperations.convert_from_hexadecimal
+        self.ui.pushButtonB.shift_operation = CalcOperations.convert_from_binary
         self.ui.pushButtonB.ctrl_operation = CalcOperations.rectangular_to_polar
         UiGlobals.pushButtonB = self.ui.pushButtonB
         self.leftside_button_list.append(self.ui.pushButtonB)

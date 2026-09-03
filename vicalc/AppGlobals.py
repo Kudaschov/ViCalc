@@ -10,6 +10,10 @@ class AppGlobals:
     copy_to_clipboard_replace = True
     paste_from_clipboard_replace = True
     input_replace_decimal_separator = False
+    # Show number in status bar in binary, octal, and hexadecimal format when the number is an integer.
+    show_bin = False
+    show_oct = False
+    show_hex = False
     table = None # tableWidget in main window
     input_box = None # inputTextEdit in main window
     current_row = -1 # current row in table

@@ -743,7 +743,10 @@ class InputTextEdit(QLineEdit):
             self.setTextSelect(self.toString(AppGlobals.angle_unit.to_gra_with_protocol(self.number)))
 
     def trig_mode_init(self, value):
-        self._trig_mode = TrigMode(value)
+        if (value is None):
+            value = TrigMode.DEG
+        else:
+            self._trig_mode = TrigMode(value)
 
         match TrigMode(value):
             case TrigMode.RAD:
