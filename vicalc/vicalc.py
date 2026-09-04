@@ -374,7 +374,7 @@ class MainWindow(QMainWindow):
             AppGlobals.input_box.trig_mode_init(self.settings.value("trig_mode"))
             AppGlobals.input_box.memory = float(self.settings.value("memory", 0.0))
 
-            AppGlobals.numeric_precision = self.settings.value("numeric_precision", type=int)
+            AppGlobals.numeric_precision = self.settings.value("numeric_precision", 5, type=int)
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
@@ -411,6 +411,10 @@ class MainWindow(QMainWindow):
             AppGlobals.lse_c2 = float(self.settings.value("lse_c2", 6.0))
 
             AppGlobals.log_base = float(self.settings.value("log_base", 10.0))
+
+            AppGlobals.show_binary_value = self.settings.value("show_binary_value", False, type=bool)
+            AppGlobals.show_octal_value = self.settings.value("show_octal_value", False, type=bool)
+            AppGlobals.show_hex_value = self.settings.value("show_hex_value", False, type=bool)
 
             self.UpdateUiTrigMode()
 
@@ -492,27 +496,39 @@ class MainWindow(QMainWindow):
             self.invalid_number_label.setText("")
 
             if self.is_integer(s_temp):
-                if AppGlobals.show_bin:
+                if AppGlobals.show_binary_value:
                     self.bin_label.setText(bin(int(float(s_temp))))
-                if AppGlobals.show_oct:
+                else:
+                    self.bin_label.setText("")
+                if AppGlobals.show_octal_value:
                     self.oct_label.setText(oct(int(float(s_temp))))
-                if AppGlobals.show_hex:
+                else:
+                    self.oct_label.setText("")
+                if AppGlobals.show_hex_value:
                     self.hex_label.setText(f"0x{int(float(s_temp)):X}")
+                else:
+                    self.hex_label.setText("")
             else:
-                if AppGlobals.show_bin:
+                if AppGlobals.show_binary_value:
                     self.bin_label.setText("0b---")
-                if AppGlobals.show_oct:
+                else:
+                    self.bin_label.setText("")
+                if AppGlobals.show_octal_value:
                     self.oct_label.setText("0o---")
-                if AppGlobals.show_hex:
+                else:
+                    self.oct_label.setText("")
+                if AppGlobals.show_hex_value:
                     self.hex_label.setText("0x---")
+                else:
+                    self.hex_label.setText("")
         else:
             self.invalid_number_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.invalid_number_label.setText("Invalid Number")
-            if AppGlobals.show_bin:
+            if AppGlobals.show_binary_value:
                 self.bin_label.setText("0b---")
-            if AppGlobals.show_oct:
+            if AppGlobals.show_octal_value:
                 self.oct_label.setText("0o---")
-            if AppGlobals.show_hex:
+            if AppGlobals.show_hex_value:
                 self.hex_label.setText("0x---")
 
         if (0x0407 == MainWindow.get_keyboard_layout_windows()) or (0x0807 == MainWindow.get_keyboard_layout_windows()
@@ -622,6 +638,10 @@ class MainWindow(QMainWindow):
         self.settings.setValue("lse_c2", AppGlobals.lse_c2)
 
         self.settings.setValue("log_base", AppGlobals.log_base)
+
+        self.settings.setValue("show_binary_value", AppGlobals.show_binary_value)
+        self.settings.setValue("show_octal_value", AppGlobals.show_octal_value)
+        self.settings.setValue("show_hex_value", AppGlobals.show_hex_value)
 
         super().closeEvent(event)
 
@@ -1454,6 +1474,9 @@ class MainWindow(QMainWindow):
         dialog.ui.inputReplacePointcheckBox.setChecked(AppGlobals.input_replace_decimal_separator)
         dialog.ui.NumlockACcheckBox.setChecked(AppGlobals.numlock_ac)
         dialog.ui.convertAngleCheckBox.setChecked(AppGlobals.convert_angle_on_unit_change)
+        dialog.ui.showBinaryValueCheckBox.setChecked(AppGlobals.show_binary_value)
+        dialog.ui.showOctalValueCheckBox.setChecked(AppGlobals.show_octal_value)
+        dialog.ui.showHexValueCheckBox.setChecked(AppGlobals.show_hex_value)
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
@@ -1462,6 +1485,9 @@ class MainWindow(QMainWindow):
             AppGlobals.input_replace_decimal_separator = dialog.ui.inputReplacePointcheckBox.isChecked()
             AppGlobals.numlock_ac = dialog.ui.NumlockACcheckBox.isChecked()
             AppGlobals.convert_angle_on_unit_change = dialog.ui.convertAngleCheckBox.isChecked()
+            AppGlobals.show_binary_value = dialog.ui.showBinaryValueCheckBox.isChecked()
+            AppGlobals.show_octal_value = dialog.ui.showOctalValueCheckBox.isChecked()
+            AppGlobals.show_hex_value = dialog.ui.showHexValueCheckBox.isChecked()
 
     def square(self):
         AppGlobals.input_box.exec_square()

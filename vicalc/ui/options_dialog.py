@@ -16,16 +16,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QCheckBox, QDialog,
-    QDialogButtonBox, QSizePolicy, QWidget)
+    QDialogButtonBox, QGroupBox, QSizePolicy, QWidget)
 
 class Ui_optionsDialog(object):
     def setupUi(self, optionsDialog):
         if not optionsDialog.objectName():
             optionsDialog.setObjectName(u"optionsDialog")
-        optionsDialog.resize(410, 240)
+        optionsDialog.resize(410, 369)
         self.buttonBox = QDialogButtonBox(optionsDialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(10, 200, 391, 32))
+        self.buttonBox.setGeometry(QRect(10, 330, 391, 32))
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
         self.timestampCheckBox = QCheckBox(optionsDialog)
@@ -46,6 +46,19 @@ class Ui_optionsDialog(object):
         self.convertAngleCheckBox = QCheckBox(optionsDialog)
         self.convertAngleCheckBox.setObjectName(u"convertAngleCheckBox")
         self.convertAngleCheckBox.setGeometry(QRect(20, 170, 381, 20))
+        self.groupBox = QGroupBox(optionsDialog)
+        self.groupBox.setObjectName(u"groupBox")
+        self.groupBox.setGeometry(QRect(10, 210, 391, 121))
+        self.groupBox.setLocale(QLocale(QLocale.English, QLocale.Germany))
+        self.showBinaryValueCheckBox = QCheckBox(self.groupBox)
+        self.showBinaryValueCheckBox.setObjectName(u"showBinaryValueCheckBox")
+        self.showBinaryValueCheckBox.setGeometry(QRect(10, 30, 181, 20))
+        self.showOctalValueCheckBox = QCheckBox(self.groupBox)
+        self.showOctalValueCheckBox.setObjectName(u"showOctalValueCheckBox")
+        self.showOctalValueCheckBox.setGeometry(QRect(10, 60, 181, 20))
+        self.showHexValueCheckBox = QCheckBox(self.groupBox)
+        self.showHexValueCheckBox.setObjectName(u"showHexValueCheckBox")
+        self.showHexValueCheckBox.setGeometry(QRect(10, 90, 181, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -60,7 +73,7 @@ class Ui_optionsDialog(object):
         self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace decimal point (.) with comma (,)", None))
         self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace comma (,) with decimal point (.)", None))
         self.inputReplacePointcheckBox.setText(QCoreApplication.translate("optionsDialog", u"Convert comma (,) to decimal point (.) on &input", None))
-        self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC/C - All Clear / Clear Key", None))
+        self.NumlockACcheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Numlock as AC/C (All Clear / Clear) Key", None))
 #if QT_CONFIG(tooltip)
         self.convertAngleCheckBox.setToolTip(QCoreApplication.translate("optionsDialog", u"Convert angle automatically when changing units.", None))
 #endif // QT_CONFIG(tooltip)
@@ -68,5 +81,9 @@ class Ui_optionsDialog(object):
         self.convertAngleCheckBox.setWhatsThis(QCoreApplication.translate("optionsDialog", u"If this checkbox is checked, the angle value will be converted automatically when you switch between degrees (D), radians (R), or grads (G). If unchecked, only the unit label changes.", None))
 #endif // QT_CONFIG(whatsthis)
         self.convertAngleCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Con&vert Angle on Unit Change", None))
+        self.groupBox.setTitle(QCoreApplication.translate("optionsDialog", u"Status Bar", None))
+        self.showBinaryValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Show &Binary value", None))
+        self.showOctalValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Show &Octal value", None))
+        self.showHexValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Show He&x value", None))
     # retranslateUi
 

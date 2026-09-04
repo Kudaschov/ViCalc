@@ -11,9 +11,9 @@ class AppGlobals:
     paste_from_clipboard_replace = True
     input_replace_decimal_separator = False
     # Show number in status bar in binary, octal, and hexadecimal format when the number is an integer.
-    show_bin = False
-    show_oct = False
-    show_hex = False
+    show_binary_value = False
+    show_octal_value = False
+    show_hex_value = False
     table = None # tableWidget in main window
     input_box = None # inputTextEdit in main window
     current_row = -1 # current row in table
