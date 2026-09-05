@@ -23,6 +23,7 @@ class Ui_optionsDialog(object):
         if not optionsDialog.objectName():
             optionsDialog.setObjectName(u"optionsDialog")
         optionsDialog.resize(410, 369)
+        optionsDialog.setLocale(QLocale(QLocale.English, QLocale.Germany))
         self.buttonBox = QDialogButtonBox(optionsDialog)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setGeometry(QRect(10, 330, 391, 32))
@@ -68,7 +69,7 @@ class Ui_optionsDialog(object):
     # setupUi
 
     def retranslateUi(self, optionsDialog):
-        optionsDialog.setWindowTitle(QCoreApplication.translate("optionsDialog", u"Dialog", None))
+        optionsDialog.setWindowTitle(QCoreApplication.translate("optionsDialog", u"Options", None))
         self.timestampCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Automatically date and time stamp at start", None))
         self.copyCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &copy to clipboard: replace decimal point (.) with comma (,)", None))
         self.pasteCheckBox.setText(QCoreApplication.translate("optionsDialog", u"On &paste from clipboard: replace comma (,) with decimal point (.)", None))

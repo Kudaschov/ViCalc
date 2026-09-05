@@ -98,3 +98,6 @@ class CalcOperations(Enum):
     trig_mode_rad = auto()
     trig_mode_gra = auto()
     sign_change = auto()
+    AND = auto()
+    XOR = auto()
+    OR = auto()

@@ -106,6 +106,9 @@ from ..Mm2ToAwgExpression import Mm2ToAwgExpression
 from ..FracPartExpression import FracPartExpression
 from ..IntPartExpression import IntPartExpression
 from ..ModExpression import ModExpression
+from ..ANDExpression import ANDExpression
+from ..ORExpression import ORExpression
+from ..XORExpression import XORExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -162,7 +165,7 @@ class InputTextEdit(QLineEdit):
         # 'nativeScanCode()' returns the hardware-dependent scan code.
         # This is specific to the keyboard hardware and operating system.
 
-        output = f"Key Pressed: '{self.char_pressed}' | Qt.Key: " \
+        output = f"Char Pressed: '{self.char_pressed}' | Qt.Key: " \
                  f"{key_name} | " \
                  f"Virtual Key Code (int): {self.key} | " \
                  f"Scan Code (Native): {self.scan_code}"
@@ -234,6 +237,27 @@ class InputTextEdit(QLineEdit):
 
         except ValueError:
             self._show_error("Invalid input. Please enter a valid number.")
+        except Exception as e:
+            self._show_error(f"Unexpected error: {str(e)}")
+
+        return result
+
+    def store_integer_number(self):
+        result = False
+        try:
+            self.number, ok = self.locale.toDouble(self.text())
+            ok = self.number.is_integer() and ok  # Ensure the number is an integer
+
+            if ok:
+                self.selectAll()
+                result = True
+            else:
+                raise ValueError(
+                    f"Could not convert '{self.text()}' to an integer. Please ensure the input is a valid integer."
+                )
+
+        except ValueError:
+            self._show_error("Invalid input. Please enter a valid integer.")
         except Exception as e:
             self._show_error(f"Unexpected error: {str(e)}")
 
@@ -383,6 +407,18 @@ class InputTextEdit(QLineEdit):
     def exec_multiplication(self):
         if self.store_number():
             self.create_expression_node(MultiplicationExpression(self.number, AppGlobals.table))
+
+    def exec_AND(self):
+        if self.store_integer_number():
+            self.create_expression_node(ANDExpression(self.number))
+
+    def exec_OR(self):
+        if self.store_integer_number():
+            self.create_expression_node(ORExpression(self.number))
+
+    def exec_XOR(self):
+        if self.store_integer_number():
+            self.create_expression_node(XORExpression(self.number))
 
     def exec_division(self):
         if self.store_number():
@@ -671,6 +707,12 @@ class InputTextEdit(QLineEdit):
                     self.exec_trig_mode_rad()
                 case CalcOperations.trig_mode_gra:
                     self.exec_trig_mode_gra()
+                case CalcOperations.AND:
+                    self.exec_AND()
+                case CalcOperations.XOR:
+                    self.exec_XOR()
+                case CalcOperations.OR:
+                    self.exec_OR()
                 case _:
                     self.statusbar_message.emit("No operation configured")
 
@@ -1154,6 +1196,10 @@ class InputTextEdit(QLineEdit):
                 self.exec_division()
             case '^':
                 self.exec_pow()
+            case '&':
+                self.exec_AND()
+            case '|':
+                self.exec_OR()
             case _:
                 return False
         return True
@@ -1175,6 +1221,9 @@ class InputTextEdit(QLineEdit):
             case Qt.Key.Key_Equal:
                 self.execute()
             case Qt.Key.Key_Percent:
+                # Check the ctrl state for case ctrl+shift
+                if self.current_ctrl_state:
+                    return False
                 self.exec_percent()
             case Qt.Key.Key_Exclam:
                 # Check the ctrl state for case ctrl+shift
@@ -1310,6 +1359,8 @@ class InputTextEdit(QLineEdit):
                     self.button_clicked(UiGlobals.pushButton5.ctrl_operation)
                 case 7: # Key 6
                     self.button_clicked(UiGlobals.pushButton6.ctrl_operation)
+                case 86: # Key \ in QWERTY
+                    self.button_clicked(UiGlobals.pushButtonLess.ctrl_operation)
                 case _:
                     return False
             return True # False is case _:
