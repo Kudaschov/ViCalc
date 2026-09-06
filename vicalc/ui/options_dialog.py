@@ -22,11 +22,11 @@ class Ui_optionsDialog(object):
     def setupUi(self, optionsDialog):
         if not optionsDialog.objectName():
             optionsDialog.setObjectName(u"optionsDialog")
-        optionsDialog.resize(410, 369)
+        optionsDialog.resize(410, 408)
         optionsDialog.setLocale(QLocale(QLocale.English, QLocale.Germany))
         self.buttonBox = QDialogButtonBox(optionsDialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(10, 330, 391, 32))
+        self.buttonBox.setGeometry(QRect(10, 370, 391, 32))
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
         self.timestampCheckBox = QCheckBox(optionsDialog)
@@ -49,7 +49,7 @@ class Ui_optionsDialog(object):
         self.convertAngleCheckBox.setGeometry(QRect(20, 170, 381, 20))
         self.groupBox = QGroupBox(optionsDialog)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(10, 210, 391, 121))
+        self.groupBox.setGeometry(QRect(10, 210, 391, 151))
         self.groupBox.setLocale(QLocale(QLocale.English, QLocale.Germany))
         self.showBinaryValueCheckBox = QCheckBox(self.groupBox)
         self.showBinaryValueCheckBox.setObjectName(u"showBinaryValueCheckBox")
@@ -60,6 +60,9 @@ class Ui_optionsDialog(object):
         self.showHexValueCheckBox = QCheckBox(self.groupBox)
         self.showHexValueCheckBox.setObjectName(u"showHexValueCheckBox")
         self.showHexValueCheckBox.setGeometry(QRect(10, 90, 181, 20))
+        self.showWordSizeCheckBox = QCheckBox(self.groupBox)
+        self.showWordSizeCheckBox.setObjectName(u"showWordSizeCheckBox")
+        self.showWordSizeCheckBox.setGeometry(QRect(10, 120, 75, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -82,9 +85,10 @@ class Ui_optionsDialog(object):
         self.convertAngleCheckBox.setWhatsThis(QCoreApplication.translate("optionsDialog", u"If this checkbox is checked, the angle value will be converted automatically when you switch between degrees (D), radians (R), or grads (G). If unchecked, only the unit label changes.", None))
 #endif // QT_CONFIG(whatsthis)
         self.convertAngleCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Con&vert Angle on Unit Change", None))
-        self.groupBox.setTitle(QCoreApplication.translate("optionsDialog", u"Status Bar", None))
-        self.showBinaryValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Show &Binary value", None))
-        self.showOctalValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Show &Octal value", None))
-        self.showHexValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Show He&x value", None))
+        self.groupBox.setTitle(QCoreApplication.translate("optionsDialog", u"Show in Status Bar", None))
+        self.showBinaryValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Binary value", None))
+        self.showOctalValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Octal value", None))
+        self.showHexValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"He&x value", None))
+        self.showWordSizeCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Word Size", None))
     # retranslateUi
 

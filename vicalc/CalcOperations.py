@@ -101,3 +101,8 @@ class CalcOperations(Enum):
     AND = auto()
     XOR = auto()
     OR = auto()
+    NOT = auto()
+    word_size_byte = auto()
+    word_size_word = auto()
+    word_size_dword = auto()
+    word_size_qword = auto()

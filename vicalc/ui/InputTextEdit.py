@@ -109,6 +109,8 @@ from ..ModExpression import ModExpression
 from ..ANDExpression import ANDExpression
 from ..ORExpression import ORExpression
 from ..XORExpression import XORExpression
+from ..NOTExpression import NOTExpression
+from ..WordSize import WordSize
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -420,6 +422,11 @@ class InputTextEdit(QLineEdit):
         if self.store_integer_number():
             self.create_expression_node(XORExpression(self.number))
 
+    def exec_NOT(self):
+        if self.store_integer_number():
+            expr = NOTExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
     def exec_division(self):
         if self.store_number():
             self.create_expression_node(DivisionExpression(self.number, AppGlobals.table))
@@ -713,6 +720,16 @@ class InputTextEdit(QLineEdit):
                     self.exec_XOR()
                 case CalcOperations.OR:
                     self.exec_OR()
+                case CalcOperations.NOT:
+                    self.exec_NOT()
+                case CalcOperations.word_size_byte:
+                    self.exec_word_size_byte()
+                case CalcOperations.word_size_word:
+                    self.exec_word_size_word()
+                case CalcOperations.word_size_dword:
+                    self.exec_word_size_dword()
+                case CalcOperations.word_size_qword:
+                    self.exec_word_size_qword()
                 case _:
                     self.statusbar_message.emit("No operation configured")
 
@@ -1142,6 +1159,10 @@ class InputTextEdit(QLineEdit):
 
     def handle_chars(self, event):
         if self.current_ctrl_state:
+            # Exception for German keyboard, where ~ is on the key with + and * and requires ctrl+alt (Alt Gr) to type
+            if self.char_pressed == '~':
+                self.exec_NOT()
+                return True
             return False # No char handling when ctrl is pressed
         
         match self.char_pressed:
@@ -1200,6 +1221,8 @@ class InputTextEdit(QLineEdit):
                 self.exec_AND()
             case '|':
                 self.exec_OR()
+            case '~':
+                self.exec_NOT()
             case _:
                 return False
         return True
@@ -2216,3 +2239,15 @@ class InputTextEdit(QLineEdit):
             return True
         else:
             return False
+
+    def exec_word_size_byte(self):
+        AppGlobals.current_word_size = WordSize.BIT8
+
+    def exec_word_size_word(self):
+        AppGlobals.current_word_size = WordSize.BIT16
+
+    def exec_word_size_dword(self):
+        AppGlobals.current_word_size = WordSize.BIT32
+
+    def exec_word_size_qword(self):
+        AppGlobals.current_word_size = WordSize.BIT64

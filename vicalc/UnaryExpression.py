@@ -26,6 +26,10 @@ class UnaryExpression(CalcExpression):
     def _(self, arg: str, column_number: int):
         ResultStringCellValue(arg, self.row, column_number)
 
+    @protocol_result.register(int)
+    def _(self, arg: int, column_number: int):
+        ResultCellValue(float(arg), self.row, column_number)
+
     @singledispatchmethod
     def protocol(self, arg, column_number):
         """

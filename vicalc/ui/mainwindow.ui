@@ -1178,6 +1178,11 @@
     <addaction name="action_GRA"/>
     <addaction name="separator"/>
     <addaction name="action_numeric_format"/>
+    <addaction name="separator"/>
+    <addaction name="actionByte"/>
+    <addaction name="actionWord"/>
+    <addaction name="actionDWord"/>
+    <addaction name="actionQWord"/>
    </widget>
    <widget class="QMenu" name="menu_History">
     <property name="title">
@@ -1581,6 +1586,50 @@
   <action name="action_mm2_to_AWG">
    <property name="text">
     <string>Mm2 to Am&amp;erical Wire Gauge (AWG)...</string>
+   </property>
+  </action>
+  <action name="actionByte">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Byte (8 Bit)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F6</string>
+   </property>
+  </action>
+  <action name="actionWord">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Word (16 Bit)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F7</string>
+   </property>
+  </action>
+  <action name="actionDWord">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>DW&amp;ord (32 Bit)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F8</string>
+   </property>
+  </action>
+  <action name="actionQWord">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;QWord (64 Bit)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F9</string>
    </property>
   </action>
  </widget>

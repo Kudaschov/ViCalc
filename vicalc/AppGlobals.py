@@ -1,9 +1,12 @@
 import math
+
+from .WordSize import WordSize
 from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
 
 class AppGlobals:
     angle_unit = None
+    current_word_size = WordSize.BIT8
     numeric_format = NumericFormat.normal
     numeric_precision = 5
     timestamp_at_start = True
@@ -14,6 +17,7 @@ class AppGlobals:
     show_binary_value = False
     show_octal_value = False
     show_hex_value = False
+    show_word_size = False
     table = None # tableWidget in main window
     input_box = None # inputTextEdit in main window
     current_row = -1 # current row in table
