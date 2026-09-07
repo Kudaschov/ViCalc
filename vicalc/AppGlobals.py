@@ -1,5 +1,6 @@
 import math
 
+from .NumberBase import NumberBase
 from .WordSize import WordSize
 from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
@@ -7,6 +8,7 @@ from PySide6.QtCore import QLocale
 class AppGlobals:
     angle_unit = None
     current_word_size = WordSize.BIT8
+    table_number_base = NumberBase.DEC # number base for history table
     numeric_format = NumericFormat.normal
     numeric_precision = 5
     timestamp_at_start = True

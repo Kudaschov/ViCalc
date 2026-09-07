@@ -111,6 +111,7 @@ from ..ORExpression import ORExpression
 from ..XORExpression import XORExpression
 from ..NOTExpression import NOTExpression
 from ..WordSize import WordSize
+from ..NumberBase import NumberBase
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1932,6 +1933,16 @@ class InputTextEdit(QLineEdit):
 
         dialog.ui.precisionSpinBox.setValue(AppGlobals.numeric_precision)
 
+        match AppGlobals.table_number_base:
+            case NumberBase.BIN:
+                dialog.ui.binaryRadioButton.setChecked(True)
+            case NumberBase.OCT:
+                dialog.ui.octalRadioButton.setChecked(True)
+            case NumberBase.DEC:
+                dialog.ui.decimalRadioButton.setChecked(True)
+            case NumberBase.HEX:
+                dialog.ui.hexadecimalRadioButton.setChecked(True)
+
         if dialog.exec() != True:
             self.update_shift_ctrl_status()
             return
@@ -1948,6 +1959,20 @@ class InputTextEdit(QLineEdit):
         else:
             AppGlobals.numeric_format = NumericFormat.normal
 
+        if dialog.ui.binaryRadioButton.isChecked():
+            AppGlobals.table_number_base = NumberBase.BIN
+        elif dialog.ui.octalRadioButton.isChecked():
+            AppGlobals.table_number_base = NumberBase.OCT
+        elif dialog.ui.decimalRadioButton.isChecked():
+            AppGlobals.table_number_base = NumberBase.DEC
+        elif dialog.ui.hexadecimalRadioButton.isChecked():
+            AppGlobals.table_number_base = NumberBase.HEX
+
+        self.update_table()
+        self.statusbar_changed.emit()
+        self.update_shift_ctrl_status()
+
+    def update_table(self):
         # update table
         rows = AppGlobals.table.rowCount()
         cols = AppGlobals.table.columnCount()
@@ -1960,8 +1985,6 @@ class InputTextEdit(QLineEdit):
                     if item.text().strip() or cell_value != None:  # Zelle ist vorhanden und nicht leer
                         if isinstance(cell_value, CellValue):
                             item.setText(cell_value.to_string())
-        self.statusbar_changed.emit()
-        self.update_shift_ctrl_status()
 
     def exec_toggle_table(self):
         if self.hasFocus():
@@ -2242,12 +2265,16 @@ class InputTextEdit(QLineEdit):
 
     def exec_word_size_byte(self):
         AppGlobals.current_word_size = WordSize.BIT8
+        self.update_table()
 
     def exec_word_size_word(self):
         AppGlobals.current_word_size = WordSize.BIT16
+        self.update_table()
 
     def exec_word_size_dword(self):
         AppGlobals.current_word_size = WordSize.BIT32
+        self.update_table()
 
     def exec_word_size_qword(self):
         AppGlobals.current_word_size = WordSize.BIT64
+        self.update_table()

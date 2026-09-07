@@ -11,6 +11,8 @@ from ..ResultCellValue import ResultCellValue
 from ..ResultStringCellValue import ResultStringCellValue
 from ..StringCellValue import StringCellValue
 from ..CommentCellValue import CommentCellValue
+from ..IntegerCellValue import IntegerCellValue
+from ..IntegerResultCellValue import IntegerResultCellValue
 
 class CalcTableWidget(QTableWidget):
     enterPressed = Signal(int, int)
@@ -92,6 +94,8 @@ class CalcTableWidget(QTableWidget):
         result_string_cell = ResultStringCellValue("")
         string_cell = StringCellValue("")
         comment_cell = CommentCellValue("")
+        integer_cell = IntegerCellValue(0)
+        integer_result_cell = IntegerResultCellValue(0)
 
         parsed = []
         for row_idx, row_data in enumerate(matrix):
@@ -112,6 +116,10 @@ class CalcTableWidget(QTableWidget):
                         row_objs.append(ResultStringCellValue(entry["value"], row_idx, col_idx))
                     elif entry["type"] == comment_cell.serialize_type:
                         row_objs.append(CommentCellValue(entry["value"], row_idx, col_idx))
+                    elif entry["type"] == integer_cell.serialize_type:
+                        row_objs.append(IntegerCellValue(entry["value"], row_idx, col_idx))
+                    elif entry["type"] == integer_result_cell.serialize_type:
+                        row_objs.append(IntegerResultCellValue(entry["value"], row_idx, col_idx))
                     else:
                         item = self.item(row_idx, col_idx)
                         if item:

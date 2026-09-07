@@ -14,13 +14,13 @@ class XORExpression(IntegerBinaryExpression):
         super().calculate(number)  # Validate that both numbers are integers
     
         int_number = int(number)
-        result: float = float(int(self.first_number) ^ int_number)
+        result: int = int(self.first_number) ^ int_number
 
         self.insert_scroll_table()
-        self.protocol(float(self.first_number), 0)
-        self.protocol("XOR", 1)
-        self.protocol(number, 2)
+        self.protocol(int(self.first_number), 0)
+        self.protocol("Bitwise XOR", 1)
+        self.protocol(int_number, 2)
         self.protocol("=", 3)
-        self.protocol_result(float(result), 4)
+        self.protocol_result(result, 4)
 
-        return result
+        return float(result)

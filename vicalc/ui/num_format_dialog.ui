@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>240</height>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Numeric Format</string>
+   <string>Numeric Format in History</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>400</y>
      <width>301</width>
      <height>32</height>
     </rect>
@@ -29,105 +29,186 @@
     <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
-  <widget class="QRadioButton" name="normRadioButton">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>89</width>
-     <height>20</height>
+     <x>10</x>
+     <y>10</y>
+     <width>301</width>
+     <height>211</height>
     </rect>
    </property>
-   <property name="text">
-    <string>&amp;Normal</string>
+   <property name="title">
+    <string>Numeric Format</string>
    </property>
+   <widget class="QSpinBox" name="precisionSpinBox">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>180</y>
+      <width>42</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <number>16</number>
+    </property>
+    <property name="value">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="engRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>150</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Engineering</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="sciRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Scientific</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="generalRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;General</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>183</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Precision:</string>
+    </property>
+    <property name="buddy">
+     <cstring>precisionSpinBox</cstring>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="fixRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Fixed point</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="normRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Normal</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QRadioButton" name="generalRadioButton">
+  <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>50</y>
-     <width>89</width>
-     <height>20</height>
+     <x>10</x>
+     <y>240</y>
+     <width>301</width>
+     <height>151</height>
     </rect>
    </property>
-   <property name="text">
-    <string>&amp;General</string>
+   <property name="locale">
+    <locale language="English" country="Germany"/>
    </property>
-  </widget>
-  <widget class="QRadioButton" name="fixRadioButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>80</y>
-     <width>89</width>
-     <height>20</height>
-    </rect>
+   <property name="title">
+    <string>Show Logical Operations in History as</string>
    </property>
-   <property name="text">
-    <string>&amp;Fixed point</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="sciRadioButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>110</y>
-     <width>89</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Scientific</string>
-   </property>
-  </widget>
-  <widget class="QRadioButton" name="engRadioButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>140</y>
-     <width>89</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Engineering</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>173</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Precision:</string>
-   </property>
-   <property name="buddy">
-    <cstring>precisionSpinBox</cstring>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="precisionSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>170</y>
-     <width>42</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="minimum">
-    <number>0</number>
-   </property>
-   <property name="maximum">
-    <number>16</number>
-   </property>
-   <property name="value">
-    <number>5</number>
-   </property>
+   <widget class="QRadioButton" name="binaryRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Binary</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="octalRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Octal</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="decimalRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Decimal</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="hexadecimalRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>He&amp;xadecimal</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

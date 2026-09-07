@@ -1,5 +1,8 @@
 from functools import singledispatchmethod
 from PySide6.QtWidgets import QTableWidgetItem
+
+from vicalc.IntegerCellValue import IntegerCellValue
+from vicalc.IntegerResultCellValue import IntegerResultCellValue
 from .CalcPrios import CalcPrios
 from .CalcExpression import CalcExpression
 from .FloatCellValue import FloatCellValue
@@ -28,7 +31,7 @@ class UnaryExpression(CalcExpression):
 
     @protocol_result.register(int)
     def _(self, arg: int, column_number: int):
-        ResultCellValue(float(arg), self.row, column_number)
+        IntegerResultCellValue(arg, self.row, column_number)
 
     @singledispatchmethod
     def protocol(self, arg, column_number):
@@ -44,4 +47,9 @@ class UnaryExpression(CalcExpression):
     @protocol.register(float)
     def _(self, arg: float, column_number: int):
         FloatCellValue(arg, self.row, column_number)
+
+    @protocol.register(int)
+    def _(self, arg: int, column_number: int):
+        IntegerCellValue(arg, self.row, column_number)
+
 

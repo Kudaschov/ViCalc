@@ -31,6 +31,8 @@ from .CommentDialog import CommentDialog
 from .CommentCellValue import CommentCellValue
 from .key_preselect import KeyPreselect
 from .WordSize import WordSize
+from .NumberBase import NumberBase
+from .IntegerCellValue import IntegerCellValue
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -435,6 +437,7 @@ class MainWindow(QMainWindow):
             AppGlobals.show_word_size = self.settings.value("show_word_size", False, type=bool)
 
             AppGlobals.current_word_size = WordSize(self.settings.value("word_size", WordSize.BIT8.value, type=int))
+            AppGlobals.table_number_base = NumberBase(self.settings.value("table_number_base", NumberBase.DEC.value, type=int))
 
             self.UpdateUiTrigMode()
 
@@ -635,6 +638,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("inputText", AppGlobals.input_box.text())
         self.settings.setValue("trig_mode", AppGlobals.input_box.trig_mode.value)
         self.settings.setValue("word_size", AppGlobals.current_word_size.value)
+        self.settings.setValue("table_number_base", AppGlobals.table_number_base.value)
         self.settings.setValue("memory", AppGlobals.input_box.memory)
 
         self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
@@ -794,15 +798,19 @@ class MainWindow(QMainWindow):
 
     def set_word_size_byte(self):
         AppGlobals.current_word_size = WordSize.BIT8
+        AppGlobals.input_box.update_table()
 
     def set_word_size_word(self):
         AppGlobals.current_word_size = WordSize.BIT16
+        AppGlobals.input_box.update_table()
 
     def set_word_size_dword(self):
         AppGlobals.current_word_size = WordSize.BIT32
+        AppGlobals.input_box.update_table()
 
     def set_word_size_qword(self):
         AppGlobals.current_word_size = WordSize.BIT64
+        AppGlobals.input_box.update_table()
 
     def showEvent(self, event):
         super().showEvent(event)
@@ -838,6 +846,7 @@ class MainWindow(QMainWindow):
         next_index = (current_index + 1) % len(word_sizes)
         AppGlobals.current_word_size = word_sizes[next_index]
         self.word_size_label.setText(AppGlobals.current_word_size.status_text)
+        AppGlobals.input_box.update_table()
 
     def memory_label_clicked(self):
         AppGlobals.input_box.exec_MR()
@@ -1081,7 +1090,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
         self.ui.pushButtonMultiplyNumpad.ctrl_text = "Abs"
-        self.ui.pushButtonMultiplyNumpad.ctrl_shift_text = "&"
+        self.ui.pushButtonMultiplyNumpad.ctrl_shift_text = "AND"
         self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
         self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
         self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.abs
@@ -1175,7 +1184,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton6.row = 0
         self.ui.pushButton6.column = 5
         self.ui.pushButton6.bg_color = self.number_key_color
-        self.ui.pushButton6.shift_text = "&"
+        self.ui.pushButton6.shift_text = "AND"
         self.ui.pushButton6.ctrl_text = "XOR"
         self.ui.pushButton6.ctrl_shift_text = "Fpart"
         self.ui.pushButton6.ctrl_text_alignment = Qt.AlignRight
@@ -1457,12 +1466,14 @@ class MainWindow(QMainWindow):
             return
         
         val = item.data(Qt.UserRole)
-        str = item.data(Qt.DisplayRole)
+        text = item.data(Qt.DisplayRole)
         if val:
             if isinstance(val, NumericCellValue):
                 AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
+            elif isinstance(val, IntegerCellValue):
+                AppGlobals.input_box.setText(str(val.value()))
             else:
-                AppGlobals.input_box.setText(str)
+                AppGlobals.input_box.setText(text)
         else:
             AppGlobals.input_box.setText(item.text())
         AppGlobals.input_box.setFocus()
