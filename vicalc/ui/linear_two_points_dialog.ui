@@ -48,7 +48,7 @@
     <cstring>x0LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="x0LineEdit">
+  <widget class="DotLineEdit" name="x0LineEdit">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -74,7 +74,7 @@
     <cstring>y0LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="y0LineEdit">
+  <widget class="DotLineEdit" name="y0LineEdit">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -100,7 +100,7 @@
     <cstring>x1LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="x1LineEdit">
+  <widget class="DotLineEdit" name="x1LineEdit">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -126,7 +126,7 @@
     <cstring>y1LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="y1LineEdit">
+  <widget class="DotLineEdit" name="y1LineEdit">
    <property name="geometry">
     <rect>
      <x>200</x>
@@ -157,7 +157,7 @@
     <rect>
      <x>120</x>
      <y>100</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -186,7 +186,7 @@
     <rect>
      <x>120</x>
      <y>130</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -195,6 +195,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>x0LineEdit</tabstop>
   <tabstop>y0LineEdit</tabstop>

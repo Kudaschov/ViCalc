@@ -28,12 +28,15 @@ class Mm2ToAwgDialog(QDialog):
 
         if vars_valid:
             awg = AppGlobals.mm2_to_awg_calculation(mm2)
-            self.ui.awgLineEdit.setText(AppGlobals.to_normal_string(awg))
+            self.ui.awgLineEdit.setText(AppGlobals.to_format_string(awg))
             diameter_inch = AppGlobals.mm2_to_diameter_inch_calculation(mm2)
-            self.ui.diameterInchLineEdit.setText(AppGlobals.to_normal_string(diameter_inch))
+            self.ui.diameterInchLineEdit.setText(AppGlobals.to_format_string(diameter_inch))
             diameter_mm = math.sqrt((4 * mm2) / math.pi)
-            self.ui.diameterMmLineEdit.setText(AppGlobals.to_normal_string(diameter_mm))
+            self.ui.diameterMmLineEdit.setText(AppGlobals.to_format_string(diameter_mm))
             area_kcmil = AppGlobals.mm2_to_kcmil_calculation(mm2)
-            self.ui.areaKcmilLineEdit.setText(AppGlobals.to_normal_string(area_kcmil))
+            self.ui.areaKcmilLineEdit.setText(AppGlobals.to_format_string(area_kcmil))
         else:
             self.ui.awgLineEdit.setText("- - -")
+            self.ui.diameterInchLineEdit.setText("- - -")
+            self.ui.diameterMmLineEdit.setText("- - -")
+            self.ui.areaKcmilLineEdit.setText("- - -")

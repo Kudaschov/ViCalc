@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="numberLineEdit">
+  <widget class="DotLineEdit" name="numberLineEdit">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -42,7 +42,7 @@
     <string>888</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="baseLineEdit">
+  <widget class="DotLineEdit" name="baseLineEdit">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -89,7 +89,7 @@
     <string>=</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="resultLineEdit">
+  <widget class="DotLineEdit" name="resultLineEdit">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -103,6 +103,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

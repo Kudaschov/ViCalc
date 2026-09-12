@@ -45,7 +45,7 @@
     <cstring>degreesLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="degreesLineEdit">
+  <widget class="DotLineEdit" name="degreesLineEdit">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -71,7 +71,7 @@
     <cstring>minutesLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="minutesLineEdit">
+  <widget class="DotLineEdit" name="minutesLineEdit">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -97,7 +97,7 @@
     <cstring>secondsLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="secondsLineEdit">
+  <widget class="DotLineEdit" name="secondsLineEdit">
    <property name="geometry">
     <rect>
      <x>92</x>
@@ -108,6 +108,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>degreesLineEdit</tabstop>
   <tabstop>minutesLineEdit</tabstop>

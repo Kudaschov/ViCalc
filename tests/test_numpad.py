@@ -5,6 +5,7 @@ from PySide6.QtCore import QCoreApplication
 import os
 from PySide6.QtCore import Qt
 from PySide6.QtTest import QTest
+from vicalc.NumberBase import NumberBase
 
 @pytest.fixture
 def main_window(qtbot):
@@ -15,6 +16,7 @@ def main_window(qtbot):
     return window
 
 def test_numpad_plus(main_window, qtbot):
+    AppGlobals.number_base = NumberBase.DEC
     input_box = AppGlobals.input_box
 
     qtbot.wait(50)

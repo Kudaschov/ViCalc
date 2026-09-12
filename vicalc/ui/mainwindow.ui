@@ -1179,6 +1179,11 @@
     <addaction name="separator"/>
     <addaction name="action_numeric_format"/>
     <addaction name="separator"/>
+    <addaction name="actionDecimal"/>
+    <addaction name="actionBinary"/>
+    <addaction name="actionOctal"/>
+    <addaction name="actionHexadecimal"/>
+    <addaction name="separator"/>
     <addaction name="actionByte"/>
     <addaction name="actionWord"/>
     <addaction name="actionDWord"/>
@@ -1308,9 +1313,6 @@
    </property>
    <property name="toolTip">
     <string>Toggle  History / Calculator</string>
-   </property>
-   <property name="shortcut">
-    <string>F9</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1580,12 +1582,12 @@
   </action>
   <action name="action_AWG_to_mm2">
    <property name="text">
-    <string>&amp;American Wire Gauge (AWG) to mm2...</string>
+    <string>&amp;American Wire Gauge (AWG) to mm²...</string>
    </property>
   </action>
   <action name="action_mm2_to_AWG">
    <property name="text">
-    <string>Mm2 to Am&amp;erical Wire Gauge (AWG)...</string>
+    <string>mm² to Am&amp;erical Wire Gauge (AWG)...</string>
    </property>
   </action>
   <action name="actionByte">
@@ -1596,7 +1598,7 @@
     <string>&amp;Byte (8 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F6</string>
+    <string>Ctrl+Shift+F6</string>
    </property>
   </action>
   <action name="actionWord">
@@ -1607,7 +1609,7 @@
     <string>&amp;Word (16 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F7</string>
+    <string>Ctrl+Shift+F7</string>
    </property>
   </action>
   <action name="actionDWord">
@@ -1618,7 +1620,7 @@
     <string>DW&amp;ord (32 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F8</string>
+    <string>Ctrl+Shift+F8</string>
    </property>
   </action>
   <action name="actionQWord">
@@ -1627,6 +1629,50 @@
    </property>
    <property name="text">
     <string>&amp;QWord (64 Bit)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F9</string>
+   </property>
+  </action>
+  <action name="actionDecimal">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>De&amp;cimal</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="actionBinary">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Binary</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F7</string>
+   </property>
+  </action>
+  <action name="actionOctal">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Octal</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F8</string>
+   </property>
+  </action>
+  <action name="actionHexadecimal">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>He&amp;xadecimal</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F9</string>

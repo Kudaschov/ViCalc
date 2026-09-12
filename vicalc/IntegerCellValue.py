@@ -24,20 +24,19 @@ class IntegerCellValue(CellValue):
 
     def format_value(self) -> str:
         integer_value = self.number
-        if AppGlobals.table_number_base == NumberBase.BIN:
-            return f"0b{integer_value:0{AppGlobals.current_word_size.bits}b}"
+        if AppGlobals.number_base == NumberBase.BIN:
+            return f"0b{integer_value:b}"
 
-        elif AppGlobals.table_number_base == NumberBase.OCT:
+        elif AppGlobals.number_base == NumberBase.OCT:
             return f"0o{integer_value:o}"
 
-        elif AppGlobals.table_number_base == NumberBase.DEC:
+        elif AppGlobals.number_base == NumberBase.DEC:
             return str(integer_value)  # Keine Float-Konvertierung (verhindert e+19)
 
-        elif AppGlobals.table_number_base == NumberBase.HEX:
-            hex_digits = AppGlobals.current_word_size.bits // 4
-            return f"0x{integer_value:0{hex_digits}X}"
+        elif AppGlobals.number_base == NumberBase.HEX:
+            return f"0x{integer_value:X}"
 
-        raise ValueError(f"Unsupported NumberBase: {AppGlobals.table_number_base}")                
+        raise ValueError(f"Unsupported NumberBase: {AppGlobals.number_base}")                
 
     def to_string(self, row = -1, col = -1):
         return self.format_value()

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'dms_to_dd_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,7 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QLabel, QLineEdit, QSizePolicy, QWidget)
+    QLabel, QSizePolicy, QWidget)
+
+from .dot_line_edit import DotLineEdit
 
 class Ui_DMStoDD_Dialog(object):
     def setupUi(self, DMStoDD_Dialog):
@@ -31,19 +33,19 @@ class Ui_DMStoDD_Dialog(object):
         self.label = QLabel(DMStoDD_Dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 12, 81, 16))
-        self.degreesLineEdit = QLineEdit(DMStoDD_Dialog)
+        self.degreesLineEdit = DotLineEdit(DMStoDD_Dialog)
         self.degreesLineEdit.setObjectName(u"degreesLineEdit")
         self.degreesLineEdit.setGeometry(QRect(92, 10, 141, 21))
         self.label_2 = QLabel(DMStoDD_Dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(10, 42, 81, 16))
-        self.minutesLineEdit = QLineEdit(DMStoDD_Dialog)
+        self.minutesLineEdit = DotLineEdit(DMStoDD_Dialog)
         self.minutesLineEdit.setObjectName(u"minutesLineEdit")
         self.minutesLineEdit.setGeometry(QRect(92, 40, 141, 21))
         self.label_3 = QLabel(DMStoDD_Dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(10, 72, 81, 16))
-        self.secondsLineEdit = QLineEdit(DMStoDD_Dialog)
+        self.secondsLineEdit = DotLineEdit(DMStoDD_Dialog)
         self.secondsLineEdit.setObjectName(u"secondsLineEdit")
         self.secondsLineEdit.setGeometry(QRect(92, 70, 141, 21))
 #if QT_CONFIG(shortcut)

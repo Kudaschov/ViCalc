@@ -16,22 +16,22 @@ class BaseExpression(UnaryExpression):
         pass  # No implementation here
 
     def to_binary(self):
-        return f"{bin(self.i_number)}"
+        return f"{bin(self.i_number)[2:]}"
     
     def to_octal(self):
-        return f"{oct(self.i_number)}"
+        return f"{oct(self.i_number)[2:]}"
     
     def to_decimal(self):
         return f"{self.i_number}"
     
     def to_hexadecimal(self):
-        return f"0x{self.i_number:X}"
+        return f"{self.i_number:X}"
     
     def add_to_log(self):
         self.insert_scroll_table()
         self.protocol(f"{bin(self.i_number)}", 0)
         self.protocol(f"{oct(self.i_number)}", 1)
-        self.protocol_result(float(self.i_number), 2)
+        self.protocol_result(str(self.i_number), 2)
         self.protocol(f"0x{self.i_number:X}", 3)
 
     def conv_from_string(self, string_number):

@@ -5,7 +5,7 @@ import ctypes
 import webbrowser
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu
+from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu, QStatusBar
 from PySide6.QtGui import QActionGroup, QIcon
 from PySide6.QtCore import QSettings, QByteArray, QSize, QPoint
 from .ui.mainwindow import Ui_MainWindow # Make sure this path is correct
@@ -33,10 +33,12 @@ from .key_preselect import KeyPreselect
 from .WordSize import WordSize
 from .NumberBase import NumberBase
 from .IntegerCellValue import IntegerCellValue
+from .ui.NumberBaseLabel import NumberBaseLabel
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        AppGlobals.locale = QLocale(QLocale.C)  # Set the locale to C (English)
         self.initialized = False # Flag for only one time operations in showevent, e. g. date_time_stamp
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -53,6 +55,13 @@ class MainWindow(QMainWindow):
         self.word_size_group.addAction(self.ui.actionWord)
         self.word_size_group.addAction(self.ui.actionDWord)
         self.word_size_group.addAction(self.ui.actionQWord)
+
+        self.number_base_group = QActionGroup(self)
+        self.number_base_group.setExclusive(True)
+        self.number_base_group.addAction(self.ui.actionDecimal)
+        self.number_base_group.addAction(self.ui.actionBinary)
+        self.number_base_group.addAction(self.ui.actionOctal)
+        self.number_base_group.addAction(self.ui.actionHexadecimal)
 
         # background color of C and AC buttons
         self.c_ac_bg_color = QColor("#EAEAFF")
@@ -82,6 +91,11 @@ class MainWindow(QMainWindow):
         self.ui.action_convert_to_deg.triggered.connect(self.convert_to_deg)
         self.ui.action_convert_to_rad.triggered.connect(self.convert_to_rad)
         self.ui.action_convert_to_gra.triggered.connect(self.convert_to_gra)
+
+        self.ui.actionDecimal.triggered.connect(self.set_number_base_decimal)
+        self.ui.actionBinary.triggered.connect(self.set_number_base_binary)
+        self.ui.actionOctal.triggered.connect(self.set_number_base_octal)
+        self.ui.actionHexadecimal.triggered.connect(self.set_number_base_hexadecimal)
 
         self.ui.actionByte.triggered.connect(self.set_word_size_byte)
         self.ui.actionWord.triggered.connect(self.set_word_size_word)
@@ -178,7 +192,7 @@ class MainWindow(QMainWindow):
         AppGlobals.table.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F", "G"])
         self.connect_table_signals()
 
-        self.trig_mode_label = ClickableLabel("TrigMode")
+        self.trig_mode_label = ClickableLabel("TM")
         self.trig_mode_label.clicked.connect(self.trig_mode_label_clicked)
         self.ui.statusbar.addWidget(self.trig_mode_label)
 
@@ -186,30 +200,47 @@ class MainWindow(QMainWindow):
         self.memory_label.clicked.connect(self.memory_label_clicked)
         self.ui.statusbar.addWidget(self.memory_label)
 
-        self.numeric_format_label = ClickableLabel("Numeric Format:")
+        self.numeric_format_label = ClickableLabel("Format:")
         self.numeric_format_label.clicked.connect(self.numeric_format_clicked)
         self.ui.statusbar.addWidget(self.numeric_format_label)
 
-        self.word_size_label = ClickableLabel("Word Size:")
+        self.number_base_label = NumberBaseLabel("Base:")
+        self.number_base_label.clicked.connect(self.number_base_label_clicked)
+        self.ui.statusbar.addWidget(self.number_base_label)
+
+        self.word_size_label = ClickableLabel("WS:")
         self.word_size_label.clicked.connect(self.word_size_label_clicked)
         self.ui.statusbar.addWidget(self.word_size_label)
 
-        self.bin_label = ClickableLabel("")
-        self.ui.statusbar.addWidget(self.bin_label)
-        self.oct_label = ClickableLabel("")
-        self.ui.statusbar.addWidget(self.oct_label)
-        self.hex_label = ClickableLabel("")
-        self.ui.statusbar.addWidget(self.hex_label)
+        self.number_view_status_bar = QStatusBar()
+        self.number_view_status_bar.setSizeGripEnabled(False)
+        self.number_view_status_bar.setContentsMargins(0, 0, 0, 0)
+        self.number_view_status_bar.hide()
+        self.ui.verticalLayout.setSpacing(0)
+        self.ui.verticalLayout.addWidget(self.number_view_status_bar)
 
-        self.capslock_label = QLabel("CapsLock")
+        self.bin_label = ClickableLabel("")
+        self.bin_label.clicked.connect(self.bin_label_clicked)
+        self.number_view_status_bar.addWidget(self.bin_label)
+        self.oct_label = ClickableLabel("")
+        self.oct_label.clicked.connect(self.oct_label_clicked)
+        self.number_view_status_bar.addWidget(self.oct_label)
+        self.dec_label = ClickableLabel("")
+        self.dec_label.clicked.connect(self.dec_label_clicked)
+        self.number_view_status_bar.addWidget(self.dec_label)
+        self.hex_label = ClickableLabel("")
+        self.hex_label.clicked.connect(self.hex_label_clicked)
+        self.number_view_status_bar.addWidget(self.hex_label)
+
+        self.capslock_label = QLabel("-")
         self.ui.statusbar.addWidget(self.capslock_label)
-        self.numlock_label = QLabel("Numlock")
+        self.numlock_label = QLabel("-")
         self.ui.statusbar.addWidget(self.numlock_label)
         self.status_label_current_stylesheet = "font-size: 15px;"
-        self.mode_label = QLabel("Mode")
+        self.mode_label = QLabel("-")
         self.ui.statusbar.addWidget(self.mode_label)
 
-        self.invalid_number_label = QLabel("Invalid Number")
+        self.invalid_number_label = QLabel("-")
         self.ui.statusbar.addWidget(self.invalid_number_label)
 
         self.free_message_label = QLabel("")
@@ -433,13 +464,15 @@ class MainWindow(QMainWindow):
 
             AppGlobals.show_binary_value = self.settings.value("show_binary_value", False, type=bool)
             AppGlobals.show_octal_value = self.settings.value("show_octal_value", False, type=bool)
+            AppGlobals.show_decimal_value = self.settings.value("show_decimal_value", False, type=bool)
             AppGlobals.show_hex_value = self.settings.value("show_hex_value", False, type=bool)
             AppGlobals.show_word_size = self.settings.value("show_word_size", False, type=bool)
 
             AppGlobals.current_word_size = WordSize(self.settings.value("word_size", WordSize.BIT8.value, type=int))
-            AppGlobals.table_number_base = NumberBase(self.settings.value("table_number_base", NumberBase.DEC.value, type=int))
+            AppGlobals.number_base = NumberBase(self.settings.value("table_number_base", NumberBase.DEC.value, type=int))
 
             self.UpdateUiTrigMode()
+            AppGlobals.input_box.set_base(AppGlobals.number_base)
 
             geometry = self.settings.value("MainWindow/geometry", QByteArray())
             if not geometry.isEmpty():
@@ -512,23 +545,33 @@ class MainWindow(QMainWindow):
             self.capslock_label.setText("")
 
         # Validate number in input box, inform if invalid
-        s_temp: str = AppGlobals.input_box.text()
-        locale_temp = AppGlobals.input_box.locale   
-        number_temp, convert_ok = locale_temp.toDouble(s_temp)
+        convert_ok = False
+        s_temp = AppGlobals.input_box.text()
+        number_temp, convert_ok = AppGlobals.to_number(s_temp)
+
+        if AppGlobals.show_binary_value or AppGlobals.show_octal_value or AppGlobals.show_decimal_value or AppGlobals.show_hex_value:
+            self.number_view_status_bar.show()
+        else:
+            self.number_view_status_bar.hide()
+
         if convert_ok:
             self.invalid_number_label.setText("")
 
-            if self.is_integer(s_temp):
+            if self.is_integer(number_temp):
                 if AppGlobals.show_binary_value:
-                    self.bin_label.setText(bin(int(float(s_temp))))
+                    self.bin_label.setText(bin(int(number_temp)))
                 else:
                     self.bin_label.setText("")
                 if AppGlobals.show_octal_value:
-                    self.oct_label.setText(oct(int(float(s_temp))))
+                    self.oct_label.setText(oct(int(number_temp)))
                 else:
                     self.oct_label.setText("")
+                if AppGlobals.show_decimal_value:
+                    self.dec_label.setText(f"0d{int(number_temp)}")
+                else:
+                    self.dec_label.setText("")
                 if AppGlobals.show_hex_value:
-                    self.hex_label.setText(f"0x{int(float(s_temp)):X}")
+                    self.hex_label.setText(f"0x{int(number_temp):X}")
                 else:
                     self.hex_label.setText("")
             else:
@@ -540,6 +583,10 @@ class MainWindow(QMainWindow):
                     self.oct_label.setText("0o---")
                 else:
                     self.oct_label.setText("")
+                if AppGlobals.show_decimal_value:
+                    self.dec_label.setText("0d---")
+                else:
+                    self.dec_label.setText("")
                 if AppGlobals.show_hex_value:
                     self.hex_label.setText("0x---")
                 else:
@@ -551,14 +598,18 @@ class MainWindow(QMainWindow):
                 self.bin_label.setText("0b---")
             if AppGlobals.show_octal_value:
                 self.oct_label.setText("0o---")
+            if AppGlobals.show_decimal_value:
+                self.dec_label.setText("0d---")
             if AppGlobals.show_hex_value:
                 self.hex_label.setText("0x---")
 
         # Show word size in status bar
         if AppGlobals.show_word_size:
-            self.word_size_label.setText(AppGlobals.current_word_size.status_text)
+            if self.word_size_label.text != AppGlobals.current_word_size.status_text:
+                self.word_size_label.setText(AppGlobals.current_word_size.status_text)
         else:
-            self.word_size_label.setText("")
+            if self.word_size_label.text != "":
+                self.word_size_label.setText("")
 
         # Update menu for word size
         match AppGlobals.current_word_size:
@@ -574,6 +625,28 @@ class MainWindow(QMainWindow):
             case _:
                 if not self.ui.actionByte.isChecked():
                     self.ui.actionByte.setChecked(True)
+
+        # Show number base in status bar
+        if self.number_base_label.text != AppGlobals.number_base.status_text:
+            self.number_base_label.setText(AppGlobals.number_base.status_text)
+            self.number_base_label.set_base(AppGlobals.number_base)
+
+        # Update menu for number base
+        match AppGlobals.number_base:
+            case NumberBase.DEC:
+                if not self.ui.actionDecimal.isChecked():
+                    self.ui.actionDecimal.setChecked(True)
+            case NumberBase.BIN:
+                if not self.ui.actionBinary.isChecked():
+                    self.ui.actionBinary.setChecked(True)
+            case NumberBase.OCT:
+                if not self.ui.actionOctal.isChecked():
+                    self.ui.actionOctal.setChecked(True)
+            case NumberBase.HEX:
+                if not self.ui.actionHexadecimal.isChecked():
+                    self.ui.actionHexadecimal.setChecked(True)
+
+        self.update_keyboard()
 
         if (0x0407 == MainWindow.get_keyboard_layout_windows()) or (0x0807 == MainWindow.get_keyboard_layout_windows()
                                                                     or (0x0C07 == MainWindow.get_keyboard_layout_windows())):
@@ -592,6 +665,65 @@ class MainWindow(QMainWindow):
             if "Z" != self.ui.pushButtonY.original_keyboard_text:
                 self.ui.pushButtonY.original_keyboard_text = "Z"
                 self.ui.pushButtonY.update()
+
+    def update_keyboard(self):
+        # Update keybord to input HEX numbers
+        if AppGlobals.number_base == NumberBase.HEX:
+            if self.ui.pushButtonA.text != "A":
+                self.ui.pushButtonA.setText("A")
+                self.ui.pushButtonA.base_operation = CalcOperations.number_A
+                self.ui.pushButtonA.shift_text = "AC"
+                self.ui.pushButtonA.ctrl_text = "C"
+                self.ui.pushButtonA.shift_operation = CalcOperations.AC
+
+            if self.ui.pushButtonB.text != "B":
+                self.ui.pushButtonB.setText("B")
+                self.ui.pushButtonB.base_operation = CalcOperations.number_B
+                self.ui.pushButtonB.text_highlight_font = QFont("Helvetica", 10, QFont.Bold)
+                self.ui.pushButtonB.text_font = QFont("Helvetica", 10)
+
+            if self.ui.pushButtonC.base_operation != CalcOperations.number_C:
+                self.ui.pushButtonC.base_operation = CalcOperations.number_C
+
+            if self.ui.pushButtonD.text != "D":
+                self.ui.pushButtonD.setText("D")
+                self.ui.pushButtonD.base_operation = CalcOperations.number_D
+
+            if self.ui.pushButtonE.base_operation != CalcOperations.number_E:
+                self.ui.pushButtonE.base_operation = CalcOperations.number_E
+                self.ui.pushButtonE.setText("E")
+
+            if self.ui.pushButtonF.text != "F":
+                self.ui.pushButtonF.setText("F")
+                self.ui.pushButtonF.base_operation = CalcOperations.number_F
+        else:
+            if self.ui.pushButtonA.text != "AC":
+                self.ui.pushButtonA.setText("AC")
+                self.ui.pushButtonA.base_operation = CalcOperations.AC
+                self.ui.pushButtonA.shift_text = "Format"
+                self.ui.pushButtonA.ctrl_text = ""
+                self.ui.pushButtonA.shift_operation = CalcOperations.numeric_format
+
+            if self.ui.pushButtonB.text != "π":
+                self.ui.pushButtonB.setText("π")
+                self.ui.pushButtonB.base_operation = CalcOperations.pi
+                self.ui.pushButtonB.text_highlight_font = QFont("Times New Roman", 14, QFont.Bold)
+                self.ui.pushButtonB.text_font = QFont("Times New Roman", 14)
+
+            if self.ui.pushButtonC.base_operation != CalcOperations.C:
+                self.ui.pushButtonC.base_operation = CalcOperations.C
+
+            if self.ui.pushButtonD.base_operation != CalcOperations.cos:
+                self.ui.pushButtonD.base_operation = CalcOperations.cos
+                self.ui.pushButtonD.setText("cos")
+
+            if self.ui.pushButtonE.base_operation != CalcOperations.exponent:
+                self.ui.pushButtonE.base_operation = CalcOperations.exponent
+                self.ui.pushButtonE.setText("EXP")
+
+            if self.ui.pushButtonF.base_operation != CalcOperations.ln:
+                self.ui.pushButtonF.base_operation = CalcOperations.ln
+                self.ui.pushButtonF.setText("ln")
 
     def get_key_state(self, key_code):
         return bool(ctypes.windll.user32.GetKeyState(key_code) & 0x0001)
@@ -638,7 +770,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("inputText", AppGlobals.input_box.text())
         self.settings.setValue("trig_mode", AppGlobals.input_box.trig_mode.value)
         self.settings.setValue("word_size", AppGlobals.current_word_size.value)
-        self.settings.setValue("table_number_base", AppGlobals.table_number_base.value)
+        self.settings.setValue("table_number_base", AppGlobals.number_base.value)
         self.settings.setValue("memory", AppGlobals.input_box.memory)
 
         self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
@@ -687,6 +819,7 @@ class MainWindow(QMainWindow):
 
         self.settings.setValue("show_binary_value", AppGlobals.show_binary_value)
         self.settings.setValue("show_octal_value", AppGlobals.show_octal_value)
+        self.settings.setValue("show_decimal_value", AppGlobals.show_decimal_value)
         self.settings.setValue("show_hex_value", AppGlobals.show_hex_value)
         self.settings.setValue("show_word_size", AppGlobals.show_word_size)
 
@@ -796,6 +929,18 @@ class MainWindow(QMainWindow):
     def convert_to_gra(self):
         AppGlobals.input_box.exec_convert_to_gra()
 
+    def set_number_base_decimal(self):
+        AppGlobals.input_box.set_base(NumberBase.DEC)
+
+    def set_number_base_binary(self):
+        AppGlobals.input_box.set_base(NumberBase.BIN)
+
+    def set_number_base_octal(self):
+        AppGlobals.input_box.set_base(NumberBase.OCT)
+
+    def set_number_base_hexadecimal(self):
+        AppGlobals.input_box.set_base(NumberBase.HEX)
+
     def set_word_size_byte(self):
         AppGlobals.current_word_size = WordSize.BIT8
         AppGlobals.input_box.update_table()
@@ -846,6 +991,15 @@ class MainWindow(QMainWindow):
         next_index = (current_index + 1) % len(word_sizes)
         AppGlobals.current_word_size = word_sizes[next_index]
         self.word_size_label.setText(AppGlobals.current_word_size.status_text)
+        AppGlobals.input_box.update_table()
+
+    def number_base_label_clicked(self):
+        # Cycle through number bases
+        number_bases = list(NumberBase)
+        current_index = number_bases.index(AppGlobals.number_base)
+        next_index = (current_index + 1) % len(number_bases)
+        AppGlobals.input_box.set_base(number_bases[next_index])
+        self.number_base_label.setText(AppGlobals.number_base.status_text)
         AppGlobals.input_box.update_table()
 
     def memory_label_clicked(self):
@@ -1216,9 +1370,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonW.original_keyboard_text = "W"
         self.ui.pushButtonW.shift_text = "DD"
         self.ui.pushButtonW.ctrl_text = "nPr"
+        self.ui.pushButtonW.ctrl_shift_text = "Word"
         self.ui.pushButtonW.base_operation = CalcOperations.pow
         self.ui.pushButtonW.shift_operation = CalcOperations.convert_to_dd
         self.ui.pushButtonW.ctrl_operation = CalcOperations.permutation
+        self.ui.pushButtonW.ctrl_shift_operation = CalcOperations.word_size_word
         UiGlobals.pushButtonW = self.ui.pushButtonW
         self.leftside_button_list.append(self.ui.pushButtonW)
 
@@ -1230,9 +1386,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.original_keyboard_text = "E"
         self.ui.pushButtonE.shift_text = "EXP"
         self.ui.pushButtonE.ctrl_text = "Mod"
+        self.ui.pushButtonE.ctrl_shift_text = "Byte"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent
         self.ui.pushButtonE.shift_operation = CalcOperations.exponent
         self.ui.pushButtonE.ctrl_operation = CalcOperations.mod
+        self.ui.pushButtonE.ctrl_shift_operation = CalcOperations.word_size_byte
         UiGlobals.pushButtonE = self.ui.pushButtonE
         self.leftside_button_list.append(self.ui.pushButtonE)
 
@@ -1242,9 +1400,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonR.original_keyboard_text = "R"
         self.ui.pushButtonR.shift_text = "³√x"
         self.ui.pushButtonR.ctrl_text = "Rnd"
+        self.ui.pushButtonR.ctrl_shift_text = "DWord"
         self.ui.pushButtonR.base_operation = CalcOperations.sqrt
         self.ui.pushButtonR.shift_operation = CalcOperations.cube_root
         self.ui.pushButtonR.ctrl_operation = CalcOperations.round
+        self.ui.pushButtonR.ctrl_shift_operation = CalcOperations.word_size_dword
         UiGlobals.pushButtonR = self.ui.pushButtonR
         self.leftside_button_list.append(self.ui.pushButtonR)
 
@@ -1285,9 +1445,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonA.bg_color = self.c_ac_bg_color
         self.ui.pushButtonA.shift_text = "Format"
         self.ui.pushButtonA.ctrl_text = ""
+        self.ui.pushButtonA.ctrl_shift_text = "All Bases"
         self.ui.pushButtonA.base_operation = CalcOperations.AC
         self.ui.pushButtonA.shift_operation = CalcOperations.numeric_format
         self.ui.pushButtonA.ctrl_operation = CalcOperations.C
+        self.ui.pushButtonA.ctrl_shift_operation = CalcOperations.convert_to_bases
         UiGlobals.pushButtonA = self.ui.pushButtonA
         self.leftside_button_list.append(self.ui.pushButtonA)
 
@@ -1297,9 +1459,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonS.original_keyboard_text = "S"
         self.ui.pushButtonS.shift_text = "DMS"
         self.ui.pushButtonS.ctrl_text = "nCr"
+        self.ui.pushButtonS.ctrl_shift_text = "QWord"
         self.ui.pushButtonS.base_operation = CalcOperations.MS
         self.ui.pushButtonS.shift_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonS.ctrl_operation = CalcOperations.combination
+        self.ui.pushButtonS.ctrl_shift_operation = CalcOperations.word_size_qword
         UiGlobals.pushButtonS = self.ui.pushButtonS
         self.leftside_button_list.append(self.ui.pushButtonS)
 
@@ -1379,13 +1543,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.column = 2.5
         self.ui.pushButtonX.setText("1/x")
         self.ui.pushButtonX.original_keyboard_text = "X"
-        self.ui.pushButtonX.shift_text = "Hex"
+        self.ui.pushButtonX.shift_text = "0x"
         self.ui.pushButtonX.ctrl_text = "Cut"
-        self.ui.pushButtonX.ctrl_shift_text = "Byte"
+        self.ui.pushButtonX.ctrl_shift_text = "Hex"
         self.ui.pushButtonX.base_operation = CalcOperations.reciprocal
         self.ui.pushButtonX.shift_operation = CalcOperations.convert_from_hexadecimal
         self.ui.pushButtonX.ctrl_operation = CalcOperations.cut_to_clipboard
-        self.ui.pushButtonX.ctrl_shift_operation = CalcOperations.word_size_byte
+        self.ui.pushButtonX.ctrl_shift_operation = CalcOperations.number_base_hexadecimal
         UiGlobals.pushButtonX = self.ui.pushButtonX
         self.leftside_button_list.append(self.ui.pushButtonX)
 
@@ -1393,14 +1557,14 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonC.column = 3.5
         self.ui.pushButtonC.setText("C")
         self.ui.pushButtonC.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonC.shift_text = "Dec"
+        self.ui.pushButtonC.shift_text = "0d"
         self.ui.pushButtonC.ctrl_text = "Copy"
-        self.ui.pushButtonC.ctrl_shift_text = "Word"
+        self.ui.pushButtonC.ctrl_shift_text = "Dec"
         self.ui.pushButtonC.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonC.base_operation = CalcOperations.C
-        self.ui.pushButtonC.shift_operation = CalcOperations.convert_to_bases
+        self.ui.pushButtonC.shift_operation = CalcOperations.convert_from_decimal
         self.ui.pushButtonC.ctrl_operation = CalcOperations.copy_to_clipboard
-        self.ui.pushButtonC.ctrl_shift_operation = CalcOperations.word_size_word
+        self.ui.pushButtonC.ctrl_shift_operation = CalcOperations.number_base_decimal
         UiGlobals.pushButtonC = self.ui.pushButtonC
         self.leftside_button_list.append(self.ui.pushButtonC)
 
@@ -1408,15 +1572,15 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.column = 4.5
         self.ui.pushButtonV.setText("MR")
         self.ui.pushButtonV.original_keyboard_text = "V"
-        self.ui.pushButtonV.shift_text = "Oct"
+        self.ui.pushButtonV.shift_text = "0o"
         self.ui.pushButtonV.ctrl_text = "Paste"
-        self.ui.pushButtonV.ctrl_shift_text = "DWord"
+        self.ui.pushButtonV.ctrl_shift_text = "Oct"
         self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonV.ctrl_font = self.font_long_names
         self.ui.pushButtonV.base_operation = CalcOperations.MR
         self.ui.pushButtonV.shift_operation = CalcOperations.convert_from_octal
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
-        self.ui.pushButtonV.ctrl_shift_operation = CalcOperations.word_size_dword
+        self.ui.pushButtonV.ctrl_shift_operation = CalcOperations.number_base_octal
         UiGlobals.pushButtonV = self.ui.pushButtonV
         self.leftside_button_list.append(self.ui.pushButtonV)
 
@@ -1426,15 +1590,15 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.text_font = QFont("Times New Roman", 14)
         self.ui.pushButtonB.setText("π")
         self.ui.pushButtonB.original_keyboard_text = "B"
-        self.ui.pushButtonB.shift_text = "Bin"
+        self.ui.pushButtonB.shift_text = "0b"
         self.ui.pushButtonB.ctrl_text = "R→P"
-        self.ui.pushButtonB.ctrl_shift_text = "QWord"
+        self.ui.pushButtonB.ctrl_shift_text = "Bin"
         self.ui.pushButtonB.ctrl_font = self.font_long_names
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.pi
         self.ui.pushButtonB.shift_operation = CalcOperations.convert_from_binary
         self.ui.pushButtonB.ctrl_operation = CalcOperations.rectangular_to_polar
-        self.ui.pushButtonB.ctrl_shift_operation = CalcOperations.word_size_qword
+        self.ui.pushButtonB.ctrl_shift_operation = CalcOperations.number_base_binary
         UiGlobals.pushButtonB = self.ui.pushButtonB
         self.leftside_button_list.append(self.ui.pushButtonB)
 
@@ -1471,7 +1635,7 @@ class MainWindow(QMainWindow):
             if isinstance(val, NumericCellValue):
                 AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
             elif isinstance(val, IntegerCellValue):
-                AppGlobals.input_box.setText(str(val.value()))
+                AppGlobals.input_box.setText(AppGlobals.to_normal_string(int(val.value())))
             else:
                 AppGlobals.input_box.setText(text)
         else:
@@ -1566,6 +1730,7 @@ class MainWindow(QMainWindow):
         dialog.ui.convertAngleCheckBox.setChecked(AppGlobals.convert_angle_on_unit_change)
         dialog.ui.showBinaryValueCheckBox.setChecked(AppGlobals.show_binary_value)
         dialog.ui.showOctalValueCheckBox.setChecked(AppGlobals.show_octal_value)
+        dialog.ui.showDecimalValueCheckBox.setChecked(AppGlobals.show_decimal_value)
         dialog.ui.showHexValueCheckBox.setChecked(AppGlobals.show_hex_value)
         dialog.ui.showWordSizeCheckBox.setChecked(AppGlobals.show_word_size)
 
@@ -1578,6 +1743,7 @@ class MainWindow(QMainWindow):
             AppGlobals.convert_angle_on_unit_change = dialog.ui.convertAngleCheckBox.isChecked()
             AppGlobals.show_binary_value = dialog.ui.showBinaryValueCheckBox.isChecked()
             AppGlobals.show_octal_value = dialog.ui.showOctalValueCheckBox.isChecked()
+            AppGlobals.show_decimal_value = dialog.ui.showDecimalValueCheckBox.isChecked()
             AppGlobals.show_hex_value = dialog.ui.showHexValueCheckBox.isChecked()
             AppGlobals.show_word_size = dialog.ui.showWordSizeCheckBox.isChecked()
 
@@ -1810,6 +1976,17 @@ class MainWindow(QMainWindow):
     def mm2_to_awg(self):
         AppGlobals.input_box.exec_mm2_to_awg()
 
+    def bin_label_clicked(self):
+        AppGlobals.input_box.exec_from_binary()
+
+    def oct_label_clicked(self):
+        AppGlobals.input_box.exec_from_octal()
+
+    def dec_label_clicked(self):
+        AppGlobals.input_box.exec_from_decimal()
+
+    def hex_label_clicked(self):
+        AppGlobals.input_box.exec_from_hexadecimal()
 # main
 def main():
     # --- IMPORTANT FOR WINDOWS TASKBAR ICON ---

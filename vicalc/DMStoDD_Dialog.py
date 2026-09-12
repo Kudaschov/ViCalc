@@ -2,6 +2,7 @@ from PySide6.QtCore import QLocale
 from PySide6.QtWidgets import QDialog, QDialogButtonBox
 from PySide6.QtGui import QDoubleValidator, QIntValidator
 from .ui.dms_to_dd_dialog import Ui_DMStoDD_Dialog
+from .AppGlobals import AppGlobals
 
 class DMStoDD_Dialog(QDialog):
     def __init__(self, parent=None):
@@ -20,8 +21,8 @@ class DMStoDD_Dialog(QDialog):
         self.validate_inputs()
 
     def validate_inputs(self):
-        degrees, degrees_valid = QLocale(QLocale.C).toInt(self.ui.degreesLineEdit.text())
-        minutes, minutes_valid = QLocale(QLocale.C).toUInt(self.ui.minutesLineEdit.text())
-        seconds, seconds_valid = QLocale(QLocale.C).toDouble(self.ui.secondsLineEdit.text())
+        degrees, degrees_valid = AppGlobals.locale.toInt(self.ui.degreesLineEdit.text())
+        minutes, minutes_valid = AppGlobals.locale.toUInt(self.ui.minutesLineEdit.text())
+        seconds, seconds_valid = AppGlobals.locale.toDouble(self.ui.secondsLineEdit.text())
 
         self.ok_button.setEnabled(degrees_valid and minutes_valid and seconds_valid)

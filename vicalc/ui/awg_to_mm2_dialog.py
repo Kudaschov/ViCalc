@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'awg_to_mm2_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QLabel, QLineEdit, QSizePolicy, QWidget)
 
+from .dot_line_edit import DotLineEdit
+
 class Ui_awg_to_mm2_dialog(object):
     def setupUi(self, awg_to_mm2_dialog):
         if not awg_to_mm2_dialog.objectName():
@@ -31,36 +33,36 @@ class Ui_awg_to_mm2_dialog(object):
         self.label = QLabel(awg_to_mm2_dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 12, 49, 16))
-        self.awgLineEdit = QLineEdit(awg_to_mm2_dialog)
+        self.awgLineEdit = DotLineEdit(awg_to_mm2_dialog)
         self.awgLineEdit.setObjectName(u"awgLineEdit")
-        self.awgLineEdit.setGeometry(QRect(130, 10, 120, 21))
+        self.awgLineEdit.setGeometry(QRect(130, 10, 131, 21))
         self.label_2 = QLabel(awg_to_mm2_dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(10, 62, 91, 16))
         self.diameterInchLineEdit = QLineEdit(awg_to_mm2_dialog)
         self.diameterInchLineEdit.setObjectName(u"diameterInchLineEdit")
-        self.diameterInchLineEdit.setGeometry(QRect(130, 60, 120, 21))
+        self.diameterInchLineEdit.setGeometry(QRect(130, 60, 131, 21))
         self.diameterInchLineEdit.setReadOnly(True)
         self.label_3 = QLabel(awg_to_mm2_dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(10, 92, 111, 16))
         self.diameterMmLineEdit = QLineEdit(awg_to_mm2_dialog)
         self.diameterMmLineEdit.setObjectName(u"diameterMmLineEdit")
-        self.diameterMmLineEdit.setGeometry(QRect(130, 90, 120, 21))
+        self.diameterMmLineEdit.setGeometry(QRect(130, 90, 131, 21))
         self.diameterMmLineEdit.setReadOnly(True)
         self.label_4 = QLabel(awg_to_mm2_dialog)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(10, 122, 101, 16))
         self.areaKcmilLineEdit = QLineEdit(awg_to_mm2_dialog)
         self.areaKcmilLineEdit.setObjectName(u"areaKcmilLineEdit")
-        self.areaKcmilLineEdit.setGeometry(QRect(130, 120, 120, 21))
+        self.areaKcmilLineEdit.setGeometry(QRect(130, 120, 131, 21))
         self.areaKcmilLineEdit.setReadOnly(True)
         self.label_5 = QLabel(awg_to_mm2_dialog)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(10, 152, 111, 16))
         self.areaMm2LineEdit = QLineEdit(awg_to_mm2_dialog)
         self.areaMm2LineEdit.setObjectName(u"areaMm2LineEdit")
-        self.areaMm2LineEdit.setGeometry(QRect(130, 150, 120, 21))
+        self.areaMm2LineEdit.setGeometry(QRect(130, 150, 131, 21))
         self.areaMm2LineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.awgLineEdit)
@@ -78,11 +80,11 @@ class Ui_awg_to_mm2_dialog(object):
     # setupUi
 
     def retranslateUi(self, awg_to_mm2_dialog):
-        awg_to_mm2_dialog.setWindowTitle(QCoreApplication.translate("awg_to_mm2_dialog", u"American wire gauge (AWG) to mm2", None))
+        awg_to_mm2_dialog.setWindowTitle(QCoreApplication.translate("awg_to_mm2_dialog", u"American wire gauge (AWG) to mm\u00b2", None))
         self.label.setText(QCoreApplication.translate("awg_to_mm2_dialog", u"&AWG", None))
         self.label_2.setText(QCoreApplication.translate("awg_to_mm2_dialog", u"Diameter [&in]", None))
         self.label_3.setText(QCoreApplication.translate("awg_to_mm2_dialog", u"&Diameter [mm]", None))
         self.label_4.setText(QCoreApplication.translate("awg_to_mm2_dialog", u"A&rea [kcmil]", None))
-        self.label_5.setText(QCoreApplication.translate("awg_to_mm2_dialog", u"&Area [mm2]", None))
+        self.label_5.setText(QCoreApplication.translate("awg_to_mm2_dialog", u"&Area [mm\u00b2]", None))
     # retranslateUi
 

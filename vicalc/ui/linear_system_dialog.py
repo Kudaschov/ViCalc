@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'linear_system_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QLabel, QLineEdit, QSizePolicy, QWidget)
 
+from .dot_line_edit import DotLineEdit
+
 class Ui_linear_system_dialog(object):
     def setupUi(self, linear_system_dialog):
         if not linear_system_dialog.objectName():
@@ -31,19 +33,19 @@ class Ui_linear_system_dialog(object):
         self.label = QLabel(linear_system_dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 22, 41, 16))
-        self.a1LineEdit = QLineEdit(linear_system_dialog)
+        self.a1LineEdit = DotLineEdit(linear_system_dialog)
         self.a1LineEdit.setObjectName(u"a1LineEdit")
         self.a1LineEdit.setGeometry(QRect(40, 20, 121, 21))
         self.label_2 = QLabel(linear_system_dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(190, 22, 41, 16))
-        self.b1LineEdit = QLineEdit(linear_system_dialog)
+        self.b1LineEdit = DotLineEdit(linear_system_dialog)
         self.b1LineEdit.setObjectName(u"b1LineEdit")
         self.b1LineEdit.setGeometry(QRect(220, 20, 121, 21))
         self.label_3 = QLabel(linear_system_dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(430, 22, 41, 16))
-        self.c1LineEdit = QLineEdit(linear_system_dialog)
+        self.c1LineEdit = DotLineEdit(linear_system_dialog)
         self.c1LineEdit.setObjectName(u"c1LineEdit")
         self.c1LineEdit.setGeometry(QRect(460, 20, 121, 21))
         self.label_4 = QLabel(linear_system_dialog)
@@ -52,16 +54,16 @@ class Ui_linear_system_dialog(object):
         self.label_5 = QLabel(linear_system_dialog)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setGeometry(QRect(190, 52, 41, 16))
-        self.b2LineEdit = QLineEdit(linear_system_dialog)
+        self.b2LineEdit = DotLineEdit(linear_system_dialog)
         self.b2LineEdit.setObjectName(u"b2LineEdit")
         self.b2LineEdit.setGeometry(QRect(220, 50, 121, 21))
         self.label_6 = QLabel(linear_system_dialog)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(430, 52, 41, 16))
-        self.a2LineEdit = QLineEdit(linear_system_dialog)
+        self.a2LineEdit = DotLineEdit(linear_system_dialog)
         self.a2LineEdit.setObjectName(u"a2LineEdit")
         self.a2LineEdit.setGeometry(QRect(40, 50, 121, 21))
-        self.c2LineEdit = QLineEdit(linear_system_dialog)
+        self.c2LineEdit = DotLineEdit(linear_system_dialog)
         self.c2LineEdit.setObjectName(u"c2LineEdit")
         self.c2LineEdit.setGeometry(QRect(460, 50, 121, 21))
         self.label_7 = QLabel(linear_system_dialog)
@@ -69,21 +71,21 @@ class Ui_linear_system_dialog(object):
         self.label_7.setGeometry(QRect(10, 142, 41, 16))
         self.xLineEdit = QLineEdit(linear_system_dialog)
         self.xLineEdit.setObjectName(u"xLineEdit")
-        self.xLineEdit.setGeometry(QRect(130, 140, 121, 21))
+        self.xLineEdit.setGeometry(QRect(130, 140, 131, 21))
         self.xLineEdit.setReadOnly(True)
         self.label_8 = QLabel(linear_system_dialog)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setGeometry(QRect(10, 172, 41, 16))
         self.yLineEdit = QLineEdit(linear_system_dialog)
         self.yLineEdit.setObjectName(u"yLineEdit")
-        self.yLineEdit.setGeometry(QRect(130, 170, 121, 21))
+        self.yLineEdit.setGeometry(QRect(130, 170, 131, 21))
         self.yLineEdit.setReadOnly(True)
         self.label_9 = QLabel(linear_system_dialog)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(10, 110, 101, 16))
         self.DLineEdit = QLineEdit(linear_system_dialog)
         self.DLineEdit.setObjectName(u"DLineEdit")
-        self.DLineEdit.setGeometry(QRect(130, 110, 121, 21))
+        self.DLineEdit.setGeometry(QRect(130, 110, 131, 21))
         self.DLineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.a1LineEdit)

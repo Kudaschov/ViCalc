@@ -13,7 +13,7 @@ class AngleUnit(ABC):
     statusbar_message = Signal(str)
 
     def __init__(self, statusbar_message = None):
-        self.locale = QLocale(QLocale.C)
+        self.locale = AppGlobals.locale
         self.resultFont = QFont()
         self.resultFont.setBold(True)
         self.row = None

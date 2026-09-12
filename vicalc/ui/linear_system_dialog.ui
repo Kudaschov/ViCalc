@@ -45,7 +45,7 @@
     <cstring>a1LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="a1LineEdit">
+  <widget class="DotLineEdit" name="a1LineEdit">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -71,7 +71,7 @@
     <cstring>b1LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="b1LineEdit">
+  <widget class="DotLineEdit" name="b1LineEdit">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -97,7 +97,7 @@
     <cstring>c1LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="c1LineEdit">
+  <widget class="DotLineEdit" name="c1LineEdit">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -139,7 +139,7 @@
     <cstring>b2LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="b2LineEdit">
+  <widget class="DotLineEdit" name="b2LineEdit">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -165,7 +165,7 @@
     <cstring>c2LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="a2LineEdit">
+  <widget class="DotLineEdit" name="a2LineEdit">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -175,7 +175,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="c2LineEdit">
+  <widget class="DotLineEdit" name="c2LineEdit">
    <property name="geometry">
     <rect>
      <x>460</x>
@@ -206,7 +206,7 @@
     <rect>
      <x>130</x>
      <y>140</y>
-     <width>121</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -235,7 +235,7 @@
     <rect>
      <x>130</x>
      <y>170</y>
-     <width>121</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -264,7 +264,7 @@
     <rect>
      <x>130</x>
      <y>110</y>
-     <width>121</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -273,6 +273,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>a1LineEdit</tabstop>
   <tabstop>b1LineEdit</tabstop>

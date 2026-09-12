@@ -6,12 +6,11 @@ from .UnaryExpression import UnaryExpression
 class ConvertToBasesExpression(UnaryExpression):
     def calculate(self, number):
         i_number: int = int(number)
-        result:float = float(i_number)
 
         self.insert_scroll_table()
         self.protocol(f"{bin(i_number)}", 0)
         self.protocol(f"{oct(i_number)}", 1)
-        self.protocol_result(result, 2)
+        self.protocol_result(str(i_number), 2)
         self.protocol(f"0x{i_number:X}", 3)
 
-        return result
+        return i_number

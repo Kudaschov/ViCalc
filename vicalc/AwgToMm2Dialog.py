@@ -27,9 +27,12 @@ class AwgToMm2Dialog(QDialog):
         self.ok_button.setEnabled(vars_valid)
 
         if vars_valid:
-            self.ui.diameterInchLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.awg_to_diameter_inch_calculation(awg)))
-            self.ui.diameterMmLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.awg_to_diameter_mm_calculation(awg)))
-            self.ui.areaKcmilLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.awg_to_kcmil_calculation(awg)))
-            self.ui.areaMm2LineEdit.setText(AppGlobals.to_normal_string(AppGlobals.awg_to_mm2_calculation(awg)))
+            self.ui.diameterInchLineEdit.setText(AppGlobals.to_format_string(AppGlobals.awg_to_diameter_inch_calculation(awg)))
+            self.ui.diameterMmLineEdit.setText(AppGlobals.to_format_string(AppGlobals.awg_to_diameter_mm_calculation(awg)))
+            self.ui.areaKcmilLineEdit.setText(AppGlobals.to_format_string(AppGlobals.awg_to_kcmil_calculation(awg)))
+            self.ui.areaMm2LineEdit.setText(AppGlobals.to_format_string(AppGlobals.awg_to_mm2_calculation(awg)))
         else:
+            self.ui.diameterInchLineEdit.setText("- - -")
+            self.ui.diameterMmLineEdit.setText("- - -")
+            self.ui.areaKcmilLineEdit.setText("-  - -")
             self.ui.areaMm2LineEdit.setText("- - -")

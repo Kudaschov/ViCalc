@@ -11,6 +11,7 @@ from ctypes import wintypes
 from PySide6.QtGui import QKeyEvent
 import sys
 import time
+from vicalc.NumberBase import NumberBase
 
 # Source - https://stackoverflow.com/a
 # Posted by Mark Tolonen, modified by community. See post 'Timeline' for change history
@@ -103,6 +104,7 @@ def main_window(qtbot):
     return window
 
 def test_addition(main_window, qtbot):
+    AppGlobals.number_base = NumberBase.DEC
     input_box = AppGlobals.input_box
     qtbot.wait(50)
     input_box.clear()
@@ -134,6 +136,7 @@ def test_addition(main_window, qtbot):
 
 def test_subtraction(main_window, qtbot):
     # 90 - 12 = 78
+    AppGlobals.number_base = NumberBase.DEC
     input_box = AppGlobals.input_box
     qtbot.wait(50)
     input_box.clear()
@@ -157,6 +160,7 @@ def test_subtraction(main_window, qtbot):
 def test_multiplication(main_window, qtbot):
     # 12 * 34 = 408    
 
+    AppGlobals.number_base = NumberBase.DEC
     input_box = AppGlobals.input_box
     qtbot.wait(50)
     input_box.clear()
@@ -183,6 +187,7 @@ def test_multiplication(main_window, qtbot):
 def test_division(main_window, qtbot):
     #27 / 12 = 2.25    
 
+    AppGlobals.number_base = NumberBase.DEC
     input_box = AppGlobals.input_box
     qtbot.wait(50)
     input_box.clear()

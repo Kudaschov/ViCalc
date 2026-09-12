@@ -6,9 +6,17 @@ from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
 
 class AppGlobals:
+# Base color mapping stored globally
+    BASE_COLORS = {
+        NumberBase.DEC: "#FFFFFF",  # Pure White
+        NumberBase.HEX: "#E8F0FE",  # Soft Blue
+        NumberBase.OCT: "#E6F4EA",  # Soft Green
+        NumberBase.BIN: "#FEF7E0",  # Soft Yellow
+    }    
+    locale = None
     angle_unit = None
     current_word_size = WordSize.BIT8
-    table_number_base = NumberBase.DEC # number base for history table
+    number_base = NumberBase.DEC
     numeric_format = NumericFormat.normal
     numeric_precision = 5
     timestamp_at_start = True
@@ -18,6 +26,7 @@ class AppGlobals:
     # Show number in status bar in binary, octal, and hexadecimal format when the number is an integer.
     show_binary_value = False
     show_octal_value = False
+    show_decimal_value = False
     show_hex_value = False
     show_word_size = False
     table = None # tableWidget in main window
@@ -91,27 +100,46 @@ class AppGlobals:
 
     @staticmethod
     def to_format_string(number):
-        locale = QLocale(QLocale.C)
-        locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
-        # todo vk eng format
-        match AppGlobals.numeric_format:
-            case NumericFormat.general:
-                return locale.toString(number, "g", AppGlobals.numeric_precision)
-            case NumericFormat.fixed:
-                return locale.toString(number, "f", AppGlobals.numeric_precision)
-            case NumericFormat.scientific:
-                return locale.toString(number, "e", AppGlobals.numeric_precision)
-            case NumericFormat.engineering:
-                return AppGlobals.format_engineering(number)
-            case _:
-                return AppGlobals.to_normal_string(number)
+        AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
+        if (number.is_integer()):
+            match AppGlobals.number_base:
+                case NumberBase.BIN:
+                    return bin(int(number))
+                case NumberBase.OCT:
+                    return oct(int(number))
+                case NumberBase.HEX:
+                    return f"0x{int(number):X}"
+                case _:
+                    return str(int(number))
+        else:
+            match AppGlobals.numeric_format:
+                case NumericFormat.general:
+                    return AppGlobals.locale.toString(number, "g", AppGlobals.numeric_precision)
+                case NumericFormat.fixed:
+                    return AppGlobals.locale.toString(number, "f", AppGlobals.numeric_precision)
+                case NumericFormat.scientific:
+                    return AppGlobals.locale.toString(number, "e", AppGlobals.numeric_precision)
+                case NumericFormat.engineering:
+                    return AppGlobals.format_engineering(number)
+                case _:
+                    return AppGlobals.to_normal_string(number)
             
     @staticmethod
     def to_normal_string(number: float):
         # max precision
-        locale = QLocale(QLocale.C)
-        locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
-        return locale.toString(number, "g", 15)
+        AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
+        if (number.is_integer()):
+            match AppGlobals.number_base:
+                case NumberBase.BIN:
+                    return bin(int(number))[2:]
+                case NumberBase.OCT:
+                    return oct(int(number))[2:]
+                case NumberBase.HEX:
+                    return hex(int(number))[2:].upper()
+                case _:
+                    return str(int(number))
+        else:
+            return AppGlobals.locale.toString(number, "g", 16)
     
     @staticmethod
     def format_engineering(value):
@@ -122,15 +150,14 @@ class AppGlobals:
         scaled = value / 10 ** exponent
 
         # Format with locale without group separator
-        locale = QLocale(QLocale.C)
-        locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
+        AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
 
         # Format with max_precision decimal places
-        raw_str = locale.toString(scaled, 'f', AppGlobals.numeric_precision)
+        raw_str = AppGlobals.locale.toString(scaled, 'f', AppGlobals.numeric_precision)
 
         # Strip trailing zeros and possibly the decimal point
-        if locale.decimalPoint() in raw_str:
-            raw_str = raw_str.rstrip('0').rstrip(locale.decimalPoint())
+        if AppGlobals.locale.decimalPoint() in raw_str:
+            raw_str = raw_str.rstrip('0').rstrip(AppGlobals.locale.decimalPoint())
 
         return f"{raw_str}e{exponent:+03d}"    
     
@@ -156,7 +183,7 @@ class AppGlobals:
     
     @staticmethod
     def toDouble(text: str):
-        return QLocale(QLocale.Language.C).toDouble(text)
+        return AppGlobals.locale.toDouble(text)
 
     #Discriminant for quadratic equation ax^2 + bx + c = 0
     @staticmethod
@@ -229,3 +256,31 @@ class AppGlobals:
         diameter_inch = diameter_mm / 25.4
         area_kcmil = (diameter_inch ** 2) * 1000
         return area_kcmil
+
+
+    @staticmethod
+    def parse_base_str(s_temp: str, base: NumberBase) -> tuple[int, bool]:
+        radix_map = {
+            NumberBase.BIN: 2,
+            NumberBase.OCT: 8,
+            NumberBase.DEC: 10,
+            NumberBase.HEX: 16,
+        }
+        try:
+            number_temp = int(s_temp.strip(), radix_map[base])
+            return number_temp, True  # (Wert, convert_ok)
+        except ValueError:
+            return 0, False  # Konvertierung fehlgeschlagen
+
+    @staticmethod
+    def to_number(s_temp: str) -> tuple[float, bool]:
+        match AppGlobals.number_base:
+            case NumberBase.DEC:
+                # try to convert to int
+                number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
+                # otherwise try to convert to float
+                if not convert_ok:
+                    number_temp, convert_ok = AppGlobals.locale.toDouble(s_temp)
+            case _:
+                number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
+        return number_temp, convert_ok

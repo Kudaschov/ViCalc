@@ -44,7 +44,7 @@
    <property name="frameShadow">
     <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLineEdit" name="bLineEdit">
+   <widget class="DotLineEdit" name="bLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -86,7 +86,7 @@
      <cstring>aLineEdit</cstring>
     </property>
    </widget>
-   <widget class="QLineEdit" name="aLineEdit">
+   <widget class="DotLineEdit" name="aLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -129,7 +129,7 @@
    <property name="frameShadow">
     <enum>QFrame::Shadow::Sunken</enum>
    </property>
-   <widget class="QLineEdit" name="dLineEdit">
+   <widget class="DotLineEdit" name="dLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -205,6 +205,13 @@
   <zorder>xLineEdit</zorder>
   <zorder>label_6</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>aLineEdit</tabstop>
   <tabstop>bLineEdit</tabstop>

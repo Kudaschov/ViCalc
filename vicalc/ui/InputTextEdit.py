@@ -112,6 +112,7 @@ from ..XORExpression import XORExpression
 from ..NOTExpression import NOTExpression
 from ..WordSize import WordSize
 from ..NumberBase import NumberBase
+from ..IntegerResultCellValue import IntegerResultCellValue
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -147,7 +148,10 @@ class InputTextEdit(QLineEdit):
         # Define a list to store CalcButton objects
         self.button_list = []
         self.root_expression = None
-        self.locale = QLocale(QLocale.C)
+        self.locale = AppGlobals.locale
+
+        # Set default base mode
+        self.set_base(AppGlobals.number_base)        
 
     def keyPressEvent(self, event):
         self.key = event.key()
@@ -226,7 +230,18 @@ class InputTextEdit(QLineEdit):
     def store_number(self):
         result = False
         try:
-            self.number, ok = self.locale.toDouble(self.text())
+            ok = False
+            if AppGlobals.number_base == NumberBase.DEC:
+                self.number, ok = self.locale.toDouble(self.text())
+            elif AppGlobals.number_base == NumberBase.BIN:
+                self.number = int(self.text(), 2)
+                ok = True
+            elif AppGlobals.number_base == NumberBase.OCT:
+                self.number = int(self.text(), 8)
+                ok = True
+            elif AppGlobals.number_base == NumberBase.HEX:
+                self.number = int(self.text(), 16)
+                ok = True
 
             if ok:
                 self.selectAll()
@@ -248,8 +263,20 @@ class InputTextEdit(QLineEdit):
     def store_integer_number(self):
         result = False
         try:
-            self.number, ok = self.locale.toDouble(self.text())
-            ok = self.number.is_integer() and ok  # Ensure the number is an integer
+            ok = False
+            if AppGlobals.number_base == NumberBase.DEC:
+                self.number, ok = self.locale.toDouble(self.text())
+            elif AppGlobals.number_base == NumberBase.BIN:
+                self.number = int(self.text(), 2)
+                ok = True
+            elif AppGlobals.number_base == NumberBase.OCT:
+                self.number = int(self.text(), 8)
+                ok = True
+            elif AppGlobals.number_base == NumberBase.HEX:
+                self.number = int(self.text(), 16)
+                ok = True
+
+            ok = ok and self.number.is_integer()  # Ensure the number is an integer
 
             if ok:
                 self.selectAll()
@@ -444,9 +471,12 @@ class InputTextEdit(QLineEdit):
             AppGlobals.table.scrollToBottom()
             self.selectAll()
 
-            self.number, ok = self.locale.toDouble(self.text())
+            self.number, ok = AppGlobals.to_number(self.text())
             if ok:
-                ResultCellValue(self.number, row, 0)
+                if self.number.is_integer():
+                    IntegerResultCellValue(int(self.number), row, 0)
+                else:
+                    ResultCellValue(self.number, row, 0)
 
         elif self.store_number():
             # go to last expression
@@ -551,6 +581,18 @@ class InputTextEdit(QLineEdit):
                     self.exec_number_8()
                 case CalcOperations.number_9:
                     self.exec_number_9()
+                case CalcOperations.number_A:
+                    self.exec_number_A()
+                case CalcOperations.number_B:
+                    self.exec_number_B()
+                case CalcOperations.number_C:
+                    self.exec_number_C()
+                case CalcOperations.number_D:
+                    self.exec_number_D()
+                case CalcOperations.number_E:
+                    self.exec_number_E()
+                case CalcOperations.number_F:
+                    self.exec_number_F()
                 case CalcOperations.Plus:
                     self.exec_addition()
                 case CalcOperations.Minus:
@@ -687,6 +729,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_from_binary()
                 case CalcOperations.convert_from_octal:
                     self.exec_from_octal()
+                case CalcOperations.convert_from_decimal:
+                    self.exec_from_decimal()
                 case CalcOperations.convert_from_hexadecimal:
                     self.exec_from_hexadecimal()
                 case CalcOperations.toggle_table:
@@ -731,6 +775,14 @@ class InputTextEdit(QLineEdit):
                     self.exec_word_size_dword()
                 case CalcOperations.word_size_qword:
                     self.exec_word_size_qword()
+                case CalcOperations.number_base_binary:
+                    self.set_base(NumberBase.BIN)
+                case CalcOperations.number_base_octal:
+                    self.set_base(NumberBase.OCT)
+                case CalcOperations.number_base_decimal:
+                    self.set_base(NumberBase.DEC)
+                case CalcOperations.number_base_hexadecimal:
+                    self.set_base(NumberBase.HEX)
                 case _:
                     self.statusbar_message.emit("No operation configured")
 
@@ -906,6 +958,24 @@ class InputTextEdit(QLineEdit):
 
     def exec_number_9(self):
         self.insert("9")        
+
+    def exec_number_A(self):
+        self.insert("A")        
+
+    def exec_number_B(self):
+        self.insert("B")        
+
+    def exec_number_C(self):
+        self.insert("C")        
+
+    def exec_number_D(self):
+        self.insert("D")        
+
+    def exec_number_E(self):
+        self.insert("E")        
+
+    def exec_number_F(self):
+        self.insert("F")        
 
     @property
     def memory(self):
@@ -1199,7 +1269,10 @@ class InputTextEdit(QLineEdit):
             case "%":
                 self.exec_percent()
             case 'e' | 'E':
-                self.exec_exponent()
+                if AppGlobals.number_base == NumberBase.HEX:
+                    self.exec_number_E()
+                else:
+                    self.exec_exponent()
             case '_':
                 self.exec_insert_minus()
             case '=':
@@ -1620,8 +1693,7 @@ class InputTextEdit(QLineEdit):
                 self.update_expression_label()
 
     def exec_convert_to_bases(self):
-        if self.store_number():
-            i_number: float = int(self.text())
+        if self.store_integer_number():
             ConvertToBasesExpression(AppGlobals.table).calculate(self.number)
             self.selectAll()
 
@@ -1660,16 +1732,16 @@ class InputTextEdit(QLineEdit):
 
     def exec_from_binary(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 2))
-        dialog.setWindowTitle("Convert form Binary")
+        dialog.setWindowTitle("Input in Binary format")
         dialog.ui.number_label.setText("&Binary:")
         i_number = 0
 
-        try:
-           i_number = int(self.text())
-        except Exception as e:
-            print(f"{str(e)}")
-                
-        dialog.ui.numberLineEdit.setText(format(i_number, 'b'))
+        i_number, ok = AppGlobals.to_number(self.text())
+
+        if ok and i_number.is_integer():
+            dialog.ui.numberLineEdit.setText(format(i_number, 'b'))
+        else:
+            dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
@@ -1697,16 +1769,16 @@ class InputTextEdit(QLineEdit):
 
     def exec_from_octal(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 8))
-        dialog.setWindowTitle("Convert form Octal")
+        dialog.setWindowTitle("Input in Octal format")
         dialog.ui.number_label.setText("&Octal:")
         i_number = 0
 
-        try:
-           i_number = int(self.text())
-        except Exception as e:
-            print(f"{str(e)}")
+        i_number, ok = AppGlobals.to_number(self.text())
                 
-        dialog.ui.numberLineEdit.setText(format(i_number, 'o'))
+        if ok and i_number.is_integer():
+            dialog.ui.numberLineEdit.setText(format(i_number, 'o'))
+        else:
+            dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
@@ -1717,16 +1789,16 @@ class InputTextEdit(QLineEdit):
 
     def exec_from_decimal(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 10))
-        dialog.setWindowTitle("Convert form Decimal")
+        dialog.setWindowTitle("Input in Decimal format")
         dialog.ui.number_label.setText("&Decimal:")
         i_number = 0
 
-        try:
-           i_number = int(self.text())
-        except Exception as e:
-            print(f"{str(e)}")
+        i_number, ok = AppGlobals.to_number(self.text())
                 
-        dialog.ui.numberLineEdit.setText(format(i_number, 'd'))
+        if ok and i_number.is_integer():
+            dialog.ui.numberLineEdit.setText(format(i_number, 'd'))
+        else:
+            dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
@@ -1737,15 +1809,15 @@ class InputTextEdit(QLineEdit):
 
     def exec_from_hexadecimal(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 16))
-        dialog.setWindowTitle("Convert form Hexadecimal")
+        dialog.setWindowTitle("Input in Hexadecimal format")
         i_number = 0
 
-        try:
-           i_number = int(self.text())
-        except Exception as e:
-            print(f"{str(e)}")
+        i_number, ok = AppGlobals.to_number(self.text())
                 
-        dialog.ui.numberLineEdit.setText(f"{i_number:X}")
+        if ok and i_number.is_integer():
+            dialog.ui.numberLineEdit.setText(f"{i_number:X}")
+        else:
+            dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
 
         if dialog.exec():
@@ -1933,16 +2005,6 @@ class InputTextEdit(QLineEdit):
 
         dialog.ui.precisionSpinBox.setValue(AppGlobals.numeric_precision)
 
-        match AppGlobals.table_number_base:
-            case NumberBase.BIN:
-                dialog.ui.binaryRadioButton.setChecked(True)
-            case NumberBase.OCT:
-                dialog.ui.octalRadioButton.setChecked(True)
-            case NumberBase.DEC:
-                dialog.ui.decimalRadioButton.setChecked(True)
-            case NumberBase.HEX:
-                dialog.ui.hexadecimalRadioButton.setChecked(True)
-
         if dialog.exec() != True:
             self.update_shift_ctrl_status()
             return
@@ -1958,15 +2020,6 @@ class InputTextEdit(QLineEdit):
             AppGlobals.numeric_format = NumericFormat.engineering
         else:
             AppGlobals.numeric_format = NumericFormat.normal
-
-        if dialog.ui.binaryRadioButton.isChecked():
-            AppGlobals.table_number_base = NumberBase.BIN
-        elif dialog.ui.octalRadioButton.isChecked():
-            AppGlobals.table_number_base = NumberBase.OCT
-        elif dialog.ui.decimalRadioButton.isChecked():
-            AppGlobals.table_number_base = NumberBase.DEC
-        elif dialog.ui.hexadecimalRadioButton.isChecked():
-            AppGlobals.table_number_base = NumberBase.HEX
 
         self.update_table()
         self.statusbar_changed.emit()
@@ -2278,3 +2331,24 @@ class InputTextEdit(QLineEdit):
     def exec_word_size_qword(self):
         AppGlobals.current_word_size = WordSize.BIT64
         self.update_table()
+
+    def set_base(self, base: NumberBase):
+        """Updates the background color based on the selected NumberBase enum value."""
+        bg_color = AppGlobals.BASE_COLORS.get(base, "#FFFFFF")
+        
+        # Update stylesheet while maintaining dark text contrast
+        self.setStyleSheet(f"""
+            QLineEdit {{
+                background-color: {bg_color};
+                color: #000000;
+                border: 1px solid #717171;
+                padding: 4px;
+            }}
+        """)
+
+        number, ok = AppGlobals.to_number(self.text())
+        AppGlobals.number_base = base
+        self.update_table()
+
+        if ok:
+            self.setTextSelect(AppGlobals.to_normal_string(number))

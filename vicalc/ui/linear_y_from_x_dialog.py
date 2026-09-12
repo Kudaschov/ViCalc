@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'linear_y_from_x_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,8 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QLabel, QLineEdit, QPushButton, QSizePolicy,
-    QWidget)
+    QLabel, QPushButton, QSizePolicy, QWidget)
+
+from .dot_line_edit import DotLineEdit
 
 class Ui_linear_y_from_x_dialog(object):
     def setupUi(self, linear_y_from_x_dialog):
@@ -32,30 +33,30 @@ class Ui_linear_y_from_x_dialog(object):
         self.label = QLabel(linear_y_from_x_dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 42, 91, 16))
-        self.aLineEdit = QLineEdit(linear_y_from_x_dialog)
+        self.aLineEdit = DotLineEdit(linear_y_from_x_dialog)
         self.aLineEdit.setObjectName(u"aLineEdit")
-        self.aLineEdit.setGeometry(QRect(110, 40, 120, 21))
+        self.aLineEdit.setGeometry(QRect(110, 40, 131, 21))
         self.label_2 = QLabel(linear_y_from_x_dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(10, 72, 91, 16))
-        self.bLineEdit = QLineEdit(linear_y_from_x_dialog)
+        self.bLineEdit = DotLineEdit(linear_y_from_x_dialog)
         self.bLineEdit.setObjectName(u"bLineEdit")
-        self.bLineEdit.setGeometry(QRect(110, 70, 120, 21))
+        self.bLineEdit.setGeometry(QRect(110, 70, 131, 21))
         self.fromTwoPointsPushButton = QPushButton(linear_y_from_x_dialog)
         self.fromTwoPointsPushButton.setObjectName(u"fromTwoPointsPushButton")
         self.fromTwoPointsPushButton.setGeometry(QRect(10, 10, 301, 24))
         self.label_3 = QLabel(linear_y_from_x_dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(10, 102, 49, 16))
-        self.xLineEdit = QLineEdit(linear_y_from_x_dialog)
+        self.xLineEdit = DotLineEdit(linear_y_from_x_dialog)
         self.xLineEdit.setObjectName(u"xLineEdit")
-        self.xLineEdit.setGeometry(QRect(110, 100, 120, 21))
+        self.xLineEdit.setGeometry(QRect(110, 100, 131, 21))
         self.label_4 = QLabel(linear_y_from_x_dialog)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(10, 132, 49, 16))
-        self.yLineEdit = QLineEdit(linear_y_from_x_dialog)
+        self.yLineEdit = DotLineEdit(linear_y_from_x_dialog)
         self.yLineEdit.setObjectName(u"yLineEdit")
-        self.yLineEdit.setGeometry(QRect(110, 130, 120, 21))
+        self.yLineEdit.setGeometry(QRect(110, 130, 131, 21))
         self.yLineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.aLineEdit)

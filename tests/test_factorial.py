@@ -11,6 +11,7 @@ from ctypes import wintypes
 from PySide6.QtGui import QKeyEvent
 import sys
 import time
+from vicalc.NumberBase import NumberBase
 
 # Source - https://stackoverflow.com/a
 # Posted by Mark Tolonen, modified by community. See post 'Timeline' for change history
@@ -103,6 +104,7 @@ def main_window(qtbot):
     return window
 
 def test_factorial(main_window, qtbot):
+    AppGlobals.number_base = NumberBase.DEC
     # Over scan codes
     input_box = AppGlobals.input_box
     input_box.clear()

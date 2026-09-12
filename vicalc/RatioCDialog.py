@@ -23,9 +23,9 @@ class RatioCDialog(QDialog):
         self.validate_inputs()
 
     def validate_inputs(self):
-        a, a_valid = QLocale(QLocale.C).toDouble(self.ui.aLineEdit.text())
-        b, b_valid = QLocale(QLocale.C).toDouble(self.ui.bLineEdit.text())
-        d, d_valid = QLocale(QLocale.C).toDouble(self.ui.dLineEdit.text())
+        a, a_valid = AppGlobals.locale.toDouble(self.ui.aLineEdit.text())
+        b, b_valid = AppGlobals.locale.toDouble(self.ui.bLineEdit.text())
+        d, d_valid = AppGlobals.locale.toDouble(self.ui.dLineEdit.text())
 
         vars_valid = a_valid and b_valid and d_valid and (b != 0)
         self.ok_button.setEnabled(vars_valid)

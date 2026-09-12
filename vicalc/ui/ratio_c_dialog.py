@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ratio_c_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QFrame, QLabel, QLineEdit, QSizePolicy,
     QWidget)
+
+from .dot_line_edit import DotLineEdit
 
 class Ui_ratio_c_dialog(object):
     def setupUi(self, ratio_c_dialog):
@@ -34,7 +36,7 @@ class Ui_ratio_c_dialog(object):
         self.frame.setGeometry(QRect(20, 10, 141, 80))
         self.frame.setFrameShape(QFrame.Shape.HLine)
         self.frame.setFrameShadow(QFrame.Shadow.Sunken)
-        self.bLineEdit = QLineEdit(self.frame)
+        self.bLineEdit = DotLineEdit(self.frame)
         self.bLineEdit.setObjectName(u"bLineEdit")
         self.bLineEdit.setGeometry(QRect(20, 50, 113, 21))
         self.label_2 = QLabel(self.frame)
@@ -43,7 +45,7 @@ class Ui_ratio_c_dialog(object):
         self.label = QLabel(self.frame)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(0, 12, 49, 16))
-        self.aLineEdit = QLineEdit(self.frame)
+        self.aLineEdit = DotLineEdit(self.frame)
         self.aLineEdit.setObjectName(u"aLineEdit")
         self.aLineEdit.setGeometry(QRect(20, 10, 113, 21))
         self.bLineEdit.raise_()
@@ -58,7 +60,7 @@ class Ui_ratio_c_dialog(object):
         self.frame_2.setGeometry(QRect(190, 10, 141, 80))
         self.frame_2.setFrameShape(QFrame.Shape.HLine)
         self.frame_2.setFrameShadow(QFrame.Shadow.Sunken)
-        self.dLineEdit = QLineEdit(self.frame_2)
+        self.dLineEdit = DotLineEdit(self.frame_2)
         self.dLineEdit.setObjectName(u"dLineEdit")
         self.dLineEdit.setGeometry(QRect(20, 50, 113, 21))
         self.label_4 = QLabel(self.frame_2)

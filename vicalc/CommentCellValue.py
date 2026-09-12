@@ -12,5 +12,8 @@ class CommentCellValue(StringCellValue):
         if -1 != col and -1 != row:
             item = AppGlobals.table.item(row, col)
             if item:
+                resultFont = QFont()
+                resultFont.setBold(True)
                 item.setForeground(QBrush(QColor(AppGlobals.color_comment)))
+                item.setFont(resultFont)
                 item.setText(self.to_string())

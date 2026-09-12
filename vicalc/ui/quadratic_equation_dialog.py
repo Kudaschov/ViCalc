@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'quadratic_equation_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QLabel, QLineEdit, QSizePolicy, QWidget)
 
+from .dot_line_edit import DotLineEdit
+
 class Ui_quadratic_equation_dialog(object):
     def setupUi(self, quadratic_equation_dialog):
         if not quadratic_equation_dialog.objectName():
@@ -31,27 +33,27 @@ class Ui_quadratic_equation_dialog(object):
         self.label = QLabel(quadratic_equation_dialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(20, 12, 49, 16))
-        self.aLineEdit = QLineEdit(quadratic_equation_dialog)
+        self.aLineEdit = DotLineEdit(quadratic_equation_dialog)
         self.aLineEdit.setObjectName(u"aLineEdit")
-        self.aLineEdit.setGeometry(QRect(130, 10, 121, 21))
+        self.aLineEdit.setGeometry(QRect(130, 10, 131, 21))
         self.label_2 = QLabel(quadratic_equation_dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(20, 42, 49, 16))
-        self.bLineEdit = QLineEdit(quadratic_equation_dialog)
+        self.bLineEdit = DotLineEdit(quadratic_equation_dialog)
         self.bLineEdit.setObjectName(u"bLineEdit")
-        self.bLineEdit.setGeometry(QRect(130, 40, 121, 21))
+        self.bLineEdit.setGeometry(QRect(130, 40, 131, 21))
         self.label_3 = QLabel(quadratic_equation_dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(20, 72, 49, 16))
-        self.cLineEdit = QLineEdit(quadratic_equation_dialog)
+        self.cLineEdit = DotLineEdit(quadratic_equation_dialog)
         self.cLineEdit.setObjectName(u"cLineEdit")
-        self.cLineEdit.setGeometry(QRect(130, 70, 121, 21))
+        self.cLineEdit.setGeometry(QRect(130, 70, 131, 21))
         self.label_4 = QLabel(quadratic_equation_dialog)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(20, 122, 111, 16))
         self.DLineEdit = QLineEdit(quadratic_equation_dialog)
         self.DLineEdit.setObjectName(u"DLineEdit")
-        self.DLineEdit.setGeometry(QRect(130, 120, 121, 21))
+        self.DLineEdit.setGeometry(QRect(130, 120, 131, 21))
         self.DLineEdit.setReadOnly(True)
         self.label_5 = QLabel(quadratic_equation_dialog)
         self.label_5.setObjectName(u"label_5")

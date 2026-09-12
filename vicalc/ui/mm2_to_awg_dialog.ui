@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Mm2 to American wire gauge (AWG)</string>
+   <string>mm² to American wire gauge (AWG)</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -50,7 +50,7 @@
     <rect>
      <x>130</x>
      <y>60</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -79,7 +79,7 @@
     <rect>
      <x>130</x>
      <y>90</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -108,7 +108,7 @@
     <rect>
      <x>130</x>
      <y>120</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -137,7 +137,7 @@
     <rect>
      <x>130</x>
      <y>150</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -155,18 +155,18 @@
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Area [mm2]</string>
+    <string>&amp;Area [mm²]</string>
    </property>
    <property name="buddy">
     <cstring>areaMm2LineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="areaMm2LineEdit">
+  <widget class="DotLineEdit" name="areaMm2LineEdit">
    <property name="geometry">
     <rect>
      <x>130</x>
      <y>10</y>
-     <width>120</width>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -175,6 +175,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>areaMm2LineEdit</tabstop>
   <tabstop>awgLineEdit</tabstop>

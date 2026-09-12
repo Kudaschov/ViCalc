@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QListWidget, QLineEdit, QPushButton
 )
 from PySide6.QtCore import QLocale
+from .AppGlobals import AppGlobals
 
 class Unit:
     def __init__(self, quantity, name, symbol, to_base, from_base):
@@ -302,7 +303,7 @@ class ConversionDialog(QDialog):
                         break
 
         if self.initial_value is not None:
-            locale = QLocale(QLocale.C)
+            locale = AppGlobals.locale
             locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
             self.input_edit.setText(locale.toString(self.initial_value, "g", 15))
 
@@ -322,7 +323,7 @@ class ConversionDialog(QDialog):
 
     def _convert(self):
         try:
-            locale = QLocale(QLocale.C)
+            locale = AppGlobals.locale
             locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
             value, ok = locale.toDouble(self.input_edit.text())
             if not ok:

@@ -23,7 +23,10 @@ class UnaryExpression(CalcExpression):
 
     @protocol_result.register(float)
     def _(self, arg: float, column_number: int):
-        ResultCellValue(arg, self.row, column_number)
+        if (arg.is_integer()):
+            IntegerResultCellValue(int(arg), self.row, column_number)
+        else:
+            ResultCellValue(arg, self.row, column_number)
 
     @protocol_result.register(str)
     def _(self, arg: str, column_number: int):
@@ -46,7 +49,10 @@ class UnaryExpression(CalcExpression):
 
     @protocol.register(float)
     def _(self, arg: float, column_number: int):
-        FloatCellValue(arg, self.row, column_number)
+        if (arg.is_integer()):
+            IntegerCellValue(int(arg), self.row, column_number)
+        else:
+            FloatCellValue(arg, self.row, column_number)
 
     @protocol.register(int)
     def _(self, arg: int, column_number: int):

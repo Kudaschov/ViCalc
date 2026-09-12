@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'log_base_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,7 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QLabel, QLineEdit, QSizePolicy, QWidget)
+    QLabel, QSizePolicy, QWidget)
+
+from .dot_line_edit import DotLineEdit
 
 class Ui_log_base_dialog(object):
     def setupUi(self, log_base_dialog):
@@ -28,10 +30,10 @@ class Ui_log_base_dialog(object):
         self.buttonBox.setGeometry(QRect(30, 90, 301, 32))
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
-        self.numberLineEdit = QLineEdit(log_base_dialog)
+        self.numberLineEdit = DotLineEdit(log_base_dialog)
         self.numberLineEdit.setObjectName(u"numberLineEdit")
         self.numberLineEdit.setGeometry(QRect(60, 10, 120, 21))
-        self.baseLineEdit = QLineEdit(log_base_dialog)
+        self.baseLineEdit = DotLineEdit(log_base_dialog)
         self.baseLineEdit.setObjectName(u"baseLineEdit")
         self.baseLineEdit.setGeometry(QRect(30, 32, 120, 21))
         self.label = QLabel(log_base_dialog)
@@ -43,7 +45,7 @@ class Ui_log_base_dialog(object):
         self.label_2 = QLabel(log_base_dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(190, 20, 49, 16))
-        self.resultLineEdit = QLineEdit(log_base_dialog)
+        self.resultLineEdit = DotLineEdit(log_base_dialog)
         self.resultLineEdit.setObjectName(u"resultLineEdit")
         self.resultLineEdit.setGeometry(QRect(210, 20, 120, 21))
         self.resultLineEdit.setReadOnly(True)
