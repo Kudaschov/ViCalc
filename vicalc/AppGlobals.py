@@ -108,7 +108,7 @@ class AppGlobals:
                 case NumberBase.OCT:
                     return oct(int(number))
                 case NumberBase.HEX:
-                    return f"0x{int(number):X}"
+                    return hex(int(number))
                 case _:
                     return str(int(number))
         else:
@@ -129,15 +129,16 @@ class AppGlobals:
         # max precision
         AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
         if (number.is_integer()):
+            int_number = int(number)
             match AppGlobals.number_base:
                 case NumberBase.BIN:
-                    return bin(int(number))[2:]
+                    return f"{int_number:b}"
                 case NumberBase.OCT:
-                    return oct(int(number))[2:]
+                    return f"{int_number:0}"
                 case NumberBase.HEX:
-                    return hex(int(number))[2:].upper()
+                    return f"{int_number:X}"
                 case _:
-                    return str(int(number))
+                    return f"{int_number}"
         else:
             return AppGlobals.locale.toString(number, "g", 16)
     
@@ -284,3 +285,23 @@ class AppGlobals:
             case _:
                 number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
         return number_temp, convert_ok
+
+    @staticmethod
+    def uint_to_signed_int(val: int) -> tuple[int, bool]:
+        """Converts an unsigned integer to a signed integer using two's complement.
+
+        Args:
+            val: The integer value to convert (e.g., 0b11111011 or 251).
+
+        Returns:
+            A tuple of (converted_value, is_signed), where is_signed is True
+            if the sign bit (MSB) was set and the value is negative.
+        """
+        bits = AppGlobals.current_word_size.bits
+
+        # Check if the sign bit (Most Significant Bit) is set
+        is_signed = bool(val & (1 << (bits - 1)))
+        if is_signed:
+            val -= 1 << bits
+
+        return val, is_signed

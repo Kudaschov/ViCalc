@@ -567,11 +567,11 @@ class MainWindow(QMainWindow):
                 else:
                     self.oct_label.setText("")
                 if AppGlobals.show_decimal_value:
-                    self.dec_label.setText(f"0d{int(number_temp)}")
+                    self.dec_label.setText(f"{int(number_temp)}")
                 else:
                     self.dec_label.setText("")
                 if AppGlobals.show_hex_value:
-                    self.hex_label.setText(f"0x{int(number_temp):X}")
+                    self.hex_label.setText(f"{hex(number_temp).upper().replace("0X", "0x")}")
                 else:
                     self.hex_label.setText("")
             else:
@@ -1135,7 +1135,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButton9numpad.bg_color = self.number_key_color
         self.ui.pushButton9numpad.shift_text = ")"
         self.ui.pushButton9numpad.ctrl_text = "MR"
-        self.ui.pushButton9numpad.ctrl_shift_text = "Dec"
+        self.ui.pushButton9numpad.ctrl_shift_text = "AllBases"
         self.ui.pushButton9numpad.base_operation = CalcOperations.number_9
         self.ui.pushButton9numpad.shift_operation = CalcOperations.closing_bracket
         self.ui.pushButton9numpad.ctrl_operation = CalcOperations.MR

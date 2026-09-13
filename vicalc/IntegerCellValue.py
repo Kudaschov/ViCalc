@@ -25,16 +25,16 @@ class IntegerCellValue(CellValue):
     def format_value(self) -> str:
         integer_value = self.number
         if AppGlobals.number_base == NumberBase.BIN:
-            return f"0b{integer_value:b}"
+            return bin(integer_value)
 
         elif AppGlobals.number_base == NumberBase.OCT:
-            return f"0o{integer_value:o}"
+            return oct(integer_value)
 
         elif AppGlobals.number_base == NumberBase.DEC:
             return str(integer_value)  # Keine Float-Konvertierung (verhindert e+19)
 
         elif AppGlobals.number_base == NumberBase.HEX:
-            return f"0x{integer_value:X}"
+            return hex(integer_value)
 
         raise ValueError(f"Unsupported NumberBase: {AppGlobals.number_base}")                
 
