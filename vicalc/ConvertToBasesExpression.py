@@ -21,6 +21,6 @@ class ConvertToBasesExpression(UnaryExpression):
                 hex_column = 4
                 self.protocol_result(f"{str(signed_int)} ({AppGlobals.current_word_size.status_text})", 3)
 
-        self.protocol(f"{hex(i_number).upper().replace("0X", "0x")}", hex_column)
+        self.protocol(AppGlobals.int_to_hex_with_prefix(i_number), hex_column)
 
         return i_number

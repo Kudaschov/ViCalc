@@ -113,6 +113,7 @@ from ..NOTExpression import NOTExpression
 from ..WordSize import WordSize
 from ..NumberBase import NumberBase
 from ..IntegerResultCellValue import IntegerResultCellValue
+from ..CalcMode import CalcMode
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -231,17 +232,20 @@ class InputTextEdit(QLineEdit):
         result = False
         try:
             ok = False
-            if AppGlobals.number_base == NumberBase.DEC:
+            if AppGlobals.calc_mode == CalcMode.base_n:
+                if AppGlobals.number_base == NumberBase.DEC:
+                    self.number, ok = self.locale.toDouble(self.text())
+                elif AppGlobals.number_base == NumberBase.BIN:
+                    self.number = int(self.text(), 2)
+                    ok = True
+                elif AppGlobals.number_base == NumberBase.OCT:
+                    self.number = int(self.text(), 8)
+                    ok = True
+                elif AppGlobals.number_base == NumberBase.HEX:
+                    self.number = int(self.text(), 16)
+                    ok = True
+            else:
                 self.number, ok = self.locale.toDouble(self.text())
-            elif AppGlobals.number_base == NumberBase.BIN:
-                self.number = int(self.text(), 2)
-                ok = True
-            elif AppGlobals.number_base == NumberBase.OCT:
-                self.number = int(self.text(), 8)
-                ok = True
-            elif AppGlobals.number_base == NumberBase.HEX:
-                self.number = int(self.text(), 16)
-                ok = True
 
             if ok:
                 self.selectAll()
@@ -264,17 +268,20 @@ class InputTextEdit(QLineEdit):
         result = False
         try:
             ok = False
-            if AppGlobals.number_base == NumberBase.DEC:
+            if AppGlobals.calc_mode == CalcMode.base_n:
+                if AppGlobals.number_base == NumberBase.DEC:
+                    self.number, ok = self.locale.toDouble(self.text())
+                elif AppGlobals.number_base == NumberBase.BIN:
+                    self.number = int(self.text(), 2)
+                    ok = True
+                elif AppGlobals.number_base == NumberBase.OCT:
+                    self.number = int(self.text(), 8)
+                    ok = True
+                elif AppGlobals.number_base == NumberBase.HEX:
+                    self.number = int(self.text(), 16)
+                    ok = True
+            else:
                 self.number, ok = self.locale.toDouble(self.text())
-            elif AppGlobals.number_base == NumberBase.BIN:
-                self.number = int(self.text(), 2)
-                ok = True
-            elif AppGlobals.number_base == NumberBase.OCT:
-                self.number = int(self.text(), 8)
-                ok = True
-            elif AppGlobals.number_base == NumberBase.HEX:
-                self.number = int(self.text(), 16)
-                ok = True
 
             ok = ok and self.number.is_integer()  # Ensure the number is an integer
 
@@ -1815,7 +1822,7 @@ class InputTextEdit(QLineEdit):
         i_number, ok = AppGlobals.to_number(self.text())
                 
         if ok and i_number.is_integer():
-            dialog.ui.numberLineEdit.setText(f"{i_number:X}")
+            dialog.ui.numberLineEdit.setText(f"{int(i_number):X}")
         else:
             dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
@@ -2333,8 +2340,40 @@ class InputTextEdit(QLineEdit):
         self.update_table()
 
     def set_base(self, base: NumberBase):
-        """Updates the background color based on the selected NumberBase enum value."""
-        bg_color = AppGlobals.BASE_COLORS.get(base, "#FFFFFF")
+        if AppGlobals.calc_mode != CalcMode.base_n:
+            self.exec_base_n_mode()
+        number, ok = AppGlobals.to_number(self.text())
+        AppGlobals.number_base = base
+        self.update_table()
+        self.update_bg_color()
+
+        if ok:
+            self.setTextSelect(AppGlobals.to_normal_string(number))
+
+    def exec_scientific_mode(self):
+        number, ok = AppGlobals.to_number(self.text())
+        AppGlobals.calc_mode = CalcMode.scientific
+        self.update_table()
+        self.update_bg_color()
+
+        if ok:
+            self.setTextSelect(AppGlobals.to_normal_string(number))
+
+    def exec_base_n_mode(self):
+        number, ok = AppGlobals.to_number(self.text())
+        AppGlobals.calc_mode = CalcMode.base_n
+        self.update_table()
+        self.update_bg_color()
+
+        if ok:
+            self.setTextSelect(AppGlobals.to_normal_string(number))
+
+    def update_bg_color(self):
+        if AppGlobals.calc_mode == CalcMode.base_n:
+            """Updates the background color based on the selected NumberBase enum value."""
+            bg_color = AppGlobals.BASE_COLORS.get(AppGlobals.number_base, "#FFFFFF")
+        else:
+            bg_color = "#FFFFFF"
         
         # Update stylesheet while maintaining dark text contrast
         self.setStyleSheet(f"""
@@ -2345,10 +2384,3 @@ class InputTextEdit(QLineEdit):
                 padding: 4px;
             }}
         """)
-
-        number, ok = AppGlobals.to_number(self.text())
-        AppGlobals.number_base = base
-        self.update_table()
-
-        if ok:
-            self.setTextSelect(AppGlobals.to_normal_string(number))

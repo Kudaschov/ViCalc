@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication
 from vicalc.AppGlobals import AppGlobals
 from vicalc.NumberBase import NumberBase
 from vicalc.WordSize import WordSize
+from vicalc.CalcMode import CalcMode
 
 # --- Win32 DirectInput API Mappings ---
 KEYEVENTF_SCANCODE = 0x8
@@ -185,7 +186,9 @@ def main_window(qtbot):
 
 def test_calculator_expressions(main_window, qtbot, inputs, expected):
     input_box = AppGlobals.input_box
-    
+
+    original_calc_mode = AppGlobals.calc_mode
+    AppGlobals.calc_mode = CalcMode.base_n
     original_base = AppGlobals.number_base
     AppGlobals.number_base = NumberBase.BIN
     original_word_size = AppGlobals.current_word_size
@@ -218,3 +221,4 @@ def test_calculator_expressions(main_window, qtbot, inputs, expected):
     finally:
         AppGlobals.number_base = original_base
         AppGlobals.current_word_size = original_word_size
+        AppGlobals.calc_mode = original_calc_mode

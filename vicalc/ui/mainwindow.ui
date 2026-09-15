@@ -1179,9 +1179,12 @@
     <addaction name="separator"/>
     <addaction name="action_numeric_format"/>
     <addaction name="separator"/>
-    <addaction name="actionDecimal"/>
+    <addaction name="actionScientificMode"/>
+    <addaction name="actionBaseNMode"/>
+    <addaction name="separator"/>
     <addaction name="actionBinary"/>
     <addaction name="actionOctal"/>
+    <addaction name="actionDecimal"/>
     <addaction name="actionHexadecimal"/>
     <addaction name="separator"/>
     <addaction name="actionByte"/>
@@ -1374,7 +1377,7 @@
     <string>Numeric &amp;Format...</string>
    </property>
    <property name="shortcut">
-    <string>F4</string>
+    <string>F2</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -1642,7 +1645,7 @@
     <string>De&amp;cimal</string>
    </property>
    <property name="shortcut">
-    <string>F9</string>
+    <string>Ctrl+F8</string>
    </property>
   </action>
   <action name="actionBinary">
@@ -1653,7 +1656,7 @@
     <string>&amp;Binary</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F7</string>
+    <string>Ctrl+F6</string>
    </property>
   </action>
   <action name="actionOctal">
@@ -1664,7 +1667,7 @@
     <string>&amp;Octal</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+F8</string>
+    <string>Ctrl+F7</string>
    </property>
   </action>
   <action name="actionHexadecimal">
@@ -1676,6 +1679,28 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F9</string>
+   </property>
+  </action>
+  <action name="actionScientificMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Scientific Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
+   </property>
+  </action>
+  <action name="actionBaseNMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Programmer (Base-N) Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
    </property>
   </action>
  </widget>

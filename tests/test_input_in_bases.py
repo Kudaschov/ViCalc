@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QApplication, QLineEdit
 from vicalc.AppGlobals import AppGlobals
 from vicalc.vicalc import MainWindow
 from vicalc.NumberBase import NumberBase
+from vicalc.CalcMode import CalcMode
 
 @pytest.fixture
 def main_window(qtbot):
@@ -59,6 +60,7 @@ def test_input_in_bases(
     main_window, qtbot, target_base, exec_method_name, input_value, expected_result
 ):
     """Test modal conversion dialogs across different target number bases."""
+    AppGlobals.calc_mode = CalcMode.base_n
     input_box = AppGlobals.input_box
     AppGlobals.number_base = target_base
     input_box.clear()

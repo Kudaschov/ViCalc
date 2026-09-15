@@ -23,20 +23,7 @@ class IntegerCellValue(CellValue):
                 item.setText(self.to_string(row, col))
 
     def format_value(self) -> str:
-        integer_value = self.number
-        if AppGlobals.number_base == NumberBase.BIN:
-            return bin(integer_value)
-
-        elif AppGlobals.number_base == NumberBase.OCT:
-            return oct(integer_value)
-
-        elif AppGlobals.number_base == NumberBase.DEC:
-            return str(integer_value)  # Keine Float-Konvertierung (verhindert e+19)
-
-        elif AppGlobals.number_base == NumberBase.HEX:
-            return hex(integer_value)
-
-        raise ValueError(f"Unsupported NumberBase: {AppGlobals.number_base}")                
+        return AppGlobals.to_format_string(self.number)
 
     def to_string(self, row = -1, col = -1):
         return self.format_value()

@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QApplication, QLineEdit
 from vicalc.AppGlobals import AppGlobals
 from vicalc.vicalc import MainWindow
 from vicalc.NumberBase import NumberBase
-
+from vicalc.CalcMode import CalcMode
 
 @pytest.fixture
 def main_window(qtbot):
@@ -28,7 +28,6 @@ def fill_and_accept_dialog(qtbot, input_value: str):
     qtbot.keyClicks(line_edit, input_value)
     top_widget.accept()
 
-
 @pytest.mark.parametrize(
     "exec_method_name, input_value, expected_result",
     [
@@ -40,6 +39,7 @@ def fill_and_accept_dialog(qtbot, input_value: str):
 )
 
 def test_binary_conversion(main_window, qtbot, exec_method_name, input_value, expected_result):
+    AppGlobals.calc_mode = CalcMode.base_n
     input_box = AppGlobals.input_box
     AppGlobals.number_base = NumberBase.BIN
     input_box.clear()

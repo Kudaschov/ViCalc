@@ -129,7 +129,7 @@
     <locale language="English" country="Germany"/>
    </property>
    <property name="title">
-    <string>Show in Status Bar</string>
+    <string>Show in Base-N Status Bar</string>
    </property>
    <widget class="QCheckBox" name="showBinaryValueCheckBox">
     <property name="geometry">

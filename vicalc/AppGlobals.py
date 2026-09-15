@@ -4,17 +4,20 @@ from .NumberBase import NumberBase
 from .WordSize import WordSize
 from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
+from .CalcMode import CalcMode
 
 class AppGlobals:
 # Base color mapping stored globally
     BASE_COLORS = {
-        NumberBase.DEC: "#FFFFFF",  # Pure White
-        NumberBase.HEX: "#E8F0FE",  # Soft Blue
+        NumberBase.DEC: "#E8F0FE",  # Soft Blue
+        NumberBase.HEX: "#E0F7FA",  # Soft Cyan
         NumberBase.OCT: "#E6F4EA",  # Soft Green
         NumberBase.BIN: "#FEF7E0",  # Soft Yellow
     }    
+
     locale = None
     angle_unit = None
+    calc_mode = CalcMode.scientific
     current_word_size = WordSize.BIT8
     number_base = NumberBase.DEC
     numeric_format = NumericFormat.normal
@@ -98,49 +101,52 @@ class AppGlobals:
     # arbitrary log base for log calculations
     log_base: float = 10.0
 
+    memory_status_bar_text = "Memory: "
+
     @staticmethod
     def to_format_string(number):
         AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
-        if (number.is_integer()):
+        if AppGlobals.calc_mode == CalcMode.base_n and number.is_integer():
             match AppGlobals.number_base:
                 case NumberBase.BIN:
                     return bin(int(number))
                 case NumberBase.OCT:
                     return oct(int(number))
                 case NumberBase.HEX:
-                    return hex(int(number))
+                    return AppGlobals.int_to_hex_with_prefix(int(number))
                 case _:
                     return str(int(number))
         else:
+            float_number = float(number)
             match AppGlobals.numeric_format:
                 case NumericFormat.general:
-                    return AppGlobals.locale.toString(number, "g", AppGlobals.numeric_precision)
+                    return AppGlobals.locale.toString(float_number, "g", AppGlobals.numeric_precision)
                 case NumericFormat.fixed:
-                    return AppGlobals.locale.toString(number, "f", AppGlobals.numeric_precision)
+                    return AppGlobals.locale.toString(float_number, "f", AppGlobals.numeric_precision)
                 case NumericFormat.scientific:
-                    return AppGlobals.locale.toString(number, "e", AppGlobals.numeric_precision)
+                    return AppGlobals.locale.toString(float_number, "e", AppGlobals.numeric_precision)
                 case NumericFormat.engineering:
-                    return AppGlobals.format_engineering(number)
+                    return AppGlobals.format_engineering(float_number)
                 case _:
-                    return AppGlobals.to_normal_string(number)
+                    return AppGlobals.to_normal_string(float_number)
             
     @staticmethod
     def to_normal_string(number: float):
         # max precision
         AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
-        if (number.is_integer()):
+        if (AppGlobals.calc_mode == CalcMode.base_n) and number.is_integer():
             int_number = int(number)
             match AppGlobals.number_base:
                 case NumberBase.BIN:
                     return f"{int_number:b}"
                 case NumberBase.OCT:
-                    return f"{int_number:0}"
+                    return f"{int_number:o}"
                 case NumberBase.HEX:
                     return f"{int_number:X}"
                 case _:
                     return f"{int_number}"
         else:
-            return AppGlobals.locale.toString(number, "g", 16)
+            return AppGlobals.locale.toString(float(number), "g", 16)
     
     @staticmethod
     def format_engineering(value):
@@ -258,7 +264,6 @@ class AppGlobals:
         area_kcmil = (diameter_inch ** 2) * 1000
         return area_kcmil
 
-
     @staticmethod
     def parse_base_str(s_temp: str, base: NumberBase) -> tuple[int, bool]:
         radix_map = {
@@ -275,15 +280,19 @@ class AppGlobals:
 
     @staticmethod
     def to_number(s_temp: str) -> tuple[float, bool]:
-        match AppGlobals.number_base:
-            case NumberBase.DEC:
-                # try to convert to int
-                number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
-                # otherwise try to convert to float
-                if not convert_ok:
-                    number_temp, convert_ok = AppGlobals.locale.toDouble(s_temp)
-            case _:
-                number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
+        if AppGlobals.calc_mode == CalcMode.base_n:
+            match AppGlobals.number_base:
+                case NumberBase.DEC:
+                    # try to convert to int
+                    number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
+                    # otherwise try to convert to float
+                    if not convert_ok:
+                        number_temp, convert_ok = AppGlobals.locale.toDouble(s_temp)
+                case _:
+                    number_temp, convert_ok = AppGlobals.parse_base_str(s_temp, AppGlobals.number_base)
+        else:
+            number_temp, convert_ok = AppGlobals.locale.toDouble(s_temp)
+
         return number_temp, convert_ok
 
     @staticmethod
@@ -305,3 +314,7 @@ class AppGlobals:
             val -= 1 << bits
 
         return val, is_signed
+
+    @staticmethod
+    def int_to_hex_with_prefix(value: int):
+        return f"{hex(value).upper().replace("0X", "0x")}"

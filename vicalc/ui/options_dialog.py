@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'options_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -88,7 +88,7 @@ class Ui_optionsDialog(object):
         self.convertAngleCheckBox.setWhatsThis(QCoreApplication.translate("optionsDialog", u"If this checkbox is checked, the angle value will be converted automatically when you switch between degrees (D), radians (R), or grads (G). If unchecked, only the unit label changes.", None))
 #endif // QT_CONFIG(whatsthis)
         self.convertAngleCheckBox.setText(QCoreApplication.translate("optionsDialog", u"Con&vert Angle on Unit Change", None))
-        self.groupBox.setTitle(QCoreApplication.translate("optionsDialog", u"Show in Status Bar", None))
+        self.groupBox.setTitle(QCoreApplication.translate("optionsDialog", u"Show in Base-N Status Bar", None))
         self.showBinaryValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Binary value", None))
         self.showOctalValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Octal value", None))
         self.showHexValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"He&x value", None))

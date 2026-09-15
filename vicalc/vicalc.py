@@ -34,6 +34,7 @@ from .WordSize import WordSize
 from .NumberBase import NumberBase
 from .IntegerCellValue import IntegerCellValue
 from .ui.NumberBaseLabel import NumberBaseLabel
+from .CalcMode import CalcMode
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -48,6 +49,11 @@ class MainWindow(QMainWindow):
         self.trig_mode_group.addAction(self.ui.action_DEG)
         self.trig_mode_group.addAction(self.ui.action_RAD)
         self.trig_mode_group.addAction(self.ui.action_GRA)
+
+        self.calc_mode_group = QActionGroup(self)
+        self.calc_mode_group.setExclusive(True)
+        self.calc_mode_group.addAction(self.ui.actionScientificMode)
+        self.calc_mode_group.addAction(self.ui.actionBaseNMode)
 
         self.word_size_group = QActionGroup(self)
         self.word_size_group.setExclusive(True)
@@ -91,6 +97,9 @@ class MainWindow(QMainWindow):
         self.ui.action_convert_to_deg.triggered.connect(self.convert_to_deg)
         self.ui.action_convert_to_rad.triggered.connect(self.convert_to_rad)
         self.ui.action_convert_to_gra.triggered.connect(self.convert_to_gra)
+
+        self.ui.actionScientificMode.triggered.connect(self.set_scientific_mode)
+        self.ui.actionBaseNMode.triggered.connect(self.set_base_n_mode)
 
         self.ui.actionDecimal.triggered.connect(self.set_number_base_decimal)
         self.ui.actionBinary.triggered.connect(self.set_number_base_binary)
@@ -196,7 +205,7 @@ class MainWindow(QMainWindow):
         self.trig_mode_label.clicked.connect(self.trig_mode_label_clicked)
         self.ui.statusbar.addWidget(self.trig_mode_label)
 
-        self.memory_label = ClickableLabel("Memory:")
+        self.memory_label = ClickableLabel(AppGlobals.memory_status_bar_text)
         self.memory_label.clicked.connect(self.memory_label_clicked)
         self.ui.statusbar.addWidget(self.memory_label)
 
@@ -204,20 +213,20 @@ class MainWindow(QMainWindow):
         self.numeric_format_label.clicked.connect(self.numeric_format_clicked)
         self.ui.statusbar.addWidget(self.numeric_format_label)
 
-        self.number_base_label = NumberBaseLabel("Base:")
-        self.number_base_label.clicked.connect(self.number_base_label_clicked)
-        self.ui.statusbar.addWidget(self.number_base_label)
-
-        self.word_size_label = ClickableLabel("WS:")
-        self.word_size_label.clicked.connect(self.word_size_label_clicked)
-        self.ui.statusbar.addWidget(self.word_size_label)
-
         self.number_view_status_bar = QStatusBar()
         self.number_view_status_bar.setSizeGripEnabled(False)
         self.number_view_status_bar.setContentsMargins(0, 0, 0, 0)
         self.number_view_status_bar.hide()
         self.ui.verticalLayout.setSpacing(0)
         self.ui.verticalLayout.addWidget(self.number_view_status_bar)
+
+        self.number_base_label = NumberBaseLabel("Base:")
+        self.number_base_label.clicked.connect(self.number_base_label_clicked)
+        self.number_view_status_bar.addWidget(self.number_base_label)
+
+        self.word_size_label = ClickableLabel("WS:")
+        self.word_size_label.clicked.connect(self.word_size_label_clicked)
+        self.number_view_status_bar.addWidget(self.word_size_label)
 
         self.bin_label = ClickableLabel("")
         self.bin_label.clicked.connect(self.bin_label_clicked)
@@ -428,7 +437,7 @@ class MainWindow(QMainWindow):
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
-            AppGlobals.input_replace_decimal_separator = self.settings.value("input_replace_point", False, type=bool)
+            AppGlobals.input_replace_decimal_separator = self.settings.value("input_replace_point", True, type=bool)
             AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
             AppGlobals.convert_angle_on_unit_change = self.settings.value("convert_angle", True, type=bool)
             AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
@@ -462,17 +471,17 @@ class MainWindow(QMainWindow):
 
             AppGlobals.log_base = float(self.settings.value("log_base", 10.0))
 
-            AppGlobals.show_binary_value = self.settings.value("show_binary_value", False, type=bool)
-            AppGlobals.show_octal_value = self.settings.value("show_octal_value", False, type=bool)
-            AppGlobals.show_decimal_value = self.settings.value("show_decimal_value", False, type=bool)
-            AppGlobals.show_hex_value = self.settings.value("show_hex_value", False, type=bool)
-            AppGlobals.show_word_size = self.settings.value("show_word_size", False, type=bool)
+            AppGlobals.show_binary_value = self.settings.value("show_binary_value", True, type=bool)
+            AppGlobals.show_octal_value = self.settings.value("show_octal_value", True, type=bool)
+            AppGlobals.show_decimal_value = self.settings.value("show_decimal_value", True, type=bool)
+            AppGlobals.show_hex_value = self.settings.value("show_hex_value", True, type=bool)
+            AppGlobals.show_word_size = self.settings.value("show_word_size", True, type=bool)
 
+            AppGlobals.calc_mode = CalcMode(self.settings.value("calc_mode", CalcMode.scientific.value, type=int))
             AppGlobals.current_word_size = WordSize(self.settings.value("word_size", WordSize.BIT8.value, type=int))
             AppGlobals.number_base = NumberBase(self.settings.value("table_number_base", NumberBase.DEC.value, type=int))
 
             self.UpdateUiTrigMode()
-            AppGlobals.input_box.set_base(AppGlobals.number_base)
 
             geometry = self.settings.value("MainWindow/geometry", QByteArray())
             if not geometry.isEmpty():
@@ -485,7 +494,10 @@ class MainWindow(QMainWindow):
             if not state.isEmpty():
                 self.restoreState(state)      
 
-            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format"))
+            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format", NumericFormat.normal.value, type=int))
+            AppGlobals.input_box.update_table()
+            AppGlobals.input_box.update_bg_color()
+
         except Exception as err:
             AppGlobals.numeric_format = NumericFormat.normal
             print(f"Unexpected {err=}, {type(err)=}")
@@ -549,10 +561,12 @@ class MainWindow(QMainWindow):
         s_temp = AppGlobals.input_box.text()
         number_temp, convert_ok = AppGlobals.to_number(s_temp)
 
-        if AppGlobals.show_binary_value or AppGlobals.show_octal_value or AppGlobals.show_decimal_value or AppGlobals.show_hex_value:
-            self.number_view_status_bar.show()
+        if AppGlobals.calc_mode == CalcMode.base_n:
+            if not self.number_view_status_bar.isVisible():
+                self.number_view_status_bar.show()
         else:
-            self.number_view_status_bar.hide()
+            if self.number_view_status_bar.isVisible():
+                self.number_view_status_bar.hide()
 
         if convert_ok:
             self.invalid_number_label.setText("")
@@ -571,7 +585,7 @@ class MainWindow(QMainWindow):
                 else:
                     self.dec_label.setText("")
                 if AppGlobals.show_hex_value:
-                    self.hex_label.setText(f"{hex(number_temp).upper().replace("0X", "0x")}")
+                    self.hex_label.setText(AppGlobals.int_to_hex_with_prefix(int(number_temp)))
                 else:
                     self.hex_label.setText("")
             else:
@@ -646,7 +660,21 @@ class MainWindow(QMainWindow):
                 if not self.ui.actionHexadecimal.isChecked():
                     self.ui.actionHexadecimal.setChecked(True)
 
+        # Update menu for Calc Mode
+        match AppGlobals.calc_mode:
+            case CalcMode.base_n:
+                if not self.ui.actionBaseNMode.isChecked():
+                    self.ui.actionBaseNMode.setChecked(True)
+            case _:
+                if not self.ui.actionScientificMode.isChecked():
+                    self.ui.actionScientificMode.setChecked(True)
+
         self.update_keyboard()
+
+        # update memory status label
+        full_memory_text = AppGlobals.memory_status_bar_text + AppGlobals.input_box.memory_to_format_string()
+        if full_memory_text != self.memory_label.text():
+            self.memory_label.setText(full_memory_text)
 
         if (0x0407 == MainWindow.get_keyboard_layout_windows()) or (0x0807 == MainWindow.get_keyboard_layout_windows()
                                                                     or (0x0C07 == MainWindow.get_keyboard_layout_windows())):
@@ -668,7 +696,7 @@ class MainWindow(QMainWindow):
 
     def update_keyboard(self):
         # Update keybord to input HEX numbers
-        if AppGlobals.number_base == NumberBase.HEX:
+        if AppGlobals.calc_mode == CalcMode.base_n and AppGlobals.number_base == NumberBase.HEX:
             if self.ui.pushButtonA.text != "A":
                 self.ui.pushButtonA.setText("A")
                 self.ui.pushButtonA.base_operation = CalcOperations.number_A
@@ -771,6 +799,8 @@ class MainWindow(QMainWindow):
         self.settings.setValue("trig_mode", AppGlobals.input_box.trig_mode.value)
         self.settings.setValue("word_size", AppGlobals.current_word_size.value)
         self.settings.setValue("table_number_base", AppGlobals.number_base.value)
+        self.settings.setValue("calc_mode", AppGlobals.calc_mode.value)
+
         self.settings.setValue("memory", AppGlobals.input_box.memory)
 
         self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
@@ -885,7 +915,7 @@ class MainWindow(QMainWindow):
                 button.physical_shift = False
 
     def memory_changed(self, sMemory: str):
-        self.memory_label.setText("Memory: " + sMemory)
+        self.memory_label.setText(AppGlobals.memory_status_bar_text + sMemory)
 
     def statusbar_changed(self):            
         self.update_numeric_format_label()
@@ -956,6 +986,12 @@ class MainWindow(QMainWindow):
     def set_word_size_qword(self):
         AppGlobals.current_word_size = WordSize.BIT64
         AppGlobals.input_box.update_table()
+
+    def set_scientific_mode(self):
+        AppGlobals.input_box.exec_scientific_mode()
+
+    def set_base_n_mode(self):
+        AppGlobals.input_box.exec_base_n_mode()
 
     def showEvent(self, event):
         super().showEvent(event)
