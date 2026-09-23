@@ -133,12 +133,12 @@
      <rect>
       <x>20</x>
       <y>30</y>
-      <width>89</width>
+      <width>261</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>&amp;Normal</string>
+     <string>&amp;Normal (Full precision)</string>
     </property>
    </widget>
   </widget>

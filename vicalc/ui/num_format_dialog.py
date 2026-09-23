@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'num_format_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -55,7 +55,7 @@ class Ui_FormatDialog(object):
         self.fixRadioButton.setGeometry(QRect(20, 90, 89, 20))
         self.normRadioButton = QRadioButton(self.groupBox)
         self.normRadioButton.setObjectName(u"normRadioButton")
-        self.normRadioButton.setGeometry(QRect(20, 30, 89, 20))
+        self.normRadioButton.setGeometry(QRect(20, 30, 261, 20))
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.precisionSpinBox)
 #endif // QT_CONFIG(shortcut)
@@ -75,6 +75,6 @@ class Ui_FormatDialog(object):
         self.generalRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&General", None))
         self.label.setText(QCoreApplication.translate("FormatDialog", u"&Precision:", None))
         self.fixRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Fixed point", None))
-        self.normRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Normal", None))
+        self.normRadioButton.setText(QCoreApplication.translate("FormatDialog", u"&Normal (Full precision)", None))
     # retranslateUi
 

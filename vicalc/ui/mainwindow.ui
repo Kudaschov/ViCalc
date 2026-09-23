@@ -1390,8 +1390,6 @@
     <property name="title">
      <string>M&amp;ath</string>
     </property>
-    <addaction name="action_log_base"/>
-    <addaction name="separator"/>
     <addaction name="action_arsinh"/>
     <addaction name="action_arcosh"/>
     <addaction name="action_artanh"/>
@@ -1545,7 +1543,7 @@
     <string>Numeric &amp;Format...</string>
    </property>
    <property name="shortcut">
-    <string>F2</string>
+    <string>F4</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>

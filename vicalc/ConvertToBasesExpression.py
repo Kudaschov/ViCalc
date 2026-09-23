@@ -14,10 +14,12 @@ class ConvertToBasesExpression(UnaryExpression):
         self.protocol_result(str(i_number), 2)
 
         hex_column = 3
+        mask = AppGlobals.current_word_size.mask
 
         if (i_number >= 0):
             signed_int, signed = AppGlobals.uint_to_signed_int(i_number)
-            if signed:
+            # check if number is signed and inside of word size range
+            if signed and ((i_number & mask) == i_number):
                 hex_column = 4
                 self.protocol_result(f"{str(signed_int)} ({AppGlobals.current_word_size.status_text})", 3)
 

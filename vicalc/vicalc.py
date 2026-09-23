@@ -141,7 +141,6 @@ class MainWindow(QMainWindow):
         self.ui.action_options.triggered.connect(self.options)
         self.ui.action_quadratic_equation.triggered.connect(self.quadratic_equation)
         self.ui.action_linear_system_two_equations.triggered.connect(self.linear_system_two_equations)
-        self.ui.action_log_base.triggered.connect(self.log_base)
 
         self.ui.action_AWG_to_mm2.triggered.connect(self.awg_to_mm2)
         self.ui.action_mm2_to_AWG.triggered.connect(self.mm2_to_awg)
@@ -494,7 +493,7 @@ class MainWindow(QMainWindow):
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
             AppGlobals.input_replace_decimal_separator = self.settings.value("input_replace_point", True, type=bool)
-            AppGlobals.numlock_ac = self.settings.value("numlocK_ac", False, type=bool)
+            AppGlobals.numlock_ac = self.settings.value("numlocK_ac", True, type=bool)
             AppGlobals.convert_angle_on_unit_change = self.settings.value("convert_angle", True, type=bool)
             AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
             AppGlobals.unit_conversion_from = self.settings.value("unit_conversion_from", "in", type=str)
@@ -525,8 +524,6 @@ class MainWindow(QMainWindow):
             AppGlobals.lse_c1 = float(self.settings.value("lse_c1", 5.0))
             AppGlobals.lse_c2 = float(self.settings.value("lse_c2", 6.0))
 
-            AppGlobals.log_base = float(self.settings.value("log_base", 10.0))
-
             AppGlobals.show_binary_value = self.settings.value("show_binary_value", True, type=bool)
             AppGlobals.show_octal_value = self.settings.value("show_octal_value", True, type=bool)
             AppGlobals.show_decimal_value = self.settings.value("show_decimal_value", True, type=bool)
@@ -551,7 +548,7 @@ class MainWindow(QMainWindow):
             if not state.isEmpty():
                 self.restoreState(state)      
 
-            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format", NumericFormat.normal.value, type=int))
+            AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format", NumericFormat.general.value, type=int))
             AppGlobals.input_box.update_table()
             AppGlobals.input_box.update_bg_color()
             AppGlobals.input_imag_box.update_bg_color()
@@ -852,10 +849,6 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonF.shift_text = "0d"
                 self.ui.pushButtonF.shift_operation = CalcOperations.convert_from_decimal
 
-            if self.ui.pushButtonW.shift_operation != CalcOperations.convert_from_octal:
-                self.ui.pushButtonW.shift_operation = CalcOperations.convert_from_octal
-                self.ui.pushButtonW.shift_text = "0o"
-
         elif AppGlobals.calc_mode == CalcMode.complex_numbers:
             if self.ui.pushButton6.shift_operation != CalcOperations.input_complex_number_in_rectangular_form:
                 self.init_keyboard()
@@ -894,8 +887,8 @@ class MainWindow(QMainWindow):
 
                 self.ui.pushButton4.ctrl_shift_text = "Conj"
                 self.ui.pushButton4.ctrl_shift_operation = CalcOperations.conjugate
-                self.ui.pushButtonMinusNumpad.ctrl_shift_text = "Conj"
-                self.ui.pushButtonMinusNumpad.ctrl_shift_operation = CalcOperations.conjugate
+                self.ui.pushButton0numpad.ctrl_shift_text = "Conj"
+                self.ui.pushButton0numpad.ctrl_shift_operation = CalcOperations.conjugate
         else:
             if self.ui.pushButtonA.text != "AC":
                 self.init_keyboard()
@@ -993,8 +986,6 @@ class MainWindow(QMainWindow):
         self.settings.setValue("lse_b2", AppGlobals.lse_b2)
         self.settings.setValue("lse_c1", AppGlobals.lse_c1)
         self.settings.setValue("lse_c2", AppGlobals.lse_c2)
-
-        self.settings.setValue("log_base", AppGlobals.log_base)
 
         self.settings.setValue("show_binary_value", AppGlobals.show_binary_value)
         self.settings.setValue("show_octal_value", AppGlobals.show_octal_value)
@@ -1400,11 +1391,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
         self.ui.pushButtonEnter.shift_text = "Conv"
         self.ui.pushButtonEnter.ctrl_text = "DTS"
-        self.ui.pushButtonEnter.ctrl_shift_text = "Int"
+        self.ui.pushButtonEnter.ctrl_shift_text = "Phys"
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnter.shift_operation = CalcOperations.unit_conversion
         self.ui.pushButtonEnter.ctrl_operation = CalcOperations.date_time_stamp
-        self.ui.pushButtonEnter.ctrl_shift_operation = CalcOperations.int_part
+        self.ui.pushButtonEnter.ctrl_shift_operation = CalcOperations.phy_const
         UiGlobals.pushButtonEnter = self.ui.pushButtonEnter
         self.leftside_button_list.append(self.ui.pushButtonEnter)
 
@@ -1512,11 +1503,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton4.shift_text_alignment = Qt.AlignLeft
         self.ui.pushButton4.ctrl_text = "RAN#"
         self.ui.pushButton4.ctrl_text_alignment = Qt.AlignRight
-        self.ui.pushButton4.ctrl_shift_text = "x⁴"
+        self.ui.pushButton4.ctrl_shift_text = "0o"
         self.ui.pushButton4.base_operation = CalcOperations.number_4
         self.ui.pushButton4.shift_operation = CalcOperations.abs
         self.ui.pushButton4.ctrl_operation = CalcOperations.random
-        self.ui.pushButton4.ctrl_shift_operation = CalcOperations.fourth_power
+        self.ui.pushButton4.ctrl_shift_operation = CalcOperations.convert_from_octal
         UiGlobals.pushButton4 = self.ui.pushButton4
         self.leftside_button_list.append(self.ui.pushButton4)
 
@@ -2164,7 +2155,8 @@ class MainWindow(QMainWindow):
     def check_double_operations(self):
         # for debugging
         operations = []
-
+        
+        print("Left side keyboard DUPLICATES")
         for button in self.leftside_button_list:
             if button.base_operation in operations:
                 print(f"Duplicate found in base operation: {button.text()}, {button.base_operation}")
@@ -2180,6 +2172,43 @@ class MainWindow(QMainWindow):
                 print(f"Duplication found in ctrl operations: {button.text()}, {button.ctrl_operation}")
             else:
                 operations.append(button.ctrl_operation)
+
+        print("Numpad keyboard DUPLICATES")
+        operations = []
+        for button in self.numpad_button_list:
+            if button.base_operation in operations:
+                print(f"Duplicate found in base operation: {button.text()}, {button.base_operation}")
+            else:
+                operations.append(button.base_operation)
+
+            if button.shift_operation in operations:
+                print(f"Duplicate found in shift operation: {button.text()}, {button.shift_operation}")
+            else:
+                operations.append(button.shift_operation)
+
+            if button.ctrl_operation in operations:
+                print(f"Duplication found in ctrl operations: {button.text()}, {button.ctrl_operation}")
+            else:
+                operations.append(button.ctrl_operation)
+
+        # 1. Get all expected operations from the Enum
+        all_operations = set(CalcOperations)
+
+        # 2. Extract used operations from the button list
+        used_operations = {button.base_operation for button in self.leftside_button_list if button.base_operation}
+        used_shift_operations = {button.shift_operation for button in self.leftside_button_list if button.shift_operation}
+        used_ctrl_operations = {button.ctrl_operation for button in self.leftside_button_list if button.ctrl_operation}
+        used_ctrl_shift_operations = {button.ctrl_shift_operation for button in self.leftside_button_list if button.ctrl_shift_operation}
+
+        # 3. Calculate missing operations using set difference
+        missing_operations = all_operations - used_operations - used_shift_operations - used_ctrl_operations - used_ctrl_shift_operations
+
+        if missing_operations:
+            print("Missing operations in button list:")
+            for op in missing_operations:
+                print(f" - {op.name}")
+        else:
+            print("All operations are present!")
 
     def linear_from_two_points(self):
         AppGlobals.input_box.exec_linear_func_two_points()

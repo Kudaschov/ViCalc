@@ -32,5 +32,4 @@ class AdditionExpression(BinaryExpression):
             self.protocol(number, 2)
             self.protocol("=", 3)
             self.protocol_result(result, 4)
-
         return result

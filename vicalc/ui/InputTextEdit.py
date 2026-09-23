@@ -98,7 +98,6 @@ from ..LinearYfromXExpression import LinearYfromXExpression
 from ..LinearSystemDialog import LinearSystemDialog
 from ..LinearSystemExpression import LinearSystemExpression
 import re
-from ..LogBaseDialog import LogBaseDialog
 from ..LogBaseExpression import LogBaseExpression
 from ..AwgToMm2Dialog import AwgToMm2Dialog
 from ..AwgToMm2Expression import AwgToMm2Expression
@@ -718,6 +717,13 @@ class InputTextEdit(QLineEdit):
             CalcOperations.number_7,
             CalcOperations.number_8,
             CalcOperations.number_9,
+            CalcOperations.number_A,
+            CalcOperations.number_B,
+            CalcOperations.number_C,
+            CalcOperations.number_D,
+            CalcOperations.number_E,
+            CalcOperations.number_F,
+            CalcOperations.exponent,
             CalcOperations.shift_hold,
             CalcOperations.ctrl_hold,
             CalcOperations.ctrl_shift_hold,
@@ -2148,7 +2154,7 @@ class InputTextEdit(QLineEdit):
         i_number, ok = AppGlobals.to_number(self.text())
                 
         if ok and i_number.is_integer():
-            dialog.ui.numberLineEdit.setText(format(i_number, 'o'))
+            dialog.ui.numberLineEdit.setText(format(int(i_number), 'o'))
         else:
             dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
@@ -2633,21 +2639,12 @@ class InputTextEdit(QLineEdit):
         self.update_shift_ctrl_status()
 
     def exec_log_base(self):
-        dialog = LogBaseDialog()
-
-        number, ok = AppGlobals.toDouble(self.text())
-        if ok:
-            dialog.ui.numberLineEdit.setText(self.text())
-
-        if dialog.exec():
-            base, ok = AppGlobals.toDouble(dialog.ui.baseLineEdit.text())
-            number, ok = AppGlobals.toDouble(dialog.ui.numberLineEdit.text())
-            AppGlobals.log_base = base
-
-            expr = LogBaseExpression()
-            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(number)))
-
-        self.update_shift_ctrl_status()
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
+                self.create_expression_node(LogBaseExpression(AppGlobals.get_complex_number()))
+        else:
+            if self.store_number():
+                self.create_expression_node(LogBaseExpression(self.number))
 
     def exec_awg_to_mm2(self):
         dialog = AwgToMm2Dialog()
