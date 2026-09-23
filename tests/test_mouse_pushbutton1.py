@@ -6,6 +6,7 @@ import os
 from PySide6.QtCore import Qt, QPoint
 from PySide6.QtTest import QTest
 from vicalc.NumberBase import NumberBase
+from vicalc.CalcMode import CalcMode
 
 @pytest.fixture
 def main_window(qtbot):
@@ -16,7 +17,7 @@ def main_window(qtbot):
     return window
 
 def test_pushbutton1_click(main_window, qtbot):
-    AppGlobals.number_base = NumberBase.DEC
+    AppGlobals.calc_mode = CalcMode.scientific
     input_box = AppGlobals.input_box
 
     qtbot.wait(50)

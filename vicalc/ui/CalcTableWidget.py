@@ -16,6 +16,7 @@ from ..IntegerResultCellValue import IntegerResultCellValue
 
 class CalcTableWidget(QTableWidget):
     enterPressed = Signal(int, int)
+    shiftEnterPressed = Signal(int, int)
     escPressed = Signal()
     delete_pressed = Signal()
     shift_delete_pressed = Signal()
@@ -33,8 +34,15 @@ class CalcTableWidget(QTableWidget):
             row = self.currentRow()
             col = self.currentColumn()
             item = self.item(row, col)
-            if item:
-                self.enterPressed.emit(row, col)
+
+            if event.modifiers() & Qt.KeyboardModifier.ShiftModifier:
+                # Shift + Enter abgefangen
+                if item:
+                    self.shiftEnterPressed.emit(row, col)
+            else:
+                # Standard Enter
+                if item:
+                    self.enterPressed.emit(row, col)            
         elif event.key() == Qt.Key.Key_Escape:
             self.escPressed.emit()
         elif event.key() == Qt.Key.Key_Delete and (event.modifiers() & Qt.ShiftModifier):

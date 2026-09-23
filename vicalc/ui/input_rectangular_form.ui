@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RectangularToPolarDialog</class>
- <widget class="QDialog" name="RectangularToPolarDialog">
+ <class>InputComplexNumberInRectangularFormDialog</class>
+ <widget class="QDialog" name="InputComplexNumberInRectangularFormDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>254</width>
-    <height>170</height>
+    <width>361</width>
+    <height>240</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Rectangular to Polar Coordinates</string>
+   <string>Input Complex Number in Rectangular Form</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="Germany"/>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
-     <width>231</width>
+     <y>200</y>
+     <width>341</width>
      <height>32</height>
     </rect>
    </property>
@@ -32,25 +35,25 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>12</y>
-     <width>49</width>
+     <x>20</x>
+     <y>38</y>
+     <width>16</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;X:</string>
+    <string>&amp;(</string>
    </property>
    <property name="buddy">
-    <cstring>xLineEdit</cstring>
+    <cstring>realPartLineEdit</cstring>
    </property>
   </widget>
-  <widget class="DotLineEdit" name="xLineEdit">
+  <widget class="DotLineEdit" name="realPartLineEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>10</y>
-     <width>151</width>
+     <x>30</x>
+     <y>37</y>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -58,25 +61,22 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>42</y>
-     <width>49</width>
+     <x>170</x>
+     <y>38</y>
+     <width>16</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Y:</string>
-   </property>
-   <property name="buddy">
-    <cstring>yLineEdit</cstring>
+    <string>+</string>
    </property>
   </widget>
-  <widget class="DotLineEdit" name="yLineEdit">
+  <widget class="DotLineEdit" name="imagPartLineEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>40</y>
-     <width>151</width>
+     <x>190</x>
+     <y>37</y>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -84,25 +84,38 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>72</y>
-     <width>71</width>
+     <x>330</x>
+     <y>38</y>
+     <width>16</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Radius:</string>
+    <string>&amp;i)</string>
    </property>
    <property name="buddy">
-    <cstring>distanceLineEdit</cstring>
+    <cstring>imagPartLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="distanceLineEdit">
+  <widget class="QLineEdit" name="rLineEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>70</y>
-     <width>151</width>
+     <x>30</x>
+     <y>98</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="thetaLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>138</y>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
@@ -114,29 +127,29 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>102</y>
-     <width>49</width>
+     <y>100</y>
+     <width>16</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Angle:</string>
+    <string>&amp;r</string>
    </property>
    <property name="buddy">
-    <cstring>angleLineEdit</cstring>
+    <cstring>rLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="angleLineEdit">
+  <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>100</y>
-     <width>151</width>
-     <height>21</height>
+     <x>10</x>
+     <y>140</y>
+     <width>16</width>
+     <height>16</height>
     </rect>
    </property>
-   <property name="readOnly">
-    <bool>true</bool>
+   <property name="text">
+    <string>θ</string>
    </property>
   </widget>
  </widget>
@@ -152,7 +165,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>RectangularToPolarDialog</receiver>
+   <receiver>InputComplexNumberInRectangularFormDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -168,7 +181,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>RectangularToPolarDialog</receiver>
+   <receiver>InputComplexNumberInRectangularFormDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

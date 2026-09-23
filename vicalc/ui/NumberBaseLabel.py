@@ -3,9 +3,9 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QMouseEvent
 from ..NumberBase import NumberBase
 from ..AppGlobals import AppGlobals
-from .ClicableLabel import ClickableLabel
+from .ClickableLabelStyle import ClickableLabelStyle
 
-class NumberBaseLabel(ClickableLabel):
+class NumberBaseLabel(ClickableLabelStyle):
     clicked = Signal()  # Custom signal
 
     def __init__(self, text="", parent=None):

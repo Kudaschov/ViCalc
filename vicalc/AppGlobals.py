@@ -1,10 +1,11 @@
-import math
+import math, cmath
 
 from .NumberBase import NumberBase
 from .WordSize import WordSize
 from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
 from .CalcMode import CalcMode
+from .ComplexNumberForm import ComplexNumberForm
 
 class AppGlobals:
 # Base color mapping stored globally
@@ -16,16 +17,24 @@ class AppGlobals:
     }    
 
     locale = None
+    root_expression = None
+    expressionLabel = None
     angle_unit = None
     calc_mode = CalcMode.scientific
     current_word_size = WordSize.BIT8
     number_base = NumberBase.DEC
+    complex_number_form = ComplexNumberForm.rectangular
     numeric_format = NumericFormat.normal
     numeric_precision = 5
     timestamp_at_start = True
     copy_to_clipboard_replace = True
     paste_from_clipboard_replace = True
     input_replace_decimal_separator = False
+    # Double shift turn it to True. Keybord stay in shift pressed status.
+    # It makes possible to use shift function without holding shift key.
+    shift_hold = False
+    ctrl_hold = False
+    ctrl_shift_hold = False
     # Show number in status bar in binary, octal, and hexadecimal format when the number is an integer.
     show_binary_value = False
     show_octal_value = False
@@ -34,6 +43,7 @@ class AppGlobals:
     show_word_size = False
     table = None # tableWidget in main window
     input_box = None # inputTextEdit in main window
+    input_imag_box = None # inputImagTextEdit, imaginary part of complex number
     current_row = -1 # current row in table
     current_column = -1 # current column in table
     keyboard_grid_width = 58
@@ -318,3 +328,40 @@ class AppGlobals:
     @staticmethod
     def int_to_hex_with_prefix(value: int):
         return f"{hex(value).upper().replace("0X", "0x")}"
+
+    @staticmethod
+    def real_part():
+        return AppGlobals.input_box.number
+
+    @staticmethod
+    def imag_part():
+        return AppGlobals.input_imag_box.number
+
+    @staticmethod
+    def real_part_focus():
+        AppGlobals.input_box.setFocus()
+        AppGlobals.input_box.selectAll()
+
+    # Converts complex number to input boxes dependend on rect or polar form
+    @staticmethod
+    def complex_number_to_input_box(val: complex):
+        if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
+            AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(val.real))
+            AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(val.imag))
+        else:
+            r, theta = cmath.polar(val)
+            AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(r))
+            AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(AppGlobals.angle_unit.from_rad(theta)))
+
+    # get complex number depending of rectangular or polar form
+    @staticmethod
+    def get_complex_number() -> complex:
+        if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
+            real_part = AppGlobals.real_part()
+            imag_part = AppGlobals.imag_part()
+        else:
+            angle = AppGlobals.angle_unit.to_rad(AppGlobals.imag_part())
+            z = cmath.rect(AppGlobals.real_part(), angle)
+            real_part = z.real
+            imag_part = z.imag
+        return complex(real_part, imag_part)

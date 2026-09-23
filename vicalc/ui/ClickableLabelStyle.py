@@ -1,13 +1,11 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel
 from PySide6.QtCore import Qt, Signal, QEvent
 from PySide6.QtGui import QMouseEvent
+from .ClickableLabel import ClickableLabel
 
-class ClickableLabel(QLabel):
-    clicked = Signal()  # Custom signal
-
-    def __init__(self, text="", parent=None):
-        super().__init__(text, parent)
-        self.setCursor(Qt.PointingHandCursor) # show hand cursor on hover
+class ClickableLabelStyle(ClickableLabel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._bg_color = "#F0F0F0"
         self._update_style()
 

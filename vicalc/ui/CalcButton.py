@@ -91,14 +91,19 @@ class CalcButton(QPushButton):
         if self.mouse_pos == None:
             return
 
-        if self._shift and self._ctrl and self.shift_and_ctrl_rect().contains(self.mouse_pos):
-            AppGlobals.input_box.button_clicked(self.ctrl_shift_operation)
-        elif self.shift_rect().contains(self.mouse_pos):
-            AppGlobals.input_box.button_clicked(self.shift_operation)
-        elif self.ctrl_rect().contains(self.mouse_pos):
-            AppGlobals.input_box.button_clicked(self.ctrl_operation)
+        if AppGlobals.input_box.hasFocus():
+            input_box = AppGlobals.input_box
         else:
-            AppGlobals.input_box.button_clicked(self.base_operation)
+            input_box = AppGlobals.input_imag_box
+
+        if ((self._shift and self._ctrl) or AppGlobals.ctrl_shift_hold) and self.shift_and_ctrl_rect().contains(self.mouse_pos):
+            input_box.button_clicked(self.ctrl_shift_operation)
+        elif self.shift_rect().contains(self.mouse_pos):
+            input_box.button_clicked(self.shift_operation)
+        elif self.ctrl_rect().contains(self.mouse_pos):
+            input_box.button_clicked(self.ctrl_operation)
+        else:
+            input_box.button_clicked(self.base_operation)
 
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self)
@@ -112,7 +117,7 @@ class CalcButton(QPushButton):
         current_bg_color = QColor("#F9F9F9") # Default background color
         bg_rect = self.rect().adjusted(0, self.height_shift_area, -1, -1)
 
-        if self._physical_shift and self._ctrl:
+        if (self._physical_shift and self._ctrl) or AppGlobals.ctrl_shift_hold:
             self.paintCtrlShiftMode(painter, current_bg_color, bg_rect)
         else:
             self.paintNormalMode(painter, current_bg_color, bg_rect)
@@ -137,7 +142,9 @@ class CalcButton(QPushButton):
             # draw background
             painter.setPen(QPen(QColor("#C0C0C0"), 0, Qt.SolidLine))
 
-            if self.preselect and (self._shift == False) and (self._ctrl == False):
+            if (self.preselect and (self._shift == False and AppGlobals.shift_hold == False) and 
+                (self._ctrl == False and AppGlobals.ctrl_hold == False) and
+                (AppGlobals.ctrl_shift_hold == False)):
                 painter.setPen(Qt.NoPen)
                 painter.setBrush(self.preselect_color)
             else:
@@ -148,7 +155,8 @@ class CalcButton(QPushButton):
             painter.drawRoundedRect(rectangle_to_draw, self.corner_radius, self.corner_radius) # Draws the complete rectangle outline
 
         # Draw the main centered text
-        if (self._shift == False and self._ctrl == False):
+        if ((self._shift == False) and (AppGlobals.shift_hold == False) and (self._ctrl == False) and (AppGlobals.ctrl_hold == False) and
+            (AppGlobals.ctrl_shift_hold == False)):
             painter.setFont(self.text_highlight_font)
         else:
             painter.setFont(self.text_font)
@@ -179,6 +187,14 @@ class CalcButton(QPushButton):
             self._shift = state
             # Request an update to trigger paintEvent
             self.update() # <--- Key change here!
+
+    @property
+    def shift_hold(self) -> bool:
+        return AppGlobals.shift_hold
+
+    @shift_hold.setter
+    def shift_hold(self, state: bool):
+        self.update()
 
     @property
     def physical_shift(self) -> bool:
@@ -258,7 +274,7 @@ class CalcButton(QPushButton):
         if self.shift_text != self.ctrl_text:
             # shift and ctrl text is different, draw both texts
             # Draw the shift text
-            if self._shift:
+            if self._shift or self.shift_hold:
                 if self.preselect:
                     painter.setPen(Qt.NoPen)
                     painter.setBrush(self.preselect_color)
@@ -285,7 +301,7 @@ class CalcButton(QPushButton):
                     painter.drawText(self.shift_and_ctrl_rect(), self.shift_text_alignment | self.shift_ctrl_def_vertical_alignment, self.shift_text)
 
             # Draw the ctrl text
-            if self._ctrl:
+            if self._ctrl or AppGlobals.ctrl_hold:
                 if self.preselect:
                     painter.setPen(Qt.NoPen)
                     painter.setBrush(self.preselect_color)

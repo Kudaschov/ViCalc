@@ -1,14 +1,21 @@
 import math
 from PySide6.QtWidgets import QTableWidgetItem
 from .UnaryExpression import UnaryExpression
+from .AppGlobals import AppGlobals
+from .CalcMode import CalcMode
 
 class SquareExpression(UnaryExpression):
-    def calculate(self, number: float):
-        result: float = number * number
-
+    def calculate(self, number: float | complex):
+        result = number ** 2
         self.insert_scroll_table()
-        self.protocol(number, 0)
-        self.protocol("^2 =", 1)
-        self.protocol_result(result, 2)
+
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            self.protocol_complex(number, " ^ 2 =", False, "")
+            self.insert_scroll_table()
+            self.protocol_complex(result, "", True)
+        else:
+            self.protocol(number, 0)
+            self.protocol("^2 =", 1)
+            self.protocol_result(result, 2)
 
         return result

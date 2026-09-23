@@ -9,7 +9,7 @@ class DotLineEdit(QLineEdit):
         self.textChanged.connect(self._replace_comma)
 
     def _replace_comma(self, text: str):
-        if "," in text:
+        if "," in text or "_" in text:
             # 1. Block signals temporarily to prevent an infinite recursion loop
             self.blockSignals(True)
 
@@ -17,7 +17,9 @@ class DotLineEdit(QLineEdit):
             cursor_pos = self.cursorPosition()
 
             # 3. Replace comma with dot and update text
-            self.setText(text.replace(",", "."))
+            text = text.replace(",", ".")
+            text = text.replace("_", "-")
+            self.setText(text)
 
             # 4. Restore cursor position
             self.setCursorPosition(cursor_pos)

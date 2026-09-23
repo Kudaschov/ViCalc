@@ -96,11 +96,11 @@ def send_ctrl_less():
 
     send_key_release(SCAN_CTRL)
 
-def send_ctrl_five():
-    """Simuliert hardwarenahes Drücken von Strg + 5 (Bitwise NOT)."""
+def send_hot_key_not():
+    """Simuliert hardwarenahes Drücken für Bitwise NOT."""
     SCAN_CTRL = 0x1D  # Left Control Scan Code
-    SCAN_FIVE = 0x06  # '5' Scan Code on main numrow
-    VK_FIVE = 0x35    # Virtual Key Code for '5'
+    SCAN_FIVE = 0x13  # Scan Code for R
+    VK_FIVE = 0x52    # Virtual Key Code for 'R'
 
     send_key_press(SCAN_CTRL)
     time.sleep(0.02)
@@ -193,6 +193,7 @@ def test_calculator_expressions(main_window, qtbot, inputs, expected):
     AppGlobals.number_base = NumberBase.BIN
     original_word_size = AppGlobals.current_word_size
     AppGlobals.current_word_size = WordSize.BIT8
+    main_window.update_keyboard()
 
     try:
         input_box.clear()
@@ -206,7 +207,7 @@ def test_calculator_expressions(main_window, qtbot, inputs, expected):
                 QApplication.processEvents()
                 qtbot.wait(50)
             elif item == "CTRL_FIVE":
-                send_ctrl_five()
+                send_hot_key_not()
                 QApplication.processEvents()
                 qtbot.wait(50)
             elif item == "CTRL_SIX":

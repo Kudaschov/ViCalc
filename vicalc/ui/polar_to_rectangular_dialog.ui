@@ -45,7 +45,7 @@
     <cstring>radiusLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="radiusLineEdit">
+  <widget class="DotLineEdit" name="radiusLineEdit">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -71,7 +71,7 @@
     <cstring>angleLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="angleLineEdit">
+  <widget class="DotLineEdit" name="angleLineEdit">
    <property name="geometry">
     <rect>
      <x>90</x>
@@ -140,6 +140,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

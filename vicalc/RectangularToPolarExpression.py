@@ -19,15 +19,15 @@ class RectangularToPolarExpression(BinaryExpression):
 
 
         self.insert_scroll_table()
-        self.protocol("X", 0)
-        self.protocol("Y", 1)
-        self.protocol("R", 2)
+        self.protocol_result("X", 0)
+        self.protocol_result("Y", 1)
+        self.protocol_result("R", 2)
         angle_symbol = AppGlobals.angle_unit.angle_symbol() 
-        self.protocol(f"θ [{angle_symbol}]", 3)
+        self.protocol_result(f"θ [{angle_symbol}]", 3)
         self.insert_scroll_table()
         self.protocol(x, 0)
         self.protocol(y, 1)
-        self.protocol_result(r, 2)
-        self.protocol_result(theta, 3)
+        self.protocol(r, 2)
+        self.protocol(theta, 3)
 
         return r

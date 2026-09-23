@@ -4,6 +4,7 @@ from PySide6.QtCore import QCoreApplication
 from vicalc.AppGlobals import AppGlobals
 from vicalc.vicalc import MainWindow
 from vicalc.NumberBase import NumberBase
+from vicalc.CalcMode import CalcMode
 
 @pytest.fixture
 def main_window(qtbot):
@@ -28,18 +29,23 @@ def main_window(qtbot):
 
 def test_calculator_expressions(main_window, qtbot, expression, expected):
     input_box = AppGlobals.input_box
-    AppGlobals.number_base = NumberBase.DEC
 
-    qtbot.wait(50)
-    input_box.clear()
-    qtbot.wait(50)
+    original_calc_mode = AppGlobals.calc_mode
+    AppGlobals.calc_mode = CalcMode.scientific
 
-    for char in expression:
-        qtbot.keyClick(input_box, char)
-        qtbot.wait(20)
+    try:
+        qtbot.wait(50)
+        input_box.clear()
+        qtbot.wait(50)
 
-    qtbot.wait(50)
-    assert input_box.text() == expected
+        for char in expression:
+            qtbot.keyClick(input_box, char)
+            qtbot.wait(20)
 
-    if os.getenv("VICALC_DEBUG"):
-        qtbot.wait(10_000)
+        qtbot.wait(50)
+        assert input_box.text() == expected
+
+        if os.getenv("VICALC_DEBUG"):
+            qtbot.wait(10_000)
+    finally:
+        AppGlobals.calc_mode = original_calc_mode

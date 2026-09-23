@@ -5,13 +5,12 @@
 - Space = Add comment to history<br>
 - Shift+Back Space / Ctrl+DL* = Remove last line from history<br>
 - TAB / Arrow Up = Go to history<br> 
-- F9 = Toggle calculator / history<br>
-c
+
 ## History Mode
 - Esc = Return to calculator<br>
-- F9 = Toggle calculator / history<br>
 - Arrows / ESDF = Select entry<br>
 - Enter / Mouse Double-click = Insert value into input box<br>
+- Shift+Enter = Insert value into complex imag part (in complex numbers mode)<br>
 - Down = Return to calculator from last line<br>
 - Delete = Clear cells<br>
 - Shift+Delete = Remove lines from history<br>

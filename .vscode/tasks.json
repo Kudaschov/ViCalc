@@ -210,6 +210,26 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile input_rectangular_form dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/input_rectangular_form.ui -o vicalc/ui/input_rectangular_form.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile input_polar_form dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/input_polar_form.ui -o vicalc/ui/input_polar_form.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }

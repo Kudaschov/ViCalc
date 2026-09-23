@@ -63,8 +63,13 @@ If the highlighted function is not the intended one, you can simply release the 
 - Expression line shows current calculation.
 - Calculation History: Automatically records output, allowing you to review or reuse past calculations.
 - Mouse Support: Use the mouse for a traditional calculator experience.
-- Cross-Platform: Runs on any system with Python.
 - Open Source: Contributions are welcome to add new features!
+
+## Calculation Modes
+
+- Scientific
+- Complex numbers
+- Programmer, base-n: binary, octal, decimal, hexadecimal
 
 ## Functions
 
@@ -72,8 +77,8 @@ If the highlighted function is not the intended one, you can simply release the 
 - Modulo operation (remainder)
 - Brackets
 - Memory
-- Ans (calculation history)
-- Protocol
+- Ans (in calculation history)
+- Table (calculation history)
 - Percents incl. percentage change Δ%
 - Trigonometric and inverse trigonometric functions
 - Hyperbolic and inverse hyperbolic functions

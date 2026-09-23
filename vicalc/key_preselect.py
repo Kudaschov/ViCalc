@@ -43,7 +43,7 @@ class KeyPreselect:
             if value > 0.0:
                 button = self.key_map[keycode]
                 if button:
-                    if (AppGlobals.input_box.hasFocus()) and (button.preselect == False):
+                    if (AppGlobals.input_box.hasFocus() or AppGlobals.input_imag_box.hasFocus()) and (button.preselect == False):
                         button.preselect = True
                         button.update()
             else:

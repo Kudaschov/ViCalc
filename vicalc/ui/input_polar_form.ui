@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RectangularToPolarDialog</class>
- <widget class="QDialog" name="RectangularToPolarDialog">
+ <class>InputComplexNumberInPolarFormDialog</class>
+ <widget class="QDialog" name="InputComplexNumberInPolarFormDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>254</width>
-    <height>170</height>
+    <width>361</width>
+    <height>240</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Rectangular to Polar Coordinates</string>
+   <string>Input Complex Number in Polar Form</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="Germany"/>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
-     <width>231</width>
+     <y>200</y>
+     <width>341</width>
      <height>32</height>
     </rect>
    </property>
@@ -32,111 +35,127 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>12</y>
-     <width>49</width>
+     <x>20</x>
+     <y>150</y>
+     <width>16</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;X:</string>
+    <string>&amp;(</string>
    </property>
    <property name="buddy">
-    <cstring>xLineEdit</cstring>
+    <cstring>realPartLineEdit</cstring>
    </property>
   </widget>
-  <widget class="DotLineEdit" name="xLineEdit">
+  <widget class="QLineEdit" name="realPartLineEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>10</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>42</y>
-     <width>49</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Y:</string>
-   </property>
-   <property name="buddy">
-    <cstring>yLineEdit</cstring>
-   </property>
-  </widget>
-  <widget class="DotLineEdit" name="yLineEdit">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>40</y>
-     <width>151</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>72</y>
-     <width>71</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Radius:</string>
-   </property>
-   <property name="buddy">
-    <cstring>distanceLineEdit</cstring>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="distanceLineEdit">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>70</y>
-     <width>151</width>
+     <x>30</x>
+     <y>149</y>
+     <width>131</width>
      <height>21</height>
     </rect>
    </property>
    <property name="readOnly">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>150</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="imagPartLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>149</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>150</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&amp;i)</string>
+   </property>
+   <property name="buddy">
+    <cstring>imagPartLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="rLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>28</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="thetaLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>68</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="readOnly">
+    <bool>false</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>102</y>
-     <width>49</width>
+     <y>30</y>
+     <width>16</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Angle:</string>
+    <string>&amp;r</string>
    </property>
    <property name="buddy">
-    <cstring>angleLineEdit</cstring>
+    <cstring>rLineEdit</cstring>
    </property>
   </widget>
-  <widget class="QLineEdit" name="angleLineEdit">
+  <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>100</y>
-     <width>151</width>
-     <height>21</height>
+     <x>10</x>
+     <y>70</y>
+     <width>16</width>
+     <height>16</height>
     </rect>
    </property>
-   <property name="readOnly">
-    <bool>true</bool>
+   <property name="text">
+    <string>θ</string>
    </property>
   </widget>
  </widget>
@@ -147,12 +166,18 @@
    <header>.dot_line_edit</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>rLineEdit</tabstop>
+  <tabstop>thetaLineEdit</tabstop>
+  <tabstop>realPartLineEdit</tabstop>
+  <tabstop>imagPartLineEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>RectangularToPolarDialog</receiver>
+   <receiver>InputComplexNumberInPolarFormDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -168,7 +193,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>RectangularToPolarDialog</receiver>
+   <receiver>InputComplexNumberInPolarFormDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

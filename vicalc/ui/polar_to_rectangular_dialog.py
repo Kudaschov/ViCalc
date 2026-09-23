@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'polar_to_rectangular_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,6 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QLabel, QLineEdit, QSizePolicy, QWidget)
 
+from .dot_line_edit import DotLineEdit
+
 class Ui_PolarToRectangularDialog(object):
     def setupUi(self, PolarToRectangularDialog):
         if not PolarToRectangularDialog.objectName():
@@ -31,13 +33,13 @@ class Ui_PolarToRectangularDialog(object):
         self.label = QLabel(PolarToRectangularDialog)
         self.label.setObjectName(u"label")
         self.label.setGeometry(QRect(10, 12, 49, 16))
-        self.radiusLineEdit = QLineEdit(PolarToRectangularDialog)
+        self.radiusLineEdit = DotLineEdit(PolarToRectangularDialog)
         self.radiusLineEdit.setObjectName(u"radiusLineEdit")
         self.radiusLineEdit.setGeometry(QRect(90, 10, 151, 21))
         self.label_2 = QLabel(PolarToRectangularDialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(10, 42, 49, 16))
-        self.angleLineEdit = QLineEdit(PolarToRectangularDialog)
+        self.angleLineEdit = DotLineEdit(PolarToRectangularDialog)
         self.angleLineEdit.setObjectName(u"angleLineEdit")
         self.angleLineEdit.setGeometry(QRect(90, 40, 151, 21))
         self.label_3 = QLabel(PolarToRectangularDialog)
