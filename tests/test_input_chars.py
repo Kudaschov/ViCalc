@@ -5,6 +5,7 @@ from vicalc.AppGlobals import AppGlobals
 from vicalc.vicalc import MainWindow
 from vicalc.NumberBase import NumberBase
 from vicalc.CalcMode import CalcMode
+from vicalc.CalcOperations import CalcOperations
 
 @pytest.fixture
 def main_window(qtbot):
@@ -31,7 +32,7 @@ def test_calculator_expressions(main_window, qtbot, expression, expected):
     input_box = AppGlobals.input_box
 
     original_calc_mode = AppGlobals.calc_mode
-    AppGlobals.calc_mode = CalcMode.scientific
+    AppGlobals.input_box.button_clicked(CalcOperations.calc_mode_scientific)
 
     try:
         qtbot.wait(50)

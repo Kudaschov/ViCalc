@@ -36,6 +36,7 @@ from .IntegerCellValue import IntegerCellValue
 from .ui.NumberBaseLabel import NumberBaseLabel
 from .CalcMode import CalcMode
 from .ComplexNumberForm import ComplexNumberForm
+from .ShiftRotateOperation import ShiftRotateOperation
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -76,6 +77,13 @@ class MainWindow(QMainWindow):
         self.number_base_group.addAction(self.ui.actionOctal)
         self.number_base_group.addAction(self.ui.actionHexadecimal)
 
+        self.bitwise_shift_group = QActionGroup(self)
+        self.bitwise_shift_group.setExclusive(True)
+        self.bitwise_shift_group.addAction(self.ui.actionArithmeticShift)
+        self.bitwise_shift_group.addAction(self.ui.actionLogicalShift)
+        self.bitwise_shift_group.addAction(self.ui.actionCircularShift)
+        self.bitwise_shift_group.addAction(self.ui.actionCircularShiftCarry)
+
         # background color of C and AC buttons
         self.c_ac_bg_color = QColor("#EAEAFF")
         #self.arithmetic_operation_color = QColor("#FEFEFE")
@@ -110,6 +118,13 @@ class MainWindow(QMainWindow):
         self.ui.actionWord.triggered.connect(self.set_word_size_word)
         self.ui.actionDWord.triggered.connect(self.set_word_size_dword)
         self.ui.actionQWord.triggered.connect(self.set_word_size_qword)
+
+        self.ui.actionArithmeticShift.triggered.connect(self.set_bitwise_shift_arithmetic)
+        self.ui.actionLogicalShift.triggered.connect(self.set_bitwise_shift_logical)
+        self.ui.actionCircularShift.triggered.connect(self.set_bitwise_shift_circular)
+        self.ui.actionCircularShiftCarry.triggered.connect(self.set_bitwise_shift_circular_carry)
+        self.ui.actionToggleCarryFlag.triggered.connect(self.toggle_carry_flag)
+        self.ui.actionSigned.triggered.connect(self.toggle_base_n_signed)
 
         self.ui.action_convert_from_binary.triggered.connect(self.convert_from_binary)
         self.ui.action_convert_from_octal.triggered.connect(self.convert_from_octal)
@@ -251,6 +266,17 @@ class MainWindow(QMainWindow):
         self.word_size_label = ClickableLabelStyle("WS:")
         self.word_size_label.clicked.connect(self.word_size_label_clicked)
         self.number_view_status_bar.addWidget(self.word_size_label)
+
+        self.base_n_signed_label = ClickableLabelStyle("Sign")
+        self.base_n_signed_label.clicked.connect(self.toggle_base_n_signed)
+        self.number_view_status_bar.addWidget(self.base_n_signed_label)
+
+        self.bitwise_shift_label = ClickableLabelStyle("<<>>")
+        self.bitwise_shift_label.clicked.connect(self.bitwise_shift_label_clicked)
+        self.number_view_status_bar.addWidget(self.bitwise_shift_label)
+        self.carry_flag_label = ClickableLabelStyle("CF:")
+        self.carry_flag_label.clicked.connect(self.carry_flag_label_clicked)
+        self.number_view_status_bar.addWidget(self.carry_flag_label)
 
         self.bin_label = ClickableLabelStyle("")
         self.bin_label.clicked.connect(self.bin_label_clicked)
@@ -534,6 +560,9 @@ class MainWindow(QMainWindow):
             AppGlobals.current_word_size = WordSize(self.settings.value("word_size", WordSize.BIT8.value, type=int))
             AppGlobals.number_base = NumberBase(self.settings.value("table_number_base", NumberBase.DEC.value, type=int))
             AppGlobals.complex_number_form = ComplexNumberForm(self.settings.value("complex_number_form", ComplexNumberForm.rectangular.value, type=int))
+            AppGlobals.bitwise_shift = ShiftRotateOperation(self.settings.value("bitwise_shift", ShiftRotateOperation.arithmetic.value, type=int))
+            AppGlobals.carry_flag = self.settings.value("carry_flag", 0, type=int)
+            AppGlobals.base_n_signed = self.settings.value("base_n_signed", True, type=bool)
 
             self.UpdateUiTrigMode()
 
@@ -653,21 +682,26 @@ class MainWindow(QMainWindow):
         if convert_ok:
             self.invalid_number_label.setText("")
 
+            if AppGlobals.calc_mode is CalcMode.base_n:
+                if number_temp.is_integer() and AppGlobals.is_number_out_of_range(number_temp):
+                    self.invalid_number_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
+                    self.invalid_number_label.setText("Out of range")
+
             if self.is_integer(number_temp):
                 if AppGlobals.show_binary_value:
-                    self.bin_label.setText(bin(int(number_temp)))
+                    self.bin_label.setText(AppGlobals.to_format_string(number_temp, NumberBase.BIN))
                 else:
                     self.bin_label.setText("")
                 if AppGlobals.show_octal_value:
-                    self.oct_label.setText(oct(int(number_temp)))
+                    self.oct_label.setText(AppGlobals.to_format_string(number_temp, NumberBase.OCT))
                 else:
                     self.oct_label.setText("")
                 if AppGlobals.show_decimal_value:
-                    self.dec_label.setText(f"{int(number_temp)}")
+                    self.dec_label.setText(AppGlobals.to_format_string(number_temp, NumberBase.DEC))
                 else:
                     self.dec_label.setText("")
                 if AppGlobals.show_hex_value:
-                    self.hex_label.setText(AppGlobals.int_to_hex_with_prefix(int(number_temp)))
+                    self.hex_label.setText(AppGlobals.to_format_string(number_temp, NumberBase.HEX))
                 else:
                     self.hex_label.setText("")
             else:
@@ -764,6 +798,7 @@ class MainWindow(QMainWindow):
 
         self.update_keyboard()
         self.update_complex_numbers()
+        self.update_bitwise_shift_menu()
 
         # update memory status label
         full_memory_text = AppGlobals.memory_status_bar_text + AppGlobals.input_box.memory_to_format_string()
@@ -809,6 +844,52 @@ class MainWindow(QMainWindow):
                 if self.ui.iLabel.isVisible():
                     self.ui.iLabel.hide()
 
+    def update_bitwise_shift_menu(self):
+        match AppGlobals.bitwise_shift:
+            case ShiftRotateOperation.logical:
+                if not self.ui.actionLogicalShift.isChecked():
+                    self.ui.actionLogicalShift.setChecked(True)
+            case ShiftRotateOperation.circular:
+                if not self.ui.actionCircularShift.isChecked():
+                    self.ui.actionCircularShift.setChecked(True)
+            case ShiftRotateOperation.circular_carry_bit:
+                if not self.ui.actionCircularShiftCarry.isChecked():
+                    self.ui.actionCircularShiftCarry.setChecked(True)
+            case _:
+                if not self.ui.actionArithmeticShift.isChecked():
+                    self.ui.actionArithmeticShift.setChecked(True)
+        if self.bitwise_shift_label.text() != AppGlobals.bitwise_shift.status_text:
+            self.bitwise_shift_label.setText(AppGlobals.bitwise_shift.status_text)
+
+        if AppGlobals.calc_mode is CalcMode.base_n and AppGlobals.bitwise_shift is ShiftRotateOperation.circular_carry_bit:
+            if not self.carry_flag_label.isVisible():
+                self.carry_flag_label.show()
+        else:
+            if self.carry_flag_label.isVisible():
+                self.carry_flag_label.hide()
+
+        if self.carry_flag_label.isVisible():
+            text0 = "CF:0"
+            text1 = "CF:1"
+            if AppGlobals.carry_flag == 0:
+                if self.carry_flag_label.text() != text0:
+                    self.carry_flag_label.setText(text0)
+            else:
+                if self.carry_flag_label.text() != text1:
+                    self.carry_flag_label.setText(text1)
+
+        # Update menu actionSigned
+        if AppGlobals.base_n_signed:
+            if not self.ui.actionSigned.isChecked():
+                self.ui.actionSigned.setChecked(True)
+            if self.base_n_signed_label.text() != "Signed":
+                self.base_n_signed_label.setText("Signed")
+        else:
+            if self.ui.actionSigned.isChecked():
+                self.ui.actionSigned.setChecked(False)
+            if self.base_n_signed_label.text() != "Unsigned":
+                self.base_n_signed_label.setText("Unsigned")
+
     def update_keyboard(self):
         # Update keybord to input HEX numbers
         if AppGlobals.calc_mode == CalcMode.base_n:
@@ -839,15 +920,31 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonE.base_operation = CalcOperations.number_E
                 self.ui.pushButtonE.setText("E")
 
-            if self.ui.pushButtonR.ctrl_operation is not CalcOperations.NOT:
-                self.ui.pushButtonR.ctrl_operation = CalcOperations.NOT
-                self.ui.pushButtonR.ctrl_text = "NOT"
+            if self.ui.pushButtonT.base_operation is not CalcOperations.NOT:
+                self.ui.pushButtonT.base_operation = CalcOperations.NOT
+                self.ui.pushButtonT.setText("NOT")
+
+            if self.ui.pushButtonG.base_operation is not CalcOperations.NEG:
+                self.ui.pushButtonG.base_operation = CalcOperations.NEG
+                self.ui.pushButtonG.setText("NEG")
 
             if self.ui.pushButtonF.text != "F":
                 self.ui.pushButtonF.setText("F")
                 self.ui.pushButtonF.base_operation = CalcOperations.number_F
                 self.ui.pushButtonF.shift_text = "0d"
                 self.ui.pushButtonF.shift_operation = CalcOperations.convert_from_decimal
+
+            if self.ui.pushButtonQ.base_operation is not CalcOperations.left_shift:
+                self.ui.pushButtonQ.base_operation = CalcOperations.left_shift
+                self.ui.pushButtonQ.setText("<<")
+
+            if self.ui.pushButtonR.base_operation is not CalcOperations.right_shift:
+                self.ui.pushButtonR.base_operation = CalcOperations.right_shift
+                self.ui.pushButtonR.setText(">>")
+
+            if self.ui.pushButtonS.base_operation is not CalcOperations.toggle_base_n_sign:
+                self.ui.pushButtonS.base_operation = CalcOperations.toggle_base_n_sign
+                self.ui.pushButtonS.setText("Sign")
 
         elif AppGlobals.calc_mode == CalcMode.complex_numbers:
             if self.ui.pushButton6.shift_operation != CalcOperations.input_complex_number_in_rectangular_form:
@@ -992,6 +1089,9 @@ class MainWindow(QMainWindow):
         self.settings.setValue("show_decimal_value", AppGlobals.show_decimal_value)
         self.settings.setValue("show_hex_value", AppGlobals.show_hex_value)
         self.settings.setValue("show_word_size", AppGlobals.show_word_size)
+        self.settings.setValue("bitwise_shift", AppGlobals.bitwise_shift.value)
+        self.settings.setValue("carry_flag", AppGlobals.carry_flag)
+        self.settings.setValue("base_n_signed", AppGlobals.base_n_signed)
 
         super().closeEvent(event)
 
@@ -1129,6 +1229,24 @@ class MainWindow(QMainWindow):
         AppGlobals.current_word_size = WordSize.BIT64
         AppGlobals.input_box.update_table()
 
+    def set_bitwise_shift_arithmetic(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.bitwise_shift_arithmetic)
+
+    def set_bitwise_shift_logical(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.bitwise_shift_logical)
+
+    def set_bitwise_shift_circular(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.bitwise_shift_circular)
+
+    def set_bitwise_shift_circular_carry(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.bitwise_shift_circular_carry)
+
+    def toggle_carry_flag(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.toggle_carry_flag)
+
+    def toggle_base_n_signed(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.toggle_base_n_sign)
+
     def set_scientific_mode(self):
         AppGlobals.input_box.exec_scientific_mode()
 
@@ -1180,6 +1298,19 @@ class MainWindow(QMainWindow):
         self.word_size_label.setText(AppGlobals.current_word_size.status_text)
         AppGlobals.input_box.update_table()
 
+    def bitwise_shift_label_clicked(self):
+        # Cycle through bitwise shift modes
+        l = list(ShiftRotateOperation)
+        i = l.index(AppGlobals.bitwise_shift)
+        next_index = (i + 1) % len(l)
+        AppGlobals.bitwise_shift = l[next_index]
+#        self.bitwise_shift_label.setText(AppGlobals.bitwise_shift.status_text)
+        self.update_bitwise_shift_menu()
+
+    def carry_flag_label_clicked(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.toggle_carry_flag)
+        self.update_bitwise_shift_menu()
+
     def number_base_label_clicked(self):
         # Cycle through number bases
         number_bases = list(NumberBase)
@@ -1187,6 +1318,7 @@ class MainWindow(QMainWindow):
         next_index = (current_index + 1) % len(number_bases)
         AppGlobals.input_box.set_base(number_bases[next_index])
         self.number_base_label.setText(AppGlobals.number_base.status_text)
+        self.check_key_states()
         AppGlobals.input_box.update_table()
 
     def memory_label_clicked(self):

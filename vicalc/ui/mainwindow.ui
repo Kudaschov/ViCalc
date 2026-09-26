@@ -1349,16 +1349,6 @@
     <addaction name="separator"/>
     <addaction name="actionRectangularForm"/>
     <addaction name="actionPolarForm"/>
-    <addaction name="separator"/>
-    <addaction name="actionBinary"/>
-    <addaction name="actionOctal"/>
-    <addaction name="actionDecimal"/>
-    <addaction name="actionHexadecimal"/>
-    <addaction name="separator"/>
-    <addaction name="actionByte"/>
-    <addaction name="actionWord"/>
-    <addaction name="actionDWord"/>
-    <addaction name="actionQWord"/>
    </widget>
    <widget class="QMenu" name="menu_History">
     <property name="title">
@@ -1415,9 +1405,33 @@
     <addaction name="separator"/>
     <addaction name="action_options"/>
    </widget>
+   <widget class="QMenu" name="menuProgrammer">
+    <property name="title">
+     <string>P&amp;rogrammer</string>
+    </property>
+    <addaction name="actionBinary"/>
+    <addaction name="actionOctal"/>
+    <addaction name="actionDecimal"/>
+    <addaction name="actionHexadecimal"/>
+    <addaction name="separator"/>
+    <addaction name="actionByte"/>
+    <addaction name="actionWord"/>
+    <addaction name="actionDWord"/>
+    <addaction name="actionQWord"/>
+    <addaction name="separator"/>
+    <addaction name="actionSigned"/>
+    <addaction name="separator"/>
+    <addaction name="actionArithmeticShift"/>
+    <addaction name="actionLogicalShift"/>
+    <addaction name="actionCircularShift"/>
+    <addaction name="actionCircularShiftCarry"/>
+    <addaction name="separator"/>
+    <addaction name="actionToggleCarryFlag"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Math"/>
    <addaction name="menuMode"/>
+   <addaction name="menuProgrammer"/>
    <addaction name="menu_Convert"/>
    <addaction name="menu_History"/>
    <addaction name="menu_Tools"/>
@@ -1710,6 +1724,9 @@
    <property name="text">
     <string>Unit &amp;Conversion...</string>
    </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
@@ -1767,7 +1784,7 @@
     <string>&amp;Byte (8 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+F6</string>
+    <string>Shift+F1</string>
    </property>
   </action>
   <action name="actionWord">
@@ -1778,7 +1795,7 @@
     <string>&amp;Word (16 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+F7</string>
+    <string>Shift+F2</string>
    </property>
   </action>
   <action name="actionDWord">
@@ -1789,7 +1806,7 @@
     <string>DW&amp;ord (32 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+F8</string>
+    <string>Shift+F3</string>
    </property>
   </action>
   <action name="actionQWord">
@@ -1800,7 +1817,7 @@
     <string>&amp;QWord (64 Bit)</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+F9</string>
+    <string>Shift+F4</string>
    </property>
   </action>
   <action name="actionDecimal">
@@ -1808,7 +1825,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>De&amp;cimal</string>
+    <string>Deci&amp;mal</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F8</string>
@@ -1900,6 +1917,88 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F4</string>
+   </property>
+  </action>
+  <action name="actionArithmeticShift">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Arithmetic shift</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F5</string>
+   </property>
+  </action>
+  <action name="actionLogicalShift">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Logical shift</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F6</string>
+   </property>
+  </action>
+  <action name="actionCircularShift">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rotate (&amp;Circular) shift</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F7</string>
+   </property>
+  </action>
+  <action name="actionToggleCarryFlag">
+   <property name="text">
+    <string>&amp;Toggle Carry Flag (bit)</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F9</string>
+   </property>
+  </action>
+  <action name="actionResetCarryBit">
+   <property name="text">
+    <string>&amp;Reset Carry bit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F8</string>
+   </property>
+  </action>
+  <action name="actionCircularShiftCarry">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ro&amp;tate (Circular) through Carry</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F8</string>
+   </property>
+  </action>
+  <action name="actionSigned">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Si&amp;gned</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F5</string>
+   </property>
+  </action>
+  <action name="actionUnsigned">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Unsign&amp;ed</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F6</string>
    </property>
   </action>
  </widget>

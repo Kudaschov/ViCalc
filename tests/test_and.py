@@ -82,9 +82,9 @@ def send_key_release(scancode):
     SendInput(1, ct.byref(i), ct.sizeof(INPUT))
 
 def send_ctrl_less():
-    """Simuliert hardwarenahes Drücken von Strg + <"""
+    """Simulates hardware-level key press for Ctrl + <."""
     SCAN_CTRL = 0x1D  # Left Control Scan Code
-    SCAN_LESS = 0x56  # '<' Scan Code auf deutschen Keyboards
+    SCAN_LESS = 0x56  # '<' Scan Code on German keyboards
 
     send_key_press(SCAN_CTRL)
     time.sleep(0.02)
@@ -96,18 +96,14 @@ def send_ctrl_less():
 
     send_key_release(SCAN_CTRL)
 
-def send_hot_key_not():
-    """Simuliert hardwarenahes Drücken für Bitwise NOT."""
-    SCAN_CTRL = 0x1D  # Left Control Scan Code
-    SCAN_FIVE = 0x13  # Scan Code for R
-    VK_FIVE = 0x52    # Virtual Key Code for 'R'
-
-    send_key_press(SCAN_CTRL)
-    time.sleep(0.02)
+def send_key_not():
+    """Simulates hardware-level key press for Bitwise NOT ('T' key alone)."""
+    SCAN_T = 0x14     # Scan Code 20 (0x14) for 'T'
+    VK_T = 0x54       # Virtual Key Code for 'T'
 
     i = INPUT()
     i.type = INPUT_KEYBOARD
-    i.ki = KEYBDINPUT(VK_FIVE, SCAN_FIVE, KEYEVENTF_SCANCODE, 0, 0)
+    i.ki = KEYBDINPUT(VK_T, SCAN_T, KEYEVENTF_SCANCODE, 0, 0)
     SendInput(1, ct.byref(i), ct.sizeof(INPUT))
     time.sleep(0.02)
 
@@ -115,10 +111,8 @@ def send_hot_key_not():
     SendInput(1, ct.byref(i), ct.sizeof(INPUT))
     time.sleep(0.02)
 
-    send_key_release(SCAN_CTRL)
-
 def send_ctrl_six():
-    # Simulates pressing Ctrl + 6 at the hardware level (Bitwise XOR).
+    """Simulates hardware-level key press for Ctrl + 6 (Bitwise XOR)."""
     SCAN_CTRL = 0x1D  # Left Control Scan Code
     SCAN_SIX = 0x07   # '6' Scan Code on main numrow
     VK_SIX = 0x36     # Virtual Key Code for '6'
@@ -149,37 +143,37 @@ def main_window(qtbot):
 @pytest.mark.parametrize(
     "inputs, expected",
     [
-        (["11001&11100="], "11000"),    # AND
-        (["11010|10100="], "11110"),    # OR
+        (["11001&11100="], "00011000"),    # AND
+        (["11010|10100="], "00011110"),    # OR
         (["10110~"], "11101001"),       # NOT
         
-        # Hardware-Shortcut Test (Ctrl + < für Bitwise OR)
+        # Hardware shortcut test: Ctrl + < (Bitwise OR)
         (
             [
                 "11010",
                 "CTRL_LESS",
                 "10100="
             ],
-            "11110"
+            "00011110"
         ),
 
-        # Hardware shortcut test: Ctrl + 5 (Bitwise NOT) -> ~10110 (8-bit) = 11101001
+        # Hardware key test: T (Bitwise NOT) -> ~10110 (8-bit) = 11101001
         (
             [
                 "10110",
-                "CTRL_FIVE"
+                "KEY_T"
             ],
             "11101001"
         ),
 
-        # Hardware shortcut test: Ctrl + 6 (XOR) -> 11010 ^ 10100 = 01110
+        # Hardware shortcut test: Ctrl + 6 (Bitwise XOR) -> 11010 ^ 10100 = 01110
         (
             [
                 "11010",
                 "CTRL_SIX",
                 "10100="
             ],
-            "1110"
+            "00001110"
         ),
     ],
 )
@@ -206,8 +200,8 @@ def test_calculator_expressions(main_window, qtbot, inputs, expected):
                 send_ctrl_less()
                 QApplication.processEvents()
                 qtbot.wait(50)
-            elif item == "CTRL_FIVE":
-                send_hot_key_not()
+            elif item == "KEY_T":
+                send_key_not()
                 QApplication.processEvents()
                 qtbot.wait(50)
             elif item == "CTRL_SIX":

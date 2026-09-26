@@ -110,6 +110,7 @@ from ..ANDExpression import ANDExpression
 from ..ORExpression import ORExpression
 from ..XORExpression import XORExpression
 from ..NOTExpression import NOTExpression
+from ..NEGExpression import NEGExpression
 from ..WordSize import WordSize
 from ..NumberBase import NumberBase
 from ..IntegerResultCellValue import IntegerResultCellValue
@@ -121,6 +122,15 @@ from ..InputPolarForm import InputPolarForm
 from ..ComplexRectPolarHistoryExpression import ComplexRectPolarHistoryExpression
 from ..UnaryExpression import UnaryExpression
 from ..ConjugateExpression import ConjugateExpression
+from ..ShiftRotateOperation import ShiftRotateOperation
+from ..LeftShiftCircularExpression import LeftShiftCircularExpression
+from ..RightShiftCircularExpression import RightShiftCircularExpression
+from ..LeftShiftArithmeticExpression import LeftShiftArithmeticExpression
+from ..RightShiftArithmeticExpression import RightShiftArithmeticExpression
+from ..LeftShiftLogicalExpression import LeftShiftLogicalExpression
+from ..RightShiftLogicalExpression import RightShiftLogicalExpression
+from ..LeftShiftRotateCarryExpression import LeftShiftRotateCarryExpression
+from ..RightShiftRotateCarryExpression import RightShiftRotateCarryExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -573,6 +583,11 @@ class InputTextEdit(QLineEdit):
             expr = NOTExpression()
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
+    def exec_NEG(self):
+        if self.store_integer_number():
+            expr = NEGExpression()
+            self.setTextSelect(self.toString(expr.calculate(self.number)))
+
     def exec_division(self):
         if AppGlobals.calc_mode is CalcMode.complex_numbers:
             if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
@@ -948,6 +963,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_OR()
                 case CalcOperations.NOT:
                     self.exec_NOT()
+                case CalcOperations.NEG:
+                    self.exec_NEG()
                 case CalcOperations.word_size_byte:
                     self.exec_word_size_byte()
                 case CalcOperations.word_size_word:
@@ -988,6 +1005,22 @@ class InputTextEdit(QLineEdit):
                     self.exec_ctrl_double_shift()
                 case CalcOperations.conjugate:
                     self.exec_conjugate()
+                case CalcOperations.bitwise_shift_arithmetic:
+                    self.exec_bitwise_shift_arithmetic()
+                case CalcOperations.bitwise_shift_logical:
+                    self.exec_bitwise_shift_logical()
+                case CalcOperations.bitwise_shift_circular:
+                    self.exec_bitwise_shift_circular()
+                case CalcOperations.bitwise_shift_circular_carry:
+                    self.exec_bitwise_shift_circular_carry()
+                case CalcOperations.left_shift:
+                    self.exec_left_shift()
+                case CalcOperations.right_shift:
+                    self.exec_right_shift()
+                case CalcOperations.toggle_carry_flag:
+                    self.exec_toggle_carry_flag()
+                case CalcOperations.toggle_base_n_sign:
+                    self.exec_toggle_base_n_sign()
                 case _:
                     self.statusbar_message.emit("No operation configured")
         except Exception as e:
@@ -1854,6 +1887,9 @@ class InputTextEdit(QLineEdit):
             return True # False is case _:
 
     def handle_keys(self, event):
+        allowed_chars = "+-.0123456789eE"
+        if AppGlobals.calc_mode is CalcMode.base_n and AppGlobals.number_base is NumberBase.HEX:
+            allowed_chars = "+-.0123456789aAbBcCdDeEfF"
         if (event.modifiers() & Qt.KeypadModifier) and self.numlock_state(): # keypad keys
             self.handle_numpad_keys(event)
         else: # usual keys (no keypad keys)
@@ -1887,7 +1923,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Escape:
                         self.button_clicked(CalcOperations.AC)
                     case _:
-                        if not self.char_pressed in "+-.0123456789eE":
+                        if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
                         else:
                             # Call base class to keep normal behavior
@@ -1940,7 +1976,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Y:
                         self.button_clicked(UiGlobals.pushButtonY.ctrl_operation)
                     case _:
-                        if not self.char_pressed in "+-.0123456789eE":
+                        if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
                         else:
                             # Call base class to keep normal behavior
@@ -1975,7 +2011,7 @@ class InputTextEdit(QLineEdit):
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
                     case _:
-                        if not self.char_pressed in "+-.0123456789eE":
+                        if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
                         else:
                             # Call base class to keep normal behavior
@@ -2007,7 +2043,6 @@ class InputTextEdit(QLineEdit):
             if (self.store_number()):
                 expr = SquareExpression()
                 self.setTextSelect(self.toString(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
 
     def exec_cube(self):
         if AppGlobals.calc_mode is CalcMode.complex_numbers:
@@ -2019,7 +2054,6 @@ class InputTextEdit(QLineEdit):
             if (self.store_number()):
                 expr = CubeExpression(AppGlobals.table)
                 self.setTextSelect(self.toString(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
 
     def exec_fourth_power(self):
         if AppGlobals.calc_mode is CalcMode.complex_numbers:
@@ -2031,7 +2065,6 @@ class InputTextEdit(QLineEdit):
             if self.store_number():
                 expr = FourthPowerExpression()
                 self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
 
     def exec_sqrt(self):
         if AppGlobals.calc_mode is CalcMode.complex_numbers:
@@ -2043,7 +2076,6 @@ class InputTextEdit(QLineEdit):
             if self.store_number():
                 expr = SqrtExpression()
                 self.setTextSelect(self.toString(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
 
     def exec_cube_root(self):
         if (self.store_number()):
@@ -2779,6 +2811,59 @@ class InputTextEdit(QLineEdit):
 
         if ok:
             self.setTextSelect(AppGlobals.to_normal_string(number))
+
+    def exec_bitwise_shift_arithmetic(self):
+        AppGlobals.bitwise_shift = ShiftRotateOperation.arithmetic
+
+    def exec_bitwise_shift_logical(self):
+        AppGlobals.bitwise_shift = ShiftRotateOperation.logical
+
+    def exec_bitwise_shift_circular(self):
+        AppGlobals.bitwise_shift = ShiftRotateOperation.circular
+
+    def exec_bitwise_shift_circular_carry(self):
+        AppGlobals.bitwise_shift = ShiftRotateOperation.circular_carry_bit
+
+    def exec_left_shift(self):
+        if self.store_number():
+            match AppGlobals.bitwise_shift:
+                case ShiftRotateOperation.circular:
+                    expr = LeftShiftCircularExpression()
+                    self.setTextSelect(self.toString(expr.calculate(self.number)))
+                case  ShiftRotateOperation.circular_carry_bit:
+                    expr = LeftShiftRotateCarryExpression()
+                    self.setTextSelect(self.toString(expr.calculate(self.number)))
+                case ShiftRotateOperation.arithmetic:
+                    if self.store_number():
+                        self.create_expression_node(LeftShiftArithmeticExpression(self.number))
+                case _:
+                    if self.store_number():
+                        self.create_expression_node(LeftShiftLogicalExpression(self.number))
+
+    def exec_right_shift(self):
+        if self.store_number():
+            match AppGlobals.bitwise_shift:
+                case ShiftRotateOperation.circular:
+                    expr = RightShiftCircularExpression()
+                    self.setTextSelect(self.toString(expr.calculate(self.number)))
+                case  ShiftRotateOperation.circular_carry_bit:
+                    expr = RightShiftRotateCarryExpression()
+                    self.setTextSelect(self.toString(expr.calculate(self.number)))
+                case ShiftRotateOperation.arithmetic:
+                    if self.store_number():
+                        self.create_expression_node(RightShiftArithmeticExpression(self.number))
+                case _:
+                    if self.store_number():
+                        self.create_expression_node(RightShiftLogicalExpression(self.number))
+
+    def exec_toggle_carry_flag(self):
+        if AppGlobals.carry_flag == 0:
+            AppGlobals.carry_flag = 1
+        else:
+            AppGlobals.carry_flag = 0
+
+    def exec_toggle_base_n_sign(self):
+        AppGlobals.base_n_signed = not AppGlobals.base_n_signed
 
     def update_keyboard(self):
         self.keyboard_changed.emit()

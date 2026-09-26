@@ -6,6 +6,7 @@ from .NumericFormat import NumericFormat
 from PySide6.QtCore import QLocale
 from .CalcMode import CalcMode
 from .ComplexNumberForm import ComplexNumberForm
+from .ShiftRotateOperation import ShiftRotateOperation
 
 class AppGlobals:
 # Base color mapping stored globally
@@ -23,6 +24,9 @@ class AppGlobals:
     calc_mode = CalcMode.scientific
     current_word_size = WordSize.BIT8
     number_base = NumberBase.DEC
+    bitwise_shift = ShiftRotateOperation.arithmetic
+    carry_flag = 0 # carry bit for RoLC/RoRC operations
+    base_n_signed = True # DEC Values in Base-N mode will be handled w/o sign
     complex_number_form = ComplexNumberForm.rectangular
     numeric_format = NumericFormat.normal
     numeric_precision = 5
@@ -114,16 +118,19 @@ class AppGlobals:
     memory_status_bar_text = "Memory: "
 
     @staticmethod
-    def to_format_string(number):
+    def to_format_string(number: int | float, local_number_base: NumberBase = None):
         AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
-        if AppGlobals.calc_mode == CalcMode.base_n and number.is_integer():
-            match AppGlobals.number_base:
+        if (AppGlobals.calc_mode == CalcMode.base_n or local_number_base)and number.is_integer():
+            lnb = AppGlobals.number_base
+            if local_number_base:
+                lnb = local_number_base
+            match lnb:
                 case NumberBase.BIN:
-                    return bin(int(number))
+                    return AppGlobals.to_nibble_bin(AppGlobals.mask_value(int(number)))
                 case NumberBase.OCT:
-                    return oct(int(number))
+                    return oct(AppGlobals.mask_value(int(number)))
                 case NumberBase.HEX:
-                    return AppGlobals.int_to_hex_with_prefix(int(number))
+                    return AppGlobals.int_to_hex_with_prefix(AppGlobals.mask_value(int(number)))
                 case _:
                     return str(int(number))
         else:
@@ -148,7 +155,7 @@ class AppGlobals:
             int_number = int(number)
             match AppGlobals.number_base:
                 case NumberBase.BIN:
-                    return f"{int_number:b}"
+                    return f"{int_number:0{AppGlobals.current_word_size.bits}b}"
                 case NumberBase.OCT:
                     return f"{int_number:o}"
                 case NumberBase.HEX:
@@ -365,3 +372,105 @@ class AppGlobals:
             real_part = z.real
             imag_part = z.imag
         return complex(real_part, imag_part)
+
+    # used to make unsigned value
+    @staticmethod
+    def mask_value(val: int) -> int:
+        # Create a bitmask for the specified size (e.g., 0xFF for 8-bit, 0xFFFF for 16-bit)
+        standard_mask = (1 << AppGlobals.get_standard_mask_size(val)) - 1
+        if AppGlobals.current_word_size.mask > standard_mask:
+            mask = AppGlobals.current_word_size.mask
+        else:
+            mask = standard_mask
+        if AppGlobals.calc_mode is CalcMode.base_n:
+           return (val & mask)
+        else:
+            return val
+
+    @staticmethod
+    def get_standard_mask_size(number: int) -> int:
+        """Find the smallest standard bit mask size (8, 16, 32, 64 bits)
+
+        that can hold the given signed integer.
+        """
+        # Bit sizes to evaluate
+        standard_sizes = [8, 16, 32, 64]
+
+        for bits in standard_sizes:
+            # Calculate valid bounds for signed integer in two's complement
+            min_val = -(1 << (bits - 1))
+            max_val = (1 << (bits - 1)) - 1
+
+            if min_val <= number <= max_val:
+                return bits
+
+        return 64
+
+        # raise ValueError(
+        #     f"Number {number} exceeds maximum supported 64-bit mask size."
+        # )
+
+    @staticmethod
+    def to_nibble_bin(val: int, bits: int = None) -> str:
+        """Converts an integer to a binary string with padded leading zeros and nibble spacing.
+
+        Examples:
+            0x51  (8 bit)  -> '0b0101 0001'
+            0x510 (12/16 bit) -> '0b0000 0101 0001 0000'
+        """
+
+        if val < 0:
+            return f"-{AppGlobals.to_nibble_bin(abs(val), bits)}"
+
+        # Convert to pure binary string
+        raw_bin = bin(val)[2:]
+
+        # Auto-calculate bit length if not specified:
+        # Round up to the next multiple of 4 bits (at least 8 bits)
+        if bits is None:
+            needed_bits = max(8, len(raw_bin))
+            bits = ((needed_bits + 3) // 4) * 4
+
+        # Pad exact number of leading zeros
+        padded_bin = raw_bin.zfill(bits)
+
+        # Split into 4-bit nibbles from left to right
+        nibbles = [padded_bin[i : i + 4] for i in range(0, len(padded_bin), 4)]
+
+        return f"0b {' '.join(nibbles)}"
+
+    @staticmethod
+    def is_number_out_of_range(val: int) -> bool:
+        AppGlobals.assert_int(val)
+        
+        int_number = int(val)
+
+        if AppGlobals.base_n_signed:
+            # Minimaler und maximaler Wert für N-Bit Signed
+            min_val = -(1 << (AppGlobals.current_word_size.bits - 1))  # Bei 8 Bit: -128
+            max_val = (1 << (AppGlobals.current_word_size.bits - 1)) - 1   # Bei 8 Bit:  127
+        else:
+            min_val = 0
+            max_val = (1 << AppGlobals.current_word_size.bits) - 1  # Bei 8 Bit: 255
+
+        if int_number < min_val or int_number > max_val:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def assert_int(val: int):
+        if not val.is_integer():
+            raise ValueError("Expected integer")
+
+    # return signed value, 1) if mode is signed, and 2) valus has sign
+    @staticmethod
+    def check_for_signed_number(val: int):
+        if AppGlobals.base_n_signed:
+            signed_val, signed = AppGlobals.uint_to_signed_int(val)
+            if signed:
+                return signed_val
+            else:
+                return val
+        else:
+            return val
