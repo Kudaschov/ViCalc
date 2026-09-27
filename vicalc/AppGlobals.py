@@ -155,7 +155,7 @@ class AppGlobals:
             int_number = int(number)
             match AppGlobals.number_base:
                 case NumberBase.BIN:
-                    return f"{int_number:0{AppGlobals.current_word_size.bits}b}"
+                    return f"{(int_number & AppGlobals.current_word_size.mask):0{AppGlobals.current_word_size.bits}b}"
                 case NumberBase.OCT:
                     return f"{int_number:o}"
                 case NumberBase.HEX:

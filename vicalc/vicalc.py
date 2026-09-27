@@ -897,6 +897,10 @@ class MainWindow(QMainWindow):
                 self.init_keyboard()
                 self.ui.pushButtonA.setText("A")
                 self.ui.pushButtonA.base_operation = CalcOperations.number_A
+                self.ui.pushButtonA.shift_operation = CalcOperations.convert_from_decimal
+                self.ui.pushButtonA.shift_text = "0d"
+                self.ui.pushButtonA.ctrl_operation = CalcOperations.convert_from_decimal
+                self.ui.pushButtonA.ctrl_text = ""
 
             if self.ui.pushButtonB.text != "B":
                 self.ui.pushButtonB.setText("B")
@@ -910,6 +914,11 @@ class MainWindow(QMainWindow):
             if self.ui.pushButtonD.text != "D":
                 self.ui.pushButtonD.setText("D")
                 self.ui.pushButtonD.base_operation = CalcOperations.number_D
+                self.ui.pushButtonD.shift_operation = CalcOperations.left_shift
+                self.ui.pushButtonD.shift_text = "<<"
+                self.ui.pushButtonD.shift_text_alignment = Qt.AlignHCenter
+                self.ui.pushButtonD.ctrl_text = ""
+                self.ui.pushButtonD.ctrl_operation = CalcOperations.left_shift
 
             if self.ui.pushButtonE.base_operation != CalcOperations.number_E:
                 self.ui.pushButtonE.base_operation = CalcOperations.number_E
@@ -918,16 +927,28 @@ class MainWindow(QMainWindow):
             if self.ui.pushButtonT.base_operation is not CalcOperations.NOT:
                 self.ui.pushButtonT.base_operation = CalcOperations.NOT
                 self.ui.pushButtonT.setText("NOT")
+                self.ui.pushButtonT.shift_operation = CalcOperations.convert_from_octal
+                self.ui.pushButtonT.shift_text = "0o"
+                self.ui.pushButtonT.ctrl_operation = CalcOperations.convert_from_octal
+                self.ui.pushButtonT.ctrl_text = ""
+                self.ui.pushButtonT.shift_text_alignment = Qt.AlignHCenter
 
             if self.ui.pushButtonG.base_operation is not CalcOperations.NEG:
                 self.ui.pushButtonG.base_operation = CalcOperations.NEG
                 self.ui.pushButtonG.setText("NEG")
+                self.ui.pushButtonG.shift_operation = CalcOperations.toggle_base_n_sign
+                self.ui.pushButtonG.shift_text = "Sign"
+                self.ui.pushButtonG.shift_text_alignment = Qt.AlignHCenter
+                self.ui.pushButtonG.ctrl_operation = CalcOperations.toggle_base_n_sign
+                self.ui.pushButtonG.ctrl_text = ""
 
             if self.ui.pushButtonF.text != "F":
                 self.ui.pushButtonF.setText("F")
                 self.ui.pushButtonF.base_operation = CalcOperations.number_F
-                self.ui.pushButtonF.shift_text = "0d"
-                self.ui.pushButtonF.shift_operation = CalcOperations.convert_from_decimal
+                self.ui.pushButtonF.shift_operation = CalcOperations.right_shift
+                self.ui.pushButtonF.shift_text = ">>"
+                self.ui.pushButtonF.ctrl_operation = CalcOperations.right_shift
+                self.ui.pushButtonF.ctrl_text = ""
 
             if self.ui.pushButtonW.base_operation is not CalcOperations.AND:
                 self.ui.pushButtonW.base_operation = CalcOperations.AND
@@ -954,9 +975,8 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonS.setText("XOR")
                 self.ui.pushButtonS.shift_operation = CalcOperations.XNOR
                 self.ui.pushButtonS.shift_text = "XNOR"
-                self.ui.pushButtonS.ctrl_operation = CalcOperations.nop
+                self.ui.pushButtonS.ctrl_operation = CalcOperations.XNOR
                 self.ui.pushButtonS.ctrl_text = ""
-#                self.ui.pushButtonS.shift_text_alignment = Qt.AlignLeft
 
         elif AppGlobals.calc_mode == CalcMode.complex_numbers:
             if self.ui.pushButton6.shift_operation != CalcOperations.input_complex_number_in_rectangular_form:
@@ -991,8 +1011,8 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonR.ctrl_shift_text = "Rect"
                 self.ui.pushButtonR.ctrl_shift_operation = CalcOperations.rectangular_form_complex_number
 
-                self.ui.pushButtonG.ctrl_shift_text = "Polar"
-                self.ui.pushButtonG.ctrl_shift_operation = CalcOperations.polar_form_complex_number
+                self.ui.pushButtonE.ctrl_shift_text = "Polar"
+                self.ui.pushButtonE.ctrl_shift_operation = CalcOperations.polar_form_complex_number
 
                 self.ui.pushButton4.ctrl_shift_text = "Conj"
                 self.ui.pushButton4.ctrl_shift_operation = CalcOperations.conjugate
@@ -1867,13 +1887,13 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
-        self.ui.pushButtonY.setText("2nd")
+        self.ui.pushButtonY.setText("4th")
         self.ui.pushButtonY.original_keyboard_text = "Y"
         self.ui.pushButtonY.shift_text = "M+"
         self.ui.pushButtonY.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonY.ctrl_text = "Redo"
         self.ui.pushButtonY.ctrl_shift_text = "Bin"
-        self.ui.pushButtonY.base_operation = CalcOperations.shift_hold
+        self.ui.pushButtonY.base_operation = CalcOperations.ctrl_shift_hold
         self.ui.pushButtonY.shift_operation = CalcOperations.M_plus
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
         self.ui.pushButtonY.ctrl_shift_operation = CalcOperations.number_base_binary
@@ -1911,14 +1931,14 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonV.row = 3
         self.ui.pushButtonV.column = 4.5
-        self.ui.pushButtonV.setText("4th")
+        self.ui.pushButtonV.setText("2nd")
         self.ui.pushButtonV.original_keyboard_text = "V"
         self.ui.pushButtonV.shift_text = "MR"
         self.ui.pushButtonV.ctrl_text = "Paste"
         self.ui.pushButtonV.ctrl_shift_text = "Oct"
         self.ui.pushButtonV.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonV.ctrl_font = self.font_long_names
-        self.ui.pushButtonV.base_operation = CalcOperations.ctrl_shift_hold
+        self.ui.pushButtonV.base_operation = CalcOperations.shift_hold
         self.ui.pushButtonV.shift_operation = CalcOperations.MR
         self.ui.pushButtonV.ctrl_operation = CalcOperations.paste_from_clipboard
         self.ui.pushButtonV.ctrl_shift_operation = CalcOperations.number_base_octal
