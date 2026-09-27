@@ -159,7 +159,7 @@ class AppGlobals:
                 case NumberBase.OCT:
                     return f"{int_number:o}"
                 case NumberBase.HEX:
-                    return f"{int_number:X}"
+                    return f"{int_number & AppGlobals.current_word_size.mask:X}"
                 case _:
                     return f"{int_number}"
         else:

@@ -893,15 +893,10 @@ class MainWindow(QMainWindow):
     def update_keyboard(self):
         # Update keybord to input HEX numbers
         if AppGlobals.calc_mode == CalcMode.base_n:
-            if self.ui.pushButtonA.text != "A":
+            if self.ui.pushButtonA.base_operation != CalcOperations.number_A:
                 self.init_keyboard()
                 self.ui.pushButtonA.setText("A")
                 self.ui.pushButtonA.base_operation = CalcOperations.number_A
-                self.ui.pushButtonA.shift_text = "AC"
-                self.ui.pushButtonA.ctrl_text = "Clear"
-                self.ui.pushButtonA.ctrl_text_alignment = Qt.AlignRight
-                self.ui.pushButtonA.shift_operation = CalcOperations.AC
-                self.ui.pushButtonA.ctrl_operation = CalcOperations.C
 
             if self.ui.pushButtonB.text != "B":
                 self.ui.pushButtonB.setText("B")
@@ -934,17 +929,34 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonF.shift_text = "0d"
                 self.ui.pushButtonF.shift_operation = CalcOperations.convert_from_decimal
 
-            if self.ui.pushButtonQ.base_operation is not CalcOperations.left_shift:
-                self.ui.pushButtonQ.base_operation = CalcOperations.left_shift
-                self.ui.pushButtonQ.setText("<<")
+            if self.ui.pushButtonW.base_operation is not CalcOperations.AND:
+                self.ui.pushButtonW.base_operation = CalcOperations.AND
+                self.ui.pushButtonW.setText("AND")
+                self.ui.pushButtonW.shift_operation = CalcOperations.NAND
+                self.ui.pushButtonW.shift_text = "NAND"
+                self.ui.pushButtonW.shift_text_alignment = Qt.AlignLeft
+                self.ui.pushButtonW.ctrl_text_alignment = Qt.AlignRight
 
-            if self.ui.pushButtonR.base_operation is not CalcOperations.right_shift:
-                self.ui.pushButtonR.base_operation = CalcOperations.right_shift
-                self.ui.pushButtonR.setText(">>")
+            if self.ui.pushButtonR.base_operation is not CalcOperations.OR:
+                self.ui.pushButtonR.base_operation = CalcOperations.OR
+                self.ui.pushButtonR.setText("OR")
+                self.ui.pushButtonR.shift_operation = CalcOperations.NOR
+                self.ui.pushButtonR.shift_text = "NOR"
 
-            if self.ui.pushButtonS.base_operation is not CalcOperations.toggle_base_n_sign:
-                self.ui.pushButtonS.base_operation = CalcOperations.toggle_base_n_sign
-                self.ui.pushButtonS.setText("Sign")
+            if self.ui.pushButtonQ.base_operation is not CalcOperations.AC:
+                self.ui.pushButtonQ.base_operation = CalcOperations.AC
+                self.ui.pushButtonQ.setText("AC")
+                self.ui.pushButtonQ.shift_operation = CalcOperations.C
+                self.ui.pushButtonQ.shift_text = "Clear"
+
+            if self.ui.pushButtonS.base_operation is not CalcOperations.XOR:
+                self.ui.pushButtonS.base_operation = CalcOperations.XOR
+                self.ui.pushButtonS.setText("XOR")
+                self.ui.pushButtonS.shift_operation = CalcOperations.XNOR
+                self.ui.pushButtonS.shift_text = "XNOR"
+                self.ui.pushButtonS.ctrl_operation = CalcOperations.nop
+                self.ui.pushButtonS.ctrl_text = ""
+#                self.ui.pushButtonS.shift_text_alignment = Qt.AlignLeft
 
         elif AppGlobals.calc_mode == CalcMode.complex_numbers:
             if self.ui.pushButton6.shift_operation != CalcOperations.input_complex_number_in_rectangular_form:
@@ -1648,24 +1660,24 @@ class MainWindow(QMainWindow):
         self.ui.pushButton5.bg_color = self.number_key_color
         self.ui.pushButton5.shift_text = "%"
         self.ui.pushButton5.ctrl_text = "nCr"
-        self.ui.pushButton5.ctrl_shift_text = "Int"
+        self.ui.pushButton5.ctrl_shift_text = ""
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
         self.ui.pushButton5.ctrl_operation = CalcOperations.combination
-        self.ui.pushButton5.ctrl_shift_operation = CalcOperations.int_part
+        self.ui.pushButton5.ctrl_shift_operation = CalcOperations.nop
         UiGlobals.pushButton5 = self.ui.pushButton5
         self.leftside_button_list.append(self.ui.pushButton5)
 
         self.ui.pushButton6.row = 0
         self.ui.pushButton6.column = 5
         self.ui.pushButton6.bg_color = self.number_key_color
-        self.ui.pushButton6.shift_text = "AND"
-        self.ui.pushButton6.ctrl_text = "XOR"
-        self.ui.pushButton6.ctrl_shift_text = "Fpart"
+        self.ui.pushButton6.shift_text = "+/-"
+        self.ui.pushButton6.ctrl_text = "Int"
+        self.ui.pushButton6.ctrl_shift_text = ""
         self.ui.pushButton6.base_operation = CalcOperations.number_6
-        self.ui.pushButton6.shift_operation = CalcOperations.AND
-        self.ui.pushButton6.ctrl_operation = CalcOperations.XOR
-        self.ui.pushButton6.ctrl_shift_operation = CalcOperations.frac_part
+        self.ui.pushButton6.shift_operation = CalcOperations.sign_change
+        self.ui.pushButton6.ctrl_operation = CalcOperations.int_part
+        self.ui.pushButton6.ctrl_shift_operation = CalcOperations.nop
         UiGlobals.pushButton6 = self.ui.pushButton6
         self.leftside_button_list.append(self.ui.pushButton6)
 
@@ -1689,7 +1701,9 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonW.setText("x^y")
         self.ui.pushButtonW.original_keyboard_text = "W"
         self.ui.pushButtonW.shift_text = "DD"
+        self.ui.pushButtonW.shift_text_alignment = Qt.AlignHCenter
         self.ui.pushButtonW.ctrl_text = "nPr"
+        self.ui.pushButtonW.ctrl_text_alignment = Qt.AlignHCenter
         self.ui.pushButtonW.ctrl_shift_text = "Word"
         self.ui.pushButtonW.base_operation = CalcOperations.pow
         self.ui.pushButtonW.shift_operation = CalcOperations.convert_to_dd
@@ -1842,12 +1856,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonLess.setText("↔")
         self.ui.pushButtonLess.original_keyboard_text = "<"
         self.ui.pushButtonLess.shift_text = "X↔M"
-        self.ui.pushButtonLess.ctrl_text = "OR"
-        self.ui.pushButtonLess.ctrl_shift_text = "+/-"
+        self.ui.pushButtonLess.ctrl_text = "Fpart"
+        self.ui.pushButtonLess.ctrl_shift_text = ""
         self.ui.pushButtonLess.base_operation = CalcOperations.swap
         self.ui.pushButtonLess.shift_operation = CalcOperations.memory_swap
-        self.ui.pushButtonLess.ctrl_operation = CalcOperations.OR
-        self.ui.pushButtonLess.ctrl_shift_operation = CalcOperations.sign_change
+        self.ui.pushButtonLess.ctrl_operation = CalcOperations.frac_part
+        self.ui.pushButtonLess.ctrl_shift_operation = CalcOperations.nop
         UiGlobals.pushButtonLess = self.ui.pushButtonLess
         self.leftside_button_list.append(self.ui.pushButtonLess)
 
@@ -2287,23 +2301,36 @@ class MainWindow(QMainWindow):
     def check_double_operations(self):
         # for debugging
         operations = []
+        counter = 1
         
         print("Left side keyboard DUPLICATES")
         for button in self.leftside_button_list:
-            if button.base_operation in operations:
-                print(f"Duplicate found in base operation: {button.text()}, {button.base_operation}")
+            if (button.base_operation in operations) and (button.base_operation is not CalcOperations.nop):
+                print(f"{counter}. Duplicate found in base operation: {button.text()}, {button.base_operation}")
+                counter = counter + 1
             else:
                 operations.append(button.base_operation)
 
-            if button.shift_operation in operations:
-                print(f"Duplicate found in shift operation: {button.text()}, {button.shift_operation}")
+        for button in self.leftside_button_list:
+            if (button.shift_operation in operations) and (button.shift_operation is not CalcOperations.nop):
+                print(f"{counter}. Duplicate found in shift operation: {button.text()}, {button.shift_operation}")
+                counter = counter + 1
             else:
                 operations.append(button.shift_operation)
 
-            if button.ctrl_operation in operations:
-                print(f"Duplication found in ctrl operations: {button.text()}, {button.ctrl_operation}")
+        for button in self.leftside_button_list:
+            if (button.ctrl_operation in operations) and (button.ctrl_operation is not CalcOperations.nop):
+                print(f"{counter}. Duplication found in ctrl operations: {button.text()}, {button.ctrl_operation}")
+                counter = counter + 1
             else:
                 operations.append(button.ctrl_operation)
+
+        for button in self.leftside_button_list:
+            if (button.ctrl_shift_operation in operations) and (button.ctrl_shift_operation is not CalcOperations.nop):
+                print(f"{counter}. Duplication found in ctrl+shift operations: {button.text()}, {button.ctrl_shift_operation}")
+                counter = counter + 1
+            else:
+                operations.append(button.ctrl_shift_operation)
 
         print("Numpad keyboard DUPLICATES")
         operations = []

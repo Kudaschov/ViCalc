@@ -10,7 +10,6 @@ from vicalc.WordSize import WordSize
 from vicalc.NumberBase import NumberBase
 from vicalc.ShiftRotateOperation import ShiftRotateOperation
 
-
 @pytest.fixture
 def main_window(qtbot):
     """Fixture to initialize and display the main application window."""

@@ -1,6 +1,7 @@
 from .CalcPrios import CalcPrios
 from .IntegerBinaryExpression import IntegerBinaryExpression
 from PySide6.QtWidgets import QTableWidgetItem
+from .AppGlobals import AppGlobals
 
 class ORExpression(IntegerBinaryExpression):
     def __init__(self, first_number):
@@ -13,11 +14,12 @@ class ORExpression(IntegerBinaryExpression):
     def calculate(self, number: float):
         super().calculate(number)  # Validate that both numbers are integers
     
-        int_number = int(number)
-        result: int = int(self.first_number) | int_number
+        int_number = int(number) & AppGlobals.current_word_size.mask
+        int_first_number = int(self.first_number) & AppGlobals.current_word_size.mask
+        result: int = int_first_number | int_number
 
         self.insert_scroll_table()
-        self.protocol(int(self.first_number), 0)
+        self.protocol(int_first_number, 0)
         self.protocol("OR", 1)
         self.protocol(int_number, 2)
         self.protocol("=", 3)

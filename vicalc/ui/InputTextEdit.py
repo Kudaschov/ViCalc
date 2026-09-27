@@ -107,8 +107,11 @@ from ..FracPartExpression import FracPartExpression
 from ..IntPartExpression import IntPartExpression
 from ..ModExpression import ModExpression
 from ..ANDExpression import ANDExpression
+from ..NANDExpression import NANDExpression
 from ..ORExpression import ORExpression
+from ..NORExpression import NORExpression
 from ..XORExpression import XORExpression
+from ..XNORExpression import XNORExpression
 from ..NOTExpression import NOTExpression
 from ..NEGExpression import NEGExpression
 from ..WordSize import WordSize
@@ -570,13 +573,25 @@ class InputTextEdit(QLineEdit):
         if self.store_integer_number():
             self.create_expression_node(ANDExpression(self.number))
 
+    def exec_NAND(self):            
+        if self.store_integer_number():
+            self.create_expression_node(NANDExpression(self.number))
+
     def exec_OR(self):
         if self.store_integer_number():
             self.create_expression_node(ORExpression(self.number))
 
+    def exec_NOR(self):
+        if self.store_integer_number():
+            self.create_expression_node(NORExpression(self.number))
+
     def exec_XOR(self):
         if self.store_integer_number():
             self.create_expression_node(XORExpression(self.number))
+
+    def exec_XNOR(self):
+        if self.store_integer_number():
+            self.create_expression_node(XNORExpression(self.number))
 
     def exec_NOT(self):
         if self.store_integer_number():
@@ -957,10 +972,16 @@ class InputTextEdit(QLineEdit):
                     self.exec_trig_mode_gra()
                 case CalcOperations.AND:
                     self.exec_AND()
+                case CalcOperations.NAND:
+                    self.exec_NAND()
                 case CalcOperations.XOR:
                     self.exec_XOR()
+                case CalcOperations.XNOR:
+                    self.exec_XNOR()
                 case CalcOperations.OR:
                     self.exec_OR()
+                case CalcOperations.NOR:
+                    self.exec_NOR()
                 case CalcOperations.NOT:
                     self.exec_NOT()
                 case CalcOperations.NEG:
@@ -1660,10 +1681,6 @@ class InputTextEdit(QLineEdit):
                 self.button_clicked(CalcOperations.Division)
             case '^':
                 self.button_clicked(CalcOperations.pow)
-            case '&':
-                if AppGlobals.calc_mode == CalcMode.complex_numbers:
-                    return False
-                self.button_clicked(CalcOperations.AND)
             case '|':
                 self.button_clicked(CalcOperations.OR)
             case '~':
