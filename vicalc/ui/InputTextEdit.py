@@ -484,10 +484,16 @@ class InputTextEdit(QLineEdit):
                             and last_expression_temp.prev_expression.operation_prio >= expression.operation_prio):
                             #last_expression_temp.prev_expression is greater or equal to expression
                             #chain calculation
-                            self.create_expression_node_chain(self.number, expression)
+                            if AppGlobals.calc_mode is CalcMode.complex_numbers:
+                                self.create_expression_node_chain(AppGlobals.get_complex_number(), expression)
+                            else:
+                                self.create_expression_node_chain(self.number, expression)
                     else:
                         # calculate last expression and change this last expression with expression
-                        expression.first_number = last_expression_temp.calculate(self.number)
+                        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+                            expression.first_number = last_expression_temp.calculate(AppGlobals.get_complex_number())
+                        else:
+                            expression.first_number = last_expression_temp.calculate(self.number)
                         expression.prev_expression = last_expression_temp.prev_expression
                         expression.next_expression = last_expression_temp.next_expression
 
@@ -659,14 +665,7 @@ class InputTextEdit(QLineEdit):
 
             if (AppGlobals.root_expression != None):
                 if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                    AppGlobals.input_box.setFocus()
-                    if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
-                        AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(last_number.real))
-                        AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(last_number.imag))
-                    else:
-                        r, phi_rad = cmath.polar(last_number)
-                        AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(r))
-                        AppGlobals.input_imag_box.setText(AppGlobals.input_imag_box.toString(AppGlobals.angle_unit.from_rad(phi_rad)))
+                    AppGlobals.complex_to_string(last_number)
                 else:
                     self.setTextSelect(self.toString(last_number))
                 AppGlobals.root_expression = None
@@ -696,7 +695,11 @@ class InputTextEdit(QLineEdit):
     def exec_closing_bracket(self):
         if self.store_number():
             current_expression = self.last_expression()
-            last_number = self.number
+
+            if AppGlobals.calc_mode is CalcMode.complex_numbers:
+                last_number = AppGlobals.get_complex_number()
+            else:
+                last_number = self.number
 
             while current_expression != None:
                 if isinstance(current_expression, BracketExpression):
@@ -714,7 +717,10 @@ class InputTextEdit(QLineEdit):
                 else:
                     current_expression.next_expression = None
 
-            self.setTextSelect(self.toString(last_number))
+            if AppGlobals.calc_mode is CalcMode.complex_numbers:
+                AppGlobals.complex_to_string(last_number)
+            else:
+                self.setTextSelect(self.toString(last_number))
             self.update_expression_label()
 
     def exec_pi(self):
@@ -2018,7 +2024,7 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Escape:
                         self.button_clicked(CalcOperations.AC)
                     case Qt.Key_Enter | Qt.Key_Return | Qt.Key_Equal:
-                        self.execute()
+                        self.button_clicked(CalcOperations.calculate)
                     case Qt.Key.Key_Space:
                         self.exec_comment()
                     case Qt.Key.Key_Backspace:

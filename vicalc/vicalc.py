@@ -86,7 +86,7 @@ class MainWindow(QMainWindow):
 
         # background color of C and AC buttons
         self.c_ac_bg_color = QColor("#EAEAFF")
-        #self.arithmetic_operation_color = QColor("#FEFEFE")
+        self.button_orig_bg_color = None
         self.arithmetic_operation_color = QColor("#FAFAFA")
         self.number_key_color = QColor("#FFFFFF")
 
@@ -94,7 +94,6 @@ class MainWindow(QMainWindow):
         AppGlobals.input_box = self.ui.inputTextEdit
         AppGlobals.input_imag_box = self.ui.inputImagTextEdit
         AppGlobals.expressionLabel = self.ui.expressionLabel
-
 
         self.ui.action_DEG.triggered.connect(self.mode_deg)
         self.ui.action_RAD.triggered.connect(self.mode_rad)
@@ -901,15 +900,18 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonA.shift_text = "0d"
                 self.ui.pushButtonA.ctrl_operation = CalcOperations.convert_from_decimal
                 self.ui.pushButtonA.ctrl_text = ""
+                self.ui.pushButtonA.bg_color = self.number_key_color
 
             if self.ui.pushButtonB.text != "B":
                 self.ui.pushButtonB.setText("B")
                 self.ui.pushButtonB.base_operation = CalcOperations.number_B
                 self.ui.pushButtonB.text_highlight_font = QFont("Helvetica", 10, QFont.Bold)
                 self.ui.pushButtonB.text_font = QFont("Helvetica", 10)
+                self.ui.pushButtonB.bg_color = self.number_key_color
 
             if self.ui.pushButtonC.base_operation != CalcOperations.number_C:
                 self.ui.pushButtonC.base_operation = CalcOperations.number_C
+                self.ui.pushButtonC.bg_color = self.number_key_color
 
             if self.ui.pushButtonD.text != "D":
                 self.ui.pushButtonD.setText("D")
@@ -919,10 +921,12 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonD.shift_text_alignment = Qt.AlignHCenter
                 self.ui.pushButtonD.ctrl_text = ""
                 self.ui.pushButtonD.ctrl_operation = CalcOperations.left_shift
+                self.ui.pushButtonD.bg_color = self.number_key_color
 
             if self.ui.pushButtonE.base_operation != CalcOperations.number_E:
                 self.ui.pushButtonE.base_operation = CalcOperations.number_E
                 self.ui.pushButtonE.setText("E")
+                self.ui.pushButtonE.bg_color = self.number_key_color
 
             if self.ui.pushButtonT.base_operation is not CalcOperations.NOT:
                 self.ui.pushButtonT.base_operation = CalcOperations.NOT
@@ -949,6 +953,7 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonF.shift_text = ">>"
                 self.ui.pushButtonF.ctrl_operation = CalcOperations.right_shift
                 self.ui.pushButtonF.ctrl_text = ""
+                self.ui.pushButtonF.bg_color = self.number_key_color
 
             if self.ui.pushButtonW.base_operation is not CalcOperations.AND:
                 self.ui.pushButtonW.base_operation = CalcOperations.AND
@@ -969,6 +974,7 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonQ.setText("AC")
                 self.ui.pushButtonQ.shift_operation = CalcOperations.C
                 self.ui.pushButtonQ.shift_text = "Clear"
+                self.ui.pushButtonQ.bg_color = self.c_ac_bg_color
 
             if self.ui.pushButtonS.base_operation is not CalcOperations.XOR:
                 self.ui.pushButtonS.base_operation = CalcOperations.XOR
@@ -979,10 +985,10 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonS.ctrl_text = ""
 
         elif AppGlobals.calc_mode == CalcMode.complex_numbers:
-            if self.ui.pushButton6.shift_operation != CalcOperations.input_complex_number_in_rectangular_form:
+            if self.ui.pushButton5.shift_operation != CalcOperations.input_complex_number_in_rectangular_form:
                 self.init_keyboard()
-                self.ui.pushButton6.shift_operation = CalcOperations.input_complex_number_in_rectangular_form
-                self.ui.pushButton6.shift_text = "i"
+                self.ui.pushButton5.shift_operation = CalcOperations.input_complex_number_in_rectangular_form
+                self.ui.pushButton5.shift_text = "i"
 
                 self.ui.pushButtonG.ctrl_text = "∠"
                 self.ui.pushButtonG.ctrl_operation = CalcOperations.input_complex_number_in_polar_form
@@ -1892,11 +1898,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.shift_text = "M+"
         self.ui.pushButtonY.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonY.ctrl_text = "Redo"
-        self.ui.pushButtonY.ctrl_shift_text = "Bin"
+        self.ui.pushButtonY.ctrl_shift_text = "Base-N"
         self.ui.pushButtonY.base_operation = CalcOperations.ctrl_shift_hold
         self.ui.pushButtonY.shift_operation = CalcOperations.M_plus
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
-        self.ui.pushButtonY.ctrl_shift_operation = CalcOperations.number_base_binary
+        self.ui.pushButtonY.ctrl_shift_operation = CalcOperations.calc_mode_base_n
         UiGlobals.pushButtonY = self.ui.pushButtonY
         self.leftside_button_list.append(self.ui.pushButtonY)
 
@@ -1953,13 +1959,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonB.original_keyboard_text = "B"
         self.ui.pushButtonB.shift_text = "0b"
         self.ui.pushButtonB.ctrl_text = "R→P"
-        self.ui.pushButtonB.ctrl_shift_text = "Base-N"
+        self.ui.pushButtonB.ctrl_shift_text = "Bin"
         self.ui.pushButtonB.ctrl_font = self.font_long_names
         self.ui.pushButtonB.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonB.base_operation = CalcOperations.pi
         self.ui.pushButtonB.shift_operation = CalcOperations.convert_from_binary
         self.ui.pushButtonB.ctrl_operation = CalcOperations.rectangular_to_polar
-        self.ui.pushButtonB.ctrl_shift_operation = CalcOperations.calc_mode_base_n
+        self.ui.pushButtonB.ctrl_shift_operation = CalcOperations.number_base_binary
         UiGlobals.pushButtonB = self.ui.pushButtonB
         self.leftside_button_list.append(self.ui.pushButtonB)
 
@@ -2444,6 +2450,13 @@ class MainWindow(QMainWindow):
         AppGlobals.input_imag_box.update_bg_color()
 
     def init_keyboard(self):
+        # get the original bg color e. g. from button S
+        self.button_orig_bg_color = self.ui.pushButtonS.bg_color
+
+        # set for all buttons on the left side the original bg color
+        for button in self.leftside_button_list:
+            button.bg_color = self.button_orig_bg_color
+
         self.numpad_keys()
         self.numbers_row_keyboard()
         self.first_row_keyboard()

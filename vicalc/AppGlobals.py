@@ -474,3 +474,15 @@ class AppGlobals:
                 return val
         else:
             return val
+
+    @staticmethod
+    def complex_to_string(val: complex):
+        AppGlobals.input_box.setFocus()
+        if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
+            AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(val.real))
+            AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(val.imag))
+        else:
+            r, phi_rad = cmath.polar(val)
+            AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(r))
+            AppGlobals.input_imag_box.setText(AppGlobals.input_imag_box.toString(AppGlobals.angle_unit.from_rad(phi_rad)))
+        
