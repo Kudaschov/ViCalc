@@ -25,6 +25,7 @@ def main_window(qtbot):
         ("6!", "720"),
         ("2*(3+4)=", "14"),
         ("2^3=", "8"),
+        ("1+2*3^4=", "163")
     ],
 )
 
@@ -33,6 +34,8 @@ def test_calculator_expressions(main_window, qtbot, expression, expected):
 
     original_calc_mode = AppGlobals.calc_mode
     AppGlobals.input_box.button_clicked(CalcOperations.calc_mode_scientific)
+    original_input_replace_decimal_separator = AppGlobals.input_replace_decimal_separator
+    AppGlobals.input_replace_decimal_separator = True
 
     try:
         qtbot.wait(50)
@@ -50,3 +53,4 @@ def test_calculator_expressions(main_window, qtbot, expression, expected):
             qtbot.wait(10_000)
     finally:
         AppGlobals.calc_mode = original_calc_mode
+        AppGlobals.input_replace_decimal_separator = original_input_replace_decimal_separator

@@ -34,7 +34,7 @@ class ComplexRectPolarHistoryExpression(UnaryExpression):
 
         self.protocol(z.imag, next_column)
         next_column += 1
-        self.protocol("i", next_column)
+        self.protocol("i =", next_column)
         r, theta = cmath.polar(z)
         next_column += 1
         self.protocol(r, next_column)

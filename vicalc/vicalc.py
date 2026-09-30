@@ -512,6 +512,7 @@ class MainWindow(QMainWindow):
             AppGlobals.input_imag_box.setText(imag_part)
             AppGlobals.input_box.trig_mode_init(self.settings.value("trig_mode"))
             AppGlobals.input_box.memory = float(self.settings.value("memory", 0.0))
+            AppGlobals.input_imag_box.memory = float(self.settings.value("memory_imag", 0.0))
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", 5, type=int)
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
@@ -1079,6 +1080,7 @@ class MainWindow(QMainWindow):
         self.settings.setValue("complex_number_form", AppGlobals.complex_number_form.value)
 
         self.settings.setValue("memory", AppGlobals.input_box.memory)
+        self.settings.setValue("memory_imag", AppGlobals.input_imag_box.memory)
 
         self.settings.setValue("numeric_format", AppGlobals.numeric_format.value)
         self.settings.setValue("numeric_precision", AppGlobals.numeric_precision)
@@ -1792,8 +1794,8 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonZ.ctrl_text = "Undo"
         self.ui.pushButtonZ.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonZ.ctrl_shift_text = "QWord"
-        self.ui.pushButtonZ.base_operation = CalcOperations.m_multiply
-        self.ui.pushButtonZ.shift_operation = CalcOperations.m_division
+        self.ui.pushButtonZ.base_operation = CalcOperations.M_multiply
+        self.ui.pushButtonZ.shift_operation = CalcOperations.M_division
         self.ui.pushButtonZ.ctrl_operation = CalcOperations.undo
         self.ui.pushButtonZ.ctrl_shift_operation = CalcOperations.word_size_qword
         UiGlobals.pushButtonZ = self.ui.pushButtonZ
@@ -2470,7 +2472,7 @@ def main():
     # Set a unique Application User Model ID (AppUserModelID)
     # This helps Windows identify your application and display its icon correctly in the taskbar.
     # Choose a unique string for your application, e.g., "YourCompany.YourProduct.SubProduct.Version"
-    myappid = 'Kudaschov.ViCalc.Application.4.0' # Example unique ID
+    myappid = 'Kudaschov.ViCalc.Application.5.0' # Example unique ID
     try:
         if sys.platform == 'win32': # Only apply on Windows
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)

@@ -7,6 +7,7 @@ from PySide6.QtCore import QLocale
 from .CalcMode import CalcMode
 from .ComplexNumberForm import ComplexNumberForm
 from .ShiftRotateOperation import ShiftRotateOperation
+from .TrigMode import TrigMode
 
 class AppGlobals:
 # Base color mapping stored globally
@@ -84,6 +85,9 @@ class AppGlobals:
     # candidate for optrions
     column_number_next_line_comment = 4
 
+    trig_mode = TrigMode.DEG
+
+
     # persistent values for ratio calculation dialog
     ratio_c_a = 1.0
     ratio_c_b = 2.0
@@ -118,7 +122,7 @@ class AppGlobals:
     memory_status_bar_text = "Memory: "
 
     @staticmethod
-    def to_format_string(number: int | float, local_number_base: NumberBase = None):
+    def to_format_string(number: float | complex, local_number_base: NumberBase = None):
         AppGlobals.locale.setNumberOptions(QLocale.NumberOption.OmitGroupSeparator)
         if (AppGlobals.calc_mode == CalcMode.base_n or local_number_base)and number.is_integer():
             lnb = AppGlobals.number_base
@@ -133,6 +137,8 @@ class AppGlobals:
                     return AppGlobals.int_to_hex_with_prefix(AppGlobals.mask_value(int(number)))
                 case _:
                     return str(int(number))
+        elif AppGlobals.is_complex(number):
+            return AppGlobals.complex_number_to_format_string(number)
         else:
             float_number = float(number)
             match AppGlobals.numeric_format:
@@ -349,16 +355,11 @@ class AppGlobals:
         AppGlobals.input_box.setFocus()
         AppGlobals.input_box.selectAll()
 
-    # Converts complex number to input boxes dependend on rect or polar form
-    @staticmethod
-    def complex_number_to_input_box(val: complex):
-        if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
-            AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(val.real))
-            AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(val.imag))
+    def number_to_input_box(val: int |float | complex):
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            AppGlobals.complex_number_to_input_box(val)
         else:
-            r, theta = cmath.polar(val)
-            AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(r))
-            AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(AppGlobals.angle_unit.from_rad(theta)))
+            AppGlobals.input_box.setTextSelect(AppGlobals.to_normal_string(val))
 
     # get complex number depending of rectangular or polar form
     @staticmethod
@@ -372,6 +373,21 @@ class AppGlobals:
             real_part = z.real
             imag_part = z.imag
         return complex(real_part, imag_part)
+
+    @staticmethod
+    def get_number() -> float | complex:
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            return AppGlobals.get_complex_number()
+        else:
+            return AppGlobals.input_box.number
+
+    @staticmethod
+    def set_memory(val: float | complex):
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            AppGlobals.input_box.memory = val.real
+            AppGlobals.input_imag_box.memory = val.imag
+        else:
+            AppGlobals.input_box.memory = val
 
     # used to make unsigned value
     @staticmethod
@@ -475,14 +491,40 @@ class AppGlobals:
         else:
             return val
 
+    # Converts complex number to input boxes dependend on rect or polar form
     @staticmethod
-    def complex_to_string(val: complex):
-        AppGlobals.input_box.setFocus()
+    def complex_number_to_input_box(val: complex):
         if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
             AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(val.real))
             AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(val.imag))
         else:
-            r, phi_rad = cmath.polar(val)
+            r, theta = cmath.polar(val)
             AppGlobals.input_box.setTextSelect(AppGlobals.input_box.toString(r))
-            AppGlobals.input_imag_box.setText(AppGlobals.input_imag_box.toString(AppGlobals.angle_unit.from_rad(phi_rad)))
+            AppGlobals.input_imag_box.setTextSelect(AppGlobals.input_imag_box.toString(AppGlobals.angle_unit.from_rad(theta)))
+
+    @staticmethod
+    def get_memory():
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            return complex(AppGlobals.input_box.memory, AppGlobals.input_imag_box.memory)
+        else:
+            return AppGlobals.input_box.memory
+
+    #staticmethod
+    def complex_number_to_format_string(val: complex):
+        if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
+            if val.imag < 0:
+                return f"{AppGlobals.to_format_string(val.real)}{AppGlobals.to_format_string(val.imag)}i"
+            else:
+                return f"{AppGlobals.to_format_string(val.real)}+{AppGlobals.to_format_string(val.imag)}i"
+        else:
+            r, theta = cmath.polar(val)
+            return f"{AppGlobals.to_format_string(r)}∠{AppGlobals.to_format_string(AppGlobals.angle_unit.from_rad(theta))}"
+
+    @staticmethod
+    def is_complex(val: object) -> bool:
+        """Check if a value is a complex number with a non-zero imaginary part.
         
+        Returns True if 'val' is a complex instance or a float/int representation 
+        of a complex number, and its imaginary component is non-zero.
+        """
+        return isinstance(val, complex)

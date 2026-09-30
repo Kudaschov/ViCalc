@@ -3,7 +3,7 @@ from .CalcPrios import CalcPrios
 from .BinaryExpression import BinaryExpression
 
 class MemoryExpression(BinaryExpression):
-    def __init__(self, first_number, tableWidget):
+    def __init__(self, first_number, tableWidget= None):
         super().__init__(first_number, tableWidget)
         self.operation_prio = CalcPrios.Addition
 

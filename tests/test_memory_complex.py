@@ -28,32 +28,23 @@ def wait_for_manual_close(window):
     "key_sequence, expected_real, expected_imag",
     [
         # Complex addition: (5 + 3j) + (2 - 7j) = 7 - 4j
-        (["5", Qt.Key.Key_Tab, "3", "+", "2", Qt.Key.Key_Tab, "_", "7", "="], 7, -4),
-        (["1", "2", ",", "5", Qt.Key_Tab, "3", ".", "4", Qt.Key_Plus, "2", Qt.Key_Comma, "1", Qt.Key_Tab, "_", "7", Qt.Key_Period, "8", "="], 14.6, -4.4),        
-        # Subtraction
-        (["8", ".", "7", "5", Qt.Key_Tab, "_", "2", ".", "2", "5", "-", "3", ".", "5", Qt.Key_Tab, "4", ".", "1", "="], 5.25, -6.35),
-        (["8", ".", "7", "5", Qt.Key_Tab, "_", "2", ".", "2", "5", Qt.Key_Minus, "3", ".", "5", Qt.Key_Tab, "4", ".", "1", "="], 5.25, -6.35),
-        # Complex multiplication: (3 + 2j) * (1 - 4j) = 11 - 10j
-        (["3", Qt.Key_Tab, "2", "*", "1", Qt.Key_Tab, "_", "4", "="], 11, -10),
-        (["2", ".", "5", Qt.Key_Tab, "1", ".", "2", Qt.Key_Asterisk, "4", ".", "0", Qt.Key_Tab, "_", "0", ".", "5", "="], 10.6, 3.55),
-        # Division
-        (["6", ".", "0", Qt.Key_Tab, "8", ".", "0", "/", "1", ".", "0", Qt.Key_Tab, "2", ".", "0", "="], 4.4, -0.8),
-        (["6", ".", "0", Qt.Key_Tab, "8", ".", "0", Qt.Key_Slash, "1", ".", "0", Qt.Key_Tab, "2", ".", "0", "="], 4.4, -0.8),
-        # Sqrt
-        (["_", "5", Qt.Key_Tab, "1", "2", lambda: AppGlobals.input_box.exec_sqrt()], 2, 3),
-        # Exp
-        (["0", Qt.Key_Tab, str(math.pi), lambda: AppGlobals.input_box.exec_ex()], -1, 0),
-        # Test cases for complex power of a complex number: (inputs, expected_real, expected_imag)
-        # Case 1: (2.5 + 1.2i) ^ (1.5 + 0.5i) = 1.4021 + 3.4155i
-        (["2", ".", "5", Qt.Key_Tab, "1", ".", "2", lambda: AppGlobals.input_box.button_clicked(CalcOperations.pow), "1", ".", "5", Qt.Key_Tab, "0", ".", "5", "="], 1.402088823721664, 3.415456895019335),
-        # Case 3: (3.2 - 4.1i) ^ (1.2 + 2.3i) = -52.8561 + 24.8147i
-        (["3", ".", "2", Qt.Key_Tab, "_", "4", ".", "1", lambda: AppGlobals.input_box.button_clicked(CalcOperations.pow), "1", ".", "2", Qt.Key_Tab, "2", ".", "3", "="], -52.85608480999289, 24.81473881193748),
-        # Brackets
-        (["1", Qt.Key.Key_Tab, "2", "*", "(", "3", Qt.Key.Key_Tab, "4", "+", "5", Qt.Key.Key_Tab, "7", ")", ")"], -14, 27),
+        (["_1.2", Qt.Key.Key_Tab, "3", lambda: AppGlobals.input_box.button_clicked(CalcOperations.MS)], -1.2, 3),
+        # M+
+        (["_1,5", Qt.Key.Key_Tab, "3.2", lambda: AppGlobals.input_box.button_clicked(CalcOperations.MS),
+          "2.4",  Qt.Key.Key_Tab, "6.7",lambda: AppGlobals.input_box.button_clicked(CalcOperations.M_plus)], 0.9, 9.9),
+        # M-
+        (["7.9", Qt.Key.Key_Tab, "_6.8", lambda: AppGlobals.input_box.button_clicked(CalcOperations.MS),
+          "9.9",  Qt.Key.Key_Tab, "3.2",lambda: AppGlobals.input_box.button_clicked(CalcOperations.M_minus)], -2, -10),
+        # M*
+        (["7.6", Qt.Key.Key_Tab, "_5.3", lambda: AppGlobals.input_box.button_clicked(CalcOperations.MS),
+          "0.4",  Qt.Key.Key_Tab, "1.2",lambda: AppGlobals.input_box.button_clicked(CalcOperations.M_multiply)], 9.4, 7),
+        # M/
+        (["_7.83", Qt.Key.Key_Tab, "7.31", lambda: AppGlobals.input_box.button_clicked(CalcOperations.MS),
+          "9.9",  Qt.Key.Key_Tab, "3.2",lambda: AppGlobals.input_box.button_clicked(CalcOperations.M_division)], -0.5, 0.9),
     ],
 )
 
-def test_complex_keyboard_input(
+def test_memory_complex(
     main_window, qtbot, key_sequence, expected_real, expected_imag
 ):
     """Test complex number entry using Tab navigation and prefix key for negative numbers."""
@@ -68,6 +59,7 @@ def test_complex_keyboard_input(
     AppGlobals.input_replace_decimal_separator = True
     original_angle_unit = AppGlobals.angle_unit
     AppGlobals.angle_unit = RadUnit()
+    main_window.update_keyboard()
 
     assertion_error = None
 
@@ -97,8 +89,8 @@ def test_complex_keyboard_input(
         qtbot.wait(50)
 
         # Convert text results to floats and assert with absolute tolerance (abs=1e-9)
-        real_val = float(input_box.text())
-        imag_val = float(input_imag_box.text())
+        real_val = AppGlobals.get_memory().real
+        imag_val = AppGlobals.get_memory().imag
 
         try:
             assert real_val == pytest.approx(expected_real, abs=1e-9)

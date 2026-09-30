@@ -1,10 +1,8 @@
-import cmath
 from typing import Any
 from .CalcPrios import CalcPrios
 from .BinaryExpression import BinaryExpression
 from .AppGlobals import AppGlobals
 from .CalcMode import CalcMode
-from .ComplexNumberForm import ComplexNumberForm
 
 class AdditionExpression(BinaryExpression):
     """Expression executing addition."""

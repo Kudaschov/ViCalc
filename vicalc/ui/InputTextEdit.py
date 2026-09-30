@@ -153,7 +153,6 @@ class InputTextEdit(QLineEdit):
         super().__init__(parent)
         self.number: float = None  # Holds the parsed number
         self._memory: float = 0
-        self._trig_mode = TrigMode.DEG
         AppGlobals.angle_unit = DegUnitProtocol()
         self.key = None
         self.modifiers = None
@@ -421,7 +420,11 @@ class InputTextEdit(QLineEdit):
         return self.toString(self.memory)
 
     def memory_to_format_string(self):
-        return AppGlobals.to_format_string(self.memory)
+        if AppGlobals.calc_mode is CalcMode.complex_numbers:
+            z = complex(AppGlobals.input_box.memory, AppGlobals.input_imag_box.memory)
+            return AppGlobals.to_format_string(z)
+        else:
+            return AppGlobals.to_format_string(self.memory)
 
     def toDouble(self, text):
         return self.locale.toDouble(text)
@@ -484,16 +487,10 @@ class InputTextEdit(QLineEdit):
                             and last_expression_temp.prev_expression.operation_prio >= expression.operation_prio):
                             #last_expression_temp.prev_expression is greater or equal to expression
                             #chain calculation
-                            if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                                self.create_expression_node_chain(AppGlobals.get_complex_number(), expression)
-                            else:
-                                self.create_expression_node_chain(self.number, expression)
+                            self.create_expression_node_chain(AppGlobals.get_number(), expression)
                     else:
                         # calculate last expression and change this last expression with expression
-                        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                            expression.first_number = last_expression_temp.calculate(AppGlobals.get_complex_number())
-                        else:
-                            expression.first_number = last_expression_temp.calculate(self.number)
+                        expression.first_number = last_expression_temp.calculate(AppGlobals.get_number())
                         expression.prev_expression = last_expression_temp.prev_expression
                         expression.next_expression = last_expression_temp.next_expression
 
@@ -541,39 +538,23 @@ class InputTextEdit(QLineEdit):
         self.selectAll()
 
     def exec_addition(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                self.create_expression_node(AdditionExpression(AppGlobals.get_complex_number()))
-        else:
-            if self.store_number():
-                self.create_expression_node(AdditionExpression(self.number))
+        if self.store_number():
+            self.create_expression_node(AdditionExpression(AppGlobals.get_number()))
 
     def exec_pow(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                self.create_expression_node(PowExpression(AppGlobals.get_complex_number()))
-        else:
-            if self.store_number():
-                self.create_expression_node(PowExpression(self.number, AppGlobals.table))
+        if self.store_number():
+            self.create_expression_node(PowExpression(AppGlobals.get_number()))
 
     def exec_opening_bracket(self):
         self.create_expression_node(BracketExpression(AppGlobals.table))
 
     def exec_subtraction(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                self.create_expression_node(SubtractionExpression(AppGlobals.get_complex_number()))
-        else:
-            if self.store_number():
-                self.create_expression_node(SubtractionExpression(self.number))
+        if self.store_number():
+            self.create_expression_node(SubtractionExpression(AppGlobals.get_number()))
 
     def exec_multiplication(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                self.create_expression_node(MultiplicationExpression(AppGlobals.get_complex_number()))
-        else:
-            if self.store_number():
-                self.create_expression_node(MultiplicationExpression(self.number, AppGlobals.table))
+        if self.store_number():
+            self.create_expression_node(MultiplicationExpression(AppGlobals.get_number()))
 
     def exec_AND(self):
         if self.store_integer_number():
@@ -610,64 +591,33 @@ class InputTextEdit(QLineEdit):
             self.setTextSelect(self.toString(expr.calculate(self.number)))
 
     def exec_division(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                self.create_expression_node(DivisionExpression(AppGlobals.get_complex_number()))
-        else:
-            if self.store_number():
-                self.create_expression_node(DivisionExpression(self.number))
+        if self.store_number():
+            self.create_expression_node(DivisionExpression(AppGlobals.get_number()))
 
     def exec_mod(self):
         if self.store_number():
             self.create_expression_node(ModExpression(self.number, AppGlobals.table))
 
     def execute(self):
-        if AppGlobals.calc_mode is not CalcMode.complex_numbers:
-            store_number = AppGlobals.input_box.store_number()
-        else:
-            store_number = AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number()
+        store_number = AppGlobals.input_box.store_number()
 
         if (AppGlobals.root_expression == None):
-            if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                AppGlobals.input_box.number, ok = AppGlobals.to_number(AppGlobals.input_box.text())
-                if ok:
-                    AppGlobals.input_imag_box.number, ok = AppGlobals.to_number(AppGlobals.input_imag_box.text())
-                if ok:
-                    if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
-                        z = complex(AppGlobals.real_part(), AppGlobals.imag_part())
-                    else:
-                        z = cmath.rect(AppGlobals.real_part(), AppGlobals.angle_unit.to_rad(AppGlobals.imag_part()))
-                    ue = UnaryExpression()
-                    ue.calculate(z)
-                self.setFocus()
-                self.selectAll()
-            else:
-                self.number, ok = AppGlobals.to_number(self.text())
-                if ok:
-                    ue = UnaryExpression()
-                    ue.calculate(self.number)
+            if store_number:
+                ue = UnaryExpression()
+                ue.calculate(AppGlobals.get_number())
         elif store_number:
             # go to last expression
 
             current_expression = self.last_expression()
 
-            if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
-                    last_number = complex(AppGlobals.real_part(), AppGlobals.imag_part())
-                else:
-                    last_number = cmath.rect(AppGlobals.real_part(), AppGlobals.angle_unit.to_rad(AppGlobals.imag_part()))
-            else:
-                last_number = self.number
+            last_number = AppGlobals.get_number()
 
             while current_expression != None:
                 last_number = current_expression.calculate(last_number)
                 current_expression = current_expression.prev_expression
 
             if (AppGlobals.root_expression != None):
-                if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                    AppGlobals.complex_to_string(last_number)
-                else:
-                    self.setTextSelect(self.toString(last_number))
+                AppGlobals.number_to_input_box(last_number)
                 AppGlobals.root_expression = None
                 self.update_expression_label()
 
@@ -696,10 +646,7 @@ class InputTextEdit(QLineEdit):
         if self.store_number():
             current_expression = self.last_expression()
 
-            if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                last_number = AppGlobals.get_complex_number()
-            else:
-                last_number = self.number
+            last_number = AppGlobals.get_number()
 
             while current_expression != None:
                 if isinstance(current_expression, BracketExpression):
@@ -717,10 +664,7 @@ class InputTextEdit(QLineEdit):
                 else:
                     current_expression.next_expression = None
 
-            if AppGlobals.calc_mode is CalcMode.complex_numbers:
-                AppGlobals.complex_to_string(last_number)
-            else:
-                self.setTextSelect(self.toString(last_number))
+            AppGlobals.number_to_input_box(last_number)
             self.update_expression_label()
 
     def exec_pi(self):
@@ -766,7 +710,14 @@ class InputTextEdit(QLineEdit):
             CalcOperations.int_part,
             CalcOperations.frac_part,
             CalcOperations.random,
-            CalcOperations.round
+            CalcOperations.round,
+            CalcOperations.convert_to_deg,
+            CalcOperations.convert_to_rad,
+            CalcOperations.convert_to_gra,
+            CalcOperations.trig_mode_deg,
+            CalcOperations.trig_mode_rad,
+            CalcOperations.trig_mode_gra,
+            CalcOperations.pi
         }
         try:
             match calc_operation:
@@ -862,9 +813,9 @@ class InputTextEdit(QLineEdit):
                     self.exec_M_plus()
                 case CalcOperations.M_minus:
                     self.exec_M_minus()
-                case CalcOperations.m_multiply:
+                case CalcOperations.M_multiply:
                     self.exec_m_multiply()
-                case CalcOperations.m_division:
+                case CalcOperations.M_division:
                     self.exec_m_division()
                 case CalcOperations.Multiply:
                     self.exec_multiplication()
@@ -1080,13 +1031,13 @@ class InputTextEdit(QLineEdit):
 
     @property
     def trig_mode(self):
-        return self._trig_mode
+        return AppGlobals.trig_mode
     
     @trig_mode.setter
     def trig_mode(self, value):
         number, ok = self.locale.toDouble(self.text())
 
-        self._trig_mode = value
+        AppGlobals.trig_mode = value
 
         match value:
             case TrigMode.RAD:
@@ -1130,7 +1081,7 @@ class InputTextEdit(QLineEdit):
         if (value is None):
             value = TrigMode.DEG
         else:
-            self._trig_mode = TrigMode(value)
+            AppGlobals.trig_mode = TrigMode(value)
 
         match TrigMode(value):
             case TrigMode.RAD:
@@ -1141,26 +1092,14 @@ class InputTextEdit(QLineEdit):
                 AppGlobals.angle_unit = DegUnitProtocol(self.statusbar_message)
 
     def exec_ln(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = LnExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = LnExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if (self.store_number()):
+            expr = LnExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_ex(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = EPowerXExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = EPowerXExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = EPowerXExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_complex_rect_polar_history(self):
         if AppGlobals.calc_mode != CalcMode.complex_numbers:
@@ -1171,97 +1110,44 @@ class InputTextEdit(QLineEdit):
             result = expr.calculate(AppGlobals.get_complex_number())
 
     def exec_log(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = LogExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = LogExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if (self.store_number()):
+            expr = LogExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_ten_power_x(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = TenPowerXExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = TenPowerXExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if (self.store_number()):
+            expr = TenPowerXExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_sin(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = SinExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = SinExpression()
-                self.setText(self.toString(expr.calculate(self.number)))
-                self.selectAll()
+        if (self.store_number()):
+            expr = SinExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_arcsin(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ArcSinExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = ArcSinExpression()
-                self.setText(self.toString(expr.calculate(self.number)))
-                self.selectAll()
+        if (self.store_number()):
+            expr = ArcSinExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_cos(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = CosExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = CosExpression()
-                self.setText(self.toString(expr.calculate(self.number)))
-                self.selectAll()
+        if (self.store_number()):
+            expr = CosExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_arccos(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ArcCosExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = ArcCosExpression()
-                self.setText(self.toString(expr.calculate(self.number)))
-                self.selectAll()
+        if (self.store_number()):
+            expr = ArcCosExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_tan(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = TanExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = TanExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
-                self.selectAll()
+        if (self.store_number()):
+            expr = TanExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_arctan(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ArcTanExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = ArcTanExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if (self.store_number()):
+            expr = ArcTanExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def handle_keys_check_errors(self, event):
         try:
@@ -1328,77 +1214,59 @@ class InputTextEdit(QLineEdit):
         
     def exec_MS(self):
         if self.store_number():
-            self.memory = self.number
-            self.selectAll()
+            AppGlobals.set_memory(AppGlobals.get_number())
             # show in protocol
-            MSExpression(AppGlobals.table).calculate(self.number)
+            MSExpression(AppGlobals.table).calculate(AppGlobals.get_number())
 
     def exec_MC(self):
-        self.memory = 0.0
+        AppGlobals.input_box.memory = 0
+        AppGlobals.input_imag_box.memory = 0
         MSExpression(AppGlobals.table).calculate(self.memory)
 
     def exec_MR(self):
-        self.setText(self.memory_to_string())
-        self.selectAll()
+        AppGlobals.number_to_input_box(AppGlobals.get_memory())
 
     def exec_M_plus(self):
         if self.store_number():
-            self.memory = MPlusExpression(self.memory, AppGlobals.table).calculate(self.number)
+            expr = MPlusExpression(AppGlobals.get_memory())
+            AppGlobals.set_memory(expr.calculate(AppGlobals.get_number()))
 
     def exec_M_minus(self):
         if self.store_number():
-            self.memory = MMinusExpression(self.memory, AppGlobals.table).calculate(self.number)
+            expr = MMinusExpression(AppGlobals.get_memory())
+            AppGlobals.set_memory(expr.calculate(AppGlobals.get_number()))
 
     def exec_m_multiply(self):
         if self.store_number():
-            self.memory = MMultiplyExpression(self.memory, AppGlobals.table).calculate(self.number)
+            expr = MMultiplyExpression(AppGlobals.get_memory())
+            AppGlobals.set_memory(expr.calculate(AppGlobals.get_number()))
 
     def exec_m_division(self):
         if self.store_number():
-            self.memory = MDisivionExpression(self.memory, AppGlobals.table).calculate(self.number)
+            expr = MDisivionExpression(AppGlobals.get_memory())
+            AppGlobals.set_memory(expr.calculate(AppGlobals.get_number()))
 
     def exec_backspace(self):
         self.backspace()
 
     def exec_reciprocal(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ReciprocalExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = ReciprocalExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
+        if (self.store_number()):
+            expr = ReciprocalExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_sign_change(self):
         if (self.store_number()):
             self.setTextSelect(self.toString(-1.0 * self.number))
 
     def exec_abs(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = AbsExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = AbsExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
+        if (self.store_number()):
+            expr = AbsExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_conjugate(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ConjugateExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = ConjugateExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
-        AppGlobals.real_part_focus()
+        if (self.store_number()):
+            expr = ConjugateExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_insert_minus(self):
         self.insert("-")
@@ -1666,17 +1534,17 @@ class InputTextEdit(QLineEdit):
                 else:
                     super().keyPressEvent(event)
             case '!':
-                self.exec_factorial()
+                self.button_clicked(CalcOperations.factorial)
             case "%":
-                self.exec_percent()
+                self.button_clicked(CalcOperations.percent)
             case '_':
-                self.exec_insert_minus()
+                self.button_clicked(CalcOperations.insert_minus)
             case '=':
-                self.execute()
+                self.button_clicked(CalcOperations.calculate)
             case '(':
-                self.exec_opening_bracket()
+                self.button_clicked(CalcOperations.opening_bracket)
             case ')':
-                self.exec_closing_bracket()
+                self.button_clicked(CalcOperations.closing_bracket)
             case '+':
                 self.button_clicked(CalcOperations.Plus)
             case '-':
@@ -1698,34 +1566,35 @@ class InputTextEdit(QLineEdit):
     def hadle_chars_virtual_key(self, event):
         match self.key:
             case Qt.Key.Key_Plus:
-                self.exec_addition()
+                self.button_clicked(CalcOperations.Plus)
             case Qt.Key.Key_Minus:
-                self.exec_subtraction()
+                self.button_clicked(CalcOperations.Minus)
             case Qt.Key.Key_Asterisk:
-                self.exec_multiplication()
+                self.button_clicked(CalcOperations.Multiply)
             case Qt.Key.Key_Slash:
-                self.exec_division()
+                self.button_clicked(CalcOperations.Division)
             case Qt.Key.Key_ParenLeft:
-                self.exec_opening_bracket()
+                self.button_clicked(CalcOperations.opening_bracket)
             case Qt.Key.Key_ParenRight:
-                self.exec_closing_bracket()
+                self.button_clicked(CalcOperations.closing_bracket)
             case Qt.Key.Key_Equal:
-                self.execute()
+                self.button_clicked(CalcOperations.calculate)
             case Qt.Key.Key_Percent:
                 # Check the ctrl state for case ctrl+shift
                 if self.current_ctrl_state:
                     return False
-                self.exec_percent()
+                self.button_clicked(CalcOperations.percent)
             case Qt.Key.Key_Exclam:
                 # Check the ctrl state for case ctrl+shift
                 if self.current_ctrl_state:
                     return False
-                self.exec_factorial()
+                self.button_clicked(CalcOperations.factorial)
             case Qt.Key.Key_Underscore:
                 if self.current_ctrl_state:
                     self.exec_sign_change()
+                    self.button_clicked(CalcOperations.sign_change)
                 else:
-                    self.exec_insert_minus()
+                    self.button_clicked(CalcOperations.insert_minus)
             case _:
                 return False
         return True
@@ -2057,72 +1926,49 @@ class InputTextEdit(QLineEdit):
         self.redo()
 
     def exec_square(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = SquareExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = SquareExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if (self.store_number()):
+            expr = SquareExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_cube(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = CubeExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if (self.store_number()):
-                expr = CubeExpression(AppGlobals.table)
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if (self.store_number()):
+            expr = CubeExpression(AppGlobals.table)
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_fourth_power(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = FourthPowerExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = FourthPowerExpression()
-                self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
+        if self.store_number():
+            expr = FourthPowerExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_sqrt(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = SqrtExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = SqrtExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = SqrtExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_cube_root(self):
-        if (self.store_number()):
+        if self.store_number():
             expr = CubeRootExpression(AppGlobals.table)
-            self.setTextSelect(self.toString(expr.calculate(self.number)))
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_fourth_root(self):
-        if (self.store_number()):
+        if self.store_number():
             expr = FourthRootExpression()
-            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_memory_swap(self):
         if self.store_number():
-            temp_number = self.number
+            temp_number = AppGlobals.get_number()
             self.setTextSelect(self.memory_to_string())
-            self.memory = temp_number
-            MSExpression().calculate(self.memory)
+            AppGlobals.number_to_input_box(AppGlobals.get_memory())
+            AppGlobals.set_memory(temp_number)
+            MSExpression().calculate(AppGlobals.get_memory())
 
     def exec_swap(self):
         if AppGlobals.root_expression != None:
             if self.store_number():
                 temp_number = self.last_expression().first_number
-                self.last_expression().first_number = self.number
-                self.setTextSelect(self.toString(temp_number))
+                self.last_expression().first_number = AppGlobals.get_number()
+                AppGlobals.number_to_input_box(temp_number)
                 self.update_expression_label()
 
     def exec_convert_to_bases(self):
@@ -2260,70 +2106,34 @@ class InputTextEdit(QLineEdit):
         self.update_shift_ctrl_status()
 
     def exec_sinh(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = SinhExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = SinhExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = SinhExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_cosh(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = CoshExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = CoshExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = CoshExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_tanh(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = TanhExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = TanhExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = TanhExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_arsinh(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ArsinhExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = ArsinhExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = ArsinhExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_arcosh(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ArcoshExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = ArcoshExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = ArcoshExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_artanh(self):
-        if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            if AppGlobals.input_box.store_number() and AppGlobals.input_imag_box.store_number():
-                expr = ArtanhExpression()
-                result = expr.calculate(AppGlobals.get_complex_number())
-                AppGlobals.complex_number_to_input_box(result)
-        else:
-            if self.store_number():
-                expr = ArtanhExpression()
-                self.setTextSelect(self.toString(expr.calculate(self.number)))
+        if self.store_number():
+            expr = ArtanhExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_rectangular_to_polar(self):
         dialog = RectangularToPolarDialog()
