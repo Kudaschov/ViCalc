@@ -973,8 +973,8 @@ class MainWindow(QMainWindow):
             if self.ui.pushButtonQ.base_operation is not CalcOperations.AC:
                 self.ui.pushButtonQ.base_operation = CalcOperations.AC
                 self.ui.pushButtonQ.setText("AC")
-                self.ui.pushButtonQ.shift_operation = CalcOperations.C
-                self.ui.pushButtonQ.shift_text = "Clear"
+                self.ui.pushButtonQ.ctrl_operation = CalcOperations.C
+                self.ui.pushButtonQ.ctrl_text = "Clear"
                 self.ui.pushButtonQ.bg_color = self.c_ac_bg_color
 
             if self.ui.pushButtonS.base_operation is not CalcOperations.XOR:
@@ -1672,13 +1672,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton4.column = 3
         self.ui.pushButton4.bg_color = self.number_key_color
         self.ui.pushButton4.shift_text = "Abs"
-        self.ui.pushButton4.shift_text_alignment = Qt.AlignLeft
-        self.ui.pushButton4.ctrl_text = "RAN#"
-        self.ui.pushButton4.ctrl_text_alignment = Qt.AlignRight
+        self.ui.pushButton4.ctrl_text = "Rnd"
         self.ui.pushButton4.ctrl_shift_text = "0o"
         self.ui.pushButton4.base_operation = CalcOperations.number_4
         self.ui.pushButton4.shift_operation = CalcOperations.abs
-        self.ui.pushButton4.ctrl_operation = CalcOperations.random
+        self.ui.pushButton4.ctrl_operation = CalcOperations.round
         self.ui.pushButton4.ctrl_shift_operation = CalcOperations.convert_from_octal
         UiGlobals.pushButton4 = self.ui.pushButton4
         self.leftside_button_list.append(self.ui.pushButton4)
@@ -1714,11 +1712,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonQ.column = 0.5
         self.ui.pushButtonQ.setText("1/x")
         self.ui.pushButtonQ.original_keyboard_text = "Q"
-        self.ui.pushButtonQ.shift_text = "M-"
+        self.ui.pushButtonQ.shift_text = "M+"
         self.ui.pushButtonQ.ctrl_text = "DMS"
         self.ui.pushButtonQ.ctrl_shift_text = "Sci"
         self.ui.pushButtonQ.base_operation = CalcOperations.reciprocal
-        self.ui.pushButtonQ.shift_operation = CalcOperations.M_minus
+        self.ui.pushButtonQ.shift_operation = CalcOperations.M_plus
         self.ui.pushButtonQ.ctrl_operation = CalcOperations.convert_to_dms
         self.ui.pushButtonQ.ctrl_shift_operation = CalcOperations.calc_mode_scientific
         UiGlobals.pushButtonQ = self.ui.pushButtonQ
@@ -1761,11 +1759,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonR.setText("√")
         self.ui.pushButtonR.original_keyboard_text = "R"
         self.ui.pushButtonR.shift_text = "³√x"
-        self.ui.pushButtonR.ctrl_text = "Rnd"
+        self.ui.pushButtonR.shift_text_alignment = Qt.AlignLeft
+        self.ui.pushButtonR.ctrl_text = "RAN#"
+        self.ui.pushButtonR.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonR.ctrl_shift_text = "DWord"
         self.ui.pushButtonR.base_operation = CalcOperations.sqrt
         self.ui.pushButtonR.shift_operation = CalcOperations.cube_root
-        self.ui.pushButtonR.ctrl_operation = CalcOperations.round
+        self.ui.pushButtonR.ctrl_operation = CalcOperations.random
         self.ui.pushButtonR.ctrl_shift_operation = CalcOperations.word_size_dword
         UiGlobals.pushButtonR = self.ui.pushButtonR
         self.leftside_button_list.append(self.ui.pushButtonR)
@@ -1897,12 +1897,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.column = 1.5
         self.ui.pushButtonY.setText("4th")
         self.ui.pushButtonY.original_keyboard_text = "Y"
-        self.ui.pushButtonY.shift_text = "M+"
+        self.ui.pushButtonY.shift_text = "M-"
         self.ui.pushButtonY.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonY.ctrl_text = "Redo"
         self.ui.pushButtonY.ctrl_shift_text = "Base-N"
         self.ui.pushButtonY.base_operation = CalcOperations.ctrl_shift_hold
-        self.ui.pushButtonY.shift_operation = CalcOperations.M_plus
+        self.ui.pushButtonY.shift_operation = CalcOperations.M_minus
         self.ui.pushButtonY.ctrl_operation = CalcOperations.redo
         self.ui.pushButtonY.ctrl_shift_operation = CalcOperations.calc_mode_base_n
         UiGlobals.pushButtonY = self.ui.pushButtonY

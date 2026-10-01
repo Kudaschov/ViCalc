@@ -50,6 +50,8 @@ def wait_for_manual_close(window):
         (["3", ".", "2", Qt.Key_Tab, "_", "4", ".", "1", lambda: AppGlobals.input_box.button_clicked(CalcOperations.pow), "1", ".", "2", Qt.Key_Tab, "2", ".", "3", "="], -52.85608480999289, 24.81473881193748),
         # Brackets
         (["1", Qt.Key.Key_Tab, "2", "*", "(", "3", Qt.Key.Key_Tab, "4", "+", "5", Qt.Key.Key_Tab, "7", ")", ")"], -14, 27),
+        # Cube root
+        (["_11", Qt.Key_Tab, "2", lambda: AppGlobals.input_box.exec_cube_root()], 1.232050807568877, 1.866025403784439),
     ],
 )
 

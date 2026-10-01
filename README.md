@@ -6,7 +6,7 @@ ViCalc is an open-source touch-typing scientific calculator with a key-preselect
 
 The upper part of the ViCalc window displays the calculation history. The lower part shows the left section of the main keyboard area and the numeric keypad.
 
-<img src="docs/images/vicalc_keyboard_area.png" alt = "ViCalc" width="760" />
+<img src="docs/images/vicalc5.png" alt = "ViCalc" width="760" />
 
 ## Keyboard Operation Modes
 
