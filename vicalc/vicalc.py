@@ -86,6 +86,7 @@ class MainWindow(QMainWindow):
 
         # background color of C and AC buttons
         self.c_ac_bg_color = QColor("#EAEAFF")
+        self.second_function_bg_color = QColor("#ECFAFC")
         self.button_orig_bg_color = None
         self.arithmetic_operation_color = QColor("#FAFAFA")
         self.number_key_color = QColor("#FFFFFF")
@@ -1896,6 +1897,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonY.row = 3
         self.ui.pushButtonY.column = 1.5
         self.ui.pushButtonY.setText("4th")
+        self.ui.pushButtonY.bg_color = self.second_function_bg_color
         self.ui.pushButtonY.original_keyboard_text = "Y"
         self.ui.pushButtonY.shift_text = "M-"
         self.ui.pushButtonY.ctrl_text_alignment = Qt.AlignRight
@@ -1912,6 +1914,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonX.column = 2.5
         self.ui.pushButtonX.setText("3rd")
         self.ui.pushButtonX.original_keyboard_text = "X"
+        self.ui.pushButtonX.bg_color = self.second_function_bg_color
         self.ui.pushButtonX.shift_text = "0x"
         self.ui.pushButtonX.ctrl_text = "Cut"
         self.ui.pushButtonX.ctrl_shift_text = "Hex"
@@ -1941,6 +1944,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonV.column = 4.5
         self.ui.pushButtonV.setText("2nd")
         self.ui.pushButtonV.original_keyboard_text = "V"
+        self.ui.pushButtonV.bg_color = self.second_function_bg_color
         self.ui.pushButtonV.shift_text = "MR"
         self.ui.pushButtonV.ctrl_text = "Paste"
         self.ui.pushButtonV.ctrl_shift_text = "Oct"
