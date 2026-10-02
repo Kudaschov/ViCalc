@@ -2,11 +2,25 @@
 ## Key usage
 <img src="images/key.png" alt = "Key functions" /><br>
 
-| Function               | Key combination |
-|------------------------|-----------------|
-| Sine                   | s               |
-| Arc sine               | Shift + s       |
-| Hyperbolic sine (sinh) | Ctrl + s        |
+## Key Mapping Overview
+
+* **Base Function:** Standard key.
+* **2nd Function:** Accessible via **Shift**.
+* **3rd Function:** Accessible via **Ctrl**.
+* **4th Function:** Accessible via **Ctrl + Shift**.
+
+## How to Switch Functions
+
+### 1. Keyboard Shortcuts
+Press and hold modifier keys to switch mode while typing:<br>
+* **2nd Function:** Press and hold <kbd>Shift</kbd>.<br>
+* **3rd Function:** Press and hold <kbd>Ctrl</kbd>.<br>
+* **4th Function:** Press and hold <kbd>Ctrl</kbd> + <kbd>Shift</kbd>.
+
+### 2. Sticky / Latch Mode (Lock Mode)
+If you prefer traditional physical calculator behavior—where alternate functions remain active after key release—use one of the following methods:<br>
+* **On-Screen Buttons:** Click the **2nd**, **3rd**, or **4th** mode buttons on the interface.<br>
+* **Double-Tap Shortcut:** Double-press <kbd>Shift</kbd>, <kbd>Ctrl</kbd>, or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> on your keyboard to lock that function layer.
 
 ## Overview
 [ViCalc](overview.md)<br>
