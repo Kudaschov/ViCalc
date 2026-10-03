@@ -1814,6 +1814,12 @@ class InputTextEdit(QLineEdit):
                         super().keyPressEvent(event)
                     case Qt.Key.Key_Escape:
                         self.button_clicked(CalcOperations.AC)
+                    case Qt.Key.Key_PageUp:
+                        # 3rd function is active, deactivate it
+                        self.button_clicked(CalcOperations.ctrl_hold)
+                    case Qt.Key.Key_PageDown:
+                        # 2nd function is active, deactivate it
+                        self.button_clicked(CalcOperations.shift_hold)
                     case _:
                         if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
@@ -1821,7 +1827,6 @@ class InputTextEdit(QLineEdit):
                             # Call base class to keep normal behavior
                             super().keyPressEvent(event)
                             print("Default operation")
-
             elif self.current_ctrl_state or AppGlobals.ctrl_hold:
                 # ctrl pressed
                 match self.key:
@@ -1867,6 +1872,12 @@ class InputTextEdit(QLineEdit):
                         self.button_clicked(UiGlobals.pushButtonZ.ctrl_operation)
                     case Qt.Key.Key_Y:
                         self.button_clicked(UiGlobals.pushButtonY.ctrl_operation)
+                    case Qt.Key.Key_PageUp:
+                        # 3rd function is active, deactivate it
+                        self.button_clicked(CalcOperations.ctrl_hold)
+                    case Qt.Key.Key_PageDown:
+                        # 2nd function is active, deactivate it
+                        self.button_clicked(CalcOperations.shift_hold)
                     case _:
                         if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
@@ -1902,6 +1913,10 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key_Delete:
                         # Call base class to keep normal behavior
                         super().keyPressEvent(event)
+                    case Qt.Key.Key_PageUp:
+                        self.button_clicked(CalcOperations.ctrl_hold)
+                    case Qt.Key.Key_PageDown:
+                        self.button_clicked(CalcOperations.shift_hold)
                     case _:
                         if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)

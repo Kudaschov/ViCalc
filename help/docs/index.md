@@ -19,6 +19,8 @@ Press and hold modifier keys to switch mode while typing:<br>
 
 ### 2. Sticky / Latch Mode (Lock Mode)
 If you prefer traditional physical calculator behavior—where alternate functions remain active after key release—use one of the following methods:<br>
+* **2nd Function:** Press <kbd>Page Down</kbd>. Useful when working with the NumPad<br>
+* **3rd Function:** Press <kbd>Page Up</kbd>. Useful when working with the NumPad<br>
 * **On-Screen Buttons:** Click the **2nd**, **3rd**, or **4th** mode buttons on the interface.<br>
 * **Double-Tap Shortcut:** Double-press <kbd>Shift</kbd>, <kbd>Ctrl</kbd>, or <kbd>Ctrl</kbd> + <kbd>Shift</kbd> on your keyboard to lock that function layer.
 
