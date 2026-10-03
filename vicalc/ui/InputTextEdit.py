@@ -1800,6 +1800,12 @@ class InputTextEdit(QLineEdit):
                         self.button_clicked(UiGlobals.pushButtonEnter.ctrl_shift_operation)
                     case Qt.Key.Key_Escape:
                         self.button_clicked(CalcOperations.AC)
+                    case Qt.Key.Key_PageUp:
+                        # 4th function is active, aktivate 3rd function
+                        self.button_clicked(CalcOperations.ctrl_hold)
+                    case Qt.Key.Key_PageDown:
+                        # 4th function is active, deactivate it
+                        self.button_clicked(CalcOperations.ctrl_shift_hold)
             elif self.current_shift_state or AppGlobals.shift_hold:
                 # Shift pressed
                 match self.key:
@@ -1815,11 +1821,11 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Escape:
                         self.button_clicked(CalcOperations.AC)
                     case Qt.Key.Key_PageUp:
-                        # 3rd function is active, deactivate it
+                        # 2nd function is active, make 3th function
                         self.button_clicked(CalcOperations.ctrl_hold)
                     case Qt.Key.Key_PageDown:
-                        # 2nd function is active, deactivate it
-                        self.button_clicked(CalcOperations.shift_hold)
+                        # 2nd function is active, make 4th function
+                        self.button_clicked(CalcOperations.ctrl_shift_hold)
                     case _:
                         if not self.char_pressed in allowed_chars:
                             self.statusbar_message.emit("Symbol ignored: " + self.char_pressed)
@@ -1876,7 +1882,7 @@ class InputTextEdit(QLineEdit):
                         # 3rd function is active, deactivate it
                         self.button_clicked(CalcOperations.ctrl_hold)
                     case Qt.Key.Key_PageDown:
-                        # 2nd function is active, deactivate it
+                        # 3rd function is active, make 2nd function
                         self.button_clicked(CalcOperations.shift_hold)
                     case _:
                         if not self.char_pressed in allowed_chars:
