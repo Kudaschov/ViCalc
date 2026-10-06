@@ -43,6 +43,14 @@ def wait_for_manual_close(window):
         (["_", "5", Qt.Key_Tab, "1", "2", lambda: AppGlobals.input_box.exec_sqrt()], 2, 3),
         # Exp
         (["0", Qt.Key_Tab, str(math.pi), lambda: AppGlobals.input_box.exec_ex()], -1, 0),
+        # Ln
+        (["_1", Qt.Key_Tab, "0", lambda: AppGlobals.input_box.exec_ln()], 0, math.pi),
+        # 10^
+        (["1", Qt.Key_Tab, "2", lambda: AppGlobals.input_box.exec_ten_power_x()], -1.070134835587698, -9.942575694137897),
+        # log10
+        (["1", Qt.Key_Tab, "2", lambda: AppGlobals.input_box.exec_log()], 0.3494850021680094, 0.480828578784234),
+        # log base n
+        (["1", Qt.Key_Tab, "2", lambda: AppGlobals.input_box.button_clicked(CalcOperations.log_base), "3", Qt.Key_Tab, "4", "="], 0.6729526521196119, 0.3001811612672904),
         # Test cases for complex power of a complex number: (inputs, expected_real, expected_imag)
         # Case 1: (2.5 + 1.2i) ^ (1.5 + 0.5i) = 1.4021 + 3.4155i
         (["2", ".", "5", Qt.Key_Tab, "1", ".", "2", lambda: AppGlobals.input_box.button_clicked(CalcOperations.pow), "1", ".", "5", Qt.Key_Tab, "0", ".", "5", "="], 1.402088823721664, 3.415456895019335),

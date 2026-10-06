@@ -14,9 +14,9 @@ class NEGExpression(UnaryExpression):
         result = AppGlobals.check_for_signed_number(raw_result)
 
         self.insert_scroll_table()
-        self.protocol("NEG", 0)
+        self.protocol("NEG ", 0)
         self.protocol(AppGlobals.check_for_signed_number(masked_number), 1)
-        self.protocol("=", 2)
+        self.protocol(" = ", 2)
         self.protocol_result(result, 3)
 
         return result

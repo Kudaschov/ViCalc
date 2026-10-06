@@ -1,6 +1,5 @@
 from .CalcPrios import CalcPrios
 from .IntegerBinaryExpression import IntegerBinaryExpression
-from PySide6.QtWidgets import QTableWidgetItem
 from .AppGlobals import AppGlobals
 
 class ANDExpression(IntegerBinaryExpression):
@@ -20,9 +19,9 @@ class ANDExpression(IntegerBinaryExpression):
 
         self.insert_scroll_table()
         self.protocol(int_first_number, 0)
-        self.protocol("AND", 1)
+        self.protocol(" AND ", 1)
         self.protocol(int_number, 2)
-        self.protocol("=", 3)
+        self.protocol(" = ", 3)
         self.protocol_result(result, 4)
 
         return result

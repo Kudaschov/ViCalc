@@ -1,6 +1,5 @@
 import math
 import cmath
-from PySide6.QtWidgets import QTableWidgetItem
 from .UnaryExpression import UnaryExpression
 from .AppGlobals import AppGlobals
 from .CalcMode import CalcMode
@@ -23,9 +22,9 @@ class RightShiftRotateCarryExpression(UnaryExpression):
         self.insert_scroll_table()
         self.protocol("RoRC (", 0)
         self.protocol(masked_number, 1)
-        self.protocol(") =", 2)
+        self.protocol(") = ", 2)
         self.protocol_result(result, 3)
 
         # show carry flag change in history
-        self.protocol(f"CF: {carry}->{AppGlobals.carry_flag}", 4)
+        self.protocol(f"  /  CF: {carry}->{AppGlobals.carry_flag}", 4)
         return result

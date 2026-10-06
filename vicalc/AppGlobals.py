@@ -1,5 +1,5 @@
 import math, cmath
-
+import ctypes
 from .NumberBase import NumberBase
 from .WordSize import WordSize
 from .NumericFormat import NumericFormat
@@ -46,7 +46,9 @@ class AppGlobals:
     show_decimal_value = False
     show_hex_value = False
     show_word_size = False
-    table = None # tableWidget in main window
+    history = None # history TextBrowser in main window
+    history_string_font_size = 11
+    history_number_font_size = 11
     input_box = None # inputTextEdit in main window
     input_imag_box = None # inputImagTextEdit, imaginary part of complex number
     current_row = -1 # current row in table
@@ -74,7 +76,7 @@ class AppGlobals:
 
     # e. g. red color for negative numbers
     # candidate for options
-    color_negative_number = "#0000FF" # 
+    color_negative_number = "#FF0000" # 
 
     # comment color
     # candidate for option
@@ -191,26 +193,7 @@ class AppGlobals:
 
         return f"{raw_str}e{exponent:+03d}"    
     
-    @staticmethod
-    def non_empty_col_last_row_table():
-        row_count = AppGlobals.table.rowCount()
-        col_count = AppGlobals.table.columnCount()
-
-        if row_count == 0 or col_count == 0:
-            return  -1 # Nothing to do
-
-        last_row = row_count - 1
-
-        # Find last non-empty column in the last row
-        last_non_empty_col = -1
-        for col in reversed(range(col_count)):
-            item = AppGlobals.table.item(last_row, col)
-            if item and item.text().strip() != "":
-                last_non_empty_col = col
-                break
-
-        return last_non_empty_col
-    
+   
     @staticmethod
     def toDouble(text: str):
         return AppGlobals.locale.toDouble(text)
@@ -509,7 +492,7 @@ class AppGlobals:
         else:
             return AppGlobals.input_box.memory
 
-    #staticmethod
+    @staticmethod
     def complex_number_to_format_string(val: complex):
         if AppGlobals.complex_number_form is ComplexNumberForm.rectangular:
             if val.imag < 0:
@@ -528,3 +511,12 @@ class AppGlobals:
         of a complex number, and its imaginary component is non-zero.
         """
         return isinstance(val, complex)
+
+    # Check if Shift key is pressed (Windows only)
+    # Used to check if Shift key is pressed when clicking or typing on a hyperlink in the history browser.
+    @staticmethod
+    def is_shift_pressed() -> bool:
+        user32 = ctypes.windll.user32
+        left_shift  = bool(user32.GetAsyncKeyState(0xA0) & 0x8000)  # VK_LSHIFT
+        right_shift = bool(user32.GetAsyncKeyState(0xA1) & 0x8000)  # VK_RSHIFT
+        return left_shift or right_shift

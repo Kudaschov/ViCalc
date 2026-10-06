@@ -1,22 +1,23 @@
 from abc import ABC, abstractmethod
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QTableWidgetItem
-from .AppGlobals import AppGlobals
 
 class CellValue(ABC):
-    def __init__(self, row = -1, col = -1):
-        self.serialize_type = "CellValue"
-
-        if -1 != col and -1 != row:
-            table_item = QTableWidgetItem()
-            table_item.setFlags(table_item.flags() ^ Qt.ItemIsEditable)
-            table_item.setData(Qt.UserRole, self)
-            AppGlobals.table.setItem(row, col, table_item)
+    def __init__(
+        self,
+        row: int = -1,
+        col: int = -1,
+        is_bold: bool = False,
+        font_size: int = -1,
+    ):
+        """Base class for history cells supporting row/col indices, bold styling, and font size."""
+        self.row = row
+        self.col = col
+        self.is_bold = is_bold
+        self.font_size = font_size
 
     @abstractmethod
-    def to_string(self, row = -1, col = -1):
-        pass 
+    def to_string(self, row: int = -1, col: int = -1):
+        pass
 
     @abstractmethod
-    def value(self, row = -1, col = -1):
+    def value(self, row: int = -1, col: int = -1):
         pass

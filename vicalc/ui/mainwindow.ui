@@ -22,11 +22,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="CalcTableWidget" name="tableWidget">
-        <property name="contextMenuPolicy">
-         <enum>Qt::ContextMenuPolicy::CustomContextMenu</enum>
-        </property>
-       </widget>
+       <widget class="HistoryBrowser" name="historyTextBrowser"/>
       </item>
       <item>
        <widget class="QLabel" name="expressionLabel">
@@ -38,7 +34,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>11</pointsize>
          </font>
         </property>
         <property name="text">
@@ -2009,11 +2005,6 @@
    <header>.CalcButton</header>
   </customwidget>
   <customwidget>
-   <class>CalcTableWidget</class>
-   <extends>QTableWidget</extends>
-   <header>.CalcTableWidget</header>
-  </customwidget>
-  <customwidget>
    <class>InputTextEdit</class>
    <extends>QLineEdit</extends>
    <header>.InputTextEdit</header>
@@ -2027,6 +2018,11 @@
    <class>ClickableLabel</class>
    <extends>QLabel</extends>
    <header>.ClickableLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>HistoryBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>.HistoryBrowser</header>
   </customwidget>
  </customwidgets>
  <resources>

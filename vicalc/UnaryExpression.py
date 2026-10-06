@@ -20,43 +20,43 @@ class UnaryExpression(CalcExpression):
         super().__init__(table_widget)
     
     @singledispatchmethod
-    def protocol_result(self, arg: Any, column_number: int) -> None:
+    def protocol_result(self, arg: Any, column_number: int = -1) -> None:
         """Generic report method for result cells."""
         raise NotImplementedError(f"Reporting not implemented for type {type(arg)}")
 
     @protocol_result.register(float)
-    def _(self, arg: float, column_number: int) -> None:
+    def _(self, arg: float, column_number: int = -1) -> None:
         if arg.is_integer():
             IntegerResultCellValue(int(arg), self.row, column_number)
         else:
             ResultCellValue(arg, self.row, column_number)
 
     @protocol_result.register(str)
-    def _(self, arg: str, column_number: int) -> None:
+    def _(self, arg: str, column_number: int = -1) -> None:
         ResultStringCellValue(arg, self.row, column_number)
 
     @protocol_result.register(int)
-    def _(self, arg: int, column_number: int) -> None:
+    def _(self, arg: int, column_number: int = -1) -> None:
         IntegerResultCellValue(arg, self.row, column_number)
 
     @singledispatchmethod
-    def protocol(self, arg: Any, column_number: int) -> None:
+    def protocol(self, arg: Any, column_number: int = -1) -> None:
         """Generic report method for input/operand cells."""
         raise NotImplementedError(f"Reporting not implemented for type {type(arg)}")
     
     @protocol.register(str)
-    def _(self, arg: str, column_number: int) -> None:
+    def _(self, arg: str, column_number: int = -1) -> None:
         StringCellValue(arg, self.row, column_number)
 
     @protocol.register(float)
-    def _(self, arg: float, column_number: int) -> None:
+    def _(self, arg: float, column_number: int = -1) -> None:
         if arg.is_integer():
             IntegerCellValue(int(arg), self.row, column_number)
         else:
             FloatCellValue(arg, self.row, column_number)
 
     @protocol.register(int)
-    def _(self, arg: int, column_number: int) -> None:
+    def _(self, arg: int, column_number: int = -1) -> None:
         IntegerCellValue(arg, self.row, column_number)
 
     def protocol_complex_rect(self, num: complex, suffix: str, is_result: bool = False, prefix: str = "") -> None:

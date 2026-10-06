@@ -1,11 +1,10 @@
 import math
-from PySide6.QtWidgets import QTableWidgetItem
 from .CalcPrios import CalcPrios
 from .BinaryExpression import BinaryExpression
 
 class ModExpression(BinaryExpression):
-    def __init__(self, number, tableWidget):
-        super().__init__(number, tableWidget)
+    def __init__(self, number):
+        super().__init__(number)
         self.operation_prio = CalcPrios.Multiplication
 
     def text(self):
@@ -14,10 +13,10 @@ class ModExpression(BinaryExpression):
     def calculate(self, number: float):
         result: float = math.fmod(self.first_number, number)
         self.insert_scroll_table()
-        self.protocol(self.first_number, 0)
-        self.protocol("mod", 1)
-        self.protocol(number, 2)
-        self.protocol("=", 3)
-        self.protocol_result(result, 4)
+        self.protocol(self.first_number)
+        self.protocol(" mod ")
+        self.protocol(number)
+        self.protocol(" = ")
+        self.protocol_result(result)
         
         return result

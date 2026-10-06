@@ -2,7 +2,6 @@ import math
 from PySide6.QtCore import QLocale
 from .CalcPrios import CalcPrios
 from .BinaryExpression import BinaryExpression
-from PySide6.QtWidgets import QTableWidgetItem
 from .AppGlobals import AppGlobals
 
 class PermutationExpression(BinaryExpression):
@@ -15,10 +14,11 @@ class PermutationExpression(BinaryExpression):
         result = math.perm(n, r)
 
         self.insert_scroll_table()
-        self.protocol(float(self.first_number), 0)
-        self.protocol("P", 1)
-        self.protocol(float(number), 2)
-        self.protocol("=", 3)
-        self.protocol_result(float(result), 4)
+        self.protocol("Permutation P(")
+        self.protocol(n)
+        self.protocol(", ")
+        self.protocol(r)
+        self.protocol(") = ")
+        self.protocol_result(result)
 
         return result

@@ -91,10 +91,12 @@ class CalcButton(QPushButton):
         if self.mouse_pos == None:
             return
 
-        if AppGlobals.input_box.hasFocus():
+        if not AppGlobals.input_imag_box.isVisible():
             input_box = AppGlobals.input_box
-        else:
+        elif AppGlobals.input_imag_box.hasFocus():
             input_box = AppGlobals.input_imag_box
+        else:
+            input_box = AppGlobals.input_box
 
         if ((self._shift and self._ctrl) or AppGlobals.ctrl_shift_hold) and self.shift_and_ctrl_rect().contains(self.mouse_pos):
             input_box.button_clicked(self.ctrl_shift_operation)

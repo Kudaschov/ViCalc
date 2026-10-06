@@ -2,7 +2,6 @@ import math
 from PySide6.QtCore import QLocale
 from .CalcPrios import CalcPrios
 from .BinaryExpression import BinaryExpression
-from PySide6.QtWidgets import QTableWidgetItem
 from .AppGlobals import AppGlobals
 
 class RectangularToPolarExpression(BinaryExpression):

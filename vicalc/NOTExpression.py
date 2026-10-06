@@ -1,5 +1,4 @@
 import math
-from PySide6.QtWidgets import QTableWidgetItem
 from .UnaryExpression import UnaryExpression
 from .AppGlobals import AppGlobals
 from .CalcMode import CalcMode
@@ -17,9 +16,9 @@ class NOTExpression(UnaryExpression):
         result = AppGlobals.check_for_signed_number(result)
 
         self.insert_scroll_table()
-        self.protocol("NOT", 0)
+        self.protocol("NOT ", 0)
         self.protocol(AppGlobals.check_for_signed_number(masked_number), 1)
-        self.protocol("=", 2)
+        self.protocol(" = ", 2)
         self.protocol_result(result, 3)
 
         return result

@@ -1,8 +1,8 @@
 from unittest import case
 from PySide6.QtWidgets import QApplication, QLineEdit, QStyleOptionFrame
-from PySide6.QtCore import Qt, Signal, QDate, QTime
+from PySide6.QtCore import QUrl, Qt, Signal, QDate, QTime
 from PySide6.QtWidgets import QMessageBox
-from PySide6.QtWidgets import QTableWidgetItem, QDialog
+from PySide6.QtWidgets import QDialog
 from PySide6.QtGui import QFont, QGuiApplication
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
@@ -432,7 +432,7 @@ class InputTextEdit(QLineEdit):
     def exec_factorial(self):
         try:
             i = int(self.text())
-            f = FactorialExpression(AppGlobals.table).calculate(float(i))
+            f = FactorialExpression().calculate(float(i))
             self.setText(str(f))
             self.selectAll()
         except ValueError:
@@ -546,7 +546,7 @@ class InputTextEdit(QLineEdit):
             self.create_expression_node(PowExpression(AppGlobals.get_number()))
 
     def exec_opening_bracket(self):
-        self.create_expression_node(BracketExpression(AppGlobals.table))
+        self.create_expression_node(BracketExpression())
 
     def exec_subtraction(self):
         if self.store_number():
@@ -596,7 +596,7 @@ class InputTextEdit(QLineEdit):
 
     def exec_mod(self):
         if self.store_number():
-            self.create_expression_node(ModExpression(self.number, AppGlobals.table))
+            self.create_expression_node(ModExpression(self.number))
 
     def execute(self):
         store_number = AppGlobals.input_box.store_number()
@@ -628,7 +628,7 @@ class InputTextEdit(QLineEdit):
                     # it is already a percent change expression, calculate it
                     self.execute()
                 else:
-                    percent = PercentExpression(AppGlobals.table, self.last_expression())
+                    percent = PercentExpression(self.last_expression())
                     result = percent.calculate(self.number)
                     if result is not None:
                         self.setTextSelect(self.toString(result))
@@ -717,7 +717,8 @@ class InputTextEdit(QLineEdit):
             CalcOperations.trig_mode_deg,
             CalcOperations.trig_mode_rad,
             CalcOperations.trig_mode_gra,
-            CalcOperations.pi
+            CalcOperations.pi,
+            CalcOperations.copy_to_clipboard
         }
         try:
             match calc_operation:
@@ -837,8 +838,6 @@ class InputTextEdit(QLineEdit):
                     self.exec_insert_minus()
                 case CalcOperations.exponent:
                     self.exec_exponent()
-                case CalcOperations.del_last_line:
-                    self.exec_del_last_line()
                 case CalcOperations.comment:
                     self.exec_comment()
                 case CalcOperations.cut_to_clipboard:
@@ -1005,7 +1004,7 @@ class InputTextEdit(QLineEdit):
             self._show_error(f"{str(e)}")
 
         if calc_operation == CalcOperations.toggle_table:
-            AppGlobals.table.setFocus()
+            AppGlobals.history.setFocus()
         else:
             # Determine if input_image_box should receive focus
             focus_flag = calc_operation not in EXCLUDED_OPERATIONS
@@ -1216,12 +1215,12 @@ class InputTextEdit(QLineEdit):
         if self.store_number():
             AppGlobals.set_memory(AppGlobals.get_number())
             # show in protocol
-            MSExpression(AppGlobals.table).calculate(AppGlobals.get_number())
+            MSExpression().calculate(AppGlobals.get_number())
 
     def exec_MC(self):
         AppGlobals.input_box.memory = 0
         AppGlobals.input_imag_box.memory = 0
-        MSExpression(AppGlobals.table).calculate(self.memory)
+        MSExpression().calculate(AppGlobals.get_memory())
 
     def exec_MR(self):
         AppGlobals.number_to_input_box(AppGlobals.get_memory())
@@ -1274,43 +1273,12 @@ class InputTextEdit(QLineEdit):
     def exec_exponent(self):
         self.insert("e")
 
-    def exec_del_last_line(self):
-        # Remove the last row in protocol
-        # Create a warning message box
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Warning)
-        msg_box.setWindowTitle("Warning")
-        msg_box.setText("Are you sure you want to delete the last row in history?")
-        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msg_box.setDefaultButton(QMessageBox.Yes)
-
-        # Show the message box and get the user's response
-        result = msg_box.exec()
-
-        if result == QMessageBox.Yes:
-            # Proceed with deletion
-            last_row = AppGlobals.table.rowCount() - 1
-            if last_row >= 0:
-                AppGlobals.table.removeRow(last_row)
-
     def exec_comment(self):
         dialog = CommentDialog()
         dialog.ui.lineEdit.setText(self.text())
         if dialog.exec():
             comment = dialog.get_comment()
-            if (AppGlobals.non_empty_col_last_row_table() == -1
-                or AppGlobals.non_empty_col_last_row_table() > AppGlobals.column_number_next_line_comment):
-                row = AppGlobals.table.rowCount()
-                AppGlobals.table.insertRow(row)        
-                AppGlobals.table.scrollToBottom()
-                AppGlobals.table.setItem(row, 0, QTableWidgetItem(comment))
-                CommentCellValue(comment, row, 0)
-            else:
-                AppGlobals.table.scrollToBottom()
-                row = AppGlobals.table.rowCount() - 1
-                col = AppGlobals.non_empty_col_last_row_table() + 1
-                AppGlobals.table.setItem(row, col, QTableWidgetItem(comment))
-                CommentCellValue(comment, row, col)
+            CommentCellValue(comment, is_bold=True)
 
     def get_key_state(self, key_code):
         return bool(ctypes.windll.user32.GetKeyState(key_code) & 0x0001)
@@ -1953,7 +1921,7 @@ class InputTextEdit(QLineEdit):
 
     def exec_cube(self):
         if (self.store_number()):
-            expr = CubeExpression(AppGlobals.table)
+            expr = CubeExpression()
             AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_fourth_power(self):
@@ -1968,7 +1936,7 @@ class InputTextEdit(QLineEdit):
 
     def exec_cube_root(self):
         if self.store_number():
-            expr = CubeRootExpression(AppGlobals.table)
+            expr = CubeRootExpression()
             AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_fourth_root(self):
@@ -1994,7 +1962,7 @@ class InputTextEdit(QLineEdit):
 
     def exec_convert_to_bases(self):
         if self.store_integer_number():
-            ConvertToBasesExpression(AppGlobals.table).calculate(self.number)
+            ConvertToBasesExpression().calculate(self.number)
             self.selectAll()
 
     def exec_convert_to_dms(self):
@@ -2031,7 +1999,7 @@ class InputTextEdit(QLineEdit):
         self.setTextSelect(self.toString(DDExpression().calculate(degrees, minutes, seconds)))
 
     def exec_from_binary(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 2))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(2))
         dialog.setWindowTitle("Input in Binary format")
         dialog.ui.number_label.setText("&Binary:")
         i_number = 0
@@ -2039,7 +2007,7 @@ class InputTextEdit(QLineEdit):
         i_number, ok = AppGlobals.to_number(self.text())
 
         if ok and i_number.is_integer():
-            dialog.ui.numberLineEdit.setText(format(i_number, 'b'))
+            dialog.ui.numberLineEdit.setText(format(int(i_number), 'b'))
         else:
             dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
@@ -2068,7 +2036,7 @@ class InputTextEdit(QLineEdit):
             print(f"Ctrl status changed to: {'Pressed' if self.current_ctrl_state else 'Released'}")        
 
     def exec_from_octal(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 8))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(8))
         dialog.setWindowTitle("Input in Octal format")
         dialog.ui.number_label.setText("&Octal:")
         i_number = 0
@@ -2088,7 +2056,7 @@ class InputTextEdit(QLineEdit):
         self.update_shift_ctrl_status()
 
     def exec_from_decimal(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 10))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(10))
         dialog.setWindowTitle("Input in Decimal format")
         dialog.ui.number_label.setText("&Decimal:")
         i_number = 0
@@ -2096,7 +2064,7 @@ class InputTextEdit(QLineEdit):
         i_number, ok = AppGlobals.to_number(self.text())
                 
         if ok and i_number.is_integer():
-            dialog.ui.numberLineEdit.setText(format(i_number, 'd'))
+            dialog.ui.numberLineEdit.setText(format(int(i_number), 'd'))
         else:
             dialog.ui.numberLineEdit.setText("")
         dialog.ui.numberLineEdit.setFocus()
@@ -2108,7 +2076,7 @@ class InputTextEdit(QLineEdit):
         self.update_shift_ctrl_status()
 
     def exec_from_hexadecimal(self):
-        dialog = ConvertFromBaseDialog(None, BaseExpression(AppGlobals.table, 16))
+        dialog = ConvertFromBaseDialog(None, BaseExpression(16))
         dialog.setWindowTitle("Input in Hexadecimal format")
         i_number = 0
 
@@ -2321,114 +2289,45 @@ class InputTextEdit(QLineEdit):
         else:
             AppGlobals.numeric_format = NumericFormat.normal
 
-        self.update_table()
         self.statusbar_changed.emit()
         self.update_shift_ctrl_status()
 
-    def update_table(self):
-        # update table
-        if AppGlobals.table is None:
-            return
-        
-        rows = AppGlobals.table.rowCount()
-        cols = AppGlobals.table.columnCount()
-
-        for row in range(rows):
-            for col in range(cols):
-                item = AppGlobals.table.item(row, col)
-                if item:
-                    cell_value = item.data(Qt.UserRole)
-                    if item.text().strip() or cell_value != None:  # Zelle ist vorhanden und nicht leer
-                        if isinstance(cell_value, CellValue):
-                            item.setText(cell_value.to_string())
-
     def exec_toggle_table(self):
         if self.hasFocus():
-            if -1 != AppGlobals.current_row and -1 != AppGlobals.current_column:
-                AppGlobals.table.clearSelection()
-                row_count = AppGlobals.table.rowCount()
-                column_count = AppGlobals.table.columnCount()
-                if AppGlobals.current_row < row_count and AppGlobals.current_column < column_count:
-                    AppGlobals.table.setCurrentCell(AppGlobals.current_row, AppGlobals.current_column)
-                else:
-                    self.go_to_last_row_last_non_empty_col()
-            else:
-                self.go_to_last_row_last_non_empty_col()
-            AppGlobals.table.setFocus()
+            AppGlobals.history.setFocus()
         else:
             QTimer.singleShot(0, self.setFocus)
             QTimer.singleShot(0, self.selectAll)
-
-    def go_to_last_row_last_non_empty_col(self):
-        row_count = AppGlobals.table.rowCount()
-        col_count = AppGlobals.table.columnCount()
-
-        if row_count == 0 or col_count == 0:
-            return  # Nothing to do
-
-        last_row = row_count - 1
-
-        # Find last non-empty column in the last row
-        last_non_empty_col = -1
-        for col in reversed(range(col_count)):
-            item = AppGlobals.table.item(last_row, col)
-            if item and item.text().strip() != "":
-                last_non_empty_col = col
-                break
-
-        if last_non_empty_col == -1:
-            print("No non-empty column found in last row.")
-            return
-
-        # Set current cell (will highlight/select it)
-        AppGlobals.table.setCurrentCell(last_row, last_non_empty_col)
 
     def exec_round(self):
         if self.store_number():
             self.setTextSelect(AppGlobals.to_format_string(self.number))
 
     def exec_random(self):
-        r = AppGlobals.table.rowCount()
-        AppGlobals.table.insertRow(r)        
-        AppGlobals.table.scrollToBottom()
         f = random.random()
-        StringCellValue("Random:", r, 0)
-        ResultCellValue(f, r, 1)
+        AppGlobals.history.append("")  # Ensure a new line before the header
+        StringCellValue("Random: ")
+        ResultCellValue(f)
         self.setTextSelect(AppGlobals.to_normal_string(f))
 
     def exec_date_time_stamp(self):
-        separator = "**********"
-        if AppGlobals.table.columnCount() < 5:
-            AppGlobals.table.setColumnCount(5)
-        row = AppGlobals.table.rowCount()
-        AppGlobals.table.insertRow(row)
+        """Inserts a formatted date and time header line into the QTextBrowser history."""
+        date_str = QLocale().toString(QDate.currentDate(), QLocale.ShortFormat)
+        day_name = QLocale().toString(QDate.currentDate(), "dddd")
+        time_str = QLocale().toString(QTime.currentTime(), QLocale.ShortFormat)
+        cw, _ = QDate.currentDate().weekNumber()
 
-        item = QTableWidgetItem()
-        item.setText(separator)
-        AppGlobals.table.setItem(row, 0, item)
-        
-        item = QTableWidgetItem()
-        item.setText(QLocale().toString(QDate.currentDate(), QLocale.ShortFormat))
-        AppGlobals.table.setItem(row, 1, item)
+        # Combine all parts with tab or space spacing
+        header_text = (
+            f"{date_str} - {day_name} - {time_str} - CW {cw}"
+        )
 
-        item = QTableWidgetItem()
-        item.setText(QLocale().toString(QDate.currentDate(), "dddd"))
-        AppGlobals.table.setItem(row, 2, item)
+        # Insert a line break before the header if needed, then append the string cell
+        AppGlobals.history.append("")  # Ensure a new line before the header
+        StringCellValue(header_text, is_bold=True)
 
-        item = QTableWidgetItem()
-        item.setText(QLocale().toString(QTime.currentTime(), QLocale.ShortFormat))
-        AppGlobals.table.setItem(row, 3, item)
-
-        cw, year = QDate.currentDate().weekNumber()
-        item = QTableWidgetItem()
-        item.setText(f"CW {cw}")
-        AppGlobals.table.setItem(row, 4, item)
-
-        item = QTableWidgetItem()
-        item.setText(separator)
-        AppGlobals.table.setItem(row, 5, item)
-
-        AppGlobals.table.scrollToBottom()
+        # Ensure view scrolls to bottom
+        AppGlobals.history.ensureCursorVisible()
 
     def exec_phy_const(self):
         dlg = PhyConstDialog(AppGlobals.phy_const_index)
@@ -2446,13 +2345,11 @@ class InputTextEdit(QLineEdit):
         if dlg.exec() == QDialog.Accepted:
             v_from, AppGlobals.unit_conversion_from, v_to, AppGlobals.unit_conversion_to = dlg.get_results()
             self.setTextSelect(AppGlobals.to_normal_string(v_to))
-            row = AppGlobals.table.rowCount()
-            AppGlobals.table.insertRow(row)        
-            AppGlobals.table.scrollToBottom()
-            FloatCellValue(v_from, row, 0)
-            StringCellValue(f"{AppGlobals.unit_conversion_from} =", row, 1)
-            ResultCellValue(v_to, row, 2)
-            StringCellValue(AppGlobals.unit_conversion_to, row, 3)
+            AppGlobals.history.append("")  # Ensure a new line before the header
+            FloatCellValue(v_from)
+            StringCellValue(f" {AppGlobals.unit_conversion_from} = ")
+            ResultCellValue(v_to)
+            StringCellValue(f" {AppGlobals.unit_conversion_to}")
         self.update_shift_ctrl_status()
 
     def exec_del_operation(self):
@@ -2580,12 +2477,12 @@ class InputTextEdit(QLineEdit):
     
     def exec_frac_part(self):
         if self.store_number():
-            expr = FracPartExpression(AppGlobals.table)
+            expr = FracPartExpression()
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
 
     def exec_int_part(self):
         if self.store_number():
-            expr = IntPartExpression(AppGlobals.table)
+            expr = IntPartExpression()
             self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(self.number)))
 
     def get_physical_shift_state(self):
@@ -2620,26 +2517,21 @@ class InputTextEdit(QLineEdit):
 
     def exec_word_size_byte(self):
         AppGlobals.current_word_size = WordSize.BIT8
-        self.update_table()
 
     def exec_word_size_word(self):
         AppGlobals.current_word_size = WordSize.BIT16
-        self.update_table()
 
     def exec_word_size_dword(self):
         AppGlobals.current_word_size = WordSize.BIT32
-        self.update_table()
 
     def exec_word_size_qword(self):
         AppGlobals.current_word_size = WordSize.BIT64
-        self.update_table()
 
     def set_base(self, base: NumberBase):
         if AppGlobals.calc_mode != CalcMode.base_n:
             self.exec_base_n_mode()
         number, ok = AppGlobals.to_number(self.text())
         AppGlobals.number_base = base
-        self.update_table()
         self.update_bg_color()
         self.update_keyboard()
 
@@ -2649,7 +2541,6 @@ class InputTextEdit(QLineEdit):
     def exec_scientific_mode(self):
         number, ok = AppGlobals.to_number(self.text())
         AppGlobals.calc_mode = CalcMode.scientific
-        self.update_table()
         self.update_bg_color()
         self.update_keyboard()
 
@@ -2659,7 +2550,6 @@ class InputTextEdit(QLineEdit):
     def exec_base_n_mode(self):
         number, ok = AppGlobals.to_number(self.text())
         AppGlobals.calc_mode = CalcMode.base_n
-        self.update_table()
         self.update_bg_color()
         self.update_keyboard()
 
@@ -2725,7 +2615,6 @@ class InputTextEdit(QLineEdit):
     def exec_complex_numbers_mode(self):
         number, ok = AppGlobals.to_number(AppGlobals.input_box.text())
         AppGlobals.calc_mode = CalcMode.complex_numbers
-        AppGlobals.input_box.update_table()
         AppGlobals.input_box.update_bg_color()
         AppGlobals.input_imag_box.update_bg_color()
         self.update_keyboard()
@@ -2893,6 +2782,46 @@ class InputTextEdit(QLineEdit):
         # Action triggered on Double (Ctrl + Shift)
         print("Detected: Double (Ctrl + Shift)")
         self.exec_ctrl_double_shift()
+
+    def history_link_clicked(self, url: QUrl):
+        """Extracts full precision value from link URL and puts it into the input field."""
+        raw_url = url.toString()
+        if raw_url.startswith("calc:"):
+            # Extract full precision string value
+            raw_value = raw_url.split("calc:")[1]
+        else:
+            raw_value = raw_url
+
+        convert_ok = False
+        try:
+            number_temp = int(raw_value, 10) # Try to convert to int first
+            convert_ok = True
+        except ValueError:
+            pass  # Not an integer, try float next
+
+        if convert_ok:
+            # integer
+            if AppGlobals.is_shift_pressed() and AppGlobals.calc_mode is CalcMode.complex_numbers:
+                AppGlobals.input_imag_box.setTextSelect(AppGlobals.to_normal_string(number_temp))
+            else:
+                AppGlobals.input_box.setTextSelect(AppGlobals.to_normal_string(number_temp))
+        else:
+            number_temp, convert_ok = AppGlobals.toDouble(raw_value) # Try to convert to float
+            if AppGlobals.is_shift_pressed() and AppGlobals.calc_mode is CalcMode.complex_numbers:
+                AppGlobals.input_imag_box.setTextSelect(AppGlobals.to_normal_string(number_temp))
+            else:
+                AppGlobals.input_box.setTextSelect(AppGlobals.to_normal_string(number_temp))
+
+        if not convert_ok:
+            if AppGlobals.is_shift_pressed() and AppGlobals.calc_mode is CalcMode.complex_numbers:
+                AppGlobals.input_imag_box.setTextSelect(raw_value)  # Fallback: just set the raw string
+            else:
+                AppGlobals.input_box.setTextSelect(raw_value)  # Fallback: just set the raw string
+
+        if AppGlobals.is_shift_pressed() and AppGlobals.calc_mode is CalcMode.complex_numbers:
+            AppGlobals.input_imag_box.setFocus()
+        else:
+            AppGlobals.input_box.setFocus()
 
     def selectAll(self):
         super().selectAll()

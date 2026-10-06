@@ -33,10 +33,10 @@ class RightShiftLogicalExpression(BinaryExpression):
         result = (masked_number >> shift_amount) & mask
         self.insert_scroll_table()
 
-        self.protocol("Rsh", 0)
+        self.protocol("Rsh: ", 0)
         self.protocol(masked_number, 1)
-        self.protocol(">>", 2)
+        self.protocol(" >> ", 2)
         self.protocol(shift_amount, 3)
-        self.protocol(" =", 4)
+        self.protocol(" = ", 4)
         self.protocol_result(result, 5)
         return result

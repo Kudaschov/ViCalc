@@ -28,6 +28,4 @@ class CalcExpression(ABC):
 
     def insert_scroll_table(self) -> None:
         """Insert a new row into the global output table and scroll to bottom."""
-        self.row = AppGlobals.table.rowCount()
-        AppGlobals.table.insertRow(self.row)        
-        AppGlobals.table.scrollToBottom()
+        AppGlobals.history.append("")

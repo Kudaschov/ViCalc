@@ -3,6 +3,7 @@ import sys
 import json
 import ctypes
 import webbrowser
+from pathlib import Path
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu, QStatusBar
@@ -11,9 +12,7 @@ from PySide6.QtCore import QSettings, QByteArray, QSize, QPoint
 from .ui.mainwindow import Ui_MainWindow # Make sure this path is correct
 from PySide6.QtCore import QTimer
 from PySide6.QtCore import QStandardPaths
-from PySide6.QtWidgets import QTableWidgetItem
 from PySide6.QtGui import QFont, QColor
-from .ui.InputTextEdit import InputTextEdit
 from .CalcOperations import CalcOperations
 from .TrigMode import TrigMode
 from PySide6.QtCore import QUrl
@@ -91,10 +90,15 @@ class MainWindow(QMainWindow):
         self.arithmetic_operation_color = QColor("#FAFAFA")
         self.number_key_color = QColor("#FFFFFF")
 
-        AppGlobals.table = self.ui.tableWidget
         AppGlobals.input_box = self.ui.inputTextEdit
         AppGlobals.input_imag_box = self.ui.inputImagTextEdit
         AppGlobals.expressionLabel = self.ui.expressionLabel
+
+        AppGlobals.history = self.ui.historyTextBrowser
+        AppGlobals.history.anchorClicked.connect(AppGlobals.input_box.history_link_clicked)
+        # Disable automatic link handling (prevents "No document for..." error)
+        AppGlobals.history.setOpenExternalLinks(False)
+        AppGlobals.history.setOpenLinks(False)
 
         self.ui.action_DEG.triggered.connect(self.mode_deg)
         self.ui.action_RAD.triggered.connect(self.mode_rad)
@@ -159,13 +163,6 @@ class MainWindow(QMainWindow):
 
         self.ui.action_AWG_to_mm2.triggered.connect(self.awg_to_mm2)
         self.ui.action_mm2_to_AWG.triggered.connect(self.mm2_to_awg)
-
-        # connect mouse double click on table
-        AppGlobals.table.cellDoubleClicked.connect(self.table_cell_double_clicked)
-
-        # context menu
-        AppGlobals.table.setContextMenuPolicy(Qt.CustomContextMenu)
-        AppGlobals.table.customContextMenuRequested.connect(self.show_context_menu)
 
         # Define a list to store QPushButton objects
         self.button_list = []
@@ -235,9 +232,6 @@ class MainWindow(QMainWindow):
         self.preselect_timer.timeout.connect(self.poll_key_preselect)
         self.preselect_timer.start(50)
 
-        AppGlobals.table.verticalHeader().setStyleSheet("QHeaderView::section { color: gray; }")
-        AppGlobals.table.setColumnCount(7)
-        AppGlobals.table.setHorizontalHeaderLabels(["A", "B", "C", "D", "E", "F", "G"])
         self.connect_table_signals()
 
         self.trig_mode_label = ClickableLabelStyle("TM")
@@ -313,7 +307,7 @@ class MainWindow(QMainWindow):
         self.update_keyboard()
 
         self.save_path = os.path.join(
-        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "vicalc_data.vic")
+        QStandardPaths.writableLocation(QStandardPaths.AppDataLocation), "vicalc.html")
         self.load_table_data()         
 
         self.start_key_state_monitor()     
@@ -365,95 +359,6 @@ class MainWindow(QMainWindow):
     def poll_key_preselect(self):
         self.key_preselect.poll_keys()
 
-    def show_context_menu(self, pos):
-        global_pos = AppGlobals.table.viewport().mapToGlobal(pos)
-        index = AppGlobals.table.indexAt(pos)
-        item = AppGlobals.table.itemAt(pos)
-        if item:
-            menu = QMenu(self)
-            action_copy_table_to_clipboard = menu.addAction("Copy")
-            action_paste_to_calculator = menu.addAction("Paste to calculator")
-            action_paste_to_imag_part = menu.addAction("Paste to imag part")
-            action_clear_cell = menu.addAction("Clear Cell(s)")
-            action_delete = menu.addAction("Delete row(s)")
-            action = menu.exec(global_pos)
-            if action == action_paste_to_calculator:
-                self.paste_item_to_calculator(item)
-            elif action == action_paste_to_imag_part:
-                self.action_paste_to_imag_part(item)
-            elif action == action_copy_table_to_clipboard:
-                AppGlobals.table.copy_selection_to_clipboard()
-            elif action == action_delete:
-                self.delete_rows_in_history()
-            elif action == action_clear_cell:
-                # Create a warning message box
-                msg_box = QMessageBox()
-                msg_box.setIcon(QMessageBox.Warning)
-                msg_box.setWindowTitle("Warning")
-                msg_box.setText("Are you sure you want to clear the cell?")
-                msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-                msg_box.setDefaultButton(QMessageBox.No)
-
-                # Show the message box and get the user's response
-                result = msg_box.exec()
-
-                if result == QMessageBox.Yes:
-                    AppGlobals.table.setItem(index.row(), index.column(), None)
-
-        elif index.isValid():
-            menu = QMenu(self)
-            action_add_comment = menu.addAction("Add Comment")
-            action_delete = menu.addAction("Delete row(s)")
-            action = menu.exec(global_pos)
-            if action == action_add_comment:
-                dialog = CommentDialog()
-                dialog.ui.lineEdit.setText("")
-                if dialog.exec():
-                    comment = dialog.get_comment()
-                    CommentCellValue(comment, index.row(), index.column())
-            elif action == action_delete:
-                self.delete_rows_in_history()
-
-    def clear_cell_in_table(self):
-        # Create a warning message box
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Warning)
-        msg_box.setWindowTitle("Warning")
-        msg_box.setText("Are you sure you want to clear the cell?")
-        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msg_box.setDefaultButton(QMessageBox.No)
-
-        # Show the message box and get the user's response
-        result = msg_box.exec()
-
-        if result == QMessageBox.Yes:
-            for index in AppGlobals.table.selectedIndexes():
-                r, c = index.row(), index.column()
-                AppGlobals.table.setItem(r, c, None)
-
-    def delete_rows_in_history(self):
-        # Create a warning message box
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Warning)
-        msg_box.setWindowTitle("Warning")
-        msg_box.setText("Are you sure you want to delete row(s)?")
-        msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msg_box.setDefaultButton(QMessageBox.No)
-
-        # Show the message box and get the user's response
-        result = msg_box.exec()
-
-        if result == QMessageBox.Yes:
-            selected_ranges = AppGlobals.table.selectedRanges()
-            rows_to_delete = set()
-            for r in selected_ranges:
-                rows_to_delete.update(range(r.topRow(), r.bottomRow() + 1))
-
-            for row in sorted(rows_to_delete, reverse=True):
-                AppGlobals.table.removeRow(row)
-
-            self.goto_calculator_mode()
-
     def delete_full_protocol(self):                        
         # Create a warning message box
         msg_box = QMessageBox()
@@ -467,43 +372,25 @@ class MainWindow(QMainWindow):
         result = msg_box.exec()
 
         if result == QMessageBox.Yes:
-            AppGlobals.table.setRowCount(0)
+            AppGlobals.history.clear()
             self.goto_calculator_mode()
 
     def connect_table_signals(self):
-        AppGlobals.table.enterPressed.connect(self.cell_enter_pressed)
-        AppGlobals.table.shiftEnterPressed.connect(self.cell_shift_enter_pressed)
-        AppGlobals.table.escPressed.connect(self.cell_esc_pressed)
-        AppGlobals.table.shift_delete_pressed.connect(self.delete_rows_in_history)
-        AppGlobals.table.delete_pressed.connect(self.clear_cell_in_table)
+        AppGlobals.history.escPressed.connect(self.cell_esc_pressed)
+        # AppGlobals.history.enterPressed.connect(self.cell_enter_pressed)
+        # AppGlobals.table.shiftEnterPressed.connect(self.cell_shift_enter_pressed)
+        # AppGlobals.table.shift_delete_pressed.connect(self.delete_rows_in_history)
+        # AppGlobals.table.delete_pressed.connect(self.clear_cell_in_table)
 
     def cell_esc_pressed(self):
-        if (self.is_tableWidget_editing() == False):
-            # tableWidget is not editing, go in calculator mode
-            self.goto_calculator_mode()
+        self.goto_calculator_mode()
 
     def goto_calculator_mode(self):
         AppGlobals.input_box.setFocus()
         AppGlobals.input_box.selectAll()
 
-    def cell_enter_pressed(self, row, col):
-        if (self.is_tableWidget_editing() == False):
-            # tableWidget is not editing, put the current value in inputTextEdit
-            item = AppGlobals.table.item(row, col)
-            self.paste_item_to_calculator(item)
-
-    def cell_shift_enter_pressed(self, row, col):
-        if (self.is_tableWidget_editing() == False):
-            # tableWidget is not editing, put the current value in inputTextEdit
-            item = AppGlobals.table.item(row, col)
-            self.action_paste_to_imag_part(item)
-
-    def is_tableWidget_editing(self) -> bool:
-        # is the tableWidget in edit mode
-        current_item = AppGlobals.table.currentItem()
-        if current_item:
-            return AppGlobals.table.isPersistentEditorOpen(current_item)
-        return False         
+    def cell_enter_pressed(self):
+        self.paste_item_to_calculator()
 
     def read_settings(self):
         saved_text = self.settings.value("inputText", "0")
@@ -579,7 +466,6 @@ class MainWindow(QMainWindow):
                 self.restoreState(state)      
 
             AppGlobals.numeric_format = NumericFormat(self.settings.value("numeric_format", NumericFormat.general.value, type=int))
-            AppGlobals.input_box.update_table()
             AppGlobals.input_box.update_bg_color()
             AppGlobals.input_imag_box.update_bg_color()
 
@@ -1095,8 +981,6 @@ class MainWindow(QMainWindow):
         self.settings.setValue("unit_conversion_from", AppGlobals.unit_conversion_from)
         self.settings.setValue("unit_conversion_to", AppGlobals.unit_conversion_to)
 
-        self.save_table_data()
-
         self.settings.setValue("MainWindow/geometry", self.saveGeometry())
         self.settings.setValue("MainWindow/windowState", self.saveState())
 
@@ -1134,19 +1018,26 @@ class MainWindow(QMainWindow):
         self.settings.setValue("carry_flag", AppGlobals.carry_flag)
         self.settings.setValue("base_n_signed", AppGlobals.base_n_signed)
 
+        self.save_table_data()
+
         super().closeEvent(event)
 
     def save_table_data(self):
         os.makedirs(os.path.dirname(self.save_path), exist_ok=True)
-        AppGlobals.table.save_to_file(self.save_path)
+        html_content = AppGlobals.history.toHtml()
+
+        # Write content to file using UTF-8 encoding
+        with open(self.save_path, "w", encoding="utf-8") as file:
+            file.write(html_content)        
 
     def load_table_data(self):
-        try:
-            if os.path.exists(self.save_path):
-                AppGlobals.table.load_from_file(self.save_path)
-            AppGlobals.table.scrollToBottom()
-        except Exception as err:
-            print(f"Possible for the first reading {err=}, {type(err)=}")
+        file_path = Path(self.save_path)
+        if file_path.is_file():
+            # Read content from file
+            with open(self.save_path, "r", encoding="utf-8") as file:
+                html_content = file.read()
+            # Set loaded HTML back into browser
+            AppGlobals.history.setHtml(html_content)
 
   # --- New Slot Method to update buttons ---
     def updateButtonsForShift(self, is_shift_pressed: bool):
@@ -1207,7 +1098,7 @@ class MainWindow(QMainWindow):
 
     def change_mode(self):
         #print("input_box_focus_out")
-        if AppGlobals.table.hasFocus():
+        if AppGlobals.history.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.mode_label.setText("Calculation History")
         else:
@@ -1215,7 +1106,7 @@ class MainWindow(QMainWindow):
 
     def input_box_focus_in(self):
         #print("input_box_focus_in")
-        if AppGlobals.table.hasFocus():
+        if AppGlobals.history.hasFocus():
             self.mode_label.setStyleSheet(self.status_label_current_stylesheet + "background-color: yellow;")
             self.mode_label.setText("Calculation History")
         else:
@@ -1256,19 +1147,15 @@ class MainWindow(QMainWindow):
 
     def set_word_size_byte(self):
         AppGlobals.current_word_size = WordSize.BIT8
-        AppGlobals.input_box.update_table()
 
     def set_word_size_word(self):
         AppGlobals.current_word_size = WordSize.BIT16
-        AppGlobals.input_box.update_table()
 
     def set_word_size_dword(self):
         AppGlobals.current_word_size = WordSize.BIT32
-        AppGlobals.input_box.update_table()
 
     def set_word_size_qword(self):
         AppGlobals.current_word_size = WordSize.BIT64
-        AppGlobals.input_box.update_table()
 
     def set_bitwise_shift_arithmetic(self):
         AppGlobals.input_box.button_clicked(CalcOperations.bitwise_shift_arithmetic)
@@ -1337,7 +1224,6 @@ class MainWindow(QMainWindow):
         next_index = (current_index + 1) % len(word_sizes)
         AppGlobals.current_word_size = word_sizes[next_index]
         self.word_size_label.setText(AppGlobals.current_word_size.status_text)
-        AppGlobals.input_box.update_table()
 
     def bitwise_shift_label_clicked(self):
         # Cycle through bitwise shift modes
@@ -1360,7 +1246,6 @@ class MainWindow(QMainWindow):
         AppGlobals.input_box.set_base(number_bases[next_index])
         self.number_base_label.setText(AppGlobals.number_base.status_text)
         self.check_key_states()
-        AppGlobals.input_box.update_table()
 
     def memory_label_clicked(self):
         AppGlobals.input_box.exec_MR()
@@ -1522,10 +1407,10 @@ class MainWindow(QMainWindow):
             self.ui.pushButtonBackspace.column = 6
         self.ui.pushButtonBackspace.setText("⌫")
         self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonBackspace.shift_text = "DL"
-        self.ui.pushButtonBackspace.ctrl_text = "DO"
+        self.ui.pushButtonBackspace.shift_text = "DO"
+        self.ui.pushButtonBackspace.ctrl_text = ""
         self.ui.pushButtonBackspace.base_operation = CalcOperations.backspace
-        self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_last_line
+        self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_operation
         self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_operation
         UiGlobals.pushButtonBackspace = self.ui.pushButtonBackspace
         self.leftside_button_list.append(self.ui.pushButtonBackspace)
@@ -1534,12 +1419,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonCommaNumpad.column = 2
         self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
         self.ui.pushButtonCommaNumpad.shift_text = "⌫"
-        self.ui.pushButtonCommaNumpad.ctrl_text = "DL"
-        self.ui.pushButtonCommaNumpad.ctrl_shift_text = "DO"
+        self.ui.pushButtonCommaNumpad.ctrl_text = "DO"
+        self.ui.pushButtonCommaNumpad.ctrl_shift_text = "MC"
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
         self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
-        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_last_line
-        self.ui.pushButtonCommaNumpad.ctrl_shift_operation = CalcOperations.del_operation
+        self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_operation
+        self.ui.pushButtonCommaNumpad.ctrl_shift_operation = CalcOperations.MC
         UiGlobals.pushButtonCommaNumpad = self.ui.pushButtonCommaNumpad
         self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
 
@@ -1993,26 +1878,7 @@ class MainWindow(QMainWindow):
     def dms_to_dd(self):
         AppGlobals.input_box.exec_convert_to_dd()
 
-    def table_cell_double_clicked(self, row, column):
-
-        item = AppGlobals.table.item(row, column)
-        self.paste_item_to_calculator(item)
-
-    def paste_item_to_calculator(self, item):
-        if not item:
-            return
-        
-        val = item.data(Qt.UserRole)
-        text = item.data(Qt.DisplayRole)
-        if val:
-            if isinstance(val, NumericCellValue):
-                AppGlobals.input_box.setText(AppGlobals.to_normal_string(val.value()))
-            elif isinstance(val, IntegerCellValue):
-                AppGlobals.input_box.setText(AppGlobals.to_normal_string(int(val.value())))
-            else:
-                AppGlobals.input_box.setText(text)
-        else:
-            AppGlobals.input_box.setText(item.text())
+    def paste_item_to_calculator(self):
         AppGlobals.input_box.setFocus()
         AppGlobals.input_box.selectAll()    
 

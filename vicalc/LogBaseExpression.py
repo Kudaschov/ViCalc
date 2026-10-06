@@ -16,18 +16,16 @@ class LogBaseExpression(BinaryExpression):
         self.insert_scroll_table()
 
         if AppGlobals.calc_mode is CalcMode.complex_numbers:
-            self.protocol_complex(self.first_number, " +", False, "Logarithm(")
-            self.insert_scroll_table()
-            self.protocol_complex(number, " =", False, "Base: (")
-            self.insert_scroll_table()
+            self.protocol_complex(self.first_number, "; ", False, "Log(")
+            self.protocol_complex(number, " = ", False, "base: (")
             result = cmath.log(self.first_number, number)
             self.protocol_complex(result, "", True)
         else:
-            self.protocol("Logarithm", 0)
-            self.protocol(self.first_number, 1)
-            self.protocol("Base", 2)
-            self.protocol(number, 3)
-            self.protocol("=", 4)
+            self.protocol("Log(")
+            self.protocol(self.first_number)
+            self.protocol("); base: ")
+            self.protocol(number)
+            self.protocol(" = ")
             result: float = AppGlobals.log_base_calculation(self.first_number, number)
-            self.protocol_result(self.toString(result), 5)
+            self.protocol_result(result)
         return result

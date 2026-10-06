@@ -5,16 +5,15 @@ from .AppGlobals import AppGlobals
 from .StringCellValue import StringCellValue
 
 class ResultStringCellValue(StringCellValue):
-    def __init__(self, text: str, row = -1, col = -1):
-        super().__init__(text, row, col)
-        self.serialize_type = "ResultStringCellValue"
 
-    def to_string(self, row = -1, col = -1):
-        if -1 != col and -1 != row:
-            item = AppGlobals.table.item(row, col)
-            if item:
-                resultFont = QFont()
-                resultFont.setBold(True)
-                item.setFont(resultFont)
-
-        return super().to_string(row, col)
+    def __init__(
+        self,
+        text: str,
+        row: int = -1,
+        col: int = -1,
+        font_size: int = AppGlobals.history_string_font_size
+    ):
+        # Pass is_bold=True and font_size to parent class StringCellValue
+        super().__init__(
+            text, row, col, is_bold=True, font_size=font_size
+        )

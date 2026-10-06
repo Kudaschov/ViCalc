@@ -3,8 +3,8 @@ from PySide6.QtWidgets import QMessageBox
 from .UnaryExpression import UnaryExpression
 
 class BaseExpression(UnaryExpression):
-    def __init__(self, tableWidget, base: int):
-        super().__init__(tableWidget)
+    def __init__(self, base: int):
+        super().__init__()
         self.base: int = base
         self.i_number: int = 0 #integer number from string with base 2, 8, 10 or 16
 

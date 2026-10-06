@@ -16,14 +16,13 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QSizePolicy, QStatusBar, QTableWidgetItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
+    QMainWindow, QMenu, QMenuBar, QSizePolicy,
+    QStatusBar, QVBoxLayout, QWidget)
 
 from .CalcButton import CalcButton
-from .CalcTableWidget import CalcTableWidget
 from .ClickableLabel import ClickableLabel
+from .HistoryBrowser import HistoryBrowser
 from .InputTextEdit import InputTextEdit
 from .vertical_label import VerticalLabel
 from . import resource_rc
@@ -220,17 +219,16 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.tableWidget = CalcTableWidget(self.centralwidget)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.historyTextBrowser = HistoryBrowser(self.centralwidget)
+        self.historyTextBrowser.setObjectName(u"historyTextBrowser")
 
-        self.verticalLayout.addWidget(self.tableWidget)
+        self.verticalLayout.addWidget(self.historyTextBrowser)
 
         self.expressionLabel = QLabel(self.centralwidget)
         self.expressionLabel.setObjectName(u"expressionLabel")
         self.expressionLabel.setMinimumSize(QSize(0, 18))
         font = QFont()
-        font.setPointSize(10)
+        font.setPointSize(11)
         self.expressionLabel.setFont(font)
 
         self.verticalLayout.addWidget(self.expressionLabel)
@@ -611,9 +609,7 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
-        font4 = QFont()
-        font4.setPointSize(11)
-        self.statusbar.setFont(font4)
+        self.statusbar.setFont(font)
         MainWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menu_File.menuAction())

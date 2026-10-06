@@ -1,5 +1,4 @@
 import math
-from PySide6.QtWidgets import QTableWidgetItem
 from .UnaryExpression import UnaryExpression
 from .AppGlobals import AppGlobals
 from .CalcMode import CalcMode
@@ -16,8 +15,11 @@ class ConvertToBasesExpression(UnaryExpression):
             i_number = int(number)
         self.insert_scroll_table()
         self.protocol(AppGlobals.to_format_string(i_number, NumberBase.BIN), 0)
+        self.protocol(" = ")
         self.protocol(AppGlobals.to_format_string(i_number, NumberBase.OCT), 1)
+        self.protocol(" = ")
         self.protocol_result(f"{i_number}", 2)
+        self.protocol(" = ")
 
         hex_column = 3
 
@@ -26,6 +28,7 @@ class ConvertToBasesExpression(UnaryExpression):
             if signed:
                 self.protocol_result(f"{signed_val}", 3)
                 hex_column = hex_column + 1
+                self.protocol(" = ")
                 
         self.protocol(AppGlobals.to_format_string(i_number, NumberBase.HEX), hex_column)
 

@@ -1,5 +1,4 @@
 import math
-from PySide6.QtWidgets import QTableWidgetItem
 from .AngleUnit import AngleUnit
 
 class DegUnit(AngleUnit):

@@ -3,7 +3,6 @@ from PySide6.QtCore import Signal
 from functools import singledispatchmethod
 from PySide6.QtCore import QLocale
 from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QTableWidgetItem
 from .AppGlobals import AppGlobals
 from .ResultCellValue import ResultCellValue
 from .StringCellValue import StringCellValue
@@ -55,9 +54,7 @@ class AngleUnit(ABC):
         pass  # No implementation here    
 
     def insert_scroll_table(self):
-        self.row = AppGlobals.table.rowCount()
-        AppGlobals.table.insertRow(self.row)        
-        AppGlobals.table.scrollToBottom()
+        AppGlobals.history.append("")
 
     def protocol_result(self, result: float, column_number: int):
         ResultCellValue(result, self.row, column_number) 

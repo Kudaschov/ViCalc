@@ -1,6 +1,5 @@
 from .CalcPrios import CalcPrios
 from .BinaryExpression import BinaryExpression
-from PySide6.QtWidgets import QTableWidgetItem
 
 class IntegerBinaryExpression(BinaryExpression):
     """Base class for two-operand integer operations (e.g., bitwise AND, OR, XOR)."""

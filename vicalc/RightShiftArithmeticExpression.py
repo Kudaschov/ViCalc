@@ -43,10 +43,10 @@ class RightShiftArithmeticExpression(BinaryExpression):
             
         self.insert_scroll_table()
 
-        self.protocol("AshR", 0)
+        self.protocol("AshR: ", 0)
         self.protocol(masked_number, 1)
-        self.protocol(">>", 2)
+        self.protocol(" >> ", 2)
         self.protocol(shift_amount, 3)
-        self.protocol(" =", 4)
+        self.protocol(" = ", 4)
         self.protocol_result(result, 5)
         return result

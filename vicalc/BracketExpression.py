@@ -3,8 +3,8 @@ from .CalcExpression import CalcExpression
 from .UnaryExpression import UnaryExpression
 
 class BracketExpression(UnaryExpression):
-    def __init__(self, tableWidget):
-        super().__init__(tableWidget)
+    def __init__(self):
+        super().__init__()
         self.operation_prio = CalcPrios.Bracket
 
     def text(self):
