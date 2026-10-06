@@ -138,3 +138,10 @@ You can install and run **ViCalc** using one of the following methods:
 Copyright (c) Dr. Vitali Kudaschov, 2003 - 2026.
 
 Licensed under the [MIT License](./LICENSE).
+
+## Support & Donations
+
+If you find **ViCalc** useful and would like to support its development, feel free to buy me a coffee:
+
+[![Support on Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/kudaschov)
+[![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/VitaliKudaschov)
