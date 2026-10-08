@@ -17,8 +17,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QStatusBar, QVBoxLayout, QWidget)
+    QMainWindow, QMenu, QMenuBar, QScrollArea,
+    QSizePolicy, QVBoxLayout, QWidget)
 
 from .CalcButton import CalcButton
 from .ClickableLabel import ClickableLabel
@@ -216,7 +216,9 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_2.setSpacing(2)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(2, 2, 2, 2)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.historyTextBrowser = HistoryBrowser(self.centralwidget)
@@ -226,7 +228,7 @@ class Ui_MainWindow(object):
 
         self.expressionLabel = QLabel(self.centralwidget)
         self.expressionLabel.setObjectName(u"expressionLabel")
-        self.expressionLabel.setMinimumSize(QSize(0, 18))
+        self.expressionLabel.setMinimumSize(QSize(0, 20))
         font = QFont()
         font.setPointSize(11)
         self.expressionLabel.setFont(font)
@@ -586,6 +588,54 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
+        self.baseNscrollArea = QScrollArea(self.centralwidget)
+        self.baseNscrollArea.setObjectName(u"baseNscrollArea")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.baseNscrollArea.sizePolicy().hasHeightForWidth())
+        self.baseNscrollArea.setSizePolicy(sizePolicy2)
+        self.baseNscrollArea.setFrameShape(QFrame.Shape.NoFrame)
+        self.baseNscrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.baseNscrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.baseNscrollArea.setWidgetResizable(True)
+        self.baseNscrollAreaWidgetContents = QWidget()
+        self.baseNscrollAreaWidgetContents.setObjectName(u"baseNscrollAreaWidgetContents")
+        self.baseNscrollAreaWidgetContents.setGeometry(QRect(0, 0, 955, 69))
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.baseNscrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.baseNscrollAreaWidgetContents.setSizePolicy(sizePolicy3)
+        self.horizontalLayout_2 = QHBoxLayout(self.baseNscrollAreaWidgetContents)
+        self.horizontalLayout_2.setSpacing(1)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.baseNscrollArea.setWidget(self.baseNscrollAreaWidgetContents)
+
+        self.verticalLayout_2.addWidget(self.baseNscrollArea)
+
+        self.statusScrollArea = QScrollArea(self.centralwidget)
+        self.statusScrollArea.setObjectName(u"statusScrollArea")
+        sizePolicy2.setHeightForWidth(self.statusScrollArea.sizePolicy().hasHeightForWidth())
+        self.statusScrollArea.setSizePolicy(sizePolicy2)
+        self.statusScrollArea.setFrameShape(QFrame.Shape.NoFrame)
+        self.statusScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.statusScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.statusScrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 955, 69))
+        sizePolicy3.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy3)
+        self.horizontalLayout = QHBoxLayout(self.scrollAreaWidgetContents)
+        self.horizontalLayout.setSpacing(1)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.statusScrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.verticalLayout_2.addWidget(self.statusScrollArea)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -607,10 +657,6 @@ class Ui_MainWindow(object):
         self.menuProgrammer = QMenu(self.menubar)
         self.menuProgrammer.setObjectName(u"menuProgrammer")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        self.statusbar.setFont(font)
-        MainWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menu_File.menuAction())
         self.menubar.addAction(self.menu_Math.menuAction())

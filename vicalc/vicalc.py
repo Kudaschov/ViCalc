@@ -220,7 +220,7 @@ class MainWindow(QMainWindow):
 
         self.ui.calcModeLabel.setFixedSize(self.ui.pushButtonQ.x() - self.ui.pushButton1.x(),
             self.ui.pushButtonSpace.y() - self.ui.pushButton1.y())
-        self.ui.calcModeLabel.move(self.ui.pushButton1.x() - 5, self.ui.pushButton1.y() + self.ui.pushButton1.height())
+        self.ui.calcModeLabel.move(self.ui.pushButton1.x() - 2, self.ui.pushButton1.y() + self.ui.pushButton1.height())
         self.ui.calcModeLabel.clicked.connect(self.calc_mode_label_clicked)
 
         AppGlobals.input_box.button_list = self.button_list
@@ -236,71 +236,65 @@ class MainWindow(QMainWindow):
 
         self.trig_mode_label = ClickableLabelStyle("TM")
         self.trig_mode_label.clicked.connect(self.trig_mode_label_clicked)
-        self.ui.statusbar.addWidget(self.trig_mode_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.trig_mode_label)
 
         self.memory_label = ClickableLabelStyle(AppGlobals.memory_status_bar_text)
         self.memory_label.clicked.connect(self.memory_label_clicked)
-        self.ui.statusbar.addWidget(self.memory_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.memory_label)
 
         self.numeric_format_label = ClickableLabelStyle("Format:")
         self.numeric_format_label.clicked.connect(self.numeric_format_clicked)
-        self.ui.statusbar.addWidget(self.numeric_format_label)
-
-        self.number_view_status_bar = QStatusBar()
-        self.number_view_status_bar.setSizeGripEnabled(False)
-        self.number_view_status_bar.setContentsMargins(0, 0, 0, 0)
-        self.number_view_status_bar.hide()
-        self.ui.verticalLayout.setSpacing(0)
-        self.ui.verticalLayout.addWidget(self.number_view_status_bar)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.numeric_format_label)
 
         self.number_base_label = NumberBaseLabel("Base:")
         self.number_base_label.clicked.connect(self.number_base_label_clicked)
-        self.number_view_status_bar.addWidget(self.number_base_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.number_base_label)
 
         self.word_size_label = ClickableLabelStyle("WS:")
         self.word_size_label.clicked.connect(self.word_size_label_clicked)
-        self.number_view_status_bar.addWidget(self.word_size_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.word_size_label)
 
         self.base_n_signed_label = ClickableLabelStyle("Sign")
         self.base_n_signed_label.clicked.connect(self.toggle_base_n_signed)
-        self.number_view_status_bar.addWidget(self.base_n_signed_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.base_n_signed_label)
 
         self.bitwise_shift_label = ClickableLabelStyle("<<>>")
         self.bitwise_shift_label.clicked.connect(self.bitwise_shift_label_clicked)
-        self.number_view_status_bar.addWidget(self.bitwise_shift_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.bitwise_shift_label)
+
         self.carry_flag_label = ClickableLabelStyle("CF:")
         self.carry_flag_label.clicked.connect(self.carry_flag_label_clicked)
-        self.number_view_status_bar.addWidget(self.carry_flag_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.carry_flag_label)
 
         self.bin_label = ClickableLabelStyle("")
         self.bin_label.clicked.connect(self.bin_label_clicked)
-        self.number_view_status_bar.addWidget(self.bin_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.bin_label)
         self.oct_label = ClickableLabelStyle("")
         self.oct_label.clicked.connect(self.oct_label_clicked)
-        self.number_view_status_bar.addWidget(self.oct_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.oct_label)
         self.dec_label = ClickableLabelStyle("")
         self.dec_label.clicked.connect(self.dec_label_clicked)
-        self.number_view_status_bar.addWidget(self.dec_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.dec_label)
         self.hex_label = ClickableLabelStyle("")
         self.hex_label.clicked.connect(self.hex_label_clicked)
-        self.number_view_status_bar.addWidget(self.hex_label)
+        self.ui.baseNscrollAreaWidgetContents.layout().addWidget(self.hex_label)
 
         self.ui.plusLabel.clicked.connect(self.complex_number_form_label_clicked)
         self.ui.iLabel.clicked.connect(self.complex_number_form_label_clicked)
 
         self.capslock_label = QLabel("-")
-        self.ui.statusbar.addWidget(self.capslock_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.capslock_label)
         self.numlock_label = QLabel("-")
-        self.ui.statusbar.addWidget(self.numlock_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.numlock_label)
         self.status_label_current_stylesheet = "font-size: 15px;"
         self.mode_label = QLabel("-")
-        self.ui.statusbar.addWidget(self.mode_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.mode_label)
 
         self.invalid_number_label = QLabel("-")
-        self.ui.statusbar.addWidget(self.invalid_number_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.invalid_number_label)
 
         self.free_message_label = QLabel("")
-        self.ui.statusbar.addWidget(self.free_message_label)
+        self.ui.scrollAreaWidgetContents.layout().addWidget(self.free_message_label)
 
         self.settings = QSettings("Kudaschov", "ViCalc")
         self.read_settings()
@@ -344,6 +338,17 @@ class MainWindow(QMainWindow):
         self.ui.actionExit.triggered.connect(self.close)     
         self.ui.actionToggle_Protocol.triggered.connect(self.toggle_protocol)
         self.ui.action_delete_full_protocol.triggered.connect(self.delete_full_protocol)
+
+        # Calculate the exact required height for content including layout margins
+        content_height = self.ui.scrollAreaWidgetContents.sizeHint().height()
+        # Restrict ScrollArea to match the exact content height
+        self.ui.statusScrollArea.setFixedHeight(content_height)
+        self.ui.scrollAreaWidgetContents.layout().addStretch()
+
+        content_height = self.ui.baseNscrollAreaWidgetContents.sizeHint().height()
+        # Restrict ScrollArea to match the exact content height
+        self.ui.baseNscrollArea.setFixedHeight(content_height)
+        self.ui.baseNscrollAreaWidgetContents.layout().addStretch()
 
         AppGlobals.input_box.setFocus()
         AppGlobals.input_box.selectAll()
@@ -458,8 +463,7 @@ class MainWindow(QMainWindow):
             if not geometry.isEmpty():
                 self.restoreGeometry(geometry)
             else:
-                self.resize(631, 600)
-                self.move(100, 100)
+                self.resize(617, 600)
 
             state = self.settings.value("MainWindow/windowState", QByteArray())
             if not state.isEmpty():
@@ -556,11 +560,11 @@ class MainWindow(QMainWindow):
         number_temp, convert_ok = AppGlobals.to_number(s_temp)
 
         if AppGlobals.calc_mode == CalcMode.base_n:
-            if not self.number_view_status_bar.isVisible():
-                self.number_view_status_bar.show()
+            if self.ui.baseNscrollArea.isHidden():
+                self.ui.baseNscrollArea.show()
         else:
-            if self.number_view_status_bar.isVisible():
-                self.number_view_status_bar.hide()
+            if self.ui.baseNscrollArea.isVisible():
+                self.ui.baseNscrollArea.hide()
 
         if AppGlobals.calc_mode == CalcMode.complex_numbers:
             imag_part_temp, imag_part_ok = AppGlobals.to_number(AppGlobals.input_imag_box.text())
