@@ -60,7 +60,9 @@ class AppGlobals:
     pushbutton_height = 48
     numpad_enter_height = 96
     right_side_keyboard_visible = False
-    numpad_start_column = 7 # if right_side_keyboard_visible: >= 13
+    numpad_start_column = 0 # if right_side_keyboard_visible: >= 13
+    show_numpad = True
+    show_left_side_keyboard = True
     numlock_ac = False
     phy_const_index = 0 # select index in phy const dialog
     unit_conversion_from = "in"

@@ -22,11 +22,11 @@ class Ui_optionsDialog(object):
     def setupUi(self, optionsDialog):
         if not optionsDialog.objectName():
             optionsDialog.setObjectName(u"optionsDialog")
-        optionsDialog.resize(410, 436)
+        optionsDialog.resize(410, 550)
         optionsDialog.setLocale(QLocale(QLocale.English, QLocale.Germany))
         self.buttonBox = QDialogButtonBox(optionsDialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(10, 400, 391, 32))
+        self.buttonBox.setGeometry(QRect(10, 510, 391, 32))
         self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
         self.timestampCheckBox = QCheckBox(optionsDialog)
@@ -66,6 +66,16 @@ class Ui_optionsDialog(object):
         self.showDecimalValueCheckBox = QCheckBox(self.groupBox)
         self.showDecimalValueCheckBox.setObjectName(u"showDecimalValueCheckBox")
         self.showDecimalValueCheckBox.setGeometry(QRect(10, 120, 181, 20))
+        self.showKeyboardGroupBox = QGroupBox(optionsDialog)
+        self.showKeyboardGroupBox.setObjectName(u"showKeyboardGroupBox")
+        self.showKeyboardGroupBox.setGeometry(QRect(10, 410, 391, 91))
+        self.showKeyboardGroupBox.setLocale(QLocale(QLocale.English, QLocale.Germany))
+        self.showNumpadCheckBox = QCheckBox(self.showKeyboardGroupBox)
+        self.showNumpadCheckBox.setObjectName(u"showNumpadCheckBox")
+        self.showNumpadCheckBox.setGeometry(QRect(10, 60, 181, 20))
+        self.showLeftsideKeyboardCheckBox = QCheckBox(self.showKeyboardGroupBox)
+        self.showLeftsideKeyboardCheckBox.setObjectName(u"showLeftsideKeyboardCheckBox")
+        self.showLeftsideKeyboardCheckBox.setGeometry(QRect(10, 30, 141, 20))
 
         self.retranslateUi(optionsDialog)
         self.buttonBox.accepted.connect(optionsDialog.accept)
@@ -94,5 +104,8 @@ class Ui_optionsDialog(object):
         self.showHexValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"He&x value", None))
         self.showWordSizeCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Word Size", None))
         self.showDecimalValueCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Decimal value", None))
+        self.showKeyboardGroupBox.setTitle(QCoreApplication.translate("optionsDialog", u"Preferred Keyboard", None))
+        self.showNumpadCheckBox.setText(QCoreApplication.translate("optionsDialog", u"N&umpad", None))
+        self.showLeftsideKeyboardCheckBox.setText(QCoreApplication.translate("optionsDialog", u"&Left side keyboard", None))
     # retranslateUi
 

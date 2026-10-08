@@ -4,10 +4,10 @@ import json
 import ctypes
 import webbrowser
 from pathlib import Path
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtCore import Qt, QEvent, QRect
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QLabel, QMessageBox, QStyleFactory, QMenu, QStatusBar
-from PySide6.QtGui import QActionGroup, QIcon
+from PySide6.QtGui import QActionGroup, QPalette, QRegion
 from PySide6.QtCore import QSettings, QByteArray, QSize, QPoint
 from .ui.mainwindow import Ui_MainWindow # Make sure this path is correct
 from PySide6.QtCore import QTimer
@@ -350,6 +350,9 @@ class MainWindow(QMainWindow):
         self.ui.baseNscrollArea.setFixedHeight(content_height)
         self.ui.baseNscrollAreaWidgetContents.layout().addStretch()
 
+        # Install event filter on buttonsFrame to catch resize events
+        self.ui.buttonsFrame.installEventFilter(self)
+
         AppGlobals.input_box.setFocus()
         AppGlobals.input_box.selectAll()
 
@@ -408,7 +411,7 @@ class MainWindow(QMainWindow):
             AppGlobals.input_imag_box.memory = float(self.settings.value("memory_imag", 0.0))
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", 5, type=int)
-            AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", True, type=bool)
+            AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", False, type=bool)
             AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
             AppGlobals.input_replace_decimal_separator = self.settings.value("input_replace_point", True, type=bool)
@@ -417,6 +420,9 @@ class MainWindow(QMainWindow):
             AppGlobals.phy_const_index = self.settings.value("phy_const_index", 0, type=int)
             AppGlobals.unit_conversion_from = self.settings.value("unit_conversion_from", "in", type=str)
             AppGlobals.unit_conversion_to = self.settings.value("unit_conversion_to", "mm", type=str)
+
+            AppGlobals.show_left_side_keyboard = self.settings.value("show_left_side_keyboard", True, type=bool)
+            AppGlobals.show_numpad = self.settings.value("show_numpad", True, type=bool)
 
             AppGlobals.ratio_c_a = float(self.settings.value("ratio_c_a", 1.0))
             AppGlobals.ratio_c_b = float(self.settings.value("ratio_c_b", 2.0))
@@ -988,6 +994,9 @@ class MainWindow(QMainWindow):
         self.settings.setValue("MainWindow/geometry", self.saveGeometry())
         self.settings.setValue("MainWindow/windowState", self.saveState())
 
+        self.settings.setValue("show_left_side_keyboard", AppGlobals.show_left_side_keyboard)
+        self.settings.setValue("show_numpad", AppGlobals.show_numpad)
+
         self.settings.setValue("ratio_c_a", AppGlobals.ratio_c_a)
         self.settings.setValue("ratio_c_b", AppGlobals.ratio_c_b)
         self.settings.setValue("ratio_c_d", AppGlobals.ratio_c_d)
@@ -1204,6 +1213,7 @@ class MainWindow(QMainWindow):
     def after_mainwindow_show(self):
         self.memory_changed(AppGlobals.input_box.memory_to_format_string())
         self.update_numeric_format_label()
+        self.update_numpad_position()
         if AppGlobals.timestamp_at_start:
             self.date_time_stamp()
 
@@ -1928,6 +1938,8 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButtonPlusNumpad.setFixedHeight(AppGlobals.numpad_enter_height)
         self.ui.pushButtonEnterNumpad.setFixedHeight(AppGlobals.numpad_enter_height)
+        self.ui.leftSideFrame.setFixedWidth(self.ui.pushButtonBackspace.x() + self.ui.pushButtonBackspace.width() - self.ui.pushButton1.x())
+        self.ui.numpadFrame.setFixedWidth(self.ui.pushButtonMinusNumpad.x() + self.ui.pushButtonMinusNumpad.width())
 
         # for debug
         if False:
@@ -1998,6 +2010,8 @@ class MainWindow(QMainWindow):
         dialog.ui.showDecimalValueCheckBox.setChecked(AppGlobals.show_decimal_value)
         dialog.ui.showHexValueCheckBox.setChecked(AppGlobals.show_hex_value)
         dialog.ui.showWordSizeCheckBox.setChecked(AppGlobals.show_word_size)
+        dialog.ui.showLeftsideKeyboardCheckBox.setChecked(AppGlobals.show_left_side_keyboard)
+        dialog.ui.showNumpadCheckBox.setChecked(AppGlobals.show_numpad)
 
         if dialog.exec():
             AppGlobals.timestamp_at_start = dialog.ui.timestampCheckBox.isChecked()
@@ -2011,6 +2025,9 @@ class MainWindow(QMainWindow):
             AppGlobals.show_decimal_value = dialog.ui.showDecimalValueCheckBox.isChecked()
             AppGlobals.show_hex_value = dialog.ui.showHexValueCheckBox.isChecked()
             AppGlobals.show_word_size = dialog.ui.showWordSizeCheckBox.isChecked()
+            AppGlobals.show_left_side_keyboard = dialog.ui.showLeftsideKeyboardCheckBox.isChecked()
+            AppGlobals.show_numpad = dialog.ui.showNumpadCheckBox.isChecked()
+            self.update_numpad_position()
 
     def square(self):
         AppGlobals.input_box.exec_square()
@@ -2339,6 +2356,71 @@ class MainWindow(QMainWindow):
         self.second_row_keyboard()
         self.third_row_keyboard()
         self.right_side_keyboard()
+
+    def eventFilter(self, watched, event):
+        # Reposition numpadFrame whenever buttonsFrame is resized
+        if watched == self.ui.buttonsFrame and event.type() == QEvent.Type.Resize:
+            self.update_numpad_position()
+        return super().eventFilter(watched, event)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.update_numpad_position()
+
+    def update_numpad_position(self):
+        """
+        Positions numpadFrame at the top-right corner of buttonsFrame and keeps it on top.
+        When the window shrinks, numpadFrame covers mainButtonsFrame.
+        """
+
+        if AppGlobals.show_left_side_keyboard and AppGlobals.show_numpad:
+            if self.ui.buttonsFrame.isHidden():
+                self.ui.buttonsFrame.show()
+            x_pos = self.ui.leftSideFrame.width()
+            self.ui.numpadFrame.move(x_pos, 0)
+            if self.ui.leftSideFrame.isHidden():
+                self.ui.leftSideFrame.show()
+            if self.ui.numpadFrame.isHidden():
+                self.ui.numpadFrame.show()
+        elif AppGlobals.show_numpad:
+            if self.ui.buttonsFrame.isHidden():
+                self.ui.buttonsFrame.show()
+            if self.ui.numpadFrame.isHidden():
+                self.ui.numpadFrame.show()
+            # Calculate x position to keep numpad anchored to the right edge
+            x_pos = max(0, self.ui.buttonsFrame.width() - self.ui.numpadFrame.width())
+            self.ui.numpadFrame.move(x_pos, 0)
+
+            if self.ui.leftSideFrame.geometry().intersects(self.ui.numpadFrame.geometry()):
+                self.ui.leftSideFrame.hide()
+                # Place numpadFrame in center of buttonsFrame if it overlaps mainButtonsFrame
+                center_x = max(0, (self.ui.buttonsFrame.width() - self.ui.numpadFrame.width()) // 2)
+                self.ui.numpadFrame.move(center_x, 0)
+            else:
+                self.ui.leftSideFrame.show()                
+        elif AppGlobals.show_left_side_keyboard:
+            if self.ui.buttonsFrame.isHidden():
+                self.ui.buttonsFrame.show()
+            # Show left side keyboard
+            if self.ui.leftSideFrame.isHidden():
+                self.ui.leftSideFrame.show()
+            x_pos = max(0, self.ui.buttonsFrame.width() - self.ui.leftSideFrame.width())
+            self.ui.numpadFrame.move(x_pos, 0)
+
+            if (self.ui.leftSideFrame.width() + self.ui.numpadFrame.width()) > self.ui.buttonsFrame.width():
+                self.ui.numpadFrame.hide()
+                # Place in center
+                center_x = max(0, (self.ui.buttonsFrame.width() - self.ui.leftSideFrame.width()) // 2)
+                self.ui.leftSideFrame.move(center_x, 0)
+            else:
+                self.ui.leftSideFrame.move(0, 0)
+                x_pos = self.ui.buttonsFrame.width() - self.ui.numpadFrame.width()
+                self.ui.numpadFrame.move(x_pos, 0)
+                self.ui.numpadFrame.show()                
+        else:
+            # Hide keyboard
+            if self.ui.buttonsFrame.isVisible():
+                self.ui.buttonsFrame.hide()
 
 # main
 def main():
