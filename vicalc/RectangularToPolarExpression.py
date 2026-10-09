@@ -16,17 +16,16 @@ class RectangularToPolarExpression(BinaryExpression):
         theta = math.atan2(y, x)
         theta = AppGlobals.angle_unit.from_rad(theta)
 
-
         self.insert_scroll_table()
-        self.protocol_result("X", 0)
-        self.protocol_result("Y", 1)
-        self.protocol_result("R", 2)
+        self.protocol("x= ")
+        self.protocol(x)
+        self.protocol("; y= ")
+        self.protocol(y)
+        self.protocol(" ▶ r= ")
+        self.protocol_result(r)
+        self.protocol("; θ= ")
+        self.protocol_result(theta)
         angle_symbol = AppGlobals.angle_unit.angle_symbol() 
-        self.protocol_result(f"θ [{angle_symbol}]", 3)
-        self.insert_scroll_table()
-        self.protocol(x, 0)
-        self.protocol(y, 1)
-        self.protocol(r, 2)
-        self.protocol(theta, 3)
+        self.protocol(angle_symbol)
 
         return r
