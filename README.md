@@ -45,6 +45,10 @@ Although this section of the keyboard is not displayed on the screen, it is full
 
 <img src="docs/images/vicalc_mode_2.png" alt = "ViCalc Mode 2" /><br>
 
+ViCalc offers an adaptable user interface designed to fit any workflow. The layout scales from a minimalist view without any virtual keys — ideal if you prefer physical typing or keyboard shortcuts — to a standard numpad, a left-side layout, or a full scientific keyboard. Additionally, you can expand the calculation history panel to view and manage past entries.
+
+<img src="docs/images/ViCalc_layout.png" alt = "ViCalc keyboard layout" /><br>
+
 ## Key-Preselection Function
 The Key-Preselection feature allows you to preview a key before its function is executed.
 
