@@ -8,8 +8,12 @@ class PermutationExpression(BinaryExpression):
     def __init__(self, first_number):
         super().__init__(first_number)
 
+    def text(self) -> str:
+        return f"{self.first_number_to_string()} nPr; r = "
+
     def calculate(self, number: float):
         n = int(self.first_number)
+        AppGlobals.assert_int(number)
         r = int(number)
         result = math.perm(n, r)
 

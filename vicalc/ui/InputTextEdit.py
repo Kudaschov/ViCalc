@@ -73,7 +73,6 @@ from ..RectangularToPolarDialog import RectangularToPolarDialog
 from ..RectangularToPolarExpression import RectangularToPolarExpression
 from ..PolarToRectangularDialog import PolarToRectangularDialog
 from ..PolarToRectangularExpression import PolarToRectangularExpression
-from ..CombinationDialog import CombinationDialog
 from ..CombinationExpression import CombinationExpression
 from ..PermutationExpression import PermutationExpression
 from ..FourthRootExpression import FourthRootExpression
@@ -2159,34 +2158,14 @@ class InputTextEdit(QLineEdit):
         self.update_shift_ctrl_status()
 
     def exec_combination(self):
-        dialog = CombinationDialog()
-        n, n_valid = self.locale.toInt(self.text())
-        if n_valid:
-            dialog.ui.nLineEdit.setText(str(n))
-
-        dialog.ui.nLineEdit.setFocus()
-
-        if dialog.exec():
-            expr = CombinationExpression(int(dialog.ui.nLineEdit.text()))
-            result = float(expr.calculate(int(dialog.ui.rLineEdit.text())))
-            self.setTextSelect(AppGlobals.to_normal_string(result))
-        self.update_shift_ctrl_status()
+        if self.store_integer_number():
+            expr = CombinationExpression(AppGlobals.get_number())
+            self.create_expression_node(expr)
 
     def exec_permutation(self):
-        dialog = CombinationDialog()
-        dialog.setWindowTitle("Permutation nPr")
-        n, n_valid = self.locale.toInt(self.text())
-        if n_valid:
-            dialog.ui.nLineEdit.setText(str(n))
-
-        dialog.ui.nLineEdit.setFocus()
-
-        if dialog.exec():
-            expr = PermutationExpression(int(dialog.ui.nLineEdit.text()))
-            result = float(expr.calculate(int(dialog.ui.rLineEdit.text())))
-            self.setTextSelect(AppGlobals.to_normal_string(result))
-
-        self.update_shift_ctrl_status()
+        if self.store_integer_number():
+            expr = PermutationExpression(AppGlobals.get_number())
+            self.create_expression_node(expr)
 
     def exec_ratio_c(self):
         dialog = RatioCDialog()

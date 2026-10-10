@@ -82,16 +82,6 @@
       "problemMatcher": []
     },
     {
-      "label": "Compile combination_dialog",
-      "type": "shell",
-      "command": "pyside6-uic.exe vicalc/ui/combination_dialog.ui -o vicalc/ui/combination_dialog.py",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "Compile options_dialog",
       "type": "shell",
       "command": "pyside6-uic.exe vicalc/ui/options_dialog.ui -o vicalc/ui/options_dialog.py",
