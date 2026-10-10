@@ -26,6 +26,6 @@ class RectangularToPolarExpression(BinaryExpression):
         self.protocol("; θ= ")
         self.protocol_result(theta)
         angle_symbol = AppGlobals.angle_unit.angle_symbol() 
-        self.protocol(angle_symbol)
+        self.protocol(f" {angle_symbol}")
 
         return r
