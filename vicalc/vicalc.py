@@ -83,6 +83,12 @@ class MainWindow(QMainWindow):
         self.bitwise_shift_group.addAction(self.ui.actionCircularShift)
         self.bitwise_shift_group.addAction(self.ui.actionCircularShiftCarry)
 
+        # prepare for scientific mode
+        self.ui.baseNscrollArea.hide()
+        self.ui.plusLabel.hide()
+        self.ui.inputImagTextEdit.hide()
+        self.ui.iLabel.hide()        
+
         # background color of C and AC buttons
         self.c_ac_bg_color = QColor("#EAEAFF")
         self.second_function_bg_color = QColor("#ECFAFC")
