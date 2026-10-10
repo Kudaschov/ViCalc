@@ -1281,11 +1281,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton0numpad.column = 0
         self.ui.pushButton0numpad.norm_width = 2
         self.ui.pushButton0numpad.bg_color = self.number_key_color
-        self.ui.pushButton0numpad.shift_text = "↔"
+        self.ui.pushButton0numpad.shift_text = "EE"
         self.ui.pushButton0numpad.ctrl_text = "X↔M"
         self.ui.pushButton0numpad.ctrl_shift_text = "All Bases"
         self.ui.pushButton0numpad.base_operation = CalcOperations.number_0
-        self.ui.pushButton0numpad.shift_operation = CalcOperations.swap
+        self.ui.pushButton0numpad.shift_operation = CalcOperations.exponent
         self.ui.pushButton0numpad.ctrl_operation = CalcOperations.memory_swap
         self.ui.pushButton0numpad.ctrl_shift_operation = CalcOperations.convert_to_bases
         UiGlobals.pushButton0numpad = self.ui.pushButton0numpad
@@ -1510,11 +1510,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonMultiplyNumpad.column = 2
         self.ui.pushButtonMultiplyNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonMultiplyNumpad.shift_text = "x^y"
-        self.ui.pushButtonMultiplyNumpad.ctrl_text = "Abs"
+        self.ui.pushButtonMultiplyNumpad.ctrl_text = "↔"
         self.ui.pushButtonMultiplyNumpad.ctrl_shift_text = "AND"
         self.ui.pushButtonMultiplyNumpad.base_operation = CalcOperations.Multiply
         self.ui.pushButtonMultiplyNumpad.shift_operation = CalcOperations.pow
-        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.abs
+        self.ui.pushButtonMultiplyNumpad.ctrl_operation = CalcOperations.swap
         self.ui.pushButtonMultiplyNumpad.ctrl_shift_operation = CalcOperations.AND
         UiGlobals.pushButtonMultiplyNumpad = self.ui.pushButtonMultiplyNumpad
         self.numpad_button_list.append(self.ui.pushButtonMultiplyNumpad)
@@ -1648,9 +1648,9 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonE.column = 2.5
         # special key exponent have other bg color
         self.ui.pushButtonE.bg_color = self.number_key_color
-        self.ui.pushButtonE.setText("EXP")
+        self.ui.pushButtonE.setText("EE")
         self.ui.pushButtonE.original_keyboard_text = "E"
-        self.ui.pushButtonE.shift_text = "EXP"
+        self.ui.pushButtonE.shift_text = "EE"
         self.ui.pushButtonE.ctrl_text = "Mod"
         self.ui.pushButtonE.ctrl_shift_text = "Byte"
         self.ui.pushButtonE.base_operation = CalcOperations.exponent

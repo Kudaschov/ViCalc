@@ -53,6 +53,7 @@ def test_complex_keyboard_input(
     """Test complex number entry using Tab navigation and prefix key for negative numbers."""
     input_box = AppGlobals.input_box
     input_imag_box = AppGlobals.input_imag_box
+    input_imag_box.show()
 
     original_calc_mode = AppGlobals.calc_mode
     AppGlobals.calc_mode = CalcMode.complex_numbers

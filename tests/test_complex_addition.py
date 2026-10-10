@@ -71,7 +71,8 @@ def test_complex_keyboard_input(
     input_imag_box = AppGlobals.input_imag_box
 
     original_calc_mode = AppGlobals.calc_mode
-    AppGlobals.calc_mode = CalcMode.complex_numbers
+    input_imag_box.show()
+    input_box.button_clicked(CalcOperations.calc_mode_complex_numbers)
     original_compex_number_form = AppGlobals.complex_number_form
     AppGlobals.complex_number_form = ComplexNumberForm.rectangular
     original_replace_decimal_separator = AppGlobals.input_replace_decimal_separator
