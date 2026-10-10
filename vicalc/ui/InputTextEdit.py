@@ -69,9 +69,7 @@ from ..TanhExpression import TanhExpression
 from ..ArsinhExpression import ArsinhExpression
 from ..ArcoshExpression import ArcoshExpression
 from ..ArtanhExpression import ArtanhExpression
-from ..RectangularToPolarDialog import RectangularToPolarDialog
 from ..RectangularToPolarExpression import RectangularToPolarExpression
-from ..PolarToRectangularDialog import PolarToRectangularDialog
 from ..PolarToRectangularExpression import PolarToRectangularExpression
 from ..CombinationExpression import CombinationExpression
 from ..PermutationExpression import PermutationExpression
@@ -2124,38 +2122,14 @@ class InputTextEdit(QLineEdit):
             AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_rectangular_to_polar(self):
-        dialog = RectangularToPolarDialog()
-        x, ok = self.locale.toDouble(self.text())
-        if ok:
-            dialog.ui.xLineEdit.setText(self.text())
-
-        dialog.ui.xLineEdit.setFocus()
-
-        if dialog.exec():
-            x, ok = self.locale.toDouble(dialog.ui.xLineEdit.text())
-            y, ok = self.locale.toDouble(dialog.ui.yLineEdit.text())
-            expr = RectangularToPolarExpression(x)
-            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(y)))
-            self.update_shift_ctrl_status()
-
-        self.update_shift_ctrl_status()
+        if self.store_number():
+            expr = RectangularToPolarExpression(AppGlobals.get_number())
+            self.create_expression_node(expr)
     
     def exec_polar_to_rectangular(self):
-        dialog = PolarToRectangularDialog()
-        r, ok = self.locale.toDouble(self.text())
-        if ok:
-            dialog.ui.radiusLineEdit.setText(self.text())
-
-        dialog.ui.radiusLineEdit.setFocus()
-
-        if dialog.exec():
-            r, ok = self.locale.toDouble(dialog.ui.radiusLineEdit.text())
-            a, ok = self.locale.toDouble(dialog.ui.angleLineEdit.text())
-            expr = PolarToRectangularExpression(r)
-            self.setTextSelect(AppGlobals.to_normal_string(expr.calculate(a)))
-            self.update_shift_ctrl_status()
-
-        self.update_shift_ctrl_status()
+        if self.store_number():
+            expr = PolarToRectangularExpression(AppGlobals.get_number())
+            self.create_expression_node(expr)
 
     def exec_combination(self):
         if self.store_integer_number():

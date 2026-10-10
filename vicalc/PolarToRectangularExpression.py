@@ -8,6 +8,10 @@ class PolarToRectangularExpression(BinaryExpression):
     def __init__(self, first_number):
         super().__init__(first_number)
         self.operation_prio = CalcPrios.Addition
+        self.operation_prio = CalcPrios.Bracket
+
+    def text(self) -> str:
+        return f"P→R; r = {self.first_number_to_string()}; θ = "
 
     def calculate(self, number: float):
         r = self.first_number

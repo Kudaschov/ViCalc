@@ -5,7 +5,7 @@ from PySide6.QtCore import Qt, QEventLoop
 from vicalc.AppGlobals import AppGlobals
 from vicalc.vicalc import MainWindow
 from vicalc.CalcMode import CalcMode
-from vicalc.RadUnit import RadUnit
+from vicalc.DegUnit import DegUnit
 from vicalc.ComplexNumberForm import ComplexNumberForm
 from vicalc.CalcOperations import CalcOperations
 
@@ -30,6 +30,8 @@ def wait_for_manual_close(window):
         # Complex addition: (5 + 3j) + (2 - 7j) = 7 - 4j
         (["10", lambda: AppGlobals.input_box.button_clicked(CalcOperations.combination), "4", "="], 210),
         (["7", lambda: AppGlobals.input_box.button_clicked(CalcOperations.permutation), "4", "="], 840),        
+        (["3", lambda: AppGlobals.input_box.button_clicked(CalcOperations.rectangular_to_polar), "4", "="], 5),
+        (["5", lambda: AppGlobals.input_box.button_clicked(CalcOperations.polar_to_rectangular), "53.13010235415598", "="], 3),
     ],
 )
 
@@ -46,7 +48,7 @@ def test_combination(
     original_replace_decimal_separator = AppGlobals.input_replace_decimal_separator
     AppGlobals.input_replace_decimal_separator = True
     original_angle_unit = AppGlobals.angle_unit
-    AppGlobals.angle_unit = RadUnit()
+    AppGlobals.angle_unit = DegUnit()
 
     assertion_error = None
 

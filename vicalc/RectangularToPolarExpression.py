@@ -7,8 +7,11 @@ from .AppGlobals import AppGlobals
 class RectangularToPolarExpression(BinaryExpression):
     def __init__(self, first_number):
         super().__init__(first_number)
-        self.operation_prio = CalcPrios.Addition
+        self.operation_prio = CalcPrios.Bracket
 
+    def text(self) -> str:
+        return f"R→P; x = {self.first_number_to_string()}; y = "
+    
     def calculate(self, number: float):
         x = self.first_number
         y = number

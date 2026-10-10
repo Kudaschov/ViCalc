@@ -13,7 +13,7 @@
 | Decimal separator         | .     | On main Keyboard and Numpad |
 | Delete last line from history | DL | On main Keyboard and Numpad |
 | Delete last operation     | DO    | On main Keyboard and Numpad |
-| Exponent                  | EXP   | On main keyboard only |
+| Exponent                  | EE   | On main keyboard and Numpad |
 | Number input              | 0 - 9 | On main Keyboard and Numpad |
 | Sign insert               | (-)   | `_` (underscore) on main Keyboard or Shift + `Numpad Minus` *(Regular Minus sign performs subtraction)* |
 | Sign change | +/- | `Ctrl+Shift+_` (underscore) on main Keyboard or Ctrl+Shift+`Numpad Minus`<br>Multiplies the current number by -1, changing its sign (positive ↔ negative) |
