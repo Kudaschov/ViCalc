@@ -18,5 +18,5 @@ class ArcCosExpression(TrigExpression):
             self.protocol(number, 1)
             self.protocol(") = ", 2)
             self.protocol_result(result, 3)
-            self.protocol(AppGlobals.angle_unit.angle_symbol(), 4)
+            self.protocol(f" {AppGlobals.angle_unit.angle_symbol()}", 4)
         return result

@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QApplication, QLineEdit, QStyleOptionFrame
 from PySide6.QtCore import QUrl, Qt, Signal, QDate, QTime
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtWidgets import QDialog
-from PySide6.QtGui import QFont, QGuiApplication
+from PySide6.QtGui import QFont, QFontMetrics, QGuiApplication
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
 from PySide6.QtCore import QTimer
@@ -148,6 +148,10 @@ class InputTextEdit(QLineEdit):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._max_font_size = None  # Will be dynamically captured once applied
+        # Re-adjust font size whenever the text content changes
+        self.textChanged.connect(self._adjust_font_size)
+
         self.number: float = None  # Holds the parsed number
         self._memory: float = 0
         AppGlobals.angle_unit = DegUnitProtocol()
@@ -2785,3 +2789,53 @@ class InputTextEdit(QLineEdit):
         
     def setFocus(self):
         super().setFocus()
+
+    def resizeEvent(self, event):
+        """Trigger font adjustment when the widget dimensions change."""
+        super().resizeEvent(event)
+        self._adjust_font_size(self.text())
+
+    def _get_max_font_size(self):
+        """Retrieves and caches the maximum font size set in Qt Designer or CSS."""
+        font = self.font()
+        size = font.pointSize()
+        
+        # Fallback if point size is not set (e.g. if pixel size was used)
+        if size <= 0:
+            size = int(font.pixelSize() * 0.75)
+
+        # Update max font size if a larger valid size (AppGlobals.input_box_max_font_size) is detected
+        if size > 0 and (self._max_font_size is None or size > self._max_font_size):
+            self._max_font_size = size
+
+        # Return cached size or default to AppGlobals.input_box_max_font_size if nothing was found yet
+        return self._max_font_size if self._max_font_size and self._max_font_size > 0 else AppGlobals.input_box_max_font_size
+
+    def _adjust_font_size(self, text):
+        """Calculates the optimal font size to fit the text inside the widget width."""
+        if not text:
+            return
+
+        font = self.font()
+        base_font_size = self._get_max_font_size()
+
+        # Consider widget width and internal margins/padding
+        margins = self.textMargins()
+        available_width = self.width() - margins.left() - margins.right() - 10
+
+        if available_width <= 0:
+            return
+
+        # Start with the maximum font size from Qt Designer (e.g., AppGlobals.input_box_max_font_size)
+        font_size = base_font_size
+        font.setPointSize(font_size)
+        fm = QFontMetrics(font)
+
+        min_font_size = 6  # Define a lower limit for readability
+        while fm.horizontalAdvance(text) > available_width and font_size > min_font_size:
+            font_size -= 1
+            font.setPointSize(font_size)
+            fm = QFontMetrics(font)
+
+        # Apply the final adjusted font
+        self.setFont(font)

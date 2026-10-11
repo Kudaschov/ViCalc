@@ -16,6 +16,6 @@ class SinExpression(TrigExpression):
             result = math.sin(AppGlobals.angle_unit.to_rad(number))
             self.protocol("sin(", 0)
             self.protocol(number, 1)
-            self.protocol(AppGlobals.angle_unit.angle_symbol() + ") = ", 2)
+            self.protocol(f" {AppGlobals.angle_unit.angle_symbol()}) = ", 2)
             self.protocol_result(result, 3)
         return result

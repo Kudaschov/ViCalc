@@ -50,6 +50,8 @@ class AppGlobals:
     history_string_font_size = 11
     history_number_font_size = 11
     input_box = None # inputTextEdit in main window
+    # is equal to font size in qt-designer, used for reducing font size, if width is to small
+    input_box_max_font_size = 18
     input_imag_box = None # inputImagTextEdit, imaginary part of complex number
     current_row = -1 # current row in table
     current_column = -1 # current column in table
