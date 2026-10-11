@@ -1509,9 +1509,6 @@
     <addaction name="action_convert_from_decimal"/>
     <addaction name="action_convert_from_hexadecimal"/>
     <addaction name="separator"/>
-    <addaction name="action_rectangular_to_polar"/>
-    <addaction name="action_polar_to_rectangular"/>
-    <addaction name="separator"/>
     <addaction name="action_unit_conversion"/>
     <addaction name="separator"/>
     <addaction name="action_AWG_to_mm2"/>
@@ -1524,9 +1521,6 @@
     <addaction name="action_arsinh"/>
     <addaction name="action_arcosh"/>
     <addaction name="action_artanh"/>
-    <addaction name="separator"/>
-    <addaction name="action_combination"/>
-    <addaction name="action_permutaton"/>
     <addaction name="separator"/>
     <addaction name="action_ratio_c"/>
     <addaction name="action_ratio_d"/>

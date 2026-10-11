@@ -7,20 +7,16 @@ class LinearYfromXExpression(UnaryExpression):
     
     def calculate(self, number:float) -> float:
         self.insert_scroll_table()
-        self.protocol_result("Calculate Y", 0)
-        self.protocol_result("from", 1)
-        self.protocol_result("Linear Function", 2)
+        self.protocol_result("Calculate Y from linear function", 2)
         self.insert_scroll_table()
-        self.protocol("Slope (a)", 0)
-        self.protocol(AppGlobals.linear_a, 1)
-        self.protocol("Intercept (b)", 2)
+        self.protocol("Slope (a): ")
+        self.protocol(AppGlobals.linear_a)
+        self.protocol("; Intercept (b): ")
         self.protocol(AppGlobals.linear_b, 3)
-
-        self.insert_scroll_table()
         result = AppGlobals.linear_a * number + AppGlobals.linear_b
-        self.protocol("x", 0)
-        self.protocol(number, 1)
-        self.protocol("y", 2)
+        self.protocol("; x = ")
+        self.protocol(number)
+        self.protocol("; y = ", 2)
         self.protocol_result(result, 3)
 
         return result

@@ -154,10 +154,6 @@ class MainWindow(QMainWindow):
         self.ui.action_arcosh.triggered.connect(self.arcosh)
         self.ui.action_artanh.triggered.connect(self.artanh)
 
-        self.ui.action_rectangular_to_polar.triggered.connect(self.rectangular_to_polar)
-        self.ui.action_polar_to_rectangular.triggered.connect(self.polar_to_rectangular)
-        self.ui.action_combination.triggered.connect(self.combination)
-        self.ui.action_permutaton.triggered.connect(self.permutation)
         self.ui.action_ratio_c.triggered.connect(self.ratio_c)
         self.ui.action_ratio_d.triggered.connect(self.ratio_d)
         self.ui.action_linear_from_two_points.triggered.connect(self.linear_from_two_points)
@@ -1718,7 +1714,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonA.ctrl_shift_text = "All Bases"
         self.ui.pushButtonA.base_operation = CalcOperations.AC
         self.ui.pushButtonA.shift_operation = CalcOperations.numeric_format
-        self.ui.pushButtonA.ctrl_operation = CalcOperations.C
+        self.ui.pushButtonA.ctrl_operation = CalcOperations.numeric_format
         self.ui.pushButtonA.ctrl_shift_operation = CalcOperations.convert_to_bases
         UiGlobals.pushButtonA = self.ui.pushButtonA
         self.leftside_button_list.append(self.ui.pushButtonA)
