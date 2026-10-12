@@ -668,6 +668,22 @@ class InputTextEdit(QLineEdit):
             AppGlobals.number_to_input_box(last_number)
             self.update_expression_label()
 
+    # useful in chain operation, if you need, for example, sin for multiplication, you can enforce
+    # this multiplication
+    def exec_calc_last_operation(self):
+        if self.store_number():
+            current_expression = self.last_expression()
+            last_number = AppGlobals.get_number()
+            if current_expression != None:
+                last_number = current_expression.calculate(last_number)
+                current_expression = current_expression.prev_expression
+                if current_expression == None:
+                    AppGlobals.root_expression = None
+                else:
+                    current_expression.next_expression = None
+            AppGlobals.number_to_input_box(last_number)
+            self.update_expression_label()
+
     def exec_pi(self):
         self.setText(self.toString(math.pi))
         self.selectAll()
@@ -999,6 +1015,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_toggle_carry_flag()
                 case CalcOperations.toggle_base_n_sign:
                     self.exec_toggle_base_n_sign()
+                case CalcOperations.calc_last_operation:
+                    self.exec_calc_last_operation()
                 case _:
                     self.statusbar_message.emit("No operation configured")
         except Exception as e:

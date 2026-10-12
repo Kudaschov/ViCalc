@@ -10,6 +10,6 @@
 - TAB / Shift+TAB move between numbers<br>
 - Enter / Mouse click = Insert value into input box<br>
 - Shift+Enter / Right mouse button = Insert value into complex imag part (in complex numbers mode)<br>
-- Delete = Clear selected text<br>
+- Delete = delete selected text<br>
 
 \* On numpad, NumLock must be on

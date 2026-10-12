@@ -9,6 +9,7 @@
 |                           | /     | On main Keyboard and Numpad |
 |                           | =     | Enter key on main Keyboard and Numpad |
 | Backspace                 | ⌫    | Backspace key on main Keyboard, also key `⌫` on Numpad |
+| Calculate last operation in chain | Last | On main Keyboard and Numpad |
 | Clear (operations retain) | C     | Optional: Shift + Numlock twice (must be enabled in Tools/Options) |
 | Decimal separator         | .     | On main Keyboard and Numpad |
 | Delete last line from history | DL | On main Keyboard and Numpad |
