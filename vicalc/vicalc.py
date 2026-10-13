@@ -1463,13 +1463,13 @@ class MainWindow(QMainWindow):
         else:
             self.ui.pushButtonEnter.column = 6
         self.ui.pushButtonEnter.bg_color = self.c_ac_bg_color
-        self.ui.pushButtonEnter.shift_text = "DTS"
-        self.ui.pushButtonEnter.ctrl_text = "Last"
-        self.ui.pushButtonEnter.ctrl_shift_text = "Conv"
+        self.ui.pushButtonEnter.shift_text = "conv"
+        self.ui.pushButtonEnter.ctrl_text = "DTS"
+        self.ui.pushButtonEnter.ctrl_shift_text = "Last"
         self.ui.pushButtonEnter.base_operation = CalcOperations.calculate
-        self.ui.pushButtonEnter.shift_operation = CalcOperations.date_time_stamp
-        self.ui.pushButtonEnter.ctrl_operation = CalcOperations.calc_last_operation
-        self.ui.pushButtonEnter.ctrl_shift_operation = CalcOperations.unit_conversion
+        self.ui.pushButtonEnter.shift_operation = CalcOperations.unit_conversion
+        self.ui.pushButtonEnter.ctrl_operation = CalcOperations.date_time_stamp
+        self.ui.pushButtonEnter.ctrl_shift_operation = CalcOperations.calc_last_operation
         UiGlobals.pushButtonEnter = self.ui.pushButtonEnter
         self.leftside_button_list.append(self.ui.pushButtonEnter)
 
@@ -1477,12 +1477,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnterNumpad.column = 3
         self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonEnterNumpad.shift_text = "%"
-        self.ui.pushButtonEnterNumpad.ctrl_text = "Last"
+        self.ui.pushButtonEnterNumpad.ctrl_text = "DTS"
         self.ui.pushButtonEnterNumpad.ctrl_shift_text = "RAN#"
         self.ui.pushButtonEnterNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
-        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.calc_last_operation
+        self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.date_time_stamp
         self.ui.pushButtonEnterNumpad.ctrl_shift_operation = CalcOperations.random
         UiGlobals.pushButtonEnterNumpad = self.ui.pushButtonEnterNumpad
         self.numpad_button_list.append(self.ui.pushButtonEnterNumpad)
