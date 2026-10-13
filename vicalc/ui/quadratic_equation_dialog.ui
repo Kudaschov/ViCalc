@@ -50,7 +50,7 @@
     <rect>
      <x>130</x>
      <y>10</y>
-     <width>131</width>
+     <width>181</width>
      <height>21</height>
     </rect>
    </property>
@@ -76,7 +76,7 @@
     <rect>
      <x>130</x>
      <y>40</y>
-     <width>131</width>
+     <width>181</width>
      <height>21</height>
     </rect>
    </property>
@@ -102,7 +102,7 @@
     <rect>
      <x>130</x>
      <y>70</y>
-     <width>131</width>
+     <width>181</width>
      <height>21</height>
     </rect>
    </property>
@@ -128,9 +128,15 @@
     <rect>
      <x>130</x>
      <y>120</y>
-     <width>131</width>
+     <width>181</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit:read-only {
+    background-color: #f0f0f0;
+    color: #333333;
+}</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -161,6 +167,12 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit:read-only {
+    background-color: #f0f0f0;
+    color: #333333;
+}</string>
+   </property>
    <property name="readOnly">
     <bool>true</bool>
    </property>
@@ -189,6 +201,12 @@
      <width>181</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit:read-only {
+    background-color: #f0f0f0;
+    color: #333333;
+}</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>

@@ -49,10 +49,18 @@ class Ui_InputComplexNumberInRectangularFormDialog(object):
         self.rLineEdit = QLineEdit(InputComplexNumberInRectangularFormDialog)
         self.rLineEdit.setObjectName(u"rLineEdit")
         self.rLineEdit.setGeometry(QRect(30, 98, 131, 21))
+        self.rLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.rLineEdit.setReadOnly(True)
         self.thetaLineEdit = QLineEdit(InputComplexNumberInRectangularFormDialog)
         self.thetaLineEdit.setObjectName(u"thetaLineEdit")
         self.thetaLineEdit.setGeometry(QRect(30, 138, 131, 21))
+        self.thetaLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.thetaLineEdit.setReadOnly(True)
         self.label_4 = QLabel(InputComplexNumberInRectangularFormDialog)
         self.label_4.setObjectName(u"label_4")

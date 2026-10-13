@@ -37,6 +37,10 @@ class Ui_InputComplexNumberInPolarFormDialog(object):
         self.realPartLineEdit = QLineEdit(InputComplexNumberInPolarFormDialog)
         self.realPartLineEdit.setObjectName(u"realPartLineEdit")
         self.realPartLineEdit.setGeometry(QRect(30, 149, 131, 21))
+        self.realPartLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.realPartLineEdit.setReadOnly(True)
         self.label_2 = QLabel(InputComplexNumberInPolarFormDialog)
         self.label_2.setObjectName(u"label_2")
@@ -44,6 +48,10 @@ class Ui_InputComplexNumberInPolarFormDialog(object):
         self.imagPartLineEdit = QLineEdit(InputComplexNumberInPolarFormDialog)
         self.imagPartLineEdit.setObjectName(u"imagPartLineEdit")
         self.imagPartLineEdit.setGeometry(QRect(190, 149, 131, 21))
+        self.imagPartLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.imagPartLineEdit.setReadOnly(True)
         self.label_3 = QLabel(InputComplexNumberInPolarFormDialog)
         self.label_3.setObjectName(u"label_3")

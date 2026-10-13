@@ -57,6 +57,12 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit:read-only {
+    background-color: #f0f0f0;
+    color: #333333;
+}</string>
+   </property>
    <property name="readOnly">
     <bool>true</bool>
    </property>
@@ -82,6 +88,12 @@
      <width>131</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit:read-only {
+    background-color: #f0f0f0;
+    color: #333333;
+}</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>

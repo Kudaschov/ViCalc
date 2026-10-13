@@ -72,6 +72,10 @@ class Ui_linear_system_dialog(object):
         self.xLineEdit = QLineEdit(linear_system_dialog)
         self.xLineEdit.setObjectName(u"xLineEdit")
         self.xLineEdit.setGeometry(QRect(130, 140, 131, 21))
+        self.xLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.xLineEdit.setReadOnly(True)
         self.label_8 = QLabel(linear_system_dialog)
         self.label_8.setObjectName(u"label_8")
@@ -79,6 +83,10 @@ class Ui_linear_system_dialog(object):
         self.yLineEdit = QLineEdit(linear_system_dialog)
         self.yLineEdit.setObjectName(u"yLineEdit")
         self.yLineEdit.setGeometry(QRect(130, 170, 131, 21))
+        self.yLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.yLineEdit.setReadOnly(True)
         self.label_9 = QLabel(linear_system_dialog)
         self.label_9.setObjectName(u"label_9")
@@ -86,6 +94,10 @@ class Ui_linear_system_dialog(object):
         self.DLineEdit = QLineEdit(linear_system_dialog)
         self.DLineEdit.setObjectName(u"DLineEdit")
         self.DLineEdit.setGeometry(QRect(130, 110, 131, 21))
+        self.DLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.DLineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.a1LineEdit)

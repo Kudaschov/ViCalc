@@ -73,6 +73,11 @@ class Ui_ratio_c_dialog(object):
         self.xLineEdit = QLineEdit(ratio_c_dialog)
         self.xLineEdit.setObjectName(u"xLineEdit")
         self.xLineEdit.setGeometry(QRect(40, 148, 113, 21))
+        self.xLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
+        self.xLineEdit.setReadOnly(True)
         self.label_6 = QLabel(ratio_c_dialog)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setGeometry(QRect(20, 152, 49, 16))

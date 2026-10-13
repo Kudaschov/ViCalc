@@ -57,6 +57,10 @@ class Ui_linear_y_from_x_dialog(object):
         self.yLineEdit = DotLineEdit(linear_y_from_x_dialog)
         self.yLineEdit.setObjectName(u"yLineEdit")
         self.yLineEdit.setGeometry(QRect(110, 130, 131, 21))
+        self.yLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.yLineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.aLineEdit)

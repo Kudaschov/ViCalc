@@ -35,25 +35,29 @@ class Ui_quadratic_equation_dialog(object):
         self.label.setGeometry(QRect(20, 12, 49, 16))
         self.aLineEdit = DotLineEdit(quadratic_equation_dialog)
         self.aLineEdit.setObjectName(u"aLineEdit")
-        self.aLineEdit.setGeometry(QRect(130, 10, 131, 21))
+        self.aLineEdit.setGeometry(QRect(130, 10, 181, 21))
         self.label_2 = QLabel(quadratic_equation_dialog)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setGeometry(QRect(20, 42, 49, 16))
         self.bLineEdit = DotLineEdit(quadratic_equation_dialog)
         self.bLineEdit.setObjectName(u"bLineEdit")
-        self.bLineEdit.setGeometry(QRect(130, 40, 131, 21))
+        self.bLineEdit.setGeometry(QRect(130, 40, 181, 21))
         self.label_3 = QLabel(quadratic_equation_dialog)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(20, 72, 49, 16))
         self.cLineEdit = DotLineEdit(quadratic_equation_dialog)
         self.cLineEdit.setObjectName(u"cLineEdit")
-        self.cLineEdit.setGeometry(QRect(130, 70, 131, 21))
+        self.cLineEdit.setGeometry(QRect(130, 70, 181, 21))
         self.label_4 = QLabel(quadratic_equation_dialog)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(20, 122, 111, 16))
         self.DLineEdit = QLineEdit(quadratic_equation_dialog)
         self.DLineEdit.setObjectName(u"DLineEdit")
-        self.DLineEdit.setGeometry(QRect(130, 120, 131, 21))
+        self.DLineEdit.setGeometry(QRect(130, 120, 181, 21))
+        self.DLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.DLineEdit.setReadOnly(True)
         self.label_5 = QLabel(quadratic_equation_dialog)
         self.label_5.setObjectName(u"label_5")
@@ -61,6 +65,10 @@ class Ui_quadratic_equation_dialog(object):
         self.x1LineEdit = QLineEdit(quadratic_equation_dialog)
         self.x1LineEdit.setObjectName(u"x1LineEdit")
         self.x1LineEdit.setGeometry(QRect(130, 150, 181, 21))
+        self.x1LineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.x1LineEdit.setReadOnly(True)
         self.label_6 = QLabel(quadratic_equation_dialog)
         self.label_6.setObjectName(u"label_6")
@@ -68,6 +76,10 @@ class Ui_quadratic_equation_dialog(object):
         self.x2LineEdit = QLineEdit(quadratic_equation_dialog)
         self.x2LineEdit.setObjectName(u"x2LineEdit")
         self.x2LineEdit.setGeometry(QRect(130, 180, 181, 21))
+        self.x2LineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.x2LineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.aLineEdit)

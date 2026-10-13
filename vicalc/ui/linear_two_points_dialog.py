@@ -61,6 +61,10 @@ class Ui_linear_two_points_dialog(object):
         self.aLineEdit = QLineEdit(linear_two_points_dialog)
         self.aLineEdit.setObjectName(u"aLineEdit")
         self.aLineEdit.setGeometry(QRect(120, 100, 131, 21))
+        self.aLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.aLineEdit.setReadOnly(True)
         self.label_6 = QLabel(linear_two_points_dialog)
         self.label_6.setObjectName(u"label_6")
@@ -68,6 +72,10 @@ class Ui_linear_two_points_dialog(object):
         self.bLineEdit = QLineEdit(linear_two_points_dialog)
         self.bLineEdit.setObjectName(u"bLineEdit")
         self.bLineEdit.setGeometry(QRect(120, 130, 131, 21))
+        self.bLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.bLineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.x0LineEdit)

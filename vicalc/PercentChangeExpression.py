@@ -8,7 +8,7 @@ class PercentChangeExpression(BinaryExpression):
         self.operation_prio = CalcPrios.Bracket
 
     def text(self):
-        return "Old value: " + self.first_number_to_string()
+        return f"Old value: {self.first_number_to_string()}; New value:"
     
     def calculate(self, number: float):
         result: float = (number - self.first_number) / self.first_number * 100
