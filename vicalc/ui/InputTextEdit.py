@@ -45,6 +45,7 @@ from ..ReciprocalExpression import ReciprocalExpression
 from ..AbsExpression import AbsExpression
 from ..CommentDialog import CommentDialog
 from ..ConvertFromBaseDialog import ConvertFromBaseDialog
+from ..conv_angle_dialog import ConvAngleDialog
 from ..FactorialExpression import FactorialExpression
 from ..PowExpression import PowExpression
 from ..SquareExpression import SquareExpression
@@ -340,8 +341,6 @@ class InputTextEdit(QLineEdit):
             AppGlobals.input_box.number, ok = AppGlobals.input_box.locale.toDouble(AppGlobals.input_box.text())
             if ok:
                 AppGlobals.input_imag_box.number, ok = AppGlobals.input_imag_box.toDouble(AppGlobals.input_imag_box.text())
-
-            # ToDo VK
             AppGlobals.input_box.selectAll()
             result = ok
         else:
@@ -731,6 +730,9 @@ class InputTextEdit(QLineEdit):
             CalcOperations.convert_to_deg,
             CalcOperations.convert_to_rad,
             CalcOperations.convert_to_gra,
+            CalcOperations.convert_from_deg,
+            CalcOperations.convert_from_rad,
+            CalcOperations.convert_from_gra,
             CalcOperations.trig_mode_deg,
             CalcOperations.trig_mode_rad,
             CalcOperations.trig_mode_gra,
@@ -909,6 +911,12 @@ class InputTextEdit(QLineEdit):
                     self.exec_convert_to_rad()
                 case CalcOperations.convert_to_gra:
                     self.exec_convert_to_gra()
+                case CalcOperations.convert_from_deg:
+                    self.exec_convert_from_deg()
+                case CalcOperations.convert_from_rad:
+                    self.exec_convert_from_rad()
+                case CalcOperations.convert_from_gra:
+                    self.exec_convert_from_gra()
                 case CalcOperations.convert_from_binary:
                     self.exec_from_binary()
                 case CalcOperations.convert_from_octal:
@@ -1094,6 +1102,60 @@ class InputTextEdit(QLineEdit):
     def exec_convert_to_gra(self):
         if self.store_number():
             self.setTextSelect(self.toString(AppGlobals.angle_unit.to_gra_with_protocol(self.number)))
+
+    def exec_convert_from_deg(self):
+        dialog = ConvAngleDialog(None, DegUnitProtocol())
+        dialog.ui.degLabel.hide()
+        dialog.ui.degLineEdit.hide()
+
+        val, ok = AppGlobals.to_number(self.text())
+
+        if ok:
+            dialog.ui.numberLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.angle_unit.to_deg(val)))
+        else:
+            dialog.ui.numberLineEdit.setText("")
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            val = dialog.add_to_log()
+            self.setTextSelect(AppGlobals.to_normal_string(val))
+        self.update_shift_ctrl_status()
+
+    def exec_convert_from_rad(self):
+        dialog = ConvAngleDialog(None, RadUnitProtocol())
+        dialog.ui.radLabel.hide()
+        dialog.ui.radLineEdit.hide()
+
+        val, ok = AppGlobals.to_number(self.text())
+
+        if ok:
+            dialog.ui.numberLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.angle_unit.to_rad(val)))
+        else:
+            dialog.ui.numberLineEdit.setText("")
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            val = dialog.add_to_log()
+            self.setTextSelect(AppGlobals.to_normal_string(val))
+        self.update_shift_ctrl_status()
+
+    def exec_convert_from_gra(self):
+        dialog = ConvAngleDialog(None, GraUnitProtocol())
+        dialog.ui.graLabel.hide()
+        dialog.ui.graLineEdit.hide()
+
+        val, ok = AppGlobals.to_number(self.text())
+
+        if ok:
+            dialog.ui.numberLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.angle_unit.to_gra(val)))
+        else:
+            dialog.ui.numberLineEdit.setText("")
+        dialog.ui.numberLineEdit.setFocus()
+
+        if dialog.exec():
+            val = dialog.add_to_log()
+            self.setTextSelect(AppGlobals.to_normal_string(val))
+        self.update_shift_ctrl_status()
 
     def trig_mode_init(self, value):
         if (value is None):

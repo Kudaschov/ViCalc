@@ -3,6 +3,9 @@
 | Function                  | Key | Comment                                                    |
 |---------------------------|-------|------------------------------------------------------------|
 | Add comment to calculation history | Cmt ||
+| Angle input in degrees | DEG→ | On main Keyboard only |
+| Angle input in radians | RAD→ | On main Keyboard only |
+| Angle input in gradians | GRA→ | On main Keyboard only |
 | Control function          | Ctrl  | Ccontrol Key on Keyboard|
 | Date-timestamp in calculation history | DTS | On main Keyboard and Numpad |
 | Exchange values between input box and last term in expression | ↔   | On main Keyboard and Numpad |

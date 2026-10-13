@@ -14,7 +14,6 @@ class ConvertFromBaseDialog(QDialog):
         self.ok_button = self.ui.buttonBox.button(QDialogButtonBox.Ok)
         self.ok_button.setEnabled(False)
 
-
     def on_text_changed(self):
         if self.base_expression.conv_from_string(self.ui.numberLineEdit.text()):
             self.ui.binaryLineEdit.setText(self.base_expression.to_binary())

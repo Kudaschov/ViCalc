@@ -42,6 +42,10 @@ class Ui_awg_to_mm2_dialog(object):
         self.diameterInchLineEdit = QLineEdit(awg_to_mm2_dialog)
         self.diameterInchLineEdit.setObjectName(u"diameterInchLineEdit")
         self.diameterInchLineEdit.setGeometry(QRect(130, 60, 131, 21))
+        self.diameterInchLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.diameterInchLineEdit.setReadOnly(True)
         self.label_3 = QLabel(awg_to_mm2_dialog)
         self.label_3.setObjectName(u"label_3")
@@ -49,6 +53,10 @@ class Ui_awg_to_mm2_dialog(object):
         self.diameterMmLineEdit = QLineEdit(awg_to_mm2_dialog)
         self.diameterMmLineEdit.setObjectName(u"diameterMmLineEdit")
         self.diameterMmLineEdit.setGeometry(QRect(130, 90, 131, 21))
+        self.diameterMmLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.diameterMmLineEdit.setReadOnly(True)
         self.label_4 = QLabel(awg_to_mm2_dialog)
         self.label_4.setObjectName(u"label_4")
@@ -56,6 +64,10 @@ class Ui_awg_to_mm2_dialog(object):
         self.areaKcmilLineEdit = QLineEdit(awg_to_mm2_dialog)
         self.areaKcmilLineEdit.setObjectName(u"areaKcmilLineEdit")
         self.areaKcmilLineEdit.setGeometry(QRect(130, 120, 131, 21))
+        self.areaKcmilLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.areaKcmilLineEdit.setReadOnly(True)
         self.label_5 = QLabel(awg_to_mm2_dialog)
         self.label_5.setObjectName(u"label_5")
@@ -63,6 +75,10 @@ class Ui_awg_to_mm2_dialog(object):
         self.areaMm2LineEdit = QLineEdit(awg_to_mm2_dialog)
         self.areaMm2LineEdit.setObjectName(u"areaMm2LineEdit")
         self.areaMm2LineEdit.setGeometry(QRect(130, 150, 131, 21))
+        self.areaMm2LineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.areaMm2LineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.label.setBuddy(self.awgLineEdit)

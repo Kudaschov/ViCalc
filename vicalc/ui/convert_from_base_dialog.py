@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'convert_from_base_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,6 +23,7 @@ class Ui_ConvertFromBaseDialog(object):
         if not ConvertFromBaseDialog.objectName():
             ConvertFromBaseDialog.setObjectName(u"ConvertFromBaseDialog")
         ConvertFromBaseDialog.resize(320, 240)
+        ConvertFromBaseDialog.setLocale(QLocale(QLocale.English, QLocale.Germany))
         self.buttonBox = QDialogButtonBox(ConvertFromBaseDialog)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setGeometry(QRect(10, 200, 301, 32))
@@ -41,6 +42,10 @@ class Ui_ConvertFromBaseDialog(object):
         self.binaryLineEdit = QLineEdit(ConvertFromBaseDialog)
         self.binaryLineEdit.setObjectName(u"binaryLineEdit")
         self.binaryLineEdit.setGeometry(QRect(100, 60, 211, 21))
+        self.binaryLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.binaryLineEdit.setReadOnly(True)
         self.label_2 = QLabel(ConvertFromBaseDialog)
         self.label_2.setObjectName(u"label_2")
@@ -48,6 +53,10 @@ class Ui_ConvertFromBaseDialog(object):
         self.octalLineEdit = QLineEdit(ConvertFromBaseDialog)
         self.octalLineEdit.setObjectName(u"octalLineEdit")
         self.octalLineEdit.setGeometry(QRect(100, 90, 211, 21))
+        self.octalLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.octalLineEdit.setReadOnly(True)
         self.label_3 = QLabel(ConvertFromBaseDialog)
         self.label_3.setObjectName(u"label_3")
@@ -55,6 +64,10 @@ class Ui_ConvertFromBaseDialog(object):
         self.decimalLineEdit = QLineEdit(ConvertFromBaseDialog)
         self.decimalLineEdit.setObjectName(u"decimalLineEdit")
         self.decimalLineEdit.setGeometry(QRect(100, 120, 211, 21))
+        self.decimalLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.decimalLineEdit.setReadOnly(True)
         self.label_4 = QLabel(ConvertFromBaseDialog)
         self.label_4.setObjectName(u"label_4")
@@ -62,6 +75,10 @@ class Ui_ConvertFromBaseDialog(object):
         self.hexadecimalLineEdit = QLineEdit(ConvertFromBaseDialog)
         self.hexadecimalLineEdit.setObjectName(u"hexadecimalLineEdit")
         self.hexadecimalLineEdit.setGeometry(QRect(100, 150, 211, 21))
+        self.hexadecimalLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.hexadecimalLineEdit.setReadOnly(True)
 #if QT_CONFIG(shortcut)
         self.number_label.setBuddy(self.numberLineEdit)

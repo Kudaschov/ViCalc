@@ -36,6 +36,10 @@ class Ui_mm2_to_awg_dialog(object):
         self.awgLineEdit = QLineEdit(mm2_to_awg_dialog)
         self.awgLineEdit.setObjectName(u"awgLineEdit")
         self.awgLineEdit.setGeometry(QRect(130, 60, 131, 21))
+        self.awgLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.awgLineEdit.setReadOnly(True)
         self.label_2 = QLabel(mm2_to_awg_dialog)
         self.label_2.setObjectName(u"label_2")
@@ -43,6 +47,10 @@ class Ui_mm2_to_awg_dialog(object):
         self.diameterInchLineEdit = QLineEdit(mm2_to_awg_dialog)
         self.diameterInchLineEdit.setObjectName(u"diameterInchLineEdit")
         self.diameterInchLineEdit.setGeometry(QRect(130, 90, 131, 21))
+        self.diameterInchLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.diameterInchLineEdit.setReadOnly(True)
         self.label_3 = QLabel(mm2_to_awg_dialog)
         self.label_3.setObjectName(u"label_3")
@@ -50,6 +58,10 @@ class Ui_mm2_to_awg_dialog(object):
         self.diameterMmLineEdit = QLineEdit(mm2_to_awg_dialog)
         self.diameterMmLineEdit.setObjectName(u"diameterMmLineEdit")
         self.diameterMmLineEdit.setGeometry(QRect(130, 120, 131, 21))
+        self.diameterMmLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.diameterMmLineEdit.setReadOnly(True)
         self.label_4 = QLabel(mm2_to_awg_dialog)
         self.label_4.setObjectName(u"label_4")
@@ -57,6 +69,10 @@ class Ui_mm2_to_awg_dialog(object):
         self.areaKcmilLineEdit = QLineEdit(mm2_to_awg_dialog)
         self.areaKcmilLineEdit.setObjectName(u"areaKcmilLineEdit")
         self.areaKcmilLineEdit.setGeometry(QRect(130, 150, 131, 21))
+        self.areaKcmilLineEdit.setStyleSheet(u"QLineEdit:read-only {\n"
+"    background-color: #f0f0f0;\n"
+"    color: #333333;\n"
+"}")
         self.areaKcmilLineEdit.setReadOnly(True)
         self.label_5 = QLabel(mm2_to_awg_dialog)
         self.label_5.setObjectName(u"label_5")

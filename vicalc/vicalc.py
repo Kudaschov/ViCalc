@@ -1536,11 +1536,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton1.bg_color = self.number_key_color
         self.ui.pushButton1.shift_text = "n!"
         self.ui.pushButton1.ctrl_text = "DEG"
-        self.ui.pushButton1.ctrl_shift_text = "→DEG"
+        self.ui.pushButton1.ctrl_shift_text = "DEG→"
         self.ui.pushButton1.base_operation = CalcOperations.number_1
         self.ui.pushButton1.shift_operation = CalcOperations.factorial
         self.ui.pushButton1.ctrl_operation = CalcOperations.trig_mode_deg
-        self.ui.pushButton1.ctrl_shift_operation = CalcOperations.convert_to_deg
+        self.ui.pushButton1.ctrl_shift_operation = CalcOperations.convert_from_deg
         UiGlobals.pushButton1 = self.ui.pushButton1
         self.leftside_button_list.append(self.ui.pushButton1)
 
@@ -1549,11 +1549,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton2.bg_color = self.number_key_color
         self.ui.pushButton2.shift_text = "x²"
         self.ui.pushButton2.ctrl_text = "RAD"
-        self.ui.pushButton2.ctrl_shift_text = "→RAD"
+        self.ui.pushButton2.ctrl_shift_text = "RAD→"
         self.ui.pushButton2.base_operation = CalcOperations.number_2
         self.ui.pushButton2.shift_operation = CalcOperations.square
         self.ui.pushButton2.ctrl_operation = CalcOperations.trig_mode_rad
-        self.ui.pushButton2.ctrl_shift_operation = CalcOperations.convert_to_rad
+        self.ui.pushButton2.ctrl_shift_operation = CalcOperations.convert_from_rad
         UiGlobals.pushButton2 = self.ui.pushButton2
         self.leftside_button_list.append(self.ui.pushButton2)
 
@@ -1562,11 +1562,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton3.bg_color = self.number_key_color
         self.ui.pushButton3.shift_text = "x³"
         self.ui.pushButton3.ctrl_text = "GRA"
-        self.ui.pushButton3.ctrl_shift_text = "→GRA"
+        self.ui.pushButton3.ctrl_shift_text = "GRA→"
         self.ui.pushButton3.base_operation = CalcOperations.number_3
         self.ui.pushButton3.shift_operation = CalcOperations.cube
         self.ui.pushButton3.ctrl_operation = CalcOperations.trig_mode_gra
-        self.ui.pushButton3.ctrl_shift_operation = CalcOperations.convert_to_gra
+        self.ui.pushButton3.ctrl_shift_operation = CalcOperations.convert_from_gra
         UiGlobals.pushButton3 = self.ui.pushButton3
         self.leftside_button_list.append(self.ui.pushButton3)
 

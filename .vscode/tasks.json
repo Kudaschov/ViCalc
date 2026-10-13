@@ -200,6 +200,16 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile conv_angle_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/conv_angle_dialog.ui -o vicalc/ui/ui_conv_angle_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }
