@@ -12,7 +12,7 @@
 | Calculate last operation in chain | Last | On main Keyboard and Numpad |
 | Clear (operations retain) | C     | Optional: Shift + Numlock twice (must be enabled in Tools/Options) |
 | Decimal separator         | .     | On main Keyboard and Numpad |
-| Delete last line from history | DL | On main Keyboard and Numpad |
+| Delete last line from history | DL | On main Keyboard only |
 | Delete last operation     | DO    | On main Keyboard and Numpad |
 | Exponent                  | EE   | On main keyboard and Numpad |
 | Number input              | 0 - 9 | On main Keyboard and Numpad |

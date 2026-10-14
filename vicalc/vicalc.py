@@ -1424,10 +1424,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonBackspace.setText("⌫")
         self.ui.pushButtonBackspace.bg_color = self.c_ac_bg_color
         self.ui.pushButtonBackspace.shift_text = "DO"
-        self.ui.pushButtonBackspace.ctrl_text = ""
+        self.ui.pushButtonBackspace.ctrl_text = "DL"
         self.ui.pushButtonBackspace.base_operation = CalcOperations.backspace
         self.ui.pushButtonBackspace.shift_operation = CalcOperations.del_operation
-        self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_operation
+        self.ui.pushButtonBackspace.ctrl_operation = CalcOperations.del_last_line
         UiGlobals.pushButtonBackspace = self.ui.pushButtonBackspace
         self.leftside_button_list.append(self.ui.pushButtonBackspace)
 

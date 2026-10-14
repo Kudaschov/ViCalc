@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QApplication, QLineEdit, QStyleOptionFrame
 from PySide6.QtCore import QUrl, Qt, Signal, QDate, QTime
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtWidgets import QDialog
-from PySide6.QtGui import QFont, QFontMetrics, QGuiApplication
+from PySide6.QtGui import QFont, QFontMetrics, QGuiApplication, QTextCursor
 from PySide6.QtGui import QKeyEvent, QFocusEvent, QKeySequence, QShortcut
 from PySide6.QtCore import QLocale
 from PySide6.QtCore import QTimer
@@ -737,7 +737,8 @@ class InputTextEdit(QLineEdit):
             CalcOperations.trig_mode_rad,
             CalcOperations.trig_mode_gra,
             CalcOperations.pi,
-            CalcOperations.copy_to_clipboard
+            CalcOperations.copy_to_clipboard,
+            CalcOperations.del_last_line
         }
         try:
             match calc_operation:
@@ -941,6 +942,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_unit_conversion()
                 case CalcOperations.del_operation:
                     self.exec_del_operation()
+                case CalcOperations.del_last_line:
+                    self.exec_del_last_line()
                 case CalcOperations.int_part:
                     self.exec_int_part()
                 case CalcOperations.frac_part:
@@ -2396,6 +2399,38 @@ class InputTextEdit(QLineEdit):
             else:
                 AppGlobals.root_expression = None
             self.update_expression_label()
+
+    def exec_del_last_line(self):
+        # Show confirmation dialog
+        reply = QMessageBox.question(
+            self,
+            "Confirmation",
+            "Are you sure you want to remove the last line?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No  # Default selected button
+        )
+
+        if reply != QMessageBox.Yes:
+            return
+        
+        doc = AppGlobals.history.document()
+        block_count = doc.blockCount()
+
+        if block_count > 1:
+            cursor = AppGlobals.history.textCursor()
+            # 1. Zum Ende des Dokuments springen
+            cursor.movePosition(QTextCursor.End)
+            # 2. Zum vorherigen Block (vorletzte Zeile) wechseln
+            cursor.movePosition(QTextCursor.PreviousBlock, QTextCursor.MoveAnchor)
+            # 3. An das Ende dieses vorletzten Blocks springen
+            cursor.movePosition(QTextCursor.EndOfBlock, QTextCursor.MoveAnchor)
+            # 4. Von dort bis zum absoluten Dokumentenende (letzte Zeile) alles auswählen
+            cursor.movePosition(QTextCursor.End, QTextCursor.KeepAnchor)
+            # 5. Ausgewählten Bereich (letzte Zeile + Umbruch) löschen
+            cursor.removeSelectedText()
+        elif block_count == 1:
+            # Wenn nur noch eine Zeile/ein Block da ist, diesen komplett leeren
+            AppGlobals.history.setHtml("")        
 
     def exec_linear_func_two_points(self):
         dialog = LinearTwoPointsDialog()
