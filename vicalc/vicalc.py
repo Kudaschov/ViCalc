@@ -26,6 +26,7 @@ from .UiGlobals import UiGlobals
 from .NumericCellValue import NumericCellValue
 from PySide6.QtCore import QLocale, QDate, QTime
 from .OptionsDialog import OptionsDialog
+from .settings_dialog import SettingsDialog
 from .CommentDialog import CommentDialog
 from .CommentCellValue import CommentCellValue
 from .key_preselect import KeyPreselect
@@ -160,6 +161,7 @@ class MainWindow(QMainWindow):
         self.ui.action_calculate_y_from_linear.triggered.connect(self.calculate_y_from_linear)
         self.ui.action_phy_const.triggered.connect(AppGlobals.input_box.exec_phy_const)
         self.ui.action_options.triggered.connect(self.options)
+        self.ui.actionToolsSettings.triggered.connect(self.tools_settings)
         self.ui.action_quadratic_equation.triggered.connect(self.quadratic_equation)
         self.ui.action_linear_system_two_equations.triggered.connect(self.linear_system_two_equations)
 
@@ -464,6 +466,8 @@ class MainWindow(QMainWindow):
             AppGlobals.bitwise_shift = ShiftRotateOperation(self.settings.value("bitwise_shift", ShiftRotateOperation.arithmetic.value, type=int))
             AppGlobals.carry_flag = self.settings.value("carry_flag", 0, type=int)
             AppGlobals.base_n_signed = self.settings.value("base_n_signed", True, type=bool)
+
+            AppGlobals.tax_rate = float(self.settings.value("tax_rate", 19.0))
 
             self.UpdateUiTrigMode()
 
@@ -1033,6 +1037,8 @@ class MainWindow(QMainWindow):
         self.settings.setValue("carry_flag", AppGlobals.carry_flag)
         self.settings.setValue("base_n_signed", AppGlobals.base_n_signed)
 
+        self.settings.setValue("tax_rate", AppGlobals.tax_rate)
+
         self.save_table_data()
 
         super().closeEvent(event)
@@ -1588,11 +1594,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton5.bg_color = self.number_key_color
         self.ui.pushButton5.shift_text = "%"
         self.ui.pushButton5.ctrl_text = "nCr"
-        self.ui.pushButton5.ctrl_shift_text = ""
+        self.ui.pushButton5.ctrl_shift_text = "TAX-"
         self.ui.pushButton5.base_operation = CalcOperations.number_5
         self.ui.pushButton5.shift_operation = CalcOperations.percent
         self.ui.pushButton5.ctrl_operation = CalcOperations.combination
-        self.ui.pushButton5.ctrl_shift_operation = CalcOperations.nop
+        self.ui.pushButton5.ctrl_shift_operation = CalcOperations.tax_minus
         UiGlobals.pushButton5 = self.ui.pushButton5
         self.leftside_button_list.append(self.ui.pushButton5)
 
@@ -1601,11 +1607,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton6.bg_color = self.number_key_color
         self.ui.pushButton6.shift_text = "+/-"
         self.ui.pushButton6.ctrl_text = "Int"
-        self.ui.pushButton6.ctrl_shift_text = ""
+        self.ui.pushButton6.ctrl_shift_text = "TAX+"
         self.ui.pushButton6.base_operation = CalcOperations.number_6
         self.ui.pushButton6.shift_operation = CalcOperations.sign_change
         self.ui.pushButton6.ctrl_operation = CalcOperations.int_part
-        self.ui.pushButton6.ctrl_shift_operation = CalcOperations.nop
+        self.ui.pushButton6.ctrl_shift_operation = CalcOperations.tax_plus
         UiGlobals.pushButton6 = self.ui.pushButton6
         self.leftside_button_list.append(self.ui.pushButton6)
 
@@ -2030,6 +2036,15 @@ class MainWindow(QMainWindow):
             AppGlobals.show_left_side_keyboard = dialog.ui.showLeftsideKeyboardCheckBox.isChecked()
             AppGlobals.show_numpad = dialog.ui.showNumpadCheckBox.isChecked()
             self.update_numpad_position()
+
+    def tools_settings(self):
+        dialog = SettingsDialog(self)
+        dialog.ui.taxRateLineEdit.setText(AppGlobals.to_normal_string(AppGlobals.tax_rate))
+
+        if dialog.exec():
+            val, ok = AppGlobals.toDouble(dialog.ui.taxRateLineEdit.text())
+            if ok:
+                AppGlobals.tax_rate = val
 
     def square(self):
         AppGlobals.input_box.exec_square()

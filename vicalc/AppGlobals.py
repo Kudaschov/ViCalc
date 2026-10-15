@@ -69,6 +69,7 @@ class AppGlobals:
     phy_const_index = 0 # select index in phy const dialog
     unit_conversion_from = "in"
     unit_conversion_to = "mm"
+    tax_rate = 19.0
 
     # When checked, the angle value will be automatically converted to the new unit when
     # changing between degrees (D), radians (R), or grads (G).

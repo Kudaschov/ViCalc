@@ -145,3 +145,5 @@ class CalcOperations(Enum):
     toggle_carry_flag = auto()
     toggle_base_n_sign = auto()
     calc_last_operation = auto()
+    tax_plus = auto()
+    tax_minus = auto()

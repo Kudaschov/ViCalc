@@ -210,6 +210,16 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile settings_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/settings_dialog.ui -o vicalc/ui/ui_settings_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }
 	]
 }

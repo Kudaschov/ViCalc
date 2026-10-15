@@ -132,6 +132,8 @@ from ..LeftShiftLogicalExpression import LeftShiftLogicalExpression
 from ..RightShiftLogicalExpression import RightShiftLogicalExpression
 from ..LeftShiftRotateCarryExpression import LeftShiftRotateCarryExpression
 from ..RightShiftRotateCarryExpression import RightShiftRotateCarryExpression
+from ..TaxPlusExpression import TaxPlusExpression
+from ..TaxMinusExpression import TaxMinusExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1028,6 +1030,10 @@ class InputTextEdit(QLineEdit):
                     self.exec_toggle_base_n_sign()
                 case CalcOperations.calc_last_operation:
                     self.exec_calc_last_operation()
+                case CalcOperations.tax_minus:
+                    self.exec_tax_minus()
+                case CalcOperations.tax_plus:
+                    self.exec_tax_plus()
                 case _:
                     self.statusbar_message.emit("No operation configured")
         except Exception as e:
@@ -1335,6 +1341,16 @@ class InputTextEdit(QLineEdit):
     def exec_reciprocal(self):
         if (self.store_number()):
             expr = ReciprocalExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
+
+    def exec_tax_plus(self):
+        if (self.store_number()):
+            expr = TaxPlusExpression()
+            AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
+
+    def exec_tax_minus(self):
+        if (self.store_number()):
+            expr = TaxMinusExpression()
             AppGlobals.number_to_input_box(expr.calculate(AppGlobals.get_number()))
 
     def exec_sign_change(self):

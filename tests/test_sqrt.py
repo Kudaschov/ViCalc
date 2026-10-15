@@ -52,6 +52,8 @@ def wait_for_manual_close(window):
         (["10.06766199577777", lambda: AppGlobals.input_box.button_clicked(CalcOperations.arcosh)], 3),
         (["0.9950547536867305", lambda: AppGlobals.input_box.button_clicked(CalcOperations.artanh)], 3),
         (["8", lambda: AppGlobals.input_box.button_clicked(CalcOperations.log_base), "2", "="], 3),
+        (["234.5", lambda: AppGlobals.input_box.button_clicked(CalcOperations.tax_plus)], 283.745),
+        (["283.745", lambda: AppGlobals.input_box.button_clicked(CalcOperations.tax_minus)], 234.5),
     ],
 )
 
@@ -70,7 +72,10 @@ def test_sqrt(
     AppGlobals.input_replace_decimal_separator = True
     original_angle_unit = AppGlobals.angle_unit
     AppGlobals.angle_unit = DegUnit()
+    original_imag_memory = AppGlobals.input_imag_box.memory
     AppGlobals.input_imag_box.memory = 5.6
+    original_tax_rate = AppGlobals.tax_rate
+    AppGlobals.tax_rate = 21
 
     assertion_error = None
 
@@ -113,9 +118,11 @@ def test_sqrt(
 
         # Restore original state
         AppGlobals.calc_mode = original_calc_mode
+        AppGlobals.complex_number_form = original_compex_number_form
         AppGlobals.input_replace_decimal_separator = original_replace_decimal_separator
         AppGlobals.angle_unit = original_angle_unit
-        AppGlobals.complex_number_form = original_compex_number_form
+        AppGlobals.input_imag_box.memory = original_imag_memory
+        AppGlobals.tax_rate = original_tax_rate
 
         # Re-raise the assertion failure after restoring state
         if assertion_error:
