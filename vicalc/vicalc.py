@@ -416,7 +416,7 @@ class MainWindow(QMainWindow):
 
             AppGlobals.numeric_precision = self.settings.value("numeric_precision", 5, type=int)
             AppGlobals.timestamp_at_start = self.settings.value("timestamp_at_start", False, type=bool)
-            AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", True, type=bool)
+            AppGlobals.copy_to_clipboard_replace = self.settings.value("copy_to_clipboard_replace", False, type=bool)
             AppGlobals.paste_from_clipboard_replace = self.settings.value("paste_from_clipboard_replace", True, type=bool)
             AppGlobals.input_replace_decimal_separator = self.settings.value("input_replace_point", True, type=bool)
             AppGlobals.numlock_ac = self.settings.value("numlocK_ac", True, type=bool)
@@ -1224,6 +1224,8 @@ class MainWindow(QMainWindow):
         self.update_numpad_position()
         if AppGlobals.timestamp_at_start:
             self.date_time_stamp()
+        # Ensure view scrolls to bottom
+        AppGlobals.history.ensureCursorVisible()            
 
     def date_time_stamp(self):
         AppGlobals.input_box.exec_date_time_stamp()

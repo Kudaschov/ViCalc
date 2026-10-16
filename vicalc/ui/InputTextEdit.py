@@ -2375,7 +2375,7 @@ class InputTextEdit(QLineEdit):
 
         # Combine all parts with tab or space spacing
         header_text = (
-            f"{date_str} - {day_name} - {time_str} - CW {cw}"
+            f"{date_str}, {day_name}, {time_str} (W{cw})"
         )
 
         # Insert a line break before the header if needed, then append the string cell
