@@ -64,6 +64,7 @@ If the highlighted function is not the intended one, you can simply release the 
 
 ## Calculation Example
 <img src="docs/images/ViCalcExample.png" alt = "ViCalc Calculation Example" width="760" /><br>
+ViCalc on YouTube:<br>
 [![ViCalc Demo](https://img.youtube.com/vi/QS3xJNa8ba4/hqdefault.jpg)](https://www.youtube.com/shorts/QS3xJNa8ba4)
 
 ## Key Features
