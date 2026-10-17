@@ -1486,12 +1486,12 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonEnterNumpad.bg_color = self.arithmetic_operation_color
         self.ui.pushButtonEnterNumpad.shift_text = "%"
         self.ui.pushButtonEnterNumpad.ctrl_text = "DTS"
-        self.ui.pushButtonEnterNumpad.ctrl_shift_text = "RAN#"
+        self.ui.pushButtonEnterNumpad.ctrl_shift_text = "Last"
         self.ui.pushButtonEnterNumpad.ctrl_text_alignment = Qt.AlignRight
         self.ui.pushButtonEnterNumpad.base_operation = CalcOperations.calculate
         self.ui.pushButtonEnterNumpad.shift_operation = CalcOperations.percent
         self.ui.pushButtonEnterNumpad.ctrl_operation = CalcOperations.date_time_stamp
-        self.ui.pushButtonEnterNumpad.ctrl_shift_operation = CalcOperations.random
+        self.ui.pushButtonEnterNumpad.ctrl_shift_operation = CalcOperations.calc_last_operation
         UiGlobals.pushButtonEnterNumpad = self.ui.pushButtonEnterNumpad
         self.numpad_button_list.append(self.ui.pushButtonEnterNumpad)
 
