@@ -2,6 +2,8 @@
 
 ViCalc is an open-source touch-typing scientific calculator with a key-preselection function. It turns your PC keyboard - especially the numeric keypad - into a scientific calculator, while full mouse support is also available.
 
+▶️ **[Watch ViCalc Demo on YouTube (Short)](https://www.youtube.com/shorts/9ZcUu6isFmY)**
+
 <img src="docs/images/vicalc5_collect.jpg" /><br>
 
 ViCalc offers an adaptable user interface designed to fit any workflow. The layout scales from a minimalist view without any virtual keys — ideal if you know the key labels by heart — to a standard numpad, a left-side layout, or a full scientific keyboard. Additionally, you can expand the calculation history panel to view and manage past entries.
@@ -64,8 +66,6 @@ If the highlighted function is not the intended one, you can simply release the 
 
 ## Calculation Example
 <img src="docs/images/ViCalcExample.png" alt = "ViCalc Calculation Example" width="760" /><br>
-ViCalc on YouTube:<br>
-[![ViCalc Demo](https://img.youtube.com/vi/QS3xJNa8ba4/hqdefault.jpg)](https://www.youtube.com/shorts/QS3xJNa8ba4)
 
 ## Key Features
 
