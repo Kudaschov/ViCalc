@@ -1378,11 +1378,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton7numpad.bg_color = self.number_key_color
         self.ui.pushButton7numpad.shift_text = "ln"
         self.ui.pushButton7numpad.ctrl_text = "e^x"
-        self.ui.pushButton7numpad.ctrl_shift_text = "logBase"
+        self.ui.pushButton7numpad.ctrl_shift_text = "nPr"
         self.ui.pushButton7numpad.base_operation = CalcOperations.number_7
         self.ui.pushButton7numpad.shift_operation = CalcOperations.ln
         self.ui.pushButton7numpad.ctrl_operation = CalcOperations.ex
-        self.ui.pushButton7numpad.ctrl_shift_operation = CalcOperations.log_base
+        self.ui.pushButton7numpad.ctrl_shift_operation = CalcOperations.permutation
         UiGlobals.pushButton7numpad = self.ui.pushButton7numpad
         self.numpad_button_list.append(self.ui.pushButton7numpad)
 
@@ -1444,11 +1444,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonCommaNumpad.bg_color = self.number_key_color
         self.ui.pushButtonCommaNumpad.shift_text = "⌫"
         self.ui.pushButtonCommaNumpad.ctrl_text = "DO"
-        self.ui.pushButtonCommaNumpad.ctrl_shift_text = "nPr"
+        self.ui.pushButtonCommaNumpad.ctrl_shift_text = "DL"
         self.ui.pushButtonCommaNumpad.base_operation = CalcOperations.comma
         self.ui.pushButtonCommaNumpad.shift_operation = CalcOperations.backspace
         self.ui.pushButtonCommaNumpad.ctrl_operation = CalcOperations.del_operation
-        self.ui.pushButtonCommaNumpad.ctrl_shift_operation = CalcOperations.permutation
+        self.ui.pushButtonCommaNumpad.ctrl_shift_operation = CalcOperations.del_last_line
         UiGlobals.pushButtonCommaNumpad = self.ui.pushButtonCommaNumpad
         self.numpad_button_list.append(self.ui.pushButtonCommaNumpad)
 
