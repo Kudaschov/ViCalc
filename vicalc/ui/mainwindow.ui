@@ -1564,10 +1564,17 @@
     <addaction name="separator"/>
     <addaction name="actionToggleCarryFlag"/>
    </widget>
+   <widget class="QMenu" name="menuFinance">
+    <property name="title">
+     <string>Financ&amp;e</string>
+    </property>
+    <addaction name="actionSimpleInterest"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Math"/>
    <addaction name="menuMode"/>
    <addaction name="menuProgrammer"/>
+   <addaction name="menuFinance"/>
    <addaction name="menu_Convert"/>
    <addaction name="menu_History"/>
    <addaction name="menu_Tools"/>
@@ -2133,6 +2140,11 @@
   <action name="actionToolsSettings">
    <property name="text">
     <string>S&amp;ettings...</string>
+   </property>
+  </action>
+  <action name="actionSimpleInterest">
+   <property name="text">
+    <string>&amp;Simple Interest...</string>
    </property>
   </action>
  </widget>

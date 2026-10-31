@@ -134,6 +134,10 @@ from ..LeftShiftRotateCarryExpression import LeftShiftRotateCarryExpression
 from ..RightShiftRotateCarryExpression import RightShiftRotateCarryExpression
 from ..TaxPlusExpression import TaxPlusExpression
 from ..TaxMinusExpression import TaxMinusExpression
+from ..simple_interest_dlg import SimpleInterestDialog
+from ..payment_period import PaymentPeriod
+from ..days_in_year import DaysInYear
+from ..SimpleInterestExpression import SimpleInterestExpression
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1034,6 +1038,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_tax_minus()
                 case CalcOperations.tax_plus:
                     self.exec_tax_plus()
+                case CalcOperations.simple_interest:
+                    self.exec_simple_interest()
                 case _:
                     self.statusbar_message.emit("No operation configured")
         except Exception as e:
@@ -2097,6 +2103,31 @@ class InputTextEdit(QLineEdit):
         minutes, ok  = self.locale.toInt(dialog.ui.minutesLineEdit.text())
         seconds, ok = self.locale.toDouble(dialog.ui.secondsLineEdit.text())
         self.setTextSelect(self.toString(DDExpression().calculate(degrees, minutes, seconds)))
+
+    def exec_simple_interest(self):
+        dialog = SimpleInterestDialog()
+
+        if AppGlobals.days_in_year == DaysInYear.days360:
+            dialog.ui.days360RadioButton.setChecked(True)
+        else:
+            dialog.ui.days365RadioButton.setChecked(True)
+
+        dialog.ui.daysLineEdit.setText(str(AppGlobals.days))
+        dialog.ui.annualRatePctLineEdit.setText(AppGlobals.to_format_string(AppGlobals.annual_rate))
+        dialog.ui.pvLineEdit.setText(AppGlobals.to_format_string(AppGlobals.PV))
+
+        if not dialog.exec():
+            return
+
+        if dialog.ui.days360RadioButton.isChecked():
+            AppGlobals.days_in_year = DaysInYear.days360
+        else:
+            AppGlobals.days_in_year = DaysInYear.days365
+
+        AppGlobals.days, ok = self.locale.toInt(dialog.ui.daysLineEdit.text())
+        AppGlobals.annual_rate, ok = self.locale.toDouble(dialog.ui.annualRatePctLineEdit.text())
+        AppGlobals.PV, ok = self.locale.toDouble(dialog.ui.pvLineEdit.text())
+        self.setTextSelect(self.toString(SimpleInterestExpression().calculate(AppGlobals.days, AppGlobals.days_in_year, AppGlobals.PV, AppGlobals.annual_rate)))
 
     def exec_from_binary(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(2))

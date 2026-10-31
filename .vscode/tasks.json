@@ -220,6 +220,16 @@
         "isDefault": true
       },
       "problemMatcher": []
-    }
+    },
+    {
+      "label": "Compile simple_interest_dlg",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/simple_interest_dlg.ui -o vicalc/ui/ui_simple_interest_dlg.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }    
 	]
 }

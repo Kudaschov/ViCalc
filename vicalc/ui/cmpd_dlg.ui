@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>485</width>
+    <height>349</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Compound Interest (CMPD)</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>310</y>
+     <width>461</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>191</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="locale">
+    <locale language="English" country="Germany"/>
+   </property>
+   <property name="title">
+    <string>Payment Period</string>
+   </property>
+   <widget class="QRadioButton" name="beginRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;Begin</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="endRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&amp;End</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>92</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Number of &amp;Annual Payments (P/Y)</string>
+   </property>
+   <property name="buddy">
+    <cstring>p_yLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="p_yLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>89</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>122</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Number of Annual &amp;Compoundings</string>
+   </property>
+   <property name="buddy">
+    <cstring>c_yLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="c_yLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>119</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="annualRateLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>177</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&amp;Interest Rate [%]</string>
+   </property>
+   <property name="buddy">
+    <cstring>annualRateLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="solveAnnualRatePushButton">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>176</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>S&amp;olve</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="solvePVPushButton">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>206</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>So&amp;lve</string>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="pvLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>207</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Present Value (&amp;PV)</string>
+   </property>
+   <property name="buddy">
+    <cstring>pvLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="solvePMTPushButton">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>238</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sol&amp;ve</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>242</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Payment Amount (P&amp;MT)</string>
+   </property>
+   <property name="buddy">
+    <cstring>pmtLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="pmtLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>239</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="nLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>149</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>152</y>
+     <width>211</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Number of Payments (&amp;n)</string>
+   </property>
+   <property name="buddy">
+    <cstring>nLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="solveNPushButton">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>147</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&amp;Solve</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="solveFVPushButton">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>268</y>
+     <width>75</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Solv&amp;e</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>273</y>
+     <width>231</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Future Value (Principal and Interest, &amp;FV)</string>
+   </property>
+   <property name="buddy">
+    <cstring>fvLineEdit</cstring>
+   </property>
+  </widget>
+  <widget class="DotLineEdit" name="fvLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>270</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DotLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>.dot_line_edit</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>beginRadioButton</tabstop>
+  <tabstop>endRadioButton</tabstop>
+  <tabstop>p_yLineEdit</tabstop>
+  <tabstop>c_yLineEdit</tabstop>
+  <tabstop>nLineEdit</tabstop>
+  <tabstop>solveNPushButton</tabstop>
+  <tabstop>annualRateLineEdit</tabstop>
+  <tabstop>solveAnnualRatePushButton</tabstop>
+  <tabstop>pvLineEdit</tabstop>
+  <tabstop>solvePVPushButton</tabstop>
+  <tabstop>pmtLineEdit</tabstop>
+  <tabstop>solvePMTPushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

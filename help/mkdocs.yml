@@ -11,11 +11,13 @@ nav:
   - Basic Operations: basic_operations.md
   - Reciprocal: reciprocal.md
   - Trigonometry: trigonometry.md
-  - Percents: percents.md
   
   - General keys: keys_general.md
   - Special keys: special.md
   - Memory keys: memory.md
   - Scientific keys: scientific.md
+
+  - Percents: percents.md
+  - Simple interest: simple_interest.md
 
 use_directory_urls: false

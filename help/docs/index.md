@@ -27,16 +27,18 @@ If you prefer traditional physical calculator behavior—where alternate functio
 
 ## Overview
 [ViCalc](overview.md)<br>
-[Number Input Format](number_format.md)<br>
-[Calculation History](history.md)<br>
-[Calculation Example](calc_example.md)<br>
-## Functions and Operations
-[Basic Operations](basic_operations.md)<br>
+[Number input format](number_format.md)<br>
+[Calculation history](history.md)<br>
+[Calculation example](calc_example.md)<br>
+## Functions and operations
+[Basic operations](basic_operations.md)<br>
 [Reciprocal](reciprocal.md)<br>
-[Trigonometric and Inverse Trigonometric Functions](trigonometry.md)<br>
-[Percent Calculations](percents.md)<br>
+[Trigonometric and inverse trigonometric functions](trigonometry.md)<br>
 ## Keys and their functions
 [General](keys_general.md)<br>
 [Special](special.md)<br>
 [Memory](memory.md)<br>
 [Scientific](scientific.md)<br>
+## Financial operations
+[Percent calculations](percents.md)<br>
+[Simple Interest](simple_interest.md)<br>

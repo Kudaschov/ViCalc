@@ -37,6 +37,8 @@ from .ui.NumberBaseLabel import NumberBaseLabel
 from .CalcMode import CalcMode
 from .ComplexNumberForm import ComplexNumberForm
 from .ShiftRotateOperation import ShiftRotateOperation
+from .days_in_year import DaysInYear
+from .payment_period import PaymentPeriod
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -167,6 +169,8 @@ class MainWindow(QMainWindow):
 
         self.ui.action_AWG_to_mm2.triggered.connect(self.awg_to_mm2)
         self.ui.action_mm2_to_AWG.triggered.connect(self.mm2_to_awg)
+
+        self.ui.actionSimpleInterest.triggered.connect(self.simple_interest)
 
         # Define a list to store QPushButton objects
         self.button_list = []
@@ -466,6 +470,12 @@ class MainWindow(QMainWindow):
             AppGlobals.bitwise_shift = ShiftRotateOperation(self.settings.value("bitwise_shift", ShiftRotateOperation.arithmetic.value, type=int))
             AppGlobals.carry_flag = self.settings.value("carry_flag", 0, type=int)
             AppGlobals.base_n_signed = self.settings.value("base_n_signed", True, type=bool)
+
+            AppGlobals.days_in_year = DaysInYear(self.settings.value("days_in_year", DaysInYear.days360.value, type=int))
+            AppGlobals.payment_period = PaymentPeriod(self.settings.value("payment_period", PaymentPeriod.END.value, type=int))
+            AppGlobals.days = int(self.settings.value("days", 120))
+            AppGlobals.annual_rate = float(self.settings.value("annual_rate", 0.0))
+            AppGlobals.PV = float(self.settings.value("PV", 0.0))
 
             AppGlobals.tax_rate = float(self.settings.value("tax_rate", 19.0))
 
@@ -958,13 +968,8 @@ class MainWindow(QMainWindow):
             case _:
                 self.numeric_format_label.setText("Normal")
 
-    def resource_path(self, relative_path):
-        if hasattr(sys, '_MEIPASS'):
-            return os.path.join(sys._MEIPASS, relative_path)
-        return os.path.abspath(relative_path)
-
     def show_help(self):
-        help_path = self.resource_path("help/site/index.html")
+        help_path = AppGlobals.resource_path("help/site/index.html")
 
         if os.path.exists(help_path):
             webbrowser.open(f"file:///{help_path}")
@@ -1038,6 +1043,12 @@ class MainWindow(QMainWindow):
         self.settings.setValue("base_n_signed", AppGlobals.base_n_signed)
 
         self.settings.setValue("tax_rate", AppGlobals.tax_rate)
+
+        self.settings.setValue("days_in_year", AppGlobals.days_in_year.value)
+        self.settings.setValue("payment_period", AppGlobals.payment_period.value)
+        self.settings.setValue("days", AppGlobals.days)
+        self.settings.setValue("annual_rate", AppGlobals.annual_rate)
+        self.settings.setValue("PV", AppGlobals.PV)
 
         self.save_table_data()
 
@@ -2327,6 +2338,9 @@ class MainWindow(QMainWindow):
 
     def mm2_to_awg(self):
         AppGlobals.input_box.exec_mm2_to_awg()
+
+    def simple_interest(self):
+        AppGlobals.input_box.exec_simple_interest()
 
     def bin_label_clicked(self):
         AppGlobals.input_box.exec_from_binary()

@@ -1,6 +1,6 @@
 [Setup]
 AppName=ViCalc
-AppVersion= 5.1.11
+AppVersion= 5.2.0
 DefaultDirName={commonpf}\ViCalc
 DefaultGroupName=Kudaschov
 OutputDir=dist_installer

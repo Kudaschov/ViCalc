@@ -1,5 +1,6 @@
 import math, cmath
 import ctypes
+import sys, os
 from .NumberBase import NumberBase
 from .WordSize import WordSize
 from .NumericFormat import NumericFormat
@@ -8,6 +9,8 @@ from .CalcMode import CalcMode
 from .ComplexNumberForm import ComplexNumberForm
 from .ShiftRotateOperation import ShiftRotateOperation
 from .TrigMode import TrigMode
+from .payment_period import PaymentPeriod
+from .days_in_year import DaysInYear
 
 class AppGlobals:
 # Base color mapping stored globally
@@ -70,6 +73,13 @@ class AppGlobals:
     unit_conversion_from = "in"
     unit_conversion_to = "mm"
     tax_rate = 19.0
+
+    # Finance Calculations
+    days_in_year = DaysInYear.days365
+    payment_period = PaymentPeriod.BEGIN
+    days: int = 120 # period in days
+    annual_rate = 0.0 # percent
+    PV: float = 0.0 # Principal Value
 
     # When checked, the angle value will be automatically converted to the new unit when
     # changing between degrees (D), radians (R), or grads (G).
@@ -202,6 +212,10 @@ class AppGlobals:
     @staticmethod
     def toDouble(text: str):
         return AppGlobals.locale.toDouble(text)
+
+    @staticmethod
+    def toInt(text: str):
+        return AppGlobals.locale.toInt(text)
 
     #Discriminant for quadratic equation ax^2 + bx + c = 0
     @staticmethod
@@ -525,3 +539,15 @@ class AppGlobals:
         left_shift  = bool(user32.GetAsyncKeyState(0xA0) & 0x8000)  # VK_LSHIFT
         right_shift = bool(user32.GetAsyncKeyState(0xA1) & 0x8000)  # VK_RSHIFT
         return left_shift or right_shift
+
+    @staticmethod
+    def calculate_si(days: int, days_in_year: DaysInYear, pv: float, annual_rate: float) -> tuple[float, float]:
+        si = days / days_in_year.days * pv * annual_rate / 100.0
+        sfv = pv + si
+        return si, sfv
+
+    @staticmethod
+    def resource_path(relative_path):
+        if hasattr(sys, '_MEIPASS'):
+            return os.path.join(sys._MEIPASS, relative_path)
+        return os.path.abspath(relative_path)    

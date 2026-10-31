@@ -215,6 +215,8 @@ class Ui_MainWindow(object):
         self.actionUnsigned.setCheckable(True)
         self.actionToolsSettings = QAction(MainWindow)
         self.actionToolsSettings.setObjectName(u"actionToolsSettings")
+        self.actionSimpleInterest = QAction(MainWindow)
+        self.actionSimpleInterest.setObjectName(u"actionSimpleInterest")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -664,12 +666,15 @@ class Ui_MainWindow(object):
         self.menu_Tools.setObjectName(u"menu_Tools")
         self.menuProgrammer = QMenu(self.menubar)
         self.menuProgrammer.setObjectName(u"menuProgrammer")
+        self.menuFinance = QMenu(self.menubar)
+        self.menuFinance.setObjectName(u"menuFinance")
         MainWindow.setMenuBar(self.menubar)
 
         self.menubar.addAction(self.menu_File.menuAction())
         self.menubar.addAction(self.menu_Math.menuAction())
         self.menubar.addAction(self.menuMode.menuAction())
         self.menubar.addAction(self.menuProgrammer.menuAction())
+        self.menubar.addAction(self.menuFinance.menuAction())
         self.menubar.addAction(self.menu_Convert.menuAction())
         self.menubar.addAction(self.menu_History.menuAction())
         self.menubar.addAction(self.menu_Tools.menuAction())
@@ -738,6 +743,7 @@ class Ui_MainWindow(object):
         self.menuProgrammer.addAction(self.actionCircularShiftCarry)
         self.menuProgrammer.addSeparator()
         self.menuProgrammer.addAction(self.actionToggleCarryFlag)
+        self.menuFinance.addAction(self.actionSimpleInterest)
 
         self.retranslateUi(MainWindow)
 
@@ -898,6 +904,7 @@ class Ui_MainWindow(object):
         self.actionUnsigned.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Shift+F6", None))
 #endif // QT_CONFIG(shortcut)
         self.actionToolsSettings.setText(QCoreApplication.translate("MainWindow", u"S&ettings...", None))
+        self.actionSimpleInterest.setText(QCoreApplication.translate("MainWindow", u"&Simple Interest...", None))
         self.expressionLabel.setText("")
         self.inputTextEdit.setPlaceholderText("")
         self.plusLabel.setText(QCoreApplication.translate("MainWindow", u"+", None))
@@ -980,5 +987,6 @@ class Ui_MainWindow(object):
         self.menu_Math.setTitle(QCoreApplication.translate("MainWindow", u"M&ath", None))
         self.menu_Tools.setTitle(QCoreApplication.translate("MainWindow", u"&Tools", None))
         self.menuProgrammer.setTitle(QCoreApplication.translate("MainWindow", u"P&rogrammer", None))
+        self.menuFinance.setTitle(QCoreApplication.translate("MainWindow", u"Financ&e", None))
     # retranslateUi
 
