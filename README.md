@@ -115,7 +115,10 @@ If the highlighted function is not the intended one, you can simply release the 
 - Ratio calculation
 - Linear function
 - Quadratic equation
-- Linear System of Two Equations
+- Linear system of two Equations
+- Finance calculations
+   - Tax calculation
+   - Simple interest
 
 ## History
 
