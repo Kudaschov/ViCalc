@@ -119,6 +119,7 @@ If the highlighted function is not the intended one, you can simply release the 
 - Finance calculations
    - Tax calculation
    - Simple interest
+   - Compound interest, Time Value of Money (TVM) calculations
 
 ## History
 
