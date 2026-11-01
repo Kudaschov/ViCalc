@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>cmpdDialog</class>
+ <widget class="QDialog" name="cmpdDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>485</width>
-    <height>349</height>
+    <width>590</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Compound Interest (CMPD)</string>
+   <string>Compound Interest, Time Value of Money (TVM)</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>310</y>
-     <width>461</width>
+     <width>571</width>
      <height>32</height>
     </rect>
    </property>
@@ -67,7 +67,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&amp;End</string>
+     <string>En&amp;d</string>
     </property>
    </widget>
   </widget>
@@ -81,7 +81,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Number of &amp;Annual Payments (P/Y)</string>
+    <string>N&amp;umber of Annual Payments (P/Y)</string>
    </property>
    <property name="buddy">
     <cstring>p_yLineEdit</cstring>
@@ -91,7 +91,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>89</y>
+     <y>90</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -102,12 +102,12 @@
     <rect>
      <x>10</x>
      <y>122</y>
-     <width>211</width>
+     <width>231</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Number of Annual &amp;Compoundings</string>
+    <string>Number of Annual &amp;Compoundings (C/Y)</string>
    </property>
    <property name="buddy">
     <cstring>c_yLineEdit</cstring>
@@ -117,17 +117,17 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>119</y>
+     <y>120</y>
      <width>141</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
-  <widget class="DotLineEdit" name="annualRateLineEdit">
+  <widget class="DotLineEdit" name="annualRatePctLineEdit">
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>177</y>
+     <y>180</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -137,23 +137,23 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>180</y>
+     <y>182</y>
      <width>211</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>&amp;Interest Rate [%]</string>
+    <string>Annual &amp;Interest Rate (I/Y) [%]</string>
    </property>
    <property name="buddy">
-    <cstring>annualRateLineEdit</cstring>
+    <cstring>annualRatePctLineEdit</cstring>
    </property>
   </widget>
   <widget class="QPushButton" name="solveAnnualRatePushButton">
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>176</y>
+     <y>178</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -166,7 +166,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>206</y>
+     <y>208</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -179,7 +179,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>207</y>
+     <y>210</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -189,7 +189,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>210</y>
+     <y>212</y>
      <width>211</width>
      <height>16</height>
     </rect>
@@ -234,7 +234,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>239</y>
+     <y>240</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -244,7 +244,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>149</y>
+     <y>150</y>
      <width>141</width>
      <height>21</height>
     </rect>
@@ -260,7 +260,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Number of Payments (&amp;n)</string>
+    <string>Number of Payments (&amp;N)</string>
    </property>
    <property name="buddy">
     <cstring>nLineEdit</cstring>
@@ -270,7 +270,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>147</y>
+     <y>148</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -296,13 +296,13 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>273</y>
+     <y>272</y>
      <width>231</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Future Value (Principal and Interest, &amp;FV)</string>
+    <string>Future Value (&amp;FV)</string>
    </property>
    <property name="buddy">
     <cstring>fvLineEdit</cstring>
@@ -316,6 +316,71 @@
      <width>141</width>
      <height>21</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="historyNPushButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>148</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&amp;Add to History</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="historyAnnualRatePushButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>178</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add to &amp;History</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="historyPVPushButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>208</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add to His&amp;tory</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="historyPMTPushButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>238</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add to Histo&amp;ry</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="historyFVPushButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>268</y>
+     <width>101</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add to Histor&amp;y</string>
    </property>
   </widget>
  </widget>
@@ -333,19 +398,21 @@
   <tabstop>c_yLineEdit</tabstop>
   <tabstop>nLineEdit</tabstop>
   <tabstop>solveNPushButton</tabstop>
-  <tabstop>annualRateLineEdit</tabstop>
+  <tabstop>annualRatePctLineEdit</tabstop>
   <tabstop>solveAnnualRatePushButton</tabstop>
   <tabstop>pvLineEdit</tabstop>
   <tabstop>solvePVPushButton</tabstop>
   <tabstop>pmtLineEdit</tabstop>
   <tabstop>solvePMTPushButton</tabstop>
+  <tabstop>fvLineEdit</tabstop>
+  <tabstop>solveFVPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>cmpdDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -361,7 +428,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>cmpdDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

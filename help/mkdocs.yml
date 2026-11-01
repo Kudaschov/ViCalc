@@ -19,5 +19,6 @@ nav:
 
   - Percents: percents.md
   - Simple interest: simple_interest.md
+  - Compund interest: compound_interest.md
 
 use_directory_urls: false

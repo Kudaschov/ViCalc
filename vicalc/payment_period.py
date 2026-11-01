@@ -5,10 +5,19 @@ class PaymentPeriod(Enum):
     END = auto()
 
     @property
-    def label(self) -> str:
+    def name(self) -> str:
+        """Returns the human-readable label for the payment period."""
+        mapping = {
+            PaymentPeriod.BEGIN: "begin",
+            PaymentPeriod.END: "end",
+        }
+        return mapping[self]
+
+    @property
+    def history(self) -> str:
         """Returns the human-readable label for the payment period."""
         mapping = {
             PaymentPeriod.BEGIN: "Begin",
             PaymentPeriod.END: "End",
         }
-        return mapping[self]
+        return mapping[self]    

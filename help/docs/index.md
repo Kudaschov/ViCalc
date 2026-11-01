@@ -42,3 +42,4 @@ If you prefer traditional physical calculator behavior—where alternate functio
 ## Financial operations
 [Percent calculations](percents.md)<br>
 [Simple Interest](simple_interest.md)<br>
+[Compound Interest, Time Value of Money (TVM)](compound_interest.md)<br>

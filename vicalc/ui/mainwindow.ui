@@ -1569,6 +1569,7 @@
      <string>Financ&amp;e</string>
     </property>
     <addaction name="actionSimpleInterest"/>
+    <addaction name="actionCompoundInterest"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Math"/>
@@ -2145,6 +2146,11 @@
   <action name="actionSimpleInterest">
    <property name="text">
     <string>&amp;Simple Interest...</string>
+   </property>
+  </action>
+  <action name="actionCompoundInterest">
+   <property name="text">
+    <string>&amp;Compound Interest, Time Value of Money (TVM)...</string>
    </property>
   </action>
  </widget>

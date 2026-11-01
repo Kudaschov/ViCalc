@@ -230,6 +230,16 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile cmpd_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/cmpd_dialog.ui -o vicalc/ui/ui_cmpd_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }    
 	]
 }

@@ -217,6 +217,8 @@ class Ui_MainWindow(object):
         self.actionToolsSettings.setObjectName(u"actionToolsSettings")
         self.actionSimpleInterest = QAction(MainWindow)
         self.actionSimpleInterest.setObjectName(u"actionSimpleInterest")
+        self.actionCompoundInterest = QAction(MainWindow)
+        self.actionCompoundInterest.setObjectName(u"actionCompoundInterest")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
@@ -744,6 +746,7 @@ class Ui_MainWindow(object):
         self.menuProgrammer.addSeparator()
         self.menuProgrammer.addAction(self.actionToggleCarryFlag)
         self.menuFinance.addAction(self.actionSimpleInterest)
+        self.menuFinance.addAction(self.actionCompoundInterest)
 
         self.retranslateUi(MainWindow)
 
@@ -905,6 +908,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(shortcut)
         self.actionToolsSettings.setText(QCoreApplication.translate("MainWindow", u"S&ettings...", None))
         self.actionSimpleInterest.setText(QCoreApplication.translate("MainWindow", u"&Simple Interest...", None))
+        self.actionCompoundInterest.setText(QCoreApplication.translate("MainWindow", u"&Compound Interest, Time Value of Money (TVM)...", None))
         self.expressionLabel.setText("")
         self.inputTextEdit.setPlaceholderText("")
         self.plusLabel.setText(QCoreApplication.translate("MainWindow", u"+", None))

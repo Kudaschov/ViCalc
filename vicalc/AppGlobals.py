@@ -79,7 +79,12 @@ class AppGlobals:
     payment_period = PaymentPeriod.BEGIN
     days: int = 120 # period in days
     annual_rate = 0.0 # percent
-    PV: float = 0.0 # Principal Value
+    pv: float = 0.0 # present value
+    py: int = 1 # payments per year
+    cy: int = 1 # compoundings per year
+    nper: float = 0 # number of payment periods
+    pmt: float = 0 # payment amount per period
+    fv: float = 0 # future value
 
     # When checked, the angle value will be automatically converted to the new unit when
     # changing between degrees (D), radians (R), or grads (G).

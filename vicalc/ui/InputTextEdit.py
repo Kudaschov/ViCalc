@@ -135,6 +135,7 @@ from ..RightShiftRotateCarryExpression import RightShiftRotateCarryExpression
 from ..TaxPlusExpression import TaxPlusExpression
 from ..TaxMinusExpression import TaxMinusExpression
 from ..simple_interest_dlg import SimpleInterestDialog
+from ..cmpd_dialog import CMPDDialog
 from ..payment_period import PaymentPeriod
 from ..days_in_year import DaysInYear
 from ..SimpleInterestExpression import SimpleInterestExpression
@@ -1040,6 +1041,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_tax_plus()
                 case CalcOperations.simple_interest:
                     self.exec_simple_interest()
+                case CalcOperations.compound_interest:
+                    self.exec_compound_interest()
                 case _:
                     self.statusbar_message.emit("No operation configured")
         except Exception as e:
@@ -2114,7 +2117,7 @@ class InputTextEdit(QLineEdit):
 
         dialog.ui.daysLineEdit.setText(str(AppGlobals.days))
         dialog.ui.annualRatePctLineEdit.setText(AppGlobals.to_format_string(AppGlobals.annual_rate))
-        dialog.ui.pvLineEdit.setText(AppGlobals.to_format_string(AppGlobals.PV))
+        dialog.ui.pvLineEdit.setText(AppGlobals.to_format_string(AppGlobals.pv))
 
         if not dialog.exec():
             return
@@ -2126,8 +2129,40 @@ class InputTextEdit(QLineEdit):
 
         AppGlobals.days, ok = self.locale.toInt(dialog.ui.daysLineEdit.text())
         AppGlobals.annual_rate, ok = self.locale.toDouble(dialog.ui.annualRatePctLineEdit.text())
-        AppGlobals.PV, ok = self.locale.toDouble(dialog.ui.pvLineEdit.text())
-        self.setTextSelect(self.toString(SimpleInterestExpression().calculate(AppGlobals.days, AppGlobals.days_in_year, AppGlobals.PV, AppGlobals.annual_rate)))
+        AppGlobals.pv, ok = self.locale.toDouble(dialog.ui.pvLineEdit.text())
+        self.setTextSelect(self.toString(SimpleInterestExpression().calculate(AppGlobals.days, AppGlobals.days_in_year, AppGlobals.pv, AppGlobals.annual_rate)))
+
+    def exec_compound_interest(self):
+        dialog = CMPDDialog()
+
+        if AppGlobals.payment_period == PaymentPeriod.BEGIN:
+            dialog.ui.beginRadioButton.setChecked(True)
+        else:
+            dialog.ui.endRadioButton.setChecked(True)
+
+        dialog.ui.p_yLineEdit.setText(str(AppGlobals.py))
+        dialog.ui.c_yLineEdit.setText(str(AppGlobals.cy))
+        dialog.ui.nLineEdit.setText(self.toString(AppGlobals.nper))
+        dialog.ui.annualRatePctLineEdit.setText(self.toString(AppGlobals.annual_rate))
+        dialog.ui.pvLineEdit.setText(self.toString(AppGlobals.pv))
+        dialog.ui.pmtLineEdit.setText(self.toString(AppGlobals.pmt))
+        dialog.ui.fvLineEdit.setText(self.toString(AppGlobals.fv))
+
+        if not dialog.exec():
+            return
+
+        if dialog.ui.beginRadioButton.isChecked():
+            AppGlobals.payment_period = PaymentPeriod.BEGIN
+        else:
+            AppGlobals.payment_period = PaymentPeriod.END
+
+        AppGlobals.py, ok = self.locale.toInt(dialog.ui.p_yLineEdit.text())
+        AppGlobals.cy, ok = self.locale.toInt(dialog.ui.c_yLineEdit.text())
+        AppGlobals.nper, ok = self.locale.toDouble(dialog.ui.nLineEdit.text())
+        AppGlobals.annual_rate, ok = self.locale.toDouble(dialog.ui.annualRatePctLineEdit.text())
+        AppGlobals.pv, ok = self.locale.toDouble(dialog.ui.pvLineEdit.text())
+        AppGlobals.pmt, ok = self.locale.toDouble(dialog.ui.pmtLineEdit.text())
+        AppGlobals.fv, ok = self.locale.toDouble(dialog.ui.fvLineEdit.text())
 
     def exec_from_binary(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(2))

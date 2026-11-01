@@ -148,3 +148,4 @@ class CalcOperations(Enum):
     tax_plus = auto()
     tax_minus = auto()
     simple_interest = auto()
+    compound_interest = auto()

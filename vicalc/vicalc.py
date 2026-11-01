@@ -171,6 +171,7 @@ class MainWindow(QMainWindow):
         self.ui.action_mm2_to_AWG.triggered.connect(self.mm2_to_awg)
 
         self.ui.actionSimpleInterest.triggered.connect(self.simple_interest)
+        self.ui.actionCompoundInterest.triggered.connect(self.compound_interest)
 
         # Define a list to store QPushButton objects
         self.button_list = []
@@ -475,7 +476,12 @@ class MainWindow(QMainWindow):
             AppGlobals.payment_period = PaymentPeriod(self.settings.value("payment_period", PaymentPeriod.END.value, type=int))
             AppGlobals.days = int(self.settings.value("days", 120))
             AppGlobals.annual_rate = float(self.settings.value("annual_rate", 0.0))
-            AppGlobals.PV = float(self.settings.value("PV", 0.0))
+            AppGlobals.pv = float(self.settings.value("PV", 0.0))
+            AppGlobals.py = int(self.settings.value("py", 1))
+            AppGlobals.cy = int(self.settings.value("cy", 1))
+            AppGlobals.nper = float(self.settings.value("nper", 0.0))
+            AppGlobals.pmt = float(self.settings.value("pmt", 0.0))
+            AppGlobals.fv = float(self.settings.value("fv", 0.0))
 
             AppGlobals.tax_rate = float(self.settings.value("tax_rate", 19.0))
 
@@ -1048,7 +1054,12 @@ class MainWindow(QMainWindow):
         self.settings.setValue("payment_period", AppGlobals.payment_period.value)
         self.settings.setValue("days", AppGlobals.days)
         self.settings.setValue("annual_rate", AppGlobals.annual_rate)
-        self.settings.setValue("PV", AppGlobals.PV)
+        self.settings.setValue("PV", AppGlobals.pv)
+        self.settings.setValue("py", AppGlobals.py)
+        self.settings.setValue("cy", AppGlobals.cy)
+        self.settings.setValue("nper", AppGlobals.nper)
+        self.settings.setValue("pmt", AppGlobals.pmt)
+        self.settings.setValue("fv", AppGlobals.fv)
 
         self.save_table_data()
 
@@ -2340,7 +2351,10 @@ class MainWindow(QMainWindow):
         AppGlobals.input_box.exec_mm2_to_awg()
 
     def simple_interest(self):
-        AppGlobals.input_box.exec_simple_interest()
+        AppGlobals.input_box.button_clicked(CalcOperations.simple_interest)
+
+    def compound_interest(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.compound_interest)
 
     def bin_label_clicked(self):
         AppGlobals.input_box.exec_from_binary()
