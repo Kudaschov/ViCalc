@@ -139,6 +139,7 @@ from ..cmpd_dialog import CMPDDialog
 from ..payment_period import PaymentPeriod
 from ..days_in_year import DaysInYear
 from ..SimpleInterestExpression import SimpleInterestExpression
+from ..amort_dialog import AmortDialog
 
 class InputTextEdit(QLineEdit):
     # Define a custom signal that carries a boolean indicating if Shift is pressed
@@ -1043,6 +1044,8 @@ class InputTextEdit(QLineEdit):
                     self.exec_simple_interest()
                 case CalcOperations.compound_interest:
                     self.exec_compound_interest()
+                case CalcOperations.amortization:
+                    self.exec_amortization()
                 case _:
                     self.statusbar_message.emit("No operation configured")
         except Exception as e:
@@ -2163,6 +2166,38 @@ class InputTextEdit(QLineEdit):
         AppGlobals.pv, ok = self.locale.toDouble(dialog.ui.pvLineEdit.text())
         AppGlobals.pmt, ok = self.locale.toDouble(dialog.ui.pmtLineEdit.text())
         AppGlobals.fv, ok = self.locale.toDouble(dialog.ui.fvLineEdit.text())
+
+    def exec_amortization(self):
+        dialog = AmortDialog()
+
+        if AppGlobals.payment_period == PaymentPeriod.BEGIN:
+            dialog.ui.beginRadioButton.setChecked(True)
+        else:
+            dialog.ui.endRadioButton.setChecked(True)
+
+        dialog.ui.p_yLineEdit.setText(str(AppGlobals.py))
+        dialog.ui.c_yLineEdit.setText(str(AppGlobals.cy))
+        dialog.ui.nLineEdit.setText(self.toString(AppGlobals.nper))
+        dialog.ui.p1LineEdit.setText(self.toString(AppGlobals.p1))
+        dialog.ui.p2LineEdit.setText(self.toString(AppGlobals.p2))
+        dialog.ui.annualRatePctLineEdit.setText(self.toString(AppGlobals.annual_rate))
+        dialog.ui.pvLineEdit.setText(self.toString(AppGlobals.pv))
+
+        if not dialog.exec():
+            return
+
+        if dialog.ui.beginRadioButton.isChecked():
+            AppGlobals.payment_period = PaymentPeriod.BEGIN
+        else:
+            AppGlobals.payment_period = PaymentPeriod.END
+            
+        AppGlobals.py, ok = self.locale.toInt(dialog.ui.p_yLineEdit.text())
+        AppGlobals.cy, ok = self.locale.toInt(dialog.ui.c_yLineEdit.text())
+        AppGlobals.p1, ok = self.locale.toInt(dialog.ui.p1LineEdit.text())
+        AppGlobals.p2, ok = self.locale.toInt(dialog.ui.p2LineEdit.text())
+        AppGlobals.nper, ok = self.locale.toDouble(dialog.ui.nLineEdit.text())
+        AppGlobals.annual_rate, ok = self.locale.toDouble(dialog.ui.annualRatePctLineEdit.text())
+        AppGlobals.pv, ok = self.locale.toDouble(dialog.ui.pvLineEdit.text())
 
     def exec_from_binary(self):
         dialog = ConvertFromBaseDialog(None, BaseExpression(2))

@@ -240,6 +240,16 @@
         "isDefault": true
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Compile amort_dialog",
+      "type": "shell",
+      "command": "pyside6-uic.exe vicalc/ui/amort_dialog.ui -o vicalc/ui/ui_amort_dialog.py",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
     }    
 	]
 }

@@ -172,6 +172,7 @@ class MainWindow(QMainWindow):
 
         self.ui.actionSimpleInterest.triggered.connect(self.simple_interest)
         self.ui.actionCompoundInterest.triggered.connect(self.compound_interest)
+        self.ui.actionAmortization.triggered.connect(self.amortization)
 
         # Define a list to store QPushButton objects
         self.button_list = []
@@ -482,6 +483,8 @@ class MainWindow(QMainWindow):
             AppGlobals.nper = float(self.settings.value("nper", 0.0))
             AppGlobals.pmt = float(self.settings.value("pmt", 0.0))
             AppGlobals.fv = float(self.settings.value("fv", 0.0))
+            AppGlobals.p1 = int(self.settings.value("p1", 1))
+            AppGlobals.p2 = int(self.settings.value("p2", 1))
 
             AppGlobals.tax_rate = float(self.settings.value("tax_rate", 19.0))
 
@@ -1060,6 +1063,8 @@ class MainWindow(QMainWindow):
         self.settings.setValue("nper", AppGlobals.nper)
         self.settings.setValue("pmt", AppGlobals.pmt)
         self.settings.setValue("fv", AppGlobals.fv)
+        self.settings.setValue("p1", AppGlobals.p1)
+        self.settings.setValue("p2", AppGlobals.p2)
 
         self.save_table_data()
 
@@ -2355,6 +2360,9 @@ class MainWindow(QMainWindow):
 
     def compound_interest(self):
         AppGlobals.input_box.button_clicked(CalcOperations.compound_interest)
+
+    def amortization(self):
+        AppGlobals.input_box.button_clicked(CalcOperations.amortization)
 
     def bin_label_clicked(self):
         AppGlobals.input_box.exec_from_binary()

@@ -20,5 +20,6 @@ nav:
   - Percents: percents.md
   - Simple interest: simple_interest.md
   - Compund interest: compound_interest.md
+  - Amortization: amortization.md
 
 use_directory_urls: false

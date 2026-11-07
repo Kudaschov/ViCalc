@@ -85,6 +85,8 @@ class AppGlobals:
     nper: float = 0 # number of payment periods
     pmt: float = 0 # payment amount per period
     fv: float = 0 # future value
+    p1: int = 1 # starting payment period
+    p2: int = 1 # ending payment period
 
     # When checked, the angle value will be automatically converted to the new unit when
     # changing between degrees (D), radians (R), or grads (G).

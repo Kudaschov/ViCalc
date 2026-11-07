@@ -10,7 +10,7 @@ class CmpdFVExpression(UnaryExpression):
         # Calculate the effective interest rate per payment period
         # i = (1 + nominal_rate / C/Y) ** (C/Y / P/Y) - 1
         periodic_rate = (1.0 + iy / cy / 100.0) ** (cy /py) - 1.0
-        fv = npf.fv(rate=periodic_rate, nper=nper, pmt=pmt, pv=pv, when=when.name)
+        fv = npf.fv(rate=periodic_rate, nper=nper, pmt=pmt, pv=pv, when=when.npf_period)
         
         self.insert_scroll_table()
         self.protocol_result("Compound Interest. Calculation of Future Value (FV)")
@@ -22,11 +22,11 @@ class CmpdFVExpression(UnaryExpression):
         self.protocol(py)
         self.protocol(" | C/Y: ")
         self.protocol(cy)
-        self.protocol(" % | N: ")
+        self.protocol(" | N: ")
         self.protocol(nper)
         self.protocol(" | I/Y: ")
         self.protocol(iy)
-        self.protocol(" | PV: ")
+        self.protocol(" % | PV: ")
         self.protocol(pv)
         self.protocol(" | PMT: ")
         self.protocol(pmt)

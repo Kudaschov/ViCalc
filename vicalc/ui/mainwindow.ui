@@ -1570,6 +1570,7 @@
     </property>
     <addaction name="actionSimpleInterest"/>
     <addaction name="actionCompoundInterest"/>
+    <addaction name="actionAmortization"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Math"/>
@@ -2151,6 +2152,11 @@
   <action name="actionCompoundInterest">
    <property name="text">
     <string>&amp;Compound Interest, Time Value of Money (TVM)...</string>
+   </property>
+  </action>
+  <action name="actionAmortization">
+   <property name="text">
+    <string>&amp;Amortization...</string>
    </property>
   </action>
  </widget>

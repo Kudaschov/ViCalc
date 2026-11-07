@@ -5,7 +5,7 @@ class PaymentPeriod(Enum):
     END = auto()
 
     @property
-    def name(self) -> str:
+    def npf_period(self) -> str:
         """Returns the human-readable label for the payment period."""
         mapping = {
             PaymentPeriod.BEGIN: "begin",

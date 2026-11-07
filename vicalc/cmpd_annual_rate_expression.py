@@ -10,7 +10,7 @@ class CmpdAnnualRateExpression(UnaryExpression):
         # Calculate the number of payment periods (n) using numpy_financial
         # Calculate the effective interest rate per payment period
         # i = (1 + nominal_rate / C/Y) ** (C/Y / P/Y) - 1
-        periodic_rate = npf.rate(nper, pmt, pv, fv, when=when.name)
+        periodic_rate = npf.rate(nper, pmt, pv, fv, when=when.npf_period)
         annual_rate = ((1.0 + periodic_rate) ** (py / cy) - 1.0) * cy * 100.0        
         
         self.insert_scroll_table()

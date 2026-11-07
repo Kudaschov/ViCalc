@@ -10,7 +10,7 @@ class CmpdPVExpression(UnaryExpression):
         # Calculate the effective interest rate per payment period
         # i = (1 + nominal_rate / C/Y) ** (C/Y / P/Y) - 1
         periodic_rate = (1.0 + iy / cy / 100.0) ** (cy /py) - 1.0
-        pv = npf.pv(rate=periodic_rate, nper=nper, pmt=pmt, fv=fv, when=when.name)
+        pv = npf.pv(rate=periodic_rate, nper=nper, pmt=pmt, fv=fv, when=when.npf_period)
         
         self.insert_scroll_table()
         self.protocol_result("Compound Interest. Calculation of Present Value (PV)")

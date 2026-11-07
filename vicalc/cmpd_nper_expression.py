@@ -11,8 +11,8 @@ class CmpdNperExpression(UnaryExpression):
         # Calculate the effective interest rate per payment period
         # i = (1 + nominal_rate / C/Y) ** (C/Y / P/Y) - 1
         periodic_rate = (1.0 + annual_rate / cy / 100.0) ** (cy / py) - 1.0
-        nper = npf.nper(periodic_rate, pmt, pv, fv, when=when.name)
-        
+        nper = npf.nper(periodic_rate, pmt, pv, fv, when=when.npf_period)
+
         self.insert_scroll_table()
         self.protocol_result("Compound Interest. Number of Payments (N) Calculation")
         AppGlobals.history.append("")

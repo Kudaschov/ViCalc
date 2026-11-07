@@ -124,7 +124,7 @@ class CMPDDialog(QDialog):
         periodic_rate = (1.0 + self.annual_rate / self.cy / 100.0) ** (self.cy / self.py) - 1.0
 
         # Calculate the number of payment periods (n) using numpy_financial
-        self.nper = npf.nper(periodic_rate, self.pmt, self.pv, self.fv, when=self.get_when().name)
+        self.nper = npf.nper(periodic_rate, self.pmt, self.pv, self.fv, when=self.get_when().npf_period)
         self.ui.nLineEdit.setText(AppGlobals.to_normal_string(self.nper))
 
     def history_nper(self):
@@ -135,7 +135,7 @@ class CMPDDialog(QDialog):
 
     def solve_annual_rate(self):
         # 1. Solve for the periodic interest rate using numpy_financial
-        periodic_rate = npf.rate(self.nper, self.pmt, self.pv, self.fv, when=self.get_when().name)
+        periodic_rate = npf.rate(self.nper, self.pmt, self.pv, self.fv, when=self.get_when().npf_period)
 
         # 2. Reverse the formula to solve for the annual interest rate (%)
         self.annual_rate = ((1.0 + periodic_rate) ** (self.py / self.cy) - 1.0) * self.cy * 100.0        
@@ -150,7 +150,7 @@ class CMPDDialog(QDialog):
     def solve_pv(self):
         # 1. Solve for the periodic interest rate using numpy_financial
         periodic_rate = (1.0 + self.annual_rate / self.cy / 100.0) ** (self.cy / self.py) - 1.0
-        self.pv = npf.pv(rate=periodic_rate, nper=self.nper, pmt=self.pmt, fv=self.fv, when=self.get_when().name)
+        self.pv = npf.pv(rate=periodic_rate, nper=self.nper, pmt=self.pmt, fv=self.fv, when=self.get_when().npf_period)
         self.ui.pvLineEdit.setText(AppGlobals.to_normal_string(self.pv))
 
     def history_pv(self):
@@ -162,7 +162,7 @@ class CMPDDialog(QDialog):
     def solve_pmt(self):
         # 1. Solve for the periodic interest rate using numpy_financial
         periodic_rate = (1.0 + self.annual_rate / self.cy / 100.0) ** (self.cy / self.py) - 1.0
-        self.pmt = npf.pmt(rate=periodic_rate, nper=self.nper, pv=self.pv, fv=self.fv, when=self.get_when().name)
+        self.pmt = npf.pmt(rate=periodic_rate, nper=self.nper, pv=self.pv, fv=self.fv, when=self.get_when().npf_period)
         self.ui.pmtLineEdit.setText(AppGlobals.to_normal_string(self.pmt))
 
     def history_pmt(self):
@@ -174,7 +174,7 @@ class CMPDDialog(QDialog):
     def solve_fv(self):
         # 1. Solve for the periodic interest rate using numpy_financial
         periodic_rate = (1.0 + self.annual_rate / self.cy / 100.0) ** (self.cy / self.py) - 1.0
-        self.fv = npf.fv(rate=periodic_rate, nper=self.nper, pmt=self.pmt, pv=self.pv, when=self.get_when().name)
+        self.fv = npf.fv(rate=periodic_rate, nper=self.nper, pmt=self.pmt, pv=self.pv, when=self.get_when().npf_period)
         self.ui.fvLineEdit.setText(AppGlobals.to_normal_string(self.fv))
 
     def history_fv(self):

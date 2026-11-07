@@ -392,20 +392,25 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>beginRadioButton</tabstop>
   <tabstop>endRadioButton</tabstop>
+  <tabstop>beginRadioButton</tabstop>
   <tabstop>p_yLineEdit</tabstop>
   <tabstop>c_yLineEdit</tabstop>
   <tabstop>nLineEdit</tabstop>
   <tabstop>solveNPushButton</tabstop>
+  <tabstop>historyNPushButton</tabstop>
   <tabstop>annualRatePctLineEdit</tabstop>
   <tabstop>solveAnnualRatePushButton</tabstop>
+  <tabstop>historyAnnualRatePushButton</tabstop>
   <tabstop>pvLineEdit</tabstop>
   <tabstop>solvePVPushButton</tabstop>
+  <tabstop>historyPVPushButton</tabstop>
   <tabstop>pmtLineEdit</tabstop>
   <tabstop>solvePMTPushButton</tabstop>
+  <tabstop>historyPMTPushButton</tabstop>
   <tabstop>fvLineEdit</tabstop>
   <tabstop>solveFVPushButton</tabstop>
+  <tabstop>historyFVPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections>
