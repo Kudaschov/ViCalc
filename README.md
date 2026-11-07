@@ -120,6 +120,7 @@ If the highlighted function is not the intended one, you can simply release the 
    - Tax calculation
    - Simple interest
    - Compound interest, Time Value of Money (TVM) calculations
+   - Amortization
 
 ## History
 
