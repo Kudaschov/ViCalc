@@ -1881,8 +1881,8 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Escape:
                         self.button_clicked(CalcOperations.AC)
                     case Qt.Key.Key_PageUp:
-                        # 4th function is active, aktivate 3rd function
-                        self.button_clicked(CalcOperations.ctrl_hold)
+                        # 4th function is active, deactivate it
+                        self.button_clicked(CalcOperations.ctrl_shift_hold)
                     case Qt.Key.Key_PageDown:
                         # 4th function is active, deactivate it
                         self.button_clicked(CalcOperations.ctrl_shift_hold)
@@ -1959,8 +1959,8 @@ class InputTextEdit(QLineEdit):
                     case Qt.Key.Key_Y:
                         self.button_clicked(UiGlobals.pushButtonY.ctrl_operation)
                     case Qt.Key.Key_PageUp:
-                        # 3rd function is active, deactivate it
-                        self.button_clicked(CalcOperations.ctrl_hold)
+                        # 3rd function is active, activate 4th function
+                        self.button_clicked(CalcOperations.ctrl_shift_hold)
                     case Qt.Key.Key_PageDown:
                         # 3rd function is active, make 2nd function
                         self.button_clicked(CalcOperations.shift_hold)

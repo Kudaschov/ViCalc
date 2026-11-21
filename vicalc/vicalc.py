@@ -98,6 +98,7 @@ class MainWindow(QMainWindow):
         self.button_orig_bg_color = None
         self.arithmetic_operation_color = QColor("#FAFAFA")
         self.number_key_color = QColor("#FFFFFF")
+        self.home_row_color = QColor("#D6E4FF")
 
         AppGlobals.input_box = self.ui.inputTextEdit
         AppGlobals.input_imag_box = self.ui.inputImagTextEdit
@@ -876,7 +877,6 @@ class MainWindow(QMainWindow):
                 self.ui.pushButtonF.shift_text = ">>"
                 self.ui.pushButtonF.ctrl_operation = CalcOperations.right_shift
                 self.ui.pushButtonF.ctrl_text = ""
-                self.ui.pushButtonF.bg_color = self.number_key_color
 
             if self.ui.pushButtonW.base_operation is not CalcOperations.AND:
                 self.ui.pushButtonW.base_operation = CalcOperations.AND
@@ -1376,7 +1376,7 @@ class MainWindow(QMainWindow):
 
         self.ui.pushButton5numpad.row = 2
         self.ui.pushButton5numpad.column = 1
-        self.ui.pushButton5numpad.bg_color = self.number_key_color
+        self.ui.pushButton5numpad.bg_color = self.home_row_color
         self.ui.pushButton5numpad.shift_text = "cos"
         self.ui.pushButton5numpad.ctrl_text = "-1"
         self.ui.pushButton5numpad.ctrl_shift_text = "cosh"
@@ -1788,6 +1788,7 @@ class MainWindow(QMainWindow):
         self.ui.pushButtonF.column = 4
         self.ui.pushButtonF.setText("ln")
         self.ui.pushButtonF.original_keyboard_text = "F"
+        self.ui.pushButtonF.bg_color = self.home_row_color
         self.ui.pushButtonF.shift_text = "e^x"
         self.ui.pushButtonF.ctrl_shift_text = "logBase"
         self.ui.pushButtonF.base_operation = CalcOperations.ln
@@ -1955,6 +1956,178 @@ class MainWindow(QMainWindow):
         AppGlobals.input_imag_box.setFocus()
         AppGlobals.input_imag_box.selectAll()    
 
+    def generate_json_from_leftside_buttons(self):
+        import json
+        import copy
+        
+        # 1. Das exakte Standard-104-Tasten-Layout als unberührte Basis (Deep Copy)
+        rows_base = [
+            # Reihe 0: Funktionstasten (bleibt komplett unverändert)
+            [
+                "Esc", {"x": 1}, "F1", "F2", "F3", "F4", 
+                {"x": 0.5}, "F5", "F6", "F7", "F8", 
+                {"x": 0.5}, "F9", "F10", "F11", "F12", 
+                {"x": 0.25}, "PrtSc", "Scroll Lock", "Pause\nBreak"
+            ],
+            
+            # Reihe 1: Zahlenreihe
+            [
+                {"y": 0.5}, "~\n`", "!\n1", "@\n2", "#\n3", "$\n4", "%\n5", 
+                "^\n6", "&\n7", "*\n8", "(\n9", ")\n0", "_\n-", "+\n=", 
+                {"w": 2}, "Backspace", {"x": 0.25}, "Insert", "Home", "PgUp", 
+                {"x": 0.25}, "Num Lock", "/", "*", "-"
+            ],
+            
+            # Reihe 2: Tab-Reihe
+            [
+                {"w": 1.5}, "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", 
+                "{\n[", "}\n]", {"w": 1.5}, "|\n\\", 
+                {"x": 0.25}, "Delete", "End", "PgDn", 
+                {"x": 0.25}, "7\nHome", "8\n↑", "9\nPgUp", {"h": 2}, "+"
+            ],
+            
+            # Reihe 3: Caps Lock / A / etc.
+            [
+                {"w": 1.75}, "Caps Lock", "A", "S", "D", "F", "G", "H", "J", "K", "L", 
+                ":\n;", "\"\n'", {"w": 2.25}, "Enter", 
+                {"x": 3.5}, "4\n←", "5", "6\n→"
+            ],
+            
+            # Reihe 4: Shift-Reihe
+            [
+                {"w": 2.25}, "Shift", "Z", "X", "C", "V", "B", "N", "M", 
+                "<\n,", ">\n.", "?\n/", {"w": 2.75}, "Shift", 
+                {"x": 1.25}, "↑", 
+                {"x": 1.25}, "1\nEnd", "2\n↓", "3\nPgDn", {"h": 2}, "Enter"
+            ],
+            
+            # Reihe 5: Unterste Reihe
+            [
+                {"w": 1.25}, "Ctrl", {"w": 1.25}, "Win", {"w": 1.25}, "Alt", 
+                {"a": 0, "w": 6.25}, "", 
+                {"a": 4, "w": 1.25}, "Alt", {"w": 1.25}, "Win", {"w": 1.25}, "Menu", 
+                {"w": 1.25}, "Ctrl", {"x": 0.25}, "←", "↓", "→", 
+                {"x": 0.25, "w": 2}, "0\nIns", ".\nDel"
+            ]
+        ]
+        
+        layout = copy.deepcopy(rows_base)
+
+        # Hilfsfunktion zum Sammeln und Verarbeiten einer Button-Liste
+        def collect_buttons(button_list, is_numpad=False):
+            buttons_by_row = {}
+            for btn in button_list:
+                r = getattr(btn, 'row', None)
+                c = getattr(btn, 'column', None)
+                
+                if r is not None and c is not None:
+                    target_r = r + 1  # Um 1 verschoben, damit Reihe 0 (Funktionstasten) frei bleibt
+                    
+                    # Unterste Reihe (Leertasten-Reihe, target_r == 5) für Leftside überspringen
+                    if not is_numpad and target_r == 5:
+                        continue
+                        
+                    if target_r < len(layout):
+                        raw_text = getattr(btn, 'text', '')
+                        base_text = raw_text() if callable(raw_text) else str(raw_text)
+                        
+                        if not base_text or "method text" in base_text:
+                            base_text = getattr(btn, 'original_keyboard_text', '')
+
+                        shift_text = getattr(btn, 'shift_text', '')
+                        ctrl_shift_text = getattr(btn, 'ctrl_shift_text', '')
+                        orig_text = getattr(btn, 'original_keyboard_text', '')
+
+                        button_text = f"{shift_text}\n\n\n{orig_text}\n{ctrl_shift_text}\n\n\n\n\n{base_text}"
+
+                        if target_r not in buttons_by_row:
+                            buttons_by_row[target_r] = []
+                        
+                        int_c = int(c)
+                        col_idx = int_c
+
+                        style = {
+                            "ta": "#000000\n#000000\n#000000\n#000000\n#000000\n#000000\n#000000\n#000000\n#000000\n#0000ff",
+                            "fa": [0, 0, 0, 0, 0, 0, 0, 0, 0, 4]
+                        }
+                        if not is_numpad and target_r == 4 and col_idx == 0:
+                            style["w"] = 2.25
+
+                        buttons_by_row[target_r].append((col_idx, style, button_text, is_numpad))
+            return buttons_by_row
+
+        # 2. Sammle Tasten von beiden Listen
+        all_buttons_by_row = {}
+        left_dict = collect_buttons(getattr(self, 'leftside_button_list', []), is_numpad=False)
+        numpad_dict = collect_buttons(getattr(self, 'numpad_button_list', []), is_numpad=True)
+
+        for d in [left_dict, numpad_dict]:
+            for r_idx, btn_list in d.items():
+                if r_idx not in all_buttons_by_row:
+                    all_buttons_by_row[r_idx] = []
+                all_buttons_by_row[r_idx].extend(btn_list)
+
+        # 3. Integriere die Tasten in die Reihen
+        for r_idx, btn_list in all_buttons_by_row.items():
+            row = layout[r_idx]
+            
+            leading_items = []
+            keys_start_idx = 0
+            for idx, item in enumerate(row):
+                if isinstance(item, dict) and "y" in item:
+                    leading_items.append(item)
+                else:
+                    keys_start_idx = idx
+                    break
+            
+            actual_keys = row[keys_start_idx:]
+            
+            parsed_keys = []
+            i = 0
+            while i < len(actual_keys):
+                item = actual_keys[i]
+                if isinstance(item, dict):
+                    if i + 1 < len(actual_keys):
+                        parsed_keys.append((item, actual_keys[i+1]))
+                        i += 2
+                    else:
+                        i += 1
+                else:
+                    parsed_keys.append(({"ta": "#000000"}, item))
+                    i += 1
+            
+            # Finde den exakten Start-Index des Zehnerblocks (Numpad) rechts
+            numpad_start_idx = len(parsed_keys) - 4
+            for idx, (st, txt) in enumerate(parsed_keys):
+                if txt in ["Num Lock", "7\nHome", "4\n←", "1\nEnd", "0\nIns"]:
+                    numpad_start_idx = idx
+                    break
+
+            # Verarbeite jede Taste für diese Reihe
+            for c_val, style_dict, text_str, is_np in btn_list:
+                if is_np:
+                    # Spezielles Mapping für den Numpad-Bereich, damit die Spalten korrekt aufgereiht sind
+                    int_c = numpad_start_idx + int(c_val)
+                else:
+                    if r_idx in [3, 4]:
+                        int_c = int(c_val)
+                    else:
+                        int_c = int(c_val) + 1
+
+                if 0 <= int_c < len(parsed_keys):
+                    parsed_keys[int_c] = (style_dict, text_str)
+            
+            new_row = list(leading_items)
+            for style, txt in parsed_keys:
+                if style is not None:
+                    new_row.append(style)
+                new_row.append(txt)
+                
+            layout[r_idx] = new_row
+
+        # 4. JSON zurückgeben
+        return json.dumps(layout, ensure_ascii=False, indent=2)
+
     def arrange_keyboard(self):
         for button in self.leftside_button_list:
             self.button_list.append(button)
@@ -1981,6 +2154,11 @@ class MainWindow(QMainWindow):
         # for debug
         if False:
             self.check_double_operations()
+
+        # JSON generieren
+        if False:
+            json_result = self.generate_json_from_leftside_buttons()
+            print(json_result)
 
     def map_to_preselect(self):
         self.map_preselect = {
