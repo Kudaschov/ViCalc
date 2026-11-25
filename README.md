@@ -4,7 +4,7 @@ ViCalc is an open-source scientific calculator with a key-preselection function,
 
 <img src="docs/images/ViCalc5_104.png"/><br>
 
-▶️ **[Watch ViCalc Demo on YouTube (Short)](https://www.youtube.com/shorts/9ZcUu6isFmY)**
+▶️ **[Watch ViCalc Demo on YouTube (Short)](https://youtube.com/shorts/9p9BATcOmbo)**
 
 <img src="docs/images/vicalc5_collect.jpg" /><br>
 
